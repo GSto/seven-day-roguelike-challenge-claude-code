@@ -43,7 +43,7 @@ class Game:
         self.running = True
         self.player_turn = True
         self.just_changed_level = False  # Prevent immediate level transitions
-        self.game_state = 'PLAYING'  # 'PLAYING', 'DEAD', 'MENU'
+        self.game_state = 'PLAYING'  # 'PLAYING', 'DEAD', 'INVENTORY', 'DEAD', 'MENU'
         self.highest_floor_reached = 1
         self.player_acted_this_frame = False  # Track if player took an action this frame
     
@@ -94,9 +94,23 @@ class Game:
                 self.restart_game()
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
                 self.running = False
+        elif self.game_state == 'INVENTORY':
+            # Handle inventory screen input
+            if key == tcod.event.KeySym.ESCAPE:
+                self.game_state = 'PLAYING'
+            elif ord('a') <= key <= ord('z'):
+                # Use/equip item by letter
+                item_index = key - ord('a')
+                self.use_inventory_item(item_index)
         elif self.game_state == 'PLAYING':
+            # Inventory key
+            if key == ord('i'):
+                self.game_state = 'INVENTORY'
+            # Item pickup key
+            elif key == ord('g'):
+                self.try_pickup_item()
             # Movement keys using KeySym enum
-            if key == tcod.event.KeySym.UP or key == ord('k'):
+            elif key == tcod.event.KeySym.UP or key == ord('k'):
                 self.try_move_player(0, -1)
             elif key == tcod.event.KeySym.DOWN or key == ord('j'):
                 self.try_move_player(0, 1)
@@ -310,8 +324,88 @@ class Game:
         self.player_acted_this_frame = False
         
         # Clear UI messages
-        self.ui.messages = []
+        self.ui.message_log = []
         self.ui.add_message("Welcome back, adventurer!")
+    
+    def try_pickup_item(self):
+        """Try to pick up an item at the player's current position."""
+        item = self.level.get_item_at(self.player.x, self.player.y)
+        if item:
+            # Try to add item to inventory
+            if self.player.add_item(item):
+                self.level.remove_item(item)
+                self.ui.add_message(f"You picked up a {item.name}.")
+                self.player_acted_this_frame = True
+            else:
+                self.ui.add_message("Your inventory is full!")
+        else:
+            self.ui.add_message("There's nothing here to pick up.")
+    
+    def use_inventory_item(self, item_index):
+        """Use or equip an item from inventory by index."""
+        if 0 <= item_index < len(self.player.inventory):
+            item = self.player.inventory[item_index]
+            
+            # Check if it's a consumable
+            if hasattr(item, 'use') and callable(item.use):
+                if item.use(self.player):
+                    self.player.remove_item(item)
+                    self.ui.add_message(f"You used a {item.name}.")
+                    self.game_state = 'PLAYING'  # Return to game after use
+                else:
+                    self.ui.add_message(f"You can't use the {item.name} right now.")
+            
+            # Check if it's equipment
+            elif hasattr(item, 'equipment_slot'):
+                self.equip_item(item)
+            
+            else:
+                self.ui.add_message(f"You can't use the {item.name}.")
+    
+    def equip_item(self, item):
+        """Equip an item and handle slot management."""
+        slot = item.equipment_slot
+        
+        if slot == "weapon":
+            # Unequip current weapon if any
+            if self.player.weapon:
+                old_weapon = self.player.weapon
+                self.player.weapon = None
+                self.player.add_item(old_weapon)  # Put back in inventory
+                self.ui.add_message(f"You unequipped {old_weapon.name}.")
+            
+            # Equip new weapon
+            self.player.weapon = item
+            self.player.remove_item(item)
+            self.ui.add_message(f"You equipped {item.name}.")
+            
+        elif slot == "armor":
+            # Unequip current armor if any
+            if self.player.armor:
+                old_armor = self.player.armor
+                self.player.armor = None
+                self.player.add_item(old_armor)
+                self.ui.add_message(f"You unequipped {old_armor.name}.")
+            
+            # Equip new armor
+            self.player.armor = item
+            self.player.remove_item(item)
+            self.ui.add_message(f"You equipped {item.name}.")
+            
+        elif slot == "accessory":
+            # Unequip current accessory if any
+            if self.player.accessory:
+                old_accessory = self.player.accessory
+                self.player.accessory = None
+                self.player.add_item(old_accessory)
+                self.ui.add_message(f"You unequipped {old_accessory.name}.")
+            
+            # Equip new accessory
+            self.player.accessory = item
+            self.player.remove_item(item)
+            self.ui.add_message(f"You equipped {item.name}.")
+        
+        self.game_state = 'PLAYING'  # Return to game after equipping
     
     def render_death_screen(self):
         """Render the death screen with stats and restart option."""
@@ -356,6 +450,9 @@ class Game:
         if self.game_state == 'DEAD':
             # Render death screen
             self.render_death_screen()
+        elif self.game_state == 'INVENTORY':
+            # Render inventory screen
+            self.ui.render_inventory(self.console, self.player)
         else:
             # Normal game rendering
             # Render the level

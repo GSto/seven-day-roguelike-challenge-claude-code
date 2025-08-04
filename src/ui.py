@@ -78,14 +78,41 @@ class UI:
         console.print(0, 0, "Inventory", fg=COLOR_WHITE)
         console.print(0, 1, "---------", fg=COLOR_WHITE)
         
+        # Show inventory size
+        inventory_info = f"Items: {len(player.inventory)}/{player.inventory_size}"
+        console.print(0, 2, inventory_info, fg=COLOR_WHITE)
+        
         # List items
-        y = 3
+        y = 4
         for i, item in enumerate(player.inventory):
             letter = chr(ord('a') + i)
-            console.print(0, y + i, f"{letter}) {item.name}", fg=COLOR_WHITE)
+            # Show item type indicator
+            if hasattr(item, 'equipment_slot'):
+                type_indicator = f"[{item.equipment_slot[0].upper()}]"
+            elif hasattr(item, 'use'):
+                type_indicator = "[C]"
+            else:
+                type_indicator = "[?]"
+            
+            item_text = f"{letter}) {type_indicator} {item.name}"
+            console.print(0, y + i, item_text, fg=COLOR_WHITE)
         
         if not player.inventory:
             console.print(0, y, "Empty", fg=COLOR_WHITE)
         
+        # Show currently equipped items
+        eq_y = y + len(player.inventory) + 2
+        if eq_y < SCREEN_HEIGHT - 5:
+            console.print(0, eq_y, "Currently Equipped:", fg=COLOR_GREEN)
+            eq_y += 1
+            weapon_name = player.weapon.name if player.weapon else "None"
+            armor_name = player.armor.name if player.armor else "None"
+            accessory_name = player.accessory.name if player.accessory else "None"
+            console.print(0, eq_y, f"Weapon: {weapon_name}", fg=COLOR_WHITE)
+            console.print(0, eq_y + 1, f"Armor: {armor_name}", fg=COLOR_WHITE)
+            console.print(0, eq_y + 2, f"Accessory: {accessory_name}", fg=COLOR_WHITE)
+        
         # Instructions
-        console.print(0, SCREEN_HEIGHT - 2, "Press ESC to close", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 3, "Press letter to use/equip item", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 2, "[W]=Weapon [A]=Armor [C]=Consumable", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close", fg=COLOR_WHITE)

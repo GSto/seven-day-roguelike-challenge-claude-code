@@ -63,23 +63,23 @@ This project plan breaks down the development of a complete roguelike game into 
 
 ## Phase 4: Items and Inventory (Day 4)
 
-### 4.1 Item System
-- Item data structures (potions, equipment)
-- Item generation and placement
-- Random item distribution across levels
-- Item drop mechanics from defeated monsters
+### 4.1 Item System ✅ COMPLETED
+- ✅ Item data structures (potions, equipment)
+- ✅ Item generation and placement
+- ✅ Random item distribution across levels
+- ✅ Item drop mechanics from defeated monsters
 
-### 4.2 Inventory Management
-- Player inventory data structure
-- Inventory UI display and navigation
-- Item pickup and drop mechanics
-- Inventory size limitations
+### 4.2 Inventory Management ✅ COMPLETED
+- ✅ Player inventory data structure (20-item capacity with add/remove methods)
+- ✅ Inventory UI display and navigation (press 'i' to open, letter keys to use)
+- ✅ Item pickup and drop mechanics (press 'g' to pickup items)
+- ✅ Inventory size limitations (full inventory prevents pickup)
 
-### 4.3 Equipment System
-- Equippable item categories (weapon, armor, accessories)
-- Equipment effects on player stats
-- Equipment UI display
-- Item usage mechanics (consumable potions)
+### 4.3 Equipment System ✅ COMPLETED
+- ✅ Equippable item categories (weapon, armor, accessories with stat bonuses)
+- ✅ Equipment effects on player stats (attack/defense bonuses properly calculated)
+- ✅ Equipment UI display (shows equipped items in inventory screen)
+- ✅ Item usage mechanics (consumable potions heal player when used)
 
 ## Phase 5: User Interface (Day 5)
 
@@ -144,7 +144,7 @@ This project plan breaks down the development of a complete roguelike game into 
 
 ### Must-Have Features (Non-Negotiable)
 - ✅ 10+ randomly generated levels (DONE - Level generation with rooms/corridors)
-- ⏳ Player inventory with consumables and equipment
+- ✅ Player inventory with consumables and equipment (DONE - Full inventory system with pickup, usage, and equipment)
 - ✅ Turn-based combat with monsters (DONE - Complete combat system)
 - ✅ Monster AI that chases player when spotted (DONE - FOV-based AI with pursuit)
 - ✅ FOV, level generation, and A* pathfinding (DONE - FOV and level gen complete)

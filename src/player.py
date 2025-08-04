@@ -99,6 +99,8 @@ class Player:
         total = self.attack
         if self.weapon:
             total += self.weapon.attack_bonus
+        if self.accessory:
+            total += self.accessory.attack_bonus
         return total
     
     def get_total_defense(self):
