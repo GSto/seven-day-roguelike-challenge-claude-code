@@ -112,19 +112,21 @@ class Troll(Monster):
 
 
 class Dragon(Monster):
-    """Powerful dragon boss."""
+    """Powerful dragon - final boss of the dungeon."""
     
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Dragon",
+            name="Ancient Dragon",
             char='D',
             color=COLOR_RED,
-            hp=100,
-            attack=20,
-            defense=5,
-            xp_value=100
+            hp=150,      # Increased HP for final boss
+            attack=25,   # Higher attack
+            defense=8,   # Strong defense
+            xp_value=200 # Massive XP reward
         )
+        # Mark this as the final boss
+        self.is_final_boss = True
 
 
 def create_monster_for_level(level_number):

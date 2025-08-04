@@ -43,7 +43,7 @@ class Game:
         self.running = True
         self.player_turn = True
         self.just_changed_level = False  # Prevent immediate level transitions
-        self.game_state = 'PLAYING'  # 'PLAYING', 'DEAD', 'INVENTORY', 'DEAD', 'MENU'
+        self.game_state = 'PLAYING'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU'
         self.highest_floor_reached = 1
         self.player_acted_this_frame = False  # Track if player took an action this frame
     
@@ -90,6 +90,12 @@ class Game:
         
         if self.game_state == 'DEAD':
             # Handle death screen input
+            if key == ord('r') or key == ord('R'):
+                self.restart_game()
+            elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
+                self.running = False
+        elif self.game_state == 'VICTORY':
+            # Handle victory screen input
             if key == ord('r') or key == ord('R'):
                 self.restart_game()
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
@@ -182,6 +188,13 @@ class Game:
             if leveled_up:
                 level_up_message = f"You reached level {self.player.level}!"
                 self.ui.add_message(level_up_message, COLOR_YELLOW)
+            
+            # Check if this was the final boss
+            if hasattr(monster, 'is_final_boss') and monster.is_final_boss:
+                self.ui.add_message("You have defeated the Ancient Dragon!")
+                self.ui.add_message("The dungeon is cleared! You are victorious!")
+                self.game_state = 'VICTORY'
+                return  # Don't process item drops or removal for boss
             
             # Chance for monster to drop an item
             if random.random() < 0.3:  # 30% chance to drop an item
@@ -450,14 +463,63 @@ class Game:
         restart_x = center_x - len(restart_text) // 2
         self.console.print(restart_x, center_y + 6, restart_text, fg=COLOR_YELLOW)
     
+    def render_victory_screen(self):
+        """Render the victory screen with congratulations and stats."""
+        from constants import COLOR_YELLOW, COLOR_WHITE, COLOR_GREEN
+        
+        # Get screen dimensions
+        screen_width = self.console.width
+        screen_height = self.console.height
+        
+        # Calculate center positions
+        center_x = screen_width // 2
+        center_y = screen_height // 2
+        
+        # Render "VICTORY!" in large yellow text
+        victory_text = "VICTORY!"
+        text_x = center_x - len(victory_text) // 2
+        self.console.print(text_x, center_y - 6, victory_text, fg=COLOR_YELLOW)
+        
+        # Render congratulations message
+        congrats_lines = [
+            "Congratulations, brave adventurer!",
+            "You have conquered the Seven-Day Dungeon",
+            "and defeated the Ancient Dragon!"
+        ]
+        
+        for i, line in enumerate(congrats_lines):
+            line_x = center_x - len(line) // 2
+            self.console.print(line_x, center_y - 4 + i, line, fg=COLOR_WHITE)
+        
+        # Render final stats
+        stats_lines = [
+            f"Final Character Level: {self.player.level}",
+            f"Floors Conquered: {self.highest_floor_reached}/10",
+            f"Total Experience: {self.player.xp}",
+            f"Final Attack Power: {self.player.get_total_attack()}",
+            f"Final Defense: {self.player.get_total_defense()}"
+        ]
+        
+        for i, line in enumerate(stats_lines):
+            line_x = center_x - len(line) // 2
+            self.console.print(line_x, center_y + 1 + i, line, fg=COLOR_GREEN)
+        
+        # Render restart instructions
+        restart_text = "Press 'R' to play again or 'ESC' to quit"
+        restart_x = center_x - len(restart_text) // 2
+        self.console.print(restart_x, center_y + 8, restart_text, fg=COLOR_YELLOW)
+    
     def render(self):
         """Render the game to the console."""
         # Clear the console
         self.console.clear()
         
         if self.game_state == 'DEAD':
-            # Render death screen
+            # Render death screen  
             self.render_death_screen()
+        elif self.game_state == 'VICTORY':
+            # Render victory screen
+            self.render_victory_screen()
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
             self.ui.render_inventory(self.console, self.player)
