@@ -57,8 +57,12 @@ class Player:
         self.xp += amount
         
         # Check for level up
+        leveled_up = False
         while self.xp >= self.xp_to_next:
             self.level_up()
+            leveled_up = True
+        
+        return leveled_up
     
     def level_up(self):
         """Level up the player."""
@@ -72,6 +76,9 @@ class Player:
         self.hp += (self.max_hp - old_max_hp)  # Heal to full on level up
         self.attack += 3
         self.defense += 1
+        
+        # Return level up info for UI message
+        return True
     
     def add_item(self, item):
         """Add an item to inventory if there's space."""

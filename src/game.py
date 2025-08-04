@@ -5,7 +5,7 @@ Main Game class - handles the core game loop and state management.
 import tcod
 import tcod.event
 
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, TITLE, TILE_WALL
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, TITLE, TILE_WALL, COLOR_GREEN, COLOR_YELLOW
 from player import Player
 from level import Level
 from ui import UI
@@ -136,9 +136,14 @@ class Game:
             self.ui.add_message(death_message)
             
             # Give player XP
-            self.player.gain_xp(monster.xp_value)
+            leveled_up = self.player.gain_xp(monster.xp_value)
             xp_message = f"You gain {monster.xp_value} XP!"
-            self.ui.add_message(xp_message)
+            self.ui.add_message(xp_message, COLOR_GREEN)
+            
+            # Show level up message if player leveled up
+            if leveled_up:
+                level_up_message = f"You reached level {self.player.level}!"
+                self.ui.add_message(level_up_message, COLOR_YELLOW)
             
             # Remove dead monster from level
             self.level.remove_dead_monsters()
