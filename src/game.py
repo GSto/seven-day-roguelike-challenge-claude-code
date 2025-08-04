@@ -5,7 +5,7 @@ Main Game class - handles the core game loop and state management.
 import tcod
 import tcod.event
 
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, TITLE
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, TITLE, TILE_WALL
 from player import Player
 from level import Level
 from ui import UI
@@ -106,12 +106,107 @@ class Game:
         new_x = self.player.x + dx
         new_y = self.player.y + dy
         
-        # Check if the move is valid
+        # Check if there's a monster at the target position
+        monster = self.level.get_monster_at(new_x, new_y)
+        if monster and monster.is_alive():
+            # Attack the monster instead of moving
+            self.player_attack_monster(monster)
+            return
+        
+        # Check if the move is valid (no walls, no monsters)
         if self.level.is_walkable(new_x, new_y):
             self.player.move(dx, dy)
             # Update FOV immediately after movement
             self.level.update_fov(self.player.x, self.player.y)
             # Movement successful
+    
+    def player_attack_monster(self, monster):
+        """Player attacks a monster."""
+        # Calculate damage
+        damage = self.player.get_total_attack()
+        actual_damage = monster.take_damage(damage)
+        
+        # Add combat message
+        message = f"You attack the {monster.name} for {actual_damage} damage!"
+        self.ui.add_message(message)
+        
+        # Check if monster died
+        if not monster.is_alive():
+            death_message = f"The {monster.name} dies!"
+            self.ui.add_message(death_message)
+            
+            # Give player XP
+            self.player.gain_xp(monster.xp_value)
+            xp_message = f"You gain {monster.xp_value} XP!"
+            self.ui.add_message(xp_message)
+            
+            # Remove dead monster from level
+            self.level.remove_dead_monsters()
+    
+    def monster_attack_player(self, monster):
+        """Monster attacks the player."""
+        # Calculate damage
+        damage = monster.attack
+        actual_damage = self.player.take_damage(damage)
+        
+        # Add combat message
+        message = f"The {monster.name} attacks you for {actual_damage} damage!"
+        self.ui.add_message(message)
+        
+        # Check if player died
+        if not self.player.is_alive():
+            death_message = "You have died! Press ESC to exit."
+            self.ui.add_message(death_message)
+            # Could add game over screen here
+    
+    def process_monster_turns(self):
+        """Process AI turns for all monsters."""
+        for monster in self.level.monsters:
+            if monster.is_alive():
+                self.monster_take_turn(monster)
+    
+    def monster_take_turn(self, monster):
+        """Process a single monster's turn."""
+        # Check if monster can see player
+        if monster.can_see_player(self.player.x, self.player.y, self.level.fov):
+            monster.has_seen_player = True
+            monster.target_x = self.player.x
+            monster.target_y = self.player.y
+            monster.turns_since_seen_player = 0
+        elif monster.has_seen_player:
+            # Continue tracking for a few turns even if player goes out of sight
+            monster.turns_since_seen_player += 1
+            if monster.turns_since_seen_player > 5:
+                monster.has_seen_player = False
+                monster.target_x = None
+                monster.target_y = None
+        
+        # If monster knows where player is, move toward them
+        if monster.has_seen_player and monster.target_x is not None:
+            # Simple AI: move directly toward target
+            dx = 0
+            dy = 0
+            
+            if monster.x < monster.target_x:
+                dx = 1
+            elif monster.x > monster.target_x:
+                dx = -1
+                
+            if monster.y < monster.target_y:
+                dy = 1
+            elif monster.y > monster.target_y:
+                dy = -1
+            
+            # Try to move toward player
+            new_x = monster.x + dx
+            new_y = monster.y + dy
+            
+            # Check if player is at target position (attack!)
+            if new_x == self.player.x and new_y == self.player.y:
+                self.monster_attack_player(monster)
+            # Otherwise try to move there
+            elif self.level.tiles[new_x, new_y] != TILE_WALL and not self.level.is_position_occupied(new_x, new_y):  # Not a wall and not occupied
+                monster.move(dx, dy)
     
     def update(self):
         """Update game state."""
@@ -119,6 +214,10 @@ class Game:
         if (not self.level.is_stairs_down(self.player.x, self.player.y) and 
             not self.level.is_stairs_up(self.player.x, self.player.y)):
             self.just_changed_level = False
+        
+        # Process monster turns (only if player is alive)
+        if self.player.is_alive():
+            self.process_monster_turns()
         
         # Check for level transitions (only if we didn't just change levels)
         if not self.just_changed_level:
