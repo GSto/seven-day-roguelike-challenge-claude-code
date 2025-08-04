@@ -43,6 +43,8 @@ class Game:
         self.running = True
         self.player_turn = True
         self.just_changed_level = False  # Prevent immediate level transitions
+        self.game_state = 'PLAYING'  # 'PLAYING', 'DEAD', 'MENU'
+        self.highest_floor_reached = 1
     
     def run(self):
         """Main game loop."""
@@ -81,27 +83,34 @@ class Game:
         """Handle keyboard input."""
         key = event.sym
         
-        # Movement keys using KeySym enum
-        if key == tcod.event.KeySym.UP or key == ord('k'):
-            self.try_move_player(0, -1)
-        elif key == tcod.event.KeySym.DOWN or key == ord('j'):
-            self.try_move_player(0, 1)
-        elif key == tcod.event.KeySym.LEFT or key == ord('h'):
-            self.try_move_player(-1, 0)
-        elif key == tcod.event.KeySym.RIGHT or key == ord('l'):
-            self.try_move_player(1, 0)
-        # Diagonal movement
-        elif key == ord('y'):
-            self.try_move_player(-1, -1)
-        elif key == ord('u'):
-            self.try_move_player(1, -1)
-        elif key == ord('b'):
-            self.try_move_player(-1, 1)
-        elif key == ord('n'):
-            self.try_move_player(1, 1)
-        # Quit game
-        elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
-            self.running = False
+        if self.game_state == 'DEAD':
+            # Handle death screen input
+            if key == ord('r') or key == ord('R'):
+                self.restart_game()
+            elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
+                self.running = False
+        elif self.game_state == 'PLAYING':
+            # Movement keys using KeySym enum
+            if key == tcod.event.KeySym.UP or key == ord('k'):
+                self.try_move_player(0, -1)
+            elif key == tcod.event.KeySym.DOWN or key == ord('j'):
+                self.try_move_player(0, 1)
+            elif key == tcod.event.KeySym.LEFT or key == ord('h'):
+                self.try_move_player(-1, 0)
+            elif key == tcod.event.KeySym.RIGHT or key == ord('l'):
+                self.try_move_player(1, 0)
+            # Diagonal movement
+            elif key == ord('y'):
+                self.try_move_player(-1, -1)
+            elif key == ord('u'):
+                self.try_move_player(1, -1)
+            elif key == ord('b'):
+                self.try_move_player(-1, 1)
+            elif key == ord('n'):
+                self.try_move_player(1, 1)
+            # Quit game
+            elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
+                self.running = False
     
     def try_move_player(self, dx, dy):
         """Attempt to move the player by dx, dy."""
@@ -169,9 +178,9 @@ class Game:
         
         # Check if player died
         if not self.player.is_alive():
-            death_message = "You have died! Press ESC to exit."
+            death_message = "You have died!"
             self.ui.add_message(death_message)
-            # Could add game over screen here
+            self.game_state = 'DEAD'
     
     def process_monster_turns(self):
         """Process AI turns for all monsters."""
@@ -229,8 +238,8 @@ class Game:
             not self.level.is_stairs_up(self.player.x, self.player.y)):
             self.just_changed_level = False
         
-        # Process monster turns (only if player is alive)
-        if self.player.is_alive():
+        # Process monster turns (only if player is alive and game is playing)
+        if self.player.is_alive() and self.game_state == 'PLAYING':
             self.process_monster_turns()
         
         # Check for level transitions (only if we didn't just change levels)
@@ -243,6 +252,7 @@ class Game:
     def descend_level(self):
         """Move to the next level down."""
         self.current_level += 1
+        self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
         self.level = Level(level_number=self.current_level)
         # Place player at stairs up position
         stairs_up_x, stairs_up_y = self.level.get_stairs_up_position()
@@ -267,16 +277,85 @@ class Game:
             # Set flag to prevent immediate transition back
             self.just_changed_level = True
     
+    def restart_game(self):
+        """Restart the game with a new character."""
+        # Initialize game state
+        self.current_level = 1
+        self.highest_floor_reached = 1
+        self.level = Level(level_number=self.current_level)
+        
+        # Place player at stairs up position (or first room if no stairs)
+        if hasattr(self.level, 'stairs_up_pos') and self.level.stairs_up_pos:
+            start_x, start_y = self.level.stairs_up_pos
+        elif len(self.level.rooms) > 0:
+            start_x, start_y = self.level.rooms[0].center()
+        else:
+            start_x, start_y = 10, 10
+        
+        self.player = Player(x=start_x, y=start_y)
+        
+        # Initialize FOV for starting position
+        self.level.update_fov(self.player.x, self.player.y)
+        
+        # Reset game state flags
+        self.player_turn = True
+        self.just_changed_level = False
+        self.game_state = 'PLAYING'
+        
+        # Clear UI messages
+        self.ui.messages = []
+        self.ui.add_message("Welcome back, adventurer!")
+    
+    def render_death_screen(self):
+        """Render the death screen with stats and restart option."""
+        from constants import COLOR_RED, COLOR_WHITE, COLOR_YELLOW
+        
+        # Get screen dimensions
+        screen_width = self.console.width
+        screen_height = self.console.height
+        
+        # Calculate center positions
+        center_x = screen_width // 2
+        center_y = screen_height // 2
+        
+        # Render "YOU DIED" in large red text
+        death_text = "YOU DIED"
+        text_x = center_x - len(death_text) // 2
+        self.console.print(text_x, center_y - 4, death_text, fg=COLOR_RED)
+        
+        # Render player stats
+        stats_lines = [
+            f"Final Level: {self.player.level}",
+            f"Highest Floor Reached: {self.highest_floor_reached}",
+            f"Experience Points: {self.player.xp}",
+            f"Damage Dealt: {self.player.get_total_attack()}",
+            f"Defense: {self.player.get_total_defense()}"
+        ]
+        
+        for i, line in enumerate(stats_lines):
+            line_x = center_x - len(line) // 2
+            self.console.print(line_x, center_y - 1 + i, line, fg=COLOR_WHITE)
+        
+        # Render restart instructions
+        restart_text = "Press 'R' to restart or 'ESC' to quit"
+        restart_x = center_x - len(restart_text) // 2
+        self.console.print(restart_x, center_y + 6, restart_text, fg=COLOR_YELLOW)
+    
     def render(self):
         """Render the game to the console."""
         # Clear the console
         self.console.clear()
         
-        # Render the level
-        self.level.render(self.console)
-        
-        # Render the player
-        self.player.render(self.console, self.level.fov)
-        
-        # Render the UI
-        self.ui.render(self.console, self.player, self.current_level)
+        if self.game_state == 'DEAD':
+            # Render death screen
+            self.render_death_screen()
+        else:
+            # Normal game rendering
+            # Render the level
+            self.level.render(self.console)
+            
+            # Render the player
+            self.player.render(self.console, self.level.fov)
+            
+            # Render the UI
+            self.ui.render(self.console, self.player, self.current_level)
