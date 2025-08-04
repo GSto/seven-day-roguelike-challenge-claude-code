@@ -34,6 +34,9 @@ class Game:
         self.player = Player(x=start_x, y=start_y)
         self.ui = UI()
         
+        # Initialize FOV for starting position
+        self.level.update_fov(self.player.x, self.player.y)
+        
         # Game state flags
         self.running = True
         self.player_turn = True

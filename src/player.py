@@ -105,5 +105,5 @@ class Player:
     
     def render(self, console, fov):
         """Render the player on the console."""
-        if fov[self.x, self.y]:
-            console.print(self.x, self.y, self.char, fg=self.color)
+        # Player should always be visible (they're the center of vision)
+        console.print(self.x, self.y, self.char, fg=self.color)
