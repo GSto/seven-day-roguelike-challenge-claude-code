@@ -150,12 +150,10 @@ class Level:
     
     def place_monsters(self):
         """Place monsters randomly throughout the level."""
-        # Don't place monsters on level 1 to give player a safe start
-        if self.level_number == 1:
-            return
-        
         # Number of monsters based on level
-        if self.level_number <= 3:
+        if self.level_number == 1:
+            monster_count = random.randint(1, 2)  # Few monsters to introduce combat
+        elif self.level_number <= 3:
             monster_count = random.randint(2, 4)
         elif self.level_number <= 6:
             monster_count = random.randint(3, 6)
