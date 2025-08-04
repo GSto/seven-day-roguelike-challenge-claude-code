@@ -150,6 +150,13 @@ class Game:
             # Update FOV immediately after movement
             self.level.update_fov(self.player.x, self.player.y)
             self.player_acted_this_frame = True  # Player took an action
+            
+            # Add occasional movement messages to help clear old combat messages
+            # This helps push out persistent XP/combat messages from the log
+            if self.level.is_stairs_down(new_x, new_y):
+                self.ui.add_message("You see stairs leading down.")
+            elif self.level.is_stairs_up(new_x, new_y):
+                self.ui.add_message("You see stairs leading up.")
     
     def player_attack_monster(self, monster):
         """Player attacks a monster."""
@@ -339,7 +346,8 @@ class Game:
             else:
                 self.ui.add_message("Your inventory is full!")
         else:
-            self.ui.add_message("There's nothing here to pick up.")
+            # Don't add a message for empty pickup attempts - this was causing message spam
+            pass
     
     def use_inventory_item(self, item_index):
         """Use or equip an item from inventory by index."""
