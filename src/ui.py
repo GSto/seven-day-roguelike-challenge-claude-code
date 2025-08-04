@@ -90,7 +90,7 @@ class UI:
             if SCREEN_HEIGHT - 1 >= 0:
                 console.print(0, SCREEN_HEIGHT - 1, controls_text, fg=COLOR_WHITE)
     
-    def render_inventory(self, console, player):
+    def render_inventory(self, console, player, selected_item_index=None):
         """Render the inventory screen."""
         console.clear()
         
@@ -120,18 +120,22 @@ class UI:
                 stat_info = f" (+{item.attack_bonus} att)"
             elif hasattr(item, 'defense_bonus') and item.defense_bonus > 0:
                 stat_info = f" (+{item.defense_bonus} def)"
+            elif hasattr(item, 'heal_percentage'):
+                stat_info = f" (heals {item.heal_percentage}%)"
             elif hasattr(item, 'heal_amount'):
                 stat_info = f" (heals {item.heal_amount})"
             
+            # Highlight selected item
+            fg_color = COLOR_GREEN if i == selected_item_index else COLOR_WHITE
             item_text = f"{letter}) {type_indicator} {item.name}{stat_info}"
-            console.print(0, y + i, item_text, fg=COLOR_WHITE)
+            console.print(0, y + i, item_text, fg=fg_color)
         
         if not player.inventory:
             console.print(0, y, "Empty", fg=COLOR_WHITE)
         
         # Show currently equipped items
         eq_y = y + len(player.inventory) + 2
-        if eq_y < SCREEN_HEIGHT - 5:
+        if eq_y < SCREEN_HEIGHT - 8:  # Leave more space for description
             console.print(0, eq_y, "Currently Equipped:", fg=COLOR_GREEN)
             eq_y += 1
             # Show equipped items with stat bonuses
@@ -152,8 +156,39 @@ class UI:
             console.print(0, eq_y, f"Weapon: {weapon_text}", fg=COLOR_WHITE)
             console.print(0, eq_y + 1, f"Armor: {armor_text}", fg=COLOR_WHITE)
             console.print(0, eq_y + 2, f"Accessory: {accessory_text}", fg=COLOR_WHITE)
+            eq_y += 3  # Move past the equipment section
+        
+        # Show item description when an item is selected (always show when selected)
+        # Place it AFTER the equipped items section
+        if (selected_item_index is not None and 
+            0 <= selected_item_index < len(player.inventory)):
+            selected_item = player.inventory[selected_item_index]
+            desc_y = eq_y + 1  # Place after equipped items
+            console.print(0, desc_y, "Item Description:", fg=COLOR_GREEN)
+            desc_y += 1
+            
+            # Detailed description (you can expand this based on item types)
+            desc_lines = []
+            if hasattr(selected_item, 'description'):
+                desc_lines.append(selected_item.description)
+            
+            if hasattr(selected_item, 'attack_bonus') and selected_item.attack_bonus > 0:
+                desc_lines.append(f"Attack Bonus: +{selected_item.attack_bonus}")
+            
+            if hasattr(selected_item, 'defense_bonus') and selected_item.defense_bonus > 0:
+                desc_lines.append(f"Defense Bonus: +{selected_item.defense_bonus}")
+            
+            if hasattr(selected_item, 'heal_percentage'):
+                desc_lines.append(f"Heals: {selected_item.heal_percentage}% of max HP")
+            elif hasattr(selected_item, 'heal_amount'):
+                desc_lines.append(f"Heals: {selected_item.heal_amount} HP")
+            
+            for line in desc_lines:
+                console.print(0, desc_y, line, fg=COLOR_WHITE)
+                desc_y += 1
         
         # Instructions with better formatting
-        console.print(0, SCREEN_HEIGHT - 3, "Press letter to use/equip item", fg=COLOR_GREEN)
-        console.print(0, SCREEN_HEIGHT - 2, "[W]=Weapon [A]=Armor [C]=Consumable [?]=Other", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 4, "Controls:", fg=COLOR_GREEN)
+        console.print(0, SCREEN_HEIGHT - 3, "Arrow keys or letter to select item", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 2, "[Enter] Use/Equip  [D] Drop", fg=COLOR_WHITE)
         console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close inventory", fg=COLOR_WHITE)

@@ -46,6 +46,9 @@ class Game:
         self.game_state = 'MENU'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU', 'HELP'
         self.highest_floor_reached = 1
         self.player_acted_this_frame = False  # Track if player took an action this frame
+        
+        # Inventory management
+        self.selected_item_index = None
     
     def run(self):
         """Main game loop."""
@@ -115,14 +118,44 @@ class Game:
             # Handle inventory screen input
             if key == tcod.event.KeySym.ESCAPE:
                 self.game_state = 'PLAYING'
+                self.selected_item_index = None
+            # Handle action keys FIRST (before letter selection)
+            elif key == tcod.event.KeySym.RETURN and self.selected_item_index is not None:
+                # Use/equip selected item with Enter key
+                self.use_inventory_item(self.selected_item_index)
+            elif key == ord('d') and self.selected_item_index is not None:
+                # Drop selected item
+                self.drop_inventory_item(self.selected_item_index)
+            elif key == tcod.event.KeySym.UP or key == ord('k'):
+                # Navigate up in inventory
+                if len(self.player.inventory) > 0:
+                    if self.selected_item_index is None:
+                        self.selected_item_index = 0
+                    else:
+                        self.selected_item_index = (self.selected_item_index - 1) % len(self.player.inventory)
+            elif key == tcod.event.KeySym.DOWN or key == ord('j'):
+                # Navigate down in inventory
+                if len(self.player.inventory) > 0:
+                    if self.selected_item_index is None:
+                        self.selected_item_index = 0
+                    else:
+                        self.selected_item_index = (self.selected_item_index + 1) % len(self.player.inventory)
             elif ord('a') <= key <= ord('z'):
-                # Use/equip item by letter
-                item_index = key - ord('a')
-                self.use_inventory_item(item_index)
+                # Select item by letter (but exclude action keys)
+                if key not in [ord('d'), ord('k'), ord('j')]:  # Removed 'u' and 'e'
+                    item_index = key - ord('a')
+                    if 0 <= item_index < len(self.player.inventory):
+                        # If same item is selected again, reset selection
+                        if self.selected_item_index == item_index:
+                            self.selected_item_index = None
+                        else:
+                            self.selected_item_index = item_index
         elif self.game_state == 'PLAYING':
             # Inventory key
             if key == ord('i'):
                 self.game_state = 'INVENTORY'
+                # Default to selecting first item if inventory is not empty
+                self.selected_item_index = 0 if len(self.player.inventory) > 0 else None
             # Item pickup key
             elif key == ord('g'):
                 self.try_pickup_item()
@@ -357,6 +390,9 @@ class Game:
         # Clear UI messages
         self.ui.message_log = []
         self.ui.add_message("Welcome to the Seven-Day Dungeon!")
+        
+        # Reset inventory state
+        self.selected_item_index = None
     
     def try_pickup_item(self):
         """Try to pick up an item at the player's current position."""
@@ -390,9 +426,35 @@ class Game:
             # Check if it's equipment
             elif hasattr(item, 'equipment_slot'):
                 self.equip_item(item)
+                # Adjust selection after equipping (item was removed)
+                if len(self.player.inventory) == 0:
+                    self.selected_item_index = None
+                elif self.selected_item_index >= len(self.player.inventory):
+                    self.selected_item_index = len(self.player.inventory) - 1
             
             else:
                 self.ui.add_message(f"You can't use the {item.name}.")
+    
+    def drop_inventory_item(self, item_index):
+        """Drop an item from inventory onto the current map position."""
+        if 0 <= item_index < len(self.player.inventory):
+            item = self.player.inventory[item_index]
+            # Update the item's position to the player's current location
+            item.x = self.player.x
+            item.y = self.player.y
+            # Add the item to the current level's item list
+            self.level.add_item_drop(item.x, item.y, item)
+            # Remove the item from player's inventory
+            self.player.remove_item(item)
+            self.ui.add_message(f"You dropped the {item.name}.")
+            
+            # Adjust selection after dropping
+            if len(self.player.inventory) == 0:
+                self.selected_item_index = None
+            elif self.selected_item_index >= len(self.player.inventory):
+                self.selected_item_index = len(self.player.inventory) - 1
+            
+            self.game_state = 'PLAYING'  # Return to game after dropping
     
     def equip_item(self, item):
         """Equip an item and handle slot management."""
@@ -437,7 +499,9 @@ class Game:
             self.player.remove_item(item)
             self.ui.add_message(f"You equipped {item.name}.")
         
-        self.game_state = 'PLAYING'  # Return to game after equipping
+        # Only return to playing if not in inventory mode
+        if self.game_state != 'INVENTORY':
+            self.game_state = 'PLAYING'  # Return to game after equipping
     
     def render_death_screen(self):
         """Render the death screen with stats and restart option."""
@@ -629,7 +693,7 @@ class Game:
             self.render_victory_screen()
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
-            self.ui.render_inventory(self.console, self.player)
+            self.ui.render_inventory(self.console, self.player, self.selected_item_index)
         else:
             # Normal game rendering
             # Render the level

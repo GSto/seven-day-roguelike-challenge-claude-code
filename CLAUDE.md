@@ -94,7 +94,10 @@ When implementing new features or fixing bugs, you MUST:
 4. **Verify all tests pass** before committing code
 5. **Include test results** in commit messages to show validation
 
+**IMPORTANT: All test files must be placed in the `tests/` directory. Do not create test files in the root directory or elsewhere.**
+
 Test files should:
+- Be placed in the `tests/` folder with descriptive names
 - Cover core functionality and edge cases
 - Use descriptive test names (e.g., `test_player_gains_xp_when_monster_dies`)
 - Include both positive and negative test cases
