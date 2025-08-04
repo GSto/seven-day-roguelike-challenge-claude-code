@@ -24,7 +24,7 @@ class UI:
         if len(self.message_log) > self.max_messages:
             self.message_log.pop(0)
     
-    def render(self, console, player, current_level):
+    def render(self, console, player, current_level, level=None):
         """Render the UI elements."""
         # UI panel starts below the map
         ui_y = MAP_HEIGHT
@@ -63,6 +63,13 @@ class UI:
                 console.print(0, ui_y, weapon_text, fg=COLOR_WHITE)
                 armor_x = len(weapon_text) + 3  # 3 character padding
                 console.print(armor_x, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
+                ui_y += 1
+            
+            # Check if player is standing on an item and show pickup prompt
+            if level and level.get_item_at(player.x, player.y):
+                item = level.get_item_at(player.x, player.y)
+                pickup_prompt = f"Press 'g' to pick up {item.name}"
+                console.print(0, ui_y, pickup_prompt, fg=COLOR_GREEN)
                 ui_y += 1
             
             # Message log

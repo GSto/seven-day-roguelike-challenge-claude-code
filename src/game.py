@@ -462,4 +462,4 @@ class Game:
             self.player.render(self.console, self.level.fov)
             
             # Render the UI
-            self.ui.render(self.console, self.player, self.current_level)
+            self.ui.render(self.console, self.player, self.current_level, self.level)
