@@ -45,6 +45,7 @@ class Game:
         self.just_changed_level = False  # Prevent immediate level transitions
         self.game_state = 'PLAYING'  # 'PLAYING', 'DEAD', 'MENU'
         self.highest_floor_reached = 1
+        self.player_acted_this_frame = False  # Track if player took an action this frame
     
     def run(self):
         """Main game loop."""
@@ -58,11 +59,15 @@ class Game:
         ) as context:
             
             while self.running:
+                # Reset player action flag
+                self.player_acted_this_frame = False
+                
                 # Handle events
                 self.handle_events(context)
                 
-                # Update game state
-                self.update()
+                # Update game state only if player acted
+                if self.player_acted_this_frame:
+                    self.update()
                 
                 # Render the game
                 self.render()
@@ -122,6 +127,7 @@ class Game:
         if monster and monster.is_alive():
             # Attack the monster instead of moving
             self.player_attack_monster(monster)
+            self.player_acted_this_frame = True  # Player took an action
             return
         
         # Check if the move is valid (no walls, no monsters)
@@ -129,7 +135,7 @@ class Game:
             self.player.move(dx, dy)
             # Update FOV immediately after movement
             self.level.update_fov(self.player.x, self.player.y)
-            # Movement successful
+            self.player_acted_this_frame = True  # Player took an action
     
     def player_attack_monster(self, monster):
         """Player attacks a monster."""
@@ -301,6 +307,7 @@ class Game:
         self.player_turn = True
         self.just_changed_level = False
         self.game_state = 'PLAYING'
+        self.player_acted_this_frame = False
         
         # Clear UI messages
         self.ui.messages = []
