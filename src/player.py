@@ -24,9 +24,10 @@ class Player:
         self.xp = 0
         self.xp_to_next = 100
         
-        # Equipment slots
-        self.weapon = None
-        self.armor = None
+        # Equipment slots - start with basic equipment
+        from items import WoodenStick, WhiteTShirt
+        self.weapon = WoodenStick(0, 0)  # Starting weapon
+        self.armor = WhiteTShirt(0, 0)   # Starting armor
         self.accessory = None
         
         # Inventory

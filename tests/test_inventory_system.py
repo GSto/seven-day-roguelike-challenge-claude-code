@@ -81,19 +81,22 @@ def test_equipment_basic():
     """Test basic equipment functionality."""
     player = Player(10, 10)
     
-    # Test weapon equipment
+    # Player now starts with equipment, so test replacing it
+    # Test weapon equipment (replace starting wooden stick)
     dagger = Dagger(0, 0)
-    assert player.weapon is None
+    assert player.weapon is not None  # Should have starting weapon
+    assert player.weapon.name == "Wooden Stick"
     player.weapon = dagger
     assert player.weapon == dagger
     
-    # Test armor equipment
+    # Test armor equipment (replace starting T-shirt)
     armor = LeatherArmor(0, 0)
-    assert player.armor is None
+    assert player.armor is not None  # Should have starting armor
+    assert player.armor.name == "White T-Shirt"
     player.armor = armor
     assert player.armor == armor
     
-    # Test accessory equipment
+    # Test accessory equipment (should still start empty)
     ring = PowerRing(0, 0)
     assert player.accessory is None
     player.accessory = ring
@@ -110,12 +113,18 @@ def test_equipment_stat_bonuses():
     base_attack = player.attack
     base_defense = player.defense
     
-    # Equip weapon
+    # Player starts with wooden stick (+1 attack) and T-shirt (+0 defense)
+    starting_total_attack = base_attack + 1  # Wooden stick bonus
+    starting_total_defense = base_defense + 0  # T-shirt bonus
+    assert player.get_total_attack() == starting_total_attack
+    assert player.get_total_defense() == starting_total_defense
+    
+    # Equip better weapon
     dagger = Dagger(0, 0)
     player.weapon = dagger
     assert player.get_total_attack() == base_attack + dagger.attack_bonus
     
-    # Equip armor
+    # Equip better armor
     armor = LeatherArmor(0, 0)
     player.armor = armor
     assert player.get_total_defense() == base_defense + armor.defense_bonus

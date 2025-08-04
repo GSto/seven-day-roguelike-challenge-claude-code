@@ -141,6 +141,10 @@ class Accessory(Equipment):
 
 
 # Specific weapon types
+class WoodenStick(Weapon):
+    def __init__(self, x, y):
+        super().__init__(x, y, "Wooden Stick", ')', 1, "A simple wooden stick")
+
 class Dagger(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "Dagger", ')', 3, "A sharp dagger")
@@ -162,6 +166,10 @@ class WarHammer(Weapon):
 
 
 # Specific armor types
+class WhiteTShirt(Armor):
+    def __init__(self, x, y):
+        super().__init__(x, y, "White T-Shirt", '[', 0, "A plain white T-shirt")
+
 class LeatherArmor(Armor):
     def __init__(self, x, y):
         super().__init__(x, y, "Leather Armor", '[', 2, "Basic leather protection")
