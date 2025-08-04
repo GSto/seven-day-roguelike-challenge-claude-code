@@ -65,17 +65,30 @@ class UI:
                 console.print(armor_x, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
                 ui_y += 1
             
-            # Check if player is standing on an item and show pickup prompt
+            # Show contextual prompts
             if level and level.get_item_at(player.x, player.y):
                 item = level.get_item_at(player.x, player.y)
                 pickup_prompt = f"Press 'g' to pick up {item.name}"
                 console.print(0, ui_y, pickup_prompt, fg=COLOR_GREEN)
+                ui_y += 1
+            elif level and level.is_stairs_down(player.x, player.y):
+                stairs_prompt = "Press arrow keys to descend to next level"
+                console.print(0, ui_y, stairs_prompt, fg=COLOR_GREEN)
+                ui_y += 1
+            elif level and level.is_stairs_up(player.x, player.y):
+                stairs_prompt = "Press arrow keys to ascend to previous level"
+                console.print(0, ui_y, stairs_prompt, fg=COLOR_GREEN)
                 ui_y += 1
             
             # Message log
             for i, (message, color) in enumerate(self.message_log):
                 if ui_y + i < SCREEN_HEIGHT:
                     console.print(0, ui_y + i, message, fg=color)
+            
+            # Controls reminder at bottom
+            controls_text = "Controls: [G]et items  [I]nventory  [ESC]ape/Quit"
+            if SCREEN_HEIGHT - 1 >= 0:
+                console.print(0, SCREEN_HEIGHT - 1, controls_text, fg=COLOR_WHITE)
     
     def render_inventory(self, console, player):
         """Render the inventory screen."""
@@ -101,7 +114,16 @@ class UI:
             else:
                 type_indicator = "[?]"
             
-            item_text = f"{letter}) {type_indicator} {item.name}"
+            # Add stat information for equipment
+            stat_info = ""
+            if hasattr(item, 'attack_bonus') and item.attack_bonus > 0:
+                stat_info = f" (+{item.attack_bonus} att)"
+            elif hasattr(item, 'defense_bonus') and item.defense_bonus > 0:
+                stat_info = f" (+{item.defense_bonus} def)"
+            elif hasattr(item, 'heal_amount'):
+                stat_info = f" (heals {item.heal_amount})"
+            
+            item_text = f"{letter}) {type_indicator} {item.name}{stat_info}"
             console.print(0, y + i, item_text, fg=COLOR_WHITE)
         
         if not player.inventory:
@@ -112,14 +134,26 @@ class UI:
         if eq_y < SCREEN_HEIGHT - 5:
             console.print(0, eq_y, "Currently Equipped:", fg=COLOR_GREEN)
             eq_y += 1
-            weapon_name = player.weapon.name if player.weapon else "None"
-            armor_name = player.armor.name if player.armor else "None"
-            accessory_name = player.accessory.name if player.accessory else "None"
-            console.print(0, eq_y, f"Weapon: {weapon_name}", fg=COLOR_WHITE)
-            console.print(0, eq_y + 1, f"Armor: {armor_name}", fg=COLOR_WHITE)
-            console.print(0, eq_y + 2, f"Accessory: {accessory_name}", fg=COLOR_WHITE)
+            # Show equipped items with stat bonuses
+            weapon_text = "None"
+            if player.weapon:
+                weapon_bonus = f" (+{player.weapon.attack_bonus})" if player.weapon.attack_bonus > 0 else ""
+                weapon_text = f"{player.weapon.name}{weapon_bonus}"
+            
+            armor_text = "None"
+            if player.armor:
+                armor_bonus = f" (+{player.armor.defense_bonus})" if player.armor.defense_bonus > 0 else ""
+                armor_text = f"{player.armor.name}{armor_bonus}"
+            
+            accessory_text = "None"
+            if player.accessory:
+                accessory_text = player.accessory.name
+            
+            console.print(0, eq_y, f"Weapon: {weapon_text}", fg=COLOR_WHITE)
+            console.print(0, eq_y + 1, f"Armor: {armor_text}", fg=COLOR_WHITE)
+            console.print(0, eq_y + 2, f"Accessory: {accessory_text}", fg=COLOR_WHITE)
         
-        # Instructions
-        console.print(0, SCREEN_HEIGHT - 3, "Press letter to use/equip item", fg=COLOR_WHITE)
-        console.print(0, SCREEN_HEIGHT - 2, "[W]=Weapon [A]=Armor [C]=Consumable", fg=COLOR_WHITE)
-        console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close", fg=COLOR_WHITE)
+        # Instructions with better formatting
+        console.print(0, SCREEN_HEIGHT - 3, "Press letter to use/equip item", fg=COLOR_GREEN)
+        console.print(0, SCREEN_HEIGHT - 2, "[W]=Weapon [A]=Armor [C]=Consumable [?]=Other", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close inventory", fg=COLOR_WHITE)

@@ -43,7 +43,7 @@ class Game:
         self.running = True
         self.player_turn = True
         self.just_changed_level = False  # Prevent immediate level transitions
-        self.game_state = 'PLAYING'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU'
+        self.game_state = 'MENU'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU', 'HELP'
         self.highest_floor_reached = 1
         self.player_acted_this_frame = False  # Track if player took an action this frame
     
@@ -91,13 +91,24 @@ class Game:
         if self.game_state == 'DEAD':
             # Handle death screen input
             if key == ord('r') or key == ord('R'):
-                self.restart_game()
+                self.game_state = 'MENU'
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
                 self.running = False
+        elif self.game_state == 'MENU':
+            # Handle main menu input
+            if key == ord('n') or key == ord('N'):
+                self.start_new_game()
+            elif key == ord('h') or key == ord('H'):
+                self.game_state = 'HELP'
+            elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
+                self.running = False
+        elif self.game_state == 'HELP':
+            # Handle help screen input - any key returns to menu
+            self.game_state = 'MENU'
         elif self.game_state == 'VICTORY':
             # Handle victory screen input
             if key == ord('r') or key == ord('R'):
-                self.restart_game()
+                self.game_state = 'MENU'
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
                 self.running = False
         elif self.game_state == 'INVENTORY':
@@ -317,8 +328,8 @@ class Game:
             # Set flag to prevent immediate transition back
             self.just_changed_level = True
     
-    def restart_game(self):
-        """Restart the game with a new character."""
+    def start_new_game(self):
+        """Start a new game from the main menu."""
         # Initialize game state
         self.current_level = 1
         self.highest_floor_reached = 1
@@ -345,7 +356,7 @@ class Game:
         
         # Clear UI messages
         self.ui.message_log = []
-        self.ui.add_message("Welcome back, adventurer!")
+        self.ui.add_message("Welcome to the Seven-Day Dungeon!")
     
     def try_pickup_item(self):
         """Try to pick up an item at the player's current position."""
@@ -458,10 +469,10 @@ class Game:
             line_x = center_x - len(line) // 2
             self.console.print(line_x, center_y - 1 + i, line, fg=COLOR_WHITE)
         
-        # Render restart instructions
-        restart_text = "Press 'R' to restart or 'ESC' to quit"
-        restart_x = center_x - len(restart_text) // 2
-        self.console.print(restart_x, center_y + 6, restart_text, fg=COLOR_YELLOW)
+        # Render menu instructions
+        menu_text = "Press 'R' to return to main menu or 'ESC' to quit"
+        menu_x = center_x - len(menu_text) // 2
+        self.console.print(menu_x, center_y + 6, menu_text, fg=COLOR_YELLOW)
     
     def render_victory_screen(self):
         """Render the victory screen with congratulations and stats."""
@@ -504,17 +515,113 @@ class Game:
             line_x = center_x - len(line) // 2
             self.console.print(line_x, center_y + 1 + i, line, fg=COLOR_GREEN)
         
-        # Render restart instructions
-        restart_text = "Press 'R' to play again or 'ESC' to quit"
-        restart_x = center_x - len(restart_text) // 2
-        self.console.print(restart_x, center_y + 8, restart_text, fg=COLOR_YELLOW)
+        # Render menu instructions
+        menu_text = "Press 'R' to return to main menu or 'ESC' to quit"
+        menu_x = center_x - len(menu_text) // 2
+        self.console.print(menu_x, center_y + 8, menu_text, fg=COLOR_YELLOW)
+    
+    def render_main_menu(self):
+        """Render the main menu screen."""
+        from constants import COLOR_YELLOW, COLOR_WHITE, COLOR_GREEN
+        
+        # Get screen dimensions
+        screen_width = self.console.width
+        screen_height = self.console.height
+        
+        # Calculate center positions
+        center_x = screen_width // 2
+        center_y = screen_height // 2
+        
+        # Render game title
+        title_text = "SEVEN-DAY ROGUELIKE"
+        title_x = center_x - len(title_text) // 2
+        self.console.print(title_x, center_y - 8, title_text, fg=COLOR_YELLOW)
+        
+        # Render subtitle
+        subtitle_text = "Conquer the dungeon and defeat the Ancient Dragon!"
+        subtitle_x = center_x - len(subtitle_text) // 2
+        self.console.print(subtitle_x, center_y - 6, subtitle_text, fg=COLOR_WHITE)
+        
+        # Render menu options
+        menu_options = [
+            "Press 'N' to start a New Game",
+            "Press 'H' for Help and Controls",
+            "Press 'ESC' to Quit"
+        ]
+        
+        for i, option in enumerate(menu_options):
+            option_x = center_x - len(option) // 2
+            self.console.print(option_x, center_y - 2 + i * 2, option, fg=COLOR_GREEN)
+        
+        # Render credits
+        credits_text = "Made for the Seven-Day Roguelike Challenge"
+        credits_x = center_x - len(credits_text) // 2
+        self.console.print(credits_x, center_y + 6, credits_text, fg=COLOR_WHITE)
+    
+    def render_help_screen(self):
+        """Render the help/controls screen."""
+        from constants import COLOR_YELLOW, COLOR_WHITE, COLOR_GREEN
+        
+        # Get screen dimensions
+        screen_width = self.console.width
+        screen_height = self.console.height
+        
+        # Calculate center positions
+        center_x = screen_width // 2
+        center_y = screen_height // 2
+        
+        # Render help title
+        title_text = "CONTROLS & HELP"
+        title_x = center_x - len(title_text) // 2
+        self.console.print(title_x, center_y - 12, title_text, fg=COLOR_YELLOW)
+        
+        # Render control instructions
+        controls = [
+            "MOVEMENT:",
+            "  Arrow Keys or HJKL - Move/Attack",
+            "  YUBN - Diagonal movement",
+            "",
+            "ACTIONS:",
+            "  G - Pick up items",
+            "  I - Open inventory",
+            "  A-Z - Use/equip items in inventory",
+            "  ESC - Close menus or quit",
+            "",
+            "GAME OBJECTIVE:",
+            "  Explore 10 levels of the dungeon",
+            "  Fight monsters and collect items",
+            "  Defeat the Ancient Dragon on level 10",
+            "",
+            "Press any key to return to menu"
+        ]
+        
+        start_y = center_y - 10
+        for i, line in enumerate(controls):
+            if line.startswith("  "):
+                # Indented lines in white
+                self.console.print(center_x - len(line) // 2, start_y + i, line, fg=COLOR_WHITE)
+            elif line.endswith(":"):
+                # Section headers in green
+                self.console.print(center_x - len(line) // 2, start_y + i, line, fg=COLOR_GREEN)
+            elif line == "Press any key to return to menu":
+                # Footer instruction in yellow
+                self.console.print(center_x - len(line) // 2, start_y + i, line, fg=COLOR_YELLOW)
+            else:
+                # Regular text in white
+                self.console.print(center_x - len(line) // 2, start_y + i, line, fg=COLOR_WHITE)
     
     def render(self):
         """Render the game to the console."""
         # Clear the console
         self.console.clear()
         
-        if self.game_state == 'DEAD':
+        if self.game_state == 'MENU':
+            # Render main menu
+            self.render_main_menu()
+        elif self.game_state == 'HELP':
+            # Render help screen
+            self.render_help_screen()
+        elif self.game_state == 'DEAD':
             # Render death screen  
             self.render_death_screen()
         elif self.game_state == 'VICTORY':
