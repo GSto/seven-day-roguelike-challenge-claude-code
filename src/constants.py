@@ -1,0 +1,37 @@
+"""
+Game constants and configuration values.
+"""
+
+# Screen dimensions
+SCREEN_WIDTH = 80
+SCREEN_HEIGHT = 50
+
+# Map dimensions  
+MAP_WIDTH = 80
+MAP_HEIGHT = 43
+
+# UI dimensions
+UI_HEIGHT = 7
+
+# Game settings
+TITLE = "Seven Day Roguelike"
+MAX_LEVELS = 10
+FOV_RADIUS = 10
+
+# Colors (RGB tuples)
+COLOR_WHITE = (255, 255, 255)
+COLOR_BLACK = (0, 0, 0)
+COLOR_DARK_WALL = (0, 0, 100)
+COLOR_DARK_GROUND = (50, 50, 150)
+COLOR_LIGHT_WALL = (130, 110, 50)
+COLOR_LIGHT_GROUND = (200, 180, 50)
+COLOR_RED = (255, 0, 0)
+COLOR_GREEN = (0, 255, 0)
+COLOR_BLUE = (0, 0, 255)
+COLOR_YELLOW = (255, 255, 0)
+
+# Tile types
+TILE_WALL = 0
+TILE_FLOOR = 1
+TILE_STAIRS_DOWN = 2
+TILE_STAIRS_UP = 3

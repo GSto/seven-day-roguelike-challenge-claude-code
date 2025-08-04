@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "seven-day-roguelike"
+version = "0.1.0"
+description = "A complete roguelike game built in 7 days using Python and tcod"
+readme = "README.txt"
+license = {text = "MIT"}
+authors = [
+    {name = "Seven Day Roguelike Team"}
+]
+requires-python = ">=3.8"
+dependencies = [
+    "tcod>=13.8.0",
+    "numpy>=1.21.0",
+]
+
+[project.optional-dependencies]
+build = [
+    "pyinstaller>=5.0.0",
+]
+
+[project.scripts]
+seven-day-roguelike = "main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
