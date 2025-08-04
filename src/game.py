@@ -40,6 +40,7 @@ class Game:
         # Game state flags
         self.running = True
         self.player_turn = True
+        self.just_changed_level = False  # Prevent immediate level transitions
     
     def run(self):
         """Main game loop."""
@@ -114,11 +115,17 @@ class Game:
     
     def update(self):
         """Update game state."""
-        # Check for level transitions
-        if self.level.is_stairs_down(self.player.x, self.player.y):
-            self.descend_level()
-        elif self.level.is_stairs_up(self.player.x, self.player.y):
-            self.ascend_level()
+        # Reset level change flag if player moved away from stairs
+        if (not self.level.is_stairs_down(self.player.x, self.player.y) and 
+            not self.level.is_stairs_up(self.player.x, self.player.y)):
+            self.just_changed_level = False
+        
+        # Check for level transitions (only if we didn't just change levels)
+        if not self.just_changed_level:
+            if self.level.is_stairs_down(self.player.x, self.player.y):
+                self.descend_level()
+            elif self.level.is_stairs_up(self.player.x, self.player.y):
+                self.ascend_level()
     
     def descend_level(self):
         """Move to the next level down."""
@@ -130,6 +137,8 @@ class Game:
         self.player.y = stairs_up_y
         # Update FOV for new level
         self.level.update_fov(self.player.x, self.player.y)
+        # Set flag to prevent immediate transition back
+        self.just_changed_level = True
     
     def ascend_level(self):
         """Move to the previous level up."""
@@ -142,6 +151,8 @@ class Game:
             self.player.y = stairs_down_y
             # Update FOV for new level
             self.level.update_fov(self.player.x, self.player.y)
+            # Set flag to prevent immediate transition back
+            self.just_changed_level = True
     
     def render(self):
         """Render the game to the console."""
