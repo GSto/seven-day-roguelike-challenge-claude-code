@@ -58,7 +58,7 @@ class UI:
                 weapon_name = player.weapon.name if player.weapon else "None"
                 armor_name = player.armor.name if player.armor else "None"
                 console.print(0, ui_y, f"Weapon: {weapon_name}", fg=COLOR_WHITE)
-                console.print(25, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
+                console.print(30, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
                 ui_y += 1
             
             # Message log
