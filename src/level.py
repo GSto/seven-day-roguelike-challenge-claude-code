@@ -11,6 +11,7 @@ from constants import (
     TILE_WALL, TILE_FLOOR, TILE_STAIRS_DOWN, TILE_STAIRS_UP,
     COLOR_DARK_WALL, COLOR_DARK_GROUND, COLOR_LIGHT_WALL, COLOR_LIGHT_GROUND
 )
+from monster import create_monster_for_level
 
 
 class Room:
@@ -53,7 +54,11 @@ class Level:
         
         # Generate the level
         self.rooms = []
+        self.monsters = []
         self.generate_level()
+        
+        # Place monsters after level generation
+        self.place_monsters()
         
         # Set up FOV map - note tcod uses (width, height) order
         self.fov_map = tcod.map.Map(MAP_WIDTH, MAP_HEIGHT)
@@ -143,11 +148,77 @@ class Level:
         else:
             self.stairs_down_pos = None
     
+    def place_monsters(self):
+        """Place monsters randomly throughout the level."""
+        # Don't place monsters on level 1 to give player a safe start
+        if self.level_number == 1:
+            return
+        
+        # Number of monsters based on level
+        if self.level_number <= 3:
+            monster_count = random.randint(2, 4)
+        elif self.level_number <= 6:
+            monster_count = random.randint(3, 6)
+        elif self.level_number <= 9:
+            monster_count = random.randint(4, 8)
+        else:  # Level 10 - boss level
+            monster_count = 1  # Just the boss
+        
+        monsters_placed = 0
+        attempts = 0
+        max_attempts = 100
+        
+        while monsters_placed < monster_count and attempts < max_attempts:
+            attempts += 1
+            
+            # Pick a random room
+            if len(self.rooms) == 0:
+                break
+                
+            room = random.choice(self.rooms)
+            
+            # Pick a random position in the room
+            x = random.randint(room.x1 + 1, room.x2 - 1)
+            y = random.randint(room.y1 + 1, room.y2 - 1)
+            
+            # Check if position is valid (walkable and not occupied)
+            if self.is_walkable(x, y) and not self.is_position_occupied(x, y):
+                # Don't place monsters on stairs
+                if not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)):
+                    # Create appropriate monster for this level
+                    monster_class = create_monster_for_level(self.level_number)
+                    monster = monster_class(x, y)
+                    self.monsters.append(monster)
+                    monsters_placed += 1
+    
+    def is_position_occupied(self, x, y):
+        """Check if a position is occupied by a monster."""
+        for monster in self.monsters:
+            if monster.x == x and monster.y == y and monster.is_alive():
+                return True
+        return False
+    
+    def get_monster_at(self, x, y):
+        """Get the monster at the given position, if any."""
+        for monster in self.monsters:
+            if monster.x == x and monster.y == y and monster.is_alive():
+                return monster
+        return None
+    
+    def remove_dead_monsters(self):
+        """Remove dead monsters from the level."""
+        self.monsters = [monster for monster in self.monsters if monster.is_alive()]
+    
     def is_walkable(self, x, y):
         """Check if a tile is walkable."""
         if x < 0 or x >= MAP_WIDTH or y < 0 or y >= MAP_HEIGHT:
             return False
-        return self.tiles[x, y] != TILE_WALL
+        if self.tiles[x, y] == TILE_WALL:
+            return False
+        # Can't walk through living monsters
+        if self.is_position_occupied(x, y):
+            return False
+        return True
     
     def is_stairs_down(self, x, y):
         """Check if position has stairs down."""
@@ -218,3 +289,8 @@ class Level:
                             console.print(x, y, '>', fg=COLOR_DARK_GROUND)
                         elif self.tiles[x, y] == TILE_STAIRS_UP:
                             console.print(x, y, '<', fg=COLOR_DARK_GROUND)
+        
+        # Render monsters on top of terrain
+        for monster in self.monsters:
+            if monster.is_alive():
+                monster.render(console, self.fov)
