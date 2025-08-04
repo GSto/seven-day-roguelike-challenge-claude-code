@@ -42,24 +42,24 @@ This project plan breaks down the development of a complete roguelike game into 
 - Implement line-of-sight calculations
 - Visible/explored tile tracking
 
-## Phase 3: Combat and AI (Day 3)
+## Phase 3: Combat and AI (Day 3) ✅ COMPLETED
 
-### 3.1 Combat System
-- Player attack mechanics
-- Damage calculation system
-- Health and death mechanics
-- Turn-based combat flow
+### 3.1 Combat System ✅
+- ✅ Player attack mechanics (walk into monster to attack)
+- ✅ Damage calculation system (attack vs defense, min 1 damage)
+- ✅ Health and death mechanics (XP rewards, death messages)
+- ✅ Turn-based combat flow (monsters act after player)
 
-### 3.2 Monster System
-- Monster data structures and stats
-- Basic monster types with different attributes
-- Monster placement on levels
+### 3.2 Monster System ✅
+- ✅ Monster data structures and stats (4 monster types with scaling difficulty)
+- ✅ Basic monster types with different attributes (Goblin, Orc, Troll, Dragon)
+- ✅ Monster placement on levels (level-appropriate spawning, 2-8 per level)
 
-### 3.3 AI Implementation
-- Monster movement AI using A* pathfinding
-- Player detection and chasing behavior
-- Turn-based AI action system
-- Line of sight integration for monster AI
+### 3.3 AI Implementation ✅
+- ✅ Monster movement AI with simple pathfinding (direct movement toward player)
+- ✅ Player detection and chasing behavior (FOV-based sight system)
+- ✅ Turn-based AI action system (all monsters act after player turn)
+- ✅ Line of sight integration for monster AI (uses existing FOV system)
 
 ## Phase 4: Items and Inventory (Day 4)
 
@@ -145,12 +145,12 @@ This project plan breaks down the development of a complete roguelike game into 
 ### Must-Have Features (Non-Negotiable)
 - ✅ 10+ randomly generated levels (DONE - Level generation with rooms/corridors)
 - ⏳ Player inventory with consumables and equipment
-- ⏳ Turn-based combat with monsters
-- ⏳ Monster AI that chases player when spotted
+- ✅ Turn-based combat with monsters (DONE - Complete combat system)
+- ✅ Monster AI that chases player when spotted (DONE - FOV-based AI with pursuit)
 - ✅ FOV, level generation, and A* pathfinding (DONE - FOV and level gen complete)
-- ✅ Keyboard-navigated UI (DONE - Basic UI with player stats)
+- ✅ Keyboard-navigated UI (DONE - Basic UI with player stats and combat messages)
 - ⏳ Final boss and win condition
-- ⏳ Death/reset mechanics
+- ✅ Death/reset mechanics (DONE - Player death detection and messages)
 - ✅ Cross-platform executables (DONE - Build system ready)
 
 ### Quality Assurance Checkpoints

@@ -41,7 +41,8 @@ Always use `uv run` when executing Python scripts instead of `python` directly. 
 - **Run the game**: `uv run run.py`
 - **Build executable**: `uv run build.py`
 - **Install dependencies**: `uv sync`
-- **Run tests**: `uv run pytest` (when tests are added)
+- **Run all tests**: `uv run pytest tests/` (run all tests in tests directory)
+- **Run specific test**: `uv run tests/test_filename.py` (run individual test file)
 
 ### Project Dependencies
 
@@ -67,12 +68,30 @@ Next Phase (Core Mechanics):
 - Item and inventory system
 
 
-## Guidelines 
-Your goal is to read specs/project_plan.md and implement the game. Study the project plan and implement the most important missing functionality. When you are done, update the project_plan to indicate the feature is complete. 
+## Development Guidelines
 
-After implementing functionality or resolving problems, run the tests for that unit of code that was improved**."
+### Testing Requirements
+**MANDATORY: Always write and run unit tests when implementing features or fixing bugs.**
 
-Before making changes search codebase (don't assume an item is not implemented) using parrallel subagents. Think hard.
+When implementing new features or fixing bugs, you MUST:
+1. **Write unit tests** for the new functionality in `tests/test_[feature_name].py`
+2. **Run the tests** to ensure they pass: `uv run tests/test_[feature_name].py`
+3. **Update existing tests** if changes affect existing functionality
+4. **Verify all tests pass** before committing code
+5. **Include test results** in commit messages to show validation
+
+Test files should:
+- Cover core functionality and edge cases
+- Use descriptive test names (e.g., `test_player_gains_xp_when_monster_dies`)
+- Include both positive and negative test cases
+- Test integration between components when relevant
+
+### Implementation Process
+Your goal is to read specs/project_plan.md and implement the game. Study the project plan and implement the most important missing functionality. When you are done, update the project_plan to indicate the feature is complete.
+
+After implementing functionality or resolving problems, run the tests for that unit of code that was improved.
+
+Before making changes search codebase (don't assume an item is not implemented) using parallel subagents. Think hard.
 
 999. Important: When authoring documentation capture the why tests and the backing implementation is important.
 
