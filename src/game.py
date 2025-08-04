@@ -57,8 +57,7 @@ class Game:
                 self.handle_events(context)
                 
                 # Update game state
-                if self.player_turn:
-                    self.update()
+                self.update()
                 
                 # Render the game
                 self.render()
@@ -106,21 +105,17 @@ class Game:
         # Check if the move is valid
         if self.level.is_walkable(new_x, new_y):
             self.player.move(dx, dy)
-            self.player_turn = False  # End player turn
+            # Update FOV immediately after movement
+            self.level.update_fov(self.player.x, self.player.y)
+            # Movement successful
     
     def update(self):
         """Update game state."""
-        # Update field of view
-        self.level.update_fov(self.player.x, self.player.y)
-        
         # Check for level transitions
         if self.level.is_stairs_down(self.player.x, self.player.y):
             self.descend_level()
         elif self.level.is_stairs_up(self.player.x, self.player.y):
             self.ascend_level()
-        
-        # Reset player turn
-        self.player_turn = True
     
     def descend_level(self):
         """Move to the next level down."""
@@ -130,6 +125,8 @@ class Game:
         stairs_up_x, stairs_up_y = self.level.get_stairs_up_position()
         self.player.x = stairs_up_x
         self.player.y = stairs_up_y
+        # Update FOV for new level
+        self.level.update_fov(self.player.x, self.player.y)
     
     def ascend_level(self):
         """Move to the previous level up."""
@@ -140,6 +137,8 @@ class Game:
             stairs_down_x, stairs_down_y = self.level.get_stairs_down_position()
             self.player.x = stairs_down_x
             self.player.y = stairs_down_y
+            # Update FOV for new level
+            self.level.update_fov(self.player.x, self.player.y)
     
     def render(self):
         """Render the game to the console."""

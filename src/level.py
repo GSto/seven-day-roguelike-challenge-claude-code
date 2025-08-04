@@ -178,12 +178,15 @@ class Level:
         """Update field of view from player position."""
         # Ensure player is within bounds
         if (0 <= player_x < MAP_WIDTH and 0 <= player_y < MAP_HEIGHT):
+            # tcod.map.Map.compute_fov expects (x, y) coordinates
             self.fov_map.compute_fov(player_x, player_y, FOV_RADIUS)
             
-            # Update explored tiles - tcod FOV uses (y, x) indexing
+            # Update explored tiles 
             for x in range(MAP_WIDTH):
                 for y in range(MAP_HEIGHT):
-                    if self.fov_map.fov[y, x]:
+                    # Check FOV using our coordinate system
+                    if (0 <= x < MAP_WIDTH and 0 <= y < MAP_HEIGHT and 
+                        self.fov_map.fov[y, x]):
                         self.explored[x, y] = True
                         self.fov[x, y] = True
                     else:
