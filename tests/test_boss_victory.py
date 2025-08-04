@@ -87,6 +87,16 @@ def test_monster_creation_level_10():
     print("✓ Monster creation correctly returns Dragon for level 10")
 
 
+def test_monster_creation_level_9():
+    """Test that create_monster_for_level never returns Dragon for level 9."""
+    # Test multiple times to ensure no dragons spawn on level 9
+    for _ in range(20):
+        monster_class = create_monster_for_level(9)
+        assert monster_class != Dragon, "Level 9 should never spawn dragons"
+    
+    print("✓ Monster creation never returns Dragon for level 9")
+
+
 def test_boss_victory_condition_concept():
     """Test the victory condition logic concepts."""
     # Test boss identification
@@ -237,6 +247,7 @@ def run_all_tests():
     test_level_10_spawns_only_dragon()
     test_dragon_boss_combat_strength()
     test_monster_creation_level_10()
+    test_monster_creation_level_9()
     test_boss_victory_condition_concept()
     test_boss_defeat_triggers_victory()
     test_game_state_management()

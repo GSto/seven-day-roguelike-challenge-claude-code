@@ -150,20 +150,13 @@ def create_monster_for_level(level_number):
         else:
             return Troll
     
-    elif level_number <= 8:
-        # Later levels: orcs and trolls
+    elif level_number <= 9:
+        # Later levels: orcs and trolls (including level 9)
         if rand < 0.3:
             return Orc
         else:
             return Troll
     
-    elif level_number == 10:
-        # Final level: dragons only
-        return Dragon
-    
     else:
-        # Level 9: mix with some dragons
-        if rand < 0.7:
-            return Troll
-        else:
-            return Dragon
+        # Final level (level 10): dragons only
+        return Dragon

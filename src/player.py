@@ -16,13 +16,13 @@ class Player:
         self.color = COLOR_WHITE
         
         # Player stats
-        self.max_hp = 100
+        self.max_hp = 50
         self.hp = self.max_hp
-        self.attack = 10
+        self.attack = 9
         self.defense = 2
         self.level = 1
         self.xp = 0
-        self.xp_to_next = 100
+        self.xp_to_next = 50
         
         # Equipment slots - start with basic equipment
         from items import WoodenStick, WhiteTShirt
