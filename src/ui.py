@@ -57,8 +57,12 @@ class UI:
             if ui_y < SCREEN_HEIGHT:
                 weapon_name = player.weapon.name if player.weapon else "None"
                 armor_name = player.armor.name if player.armor else "None"
-                console.print(0, ui_y, f"Weapon: {weapon_name}", fg=COLOR_WHITE)
-                console.print(30, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
+                weapon_text = f"Weapon: {weapon_name}"
+                
+                # Dynamic positioning: place armor text with padding after weapon text
+                console.print(0, ui_y, weapon_text, fg=COLOR_WHITE)
+                armor_x = len(weapon_text) + 3  # 3 character padding
+                console.print(armor_x, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
                 ui_y += 1
             
             # Message log
