@@ -70,6 +70,9 @@ class Game:
                 self.running = False
             elif isinstance(event, tcod.event.KeyDown):
                 self.handle_keydown(event)
+            # Explicitly ignore mouse events to prevent unwanted behavior
+            elif isinstance(event, (tcod.event.MouseMotion, tcod.event.MouseButtonDown, tcod.event.MouseButtonUp)):
+                pass  # Ignore mouse events
     
     def handle_keydown(self, event):
         """Handle keyboard input."""
