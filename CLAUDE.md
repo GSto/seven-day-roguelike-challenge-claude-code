@@ -44,6 +44,20 @@ Always use `uv run` when executing Python scripts instead of `python` directly. 
 - **Run all tests**: `uv run pytest tests/` (run all tests in tests directory)
 - **Run specific test**: `uv run tests/test_filename.py` (run individual test file)
 
+### Game Testing Safety Protocol
+
+**CRITICAL: When testing the game, always use timeouts to prevent getting stuck.**
+
+- **Test game execution**: `timeout 30s uv run src/main.py` (auto-terminate after 30 seconds)
+- **Manual testing**: Use `Ctrl+C` to force quit if game becomes unresponsive
+- **Automated testing**: Always include timeout parameter when using Bash tool
+- **Never run the game indefinitely** - this can cause the session to hang
+
+If the game needs to be tested interactively:
+1. Use a short timeout (10-30 seconds) to verify it starts
+2. Test specific functionality through unit tests instead of manual gameplay
+3. If manual testing is required, warn the user first and ask them to test locally
+
 ### Project Dependencies
 
 Dependencies are managed in `pyproject.toml`. The main dependencies are:
