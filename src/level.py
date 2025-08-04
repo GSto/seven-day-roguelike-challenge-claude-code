@@ -12,6 +12,7 @@ from constants import (
     COLOR_DARK_WALL, COLOR_DARK_GROUND, COLOR_LIGHT_WALL, COLOR_LIGHT_GROUND
 )
 from monster import create_monster_for_level
+from items import create_random_item_for_level
 
 
 class Room:
@@ -55,10 +56,12 @@ class Level:
         # Generate the level
         self.rooms = []
         self.monsters = []
+        self.items = []
         self.generate_level()
         
-        # Place monsters after level generation
+        # Place monsters and items after level generation
         self.place_monsters()
+        self.place_items()
         
         # Set up FOV map - note tcod uses (width, height) order
         self.fov_map = tcod.map.Map(MAP_WIDTH, MAP_HEIGHT)
@@ -207,6 +210,71 @@ class Level:
         """Remove dead monsters from the level."""
         self.monsters = [monster for monster in self.monsters if monster.is_alive()]
     
+    def place_items(self):
+        """Place items randomly throughout the level."""
+        # Number of items based on level
+        if self.level_number <= 2:
+            item_count = random.randint(1, 3)
+        elif self.level_number <= 5:
+            item_count = random.randint(2, 4)
+        elif self.level_number <= 8:
+            item_count = random.randint(3, 5)
+        else:  # Level 9-10
+            item_count = random.randint(2, 4)  # Fewer items on boss levels, but higher quality
+        
+        items_placed = 0
+        attempts = 0
+        max_attempts = 100
+        
+        while items_placed < item_count and attempts < max_attempts:
+            attempts += 1
+            
+            # Pick a random room
+            if len(self.rooms) == 0:
+                break
+                
+            room = random.choice(self.rooms)
+            
+            # Pick a random position in the room
+            x = random.randint(room.x1 + 1, room.x2 - 1)
+            y = random.randint(room.y1 + 1, room.y2 - 1)
+            
+            # Check if position is valid (walkable, not occupied, not on stairs)
+            if (self.is_walkable(x, y) and 
+                not self.is_position_occupied(x, y) and
+                not self.is_item_at(x, y) and
+                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y))):
+                
+                # Create appropriate item for this level
+                item = create_random_item_for_level(self.level_number, x, y)
+                self.items.append(item)
+                items_placed += 1
+    
+    def is_item_at(self, x, y):
+        """Check if there's an item at the given position."""
+        for item in self.items:
+            if item.x == x and item.y == y:
+                return True
+        return False
+    
+    def get_item_at(self, x, y):
+        """Get the item at the given position, if any."""
+        for item in self.items:
+            if item.x == x and item.y == y:
+                return item
+        return None
+    
+    def remove_item(self, item):
+        """Remove an item from the level."""
+        if item in self.items:
+            self.items.remove(item)
+    
+    def add_item_drop(self, x, y, item):
+        """Add an item drop at the specified position."""
+        item.x = x
+        item.y = y
+        self.items.append(item)
+    
     def is_walkable(self, x, y):
         """Check if a tile is walkable."""
         if x < 0 or x >= MAP_WIDTH or y < 0 or y >= MAP_HEIGHT:
@@ -288,7 +356,11 @@ class Level:
                         elif self.tiles[x, y] == TILE_STAIRS_UP:
                             console.print(x, y, '<', fg=COLOR_DARK_GROUND)
         
-        # Render monsters on top of terrain
+        # Render items on top of terrain (but below monsters)
+        for item in self.items:
+            item.render(console, self.fov)
+        
+        # Render monsters on top of everything
         for monster in self.monsters:
             if monster.is_alive():
                 monster.render(console, self.fov)

@@ -6,6 +6,8 @@ import tcod
 import tcod.event
 
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, TITLE, TILE_WALL, COLOR_GREEN, COLOR_YELLOW
+from items import HealthPotion, create_random_item_for_level
+import random
 from player import Player
 from level import Level
 from ui import UI
@@ -144,6 +146,13 @@ class Game:
             if leveled_up:
                 level_up_message = f"You reached level {self.player.level}!"
                 self.ui.add_message(level_up_message, COLOR_YELLOW)
+            
+            # Chance for monster to drop an item
+            if random.random() < 0.3:  # 30% chance to drop an item
+                dropped_item = create_random_item_for_level(self.current_level, monster.x, monster.y)
+                self.level.add_item_drop(monster.x, monster.y, dropped_item)
+                drop_message = f"The {monster.name} dropped a {dropped_item.name}!"
+                self.ui.add_message(drop_message)
             
             # Remove dead monster from level
             self.level.remove_dead_monsters()
