@@ -9,7 +9,8 @@ from .base import Equipment
 class Accessory(Equipment):
     """Accessory equipment (rings, amulets, etc.)."""
     
-    def __init__(self, x, y, name, char, attack_bonus=0, defense_bonus=0, description=""):
+    def __init__(self, x, y, name, char, attack_bonus=0, defense_bonus=0, 
+                 description="", fov_bonus=0, health_aspect_bonus=0.0):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -18,7 +19,9 @@ class Accessory(Equipment):
             description=description,
             attack_bonus=attack_bonus,
             defense_bonus=defense_bonus,
-            equipment_slot="accessory"
+            equipment_slot="accessory",
+            fov_bonus=fov_bonus,
+            health_aspect_bonus=health_aspect_bonus
         )
 
 
@@ -30,10 +33,10 @@ class Ring(Accessory):
 
 
 class PowerRing(Ring):
-    """Ring that boosts attack and defense."""
+    """Ring that boosts attack."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Ring of Power", attack_bonus=3, defense_bonus=1)
+        super().__init__(x, y, "Ring of Power", attack_bonus=4, defense_bonus=0)
 
 
 class ProtectionRing(Ring):
@@ -41,3 +44,20 @@ class ProtectionRing(Ring):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Ring of Protection", defense_bonus=3)
+
+
+class GreaterPowerRing(Ring):
+    """Ring that greatly boosts attack."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Greater Ring of Power", attack_bonus=9, defense_bonus=0)
+
+
+class GreaterProtectionRing(Ring):
+    """Ring that greatly boosts attack."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Greater Ring of Protection", attack_bonus=0, defense_bonus=7)
+
+
+  

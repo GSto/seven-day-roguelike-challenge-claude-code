@@ -39,11 +39,14 @@ class Equipment(Item):
     """Base class for equippable items."""
     
     def __init__(self, x, y, name, char, color, description="", 
-                 attack_bonus=0, defense_bonus=0, equipment_slot=""):
+                 attack_bonus=0, defense_bonus=0, equipment_slot="", 
+                 fov_bonus=0, health_aspect_bonus=0.0):
         super().__init__(x, y, name, char, color, description)
         self.attack_bonus = attack_bonus
         self.defense_bonus = defense_bonus
         self.equipment_slot = equipment_slot  # "weapon", "armor", "accessory"
+        self.fov_bonus = fov_bonus  # Bonus to field of view radius
+        self.health_aspect_bonus = health_aspect_bonus  # Bonus to health potion effectiveness
     
     def can_equip(self, player):
         """Check if player can equip this item."""

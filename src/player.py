@@ -24,6 +24,7 @@ class Player:
         self.xp = 0
         self.xp_to_next = 50
         self.fov = 10  # Field of view radius
+        self.health_aspect = 0.3  # Health potion effectiveness multiplier
         
         # Equipment slots - start with basic equipment
         from items import WoodenStick, WhiteTShirt
@@ -112,6 +113,28 @@ class Player:
             total += self.armor.defense_bonus
         if self.accessory:
             total += self.accessory.defense_bonus
+        return total
+    
+    def get_total_fov(self):
+        """Get total field of view including equipment bonuses."""
+        total = self.fov
+        if self.weapon and hasattr(self.weapon, 'fov_bonus'):
+            total += self.weapon.fov_bonus
+        if self.armor and hasattr(self.armor, 'fov_bonus'):
+            total += self.armor.fov_bonus
+        if self.accessory and hasattr(self.accessory, 'fov_bonus'):
+            total += self.accessory.fov_bonus
+        return total
+    
+    def get_total_health_aspect(self):
+        """Get total health aspect including equipment bonuses."""
+        total = self.health_aspect
+        if self.weapon and hasattr(self.weapon, 'health_aspect_bonus'):
+            total += self.weapon.health_aspect_bonus
+        if self.armor and hasattr(self.armor, 'health_aspect_bonus'):
+            total += self.armor.health_aspect_bonus
+        if self.accessory and hasattr(self.accessory, 'health_aspect_bonus'):
+            total += self.accessory.health_aspect_bonus
         return total
     
     def render(self, console, fov):

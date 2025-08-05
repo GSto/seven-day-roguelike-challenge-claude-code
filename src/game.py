@@ -37,7 +37,7 @@ class Game:
         self.ui = UI()
         
         # Initialize FOV for starting position
-        self.level.update_fov(self.player.x, self.player.y, self.player.fov)
+        self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
         
         # Game state flags
         self.running = True
@@ -198,7 +198,7 @@ class Game:
         if self.level.is_walkable(new_x, new_y):
             self.player.move(dx, dy)
             # Update FOV immediately after movement
-            self.level.update_fov(self.player.x, self.player.y, self.player.fov)
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
             self.player_acted_this_frame = True  # Player took an action
             
             # Add occasional movement messages to help clear old combat messages
@@ -343,7 +343,7 @@ class Game:
         self.player.x = stairs_up_x
         self.player.y = stairs_up_y
         # Update FOV for new level
-        self.level.update_fov(self.player.x, self.player.y, self.player.fov)
+        self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
         # Set flag to prevent immediate transition back
         self.just_changed_level = True
     
@@ -357,7 +357,7 @@ class Game:
             self.player.x = stairs_down_x
             self.player.y = stairs_down_y
             # Update FOV for new level
-            self.level.update_fov(self.player.x, self.player.y, self.player.fov)
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
             # Set flag to prevent immediate transition back
             self.just_changed_level = True
     
@@ -379,7 +379,7 @@ class Game:
         self.player = Player(x=start_x, y=start_y)
         
         # Initialize FOV for starting position
-        self.level.update_fov(self.player.x, self.player.y, self.player.fov)
+        self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
         
         # Reset game state flags
         self.player_turn = True

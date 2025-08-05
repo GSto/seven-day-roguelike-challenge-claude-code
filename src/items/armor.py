@@ -9,7 +9,8 @@ from .base import Equipment
 class Armor(Equipment):
     """Armor equipment."""
     
-    def __init__(self, x, y, name, char, defense_bonus, description=""):
+    def __init__(self, x, y, name, char, defense_bonus, description="", 
+                 fov_bonus=0, health_aspect_bonus=0.0):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -17,7 +18,9 @@ class Armor(Equipment):
             color=COLOR_GREEN,
             description=description,
             defense_bonus=defense_bonus,
-            equipment_slot="armor"
+            equipment_slot="armor",
+            fov_bonus=fov_bonus,
+            health_aspect_bonus=health_aspect_bonus
         )
 
 

@@ -15,20 +15,20 @@ class HealthPotion(Consumable):
             name="Health Potion",
             char='!',
             color=COLOR_RED,
-            description="Restores 30% of max health when consumed",
-            effect_value=0.3  # 30% as a decimal
+            description="Restores health when consumed",
+            effect_value=1  # Multiplier for player's health_aspect
         )
-        # For UI display, we'll show percentage instead of fixed amount
-        self.heal_percentage = 30  # 30%
+        # For UI display, we'll show percentage based on player's health_aspect
+        self.heal_percentage = 30  # Default display value
     
     def use(self, player):
-        """Restore player health by 30% of max HP."""
+        """Restore player health based on player's health_aspect."""
         if player.hp >= player.max_hp:
             return False  # Already at full health
         
         old_hp = player.hp
-        # Calculate 30% of max HP
-        heal_amount = int(player.max_hp * self.effect_value)
+        # Calculate healing based on effect_value * player's total health_aspect
+        heal_amount = int(player.max_hp * (self.effect_value * player.get_total_health_aspect()))
         player.heal(heal_amount)
         actual_healing = player.hp - old_hp
         return actual_healing > 0
