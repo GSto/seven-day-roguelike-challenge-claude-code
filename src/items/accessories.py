@@ -29,20 +29,20 @@ class Ring(Accessory):
     """Base class for rings."""
     
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0, description="A magical ring"):
-        super().__init__(x, y, name, '=', attack_bonus, defense_bonus, description)
+        super().__init__(x, y, name, '=', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus)
 
 
 class Necklace(Accessory):
     """Base class for necklaces."""
     
-    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0,fov_bonus=0, health_aspect_bonus=0, description="A magical necklace"):
-        super().__init__(x, y, name, 'v', attack_bonus, defense_bonus, description)
+    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0, description="A magical necklace"):
+        super().__init__(x, y, name, 'v', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus)
 
 class Hat(Accessory):
     """Base class for rings."""
     
-    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0,fov_bonus=0, health_aspect_bonus=0, description="A cool hat"):
-        super().__init__(x, y, name, '^', attack_bonus, defense_bonus, description)
+    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0, description="A cool hat"):
+        super().__init__(x, y, name, '^', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus)
 
 
 class PowerRing(Ring):
@@ -62,13 +62,13 @@ class Rosary(Necklace):
     """Necklace that increases health aspect."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Rosary", health_aspect_bonus=0.1, description="A healer's necklace")
+        super().__init__(x, y, "Rosary", attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0.1, description="A healer's necklace")
 
 class HeadLamp(Hat):
     """Hat that increases FOV"""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "HeadLamp", fov_bonus=1, description="lamp on your head")
+        super().__init__(x, y, "HeadLamp", attack_bonus=0, defense_bonus=0, fov_bonus=1, health_aspect_bonus=0, description="lamp on your head")
 
 
 # Later Game Accessories
