@@ -58,3 +58,17 @@ class WarHammer(Weapon):
     
     def __init__(self, x, y):
         super().__init__(x, y, "War Hammer", ')', 12, "A heavy war hammer")
+
+
+class BrightSword(Weapon):
+    """Magical sword that enhances vision."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Bright Sword", ')', 6, "A luminous sword that enhances vision", fov_bonus=3)
+
+
+class ClericsStaff(Weapon):
+    """Holy staff that enhances healing abilities."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Cleric's Staff", ')', 4, "A holy staff that enhances healing", health_aspect_bonus=0.2)

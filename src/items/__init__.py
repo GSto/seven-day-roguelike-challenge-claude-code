@@ -3,9 +3,9 @@ Items package for the roguelike game.
 """
 
 from .base import Item, Consumable, Equipment
-from .consumables import HealthPotion
-from .weapons import Weapon, WoodenStick, Dagger, Sword, Longsword, WarHammer
-from .armor import Armor, WhiteTShirt, LeatherArmor, ChainMail, PlateArmor, DragonScale
+from .consumables import HealthPotion, PowerCatalyst, DefenseCatalyst, D6
+from .weapons import Weapon, WoodenStick, Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff
+from .armor import Armor, WhiteTShirt, LeatherArmor, ChainMail, PlateArmor, DragonScale, SpikedArmor
 from .accessories import Accessory, Ring, PowerRing, ProtectionRing
 from .factory import create_random_item_for_level
 
@@ -15,13 +15,13 @@ __all__ = [
     'Item', 'Consumable', 'Equipment',
     
     # Consumables
-    'HealthPotion'
+    'HealthPotion', 'PowerCatalyst', 'DefenseCatalyst', 'D6',
     
     # Weapons
-    'Weapon', 'WoodenStick', 'Dagger', 'Sword', 'Longsword', 'WarHammer',
+    'Weapon', 'WoodenStick', 'Dagger', 'Sword', 'Longsword', 'WarHammer', 'BrightSword', 'ClericsStaff',
     
     # Armor
-    'Armor', 'WhiteTShirt', 'LeatherArmor', 'ChainMail', 'PlateArmor', 'DragonScale',
+    'Armor', 'WhiteTShirt', 'LeatherArmor', 'ChainMail', 'PlateArmor', 'DragonScale', 'SpikedArmor',
     
     # Accessories
     'Accessory', 'Ring', 'PowerRing', 'ProtectionRing',

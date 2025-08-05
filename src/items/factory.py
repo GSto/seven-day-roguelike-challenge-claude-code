@@ -3,9 +3,9 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge
-from .weapons import Dagger, Sword, Longsword, WarHammer
-from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest
+from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6
+from .weapons import Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff
+from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp
 
 
@@ -14,21 +14,24 @@ from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterPro
 # ============================================================================
 
 # Consumable item pools
-EARLY_GAME_CONSUMABLES = [Carrot, SalmonOfKnowledge]
-MID_GAME_CONSUMABLES = [Beef, Carrot, SalmonOfKnowledge]
-LATE_GAME_CONSUMABLES = [Beef, SalmonOfKnowledge]
-END_GAME_CONSUMABLES = [Elixir]
+# Power and Defense Catalysts found in all levels, D6 found in all levels
+EARLY_GAME_CONSUMABLES = [Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6]
+MID_GAME_CONSUMABLES = [Beef, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6]
+LATE_GAME_CONSUMABLES = [Beef, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6]
+END_GAME_CONSUMABLES = [Elixir, PowerCatalyst, DefenseCatalyst, D6]
 
 # Weapon item pools
-EARLY_GAME_WEAPONS = [Dagger, Sword]
-MID_GAME_WEAPONS = [Sword, Longsword]
-LATE_GAME_WEAPONS = [Longsword, WarHammer]
-END_GAME_WEAPONS = [WarHammer]  # Single item list is fine
+# Cleric's Staff: early-late game, Bright Sword: mid & late game
+EARLY_GAME_WEAPONS = [Dagger, Sword, ClericsStaff]
+MID_GAME_WEAPONS = [Sword, Longsword, BrightSword, ClericsStaff]
+LATE_GAME_WEAPONS = [Longsword, WarHammer, BrightSword, ClericsStaff]
+END_GAME_WEAPONS = [WarHammer, BrightSword]
 
 # Armor item pools
-EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest]  # Single item list is fine
-MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest]
-LATE_GAME_ARMOR = [ChainMail, PlateArmor]
+# Added SpikedArmor in mid-late game range
+EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest]
+MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor]
+LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor]
 END_GAME_ARMOR = [PlateArmor, DragonScale]
 
 # Accessory item pools

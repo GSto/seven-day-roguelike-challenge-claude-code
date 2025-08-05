@@ -63,3 +63,10 @@ class DragonScale(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Dragon Scale Armor", '[', 10, "Legendary dragon scale armor")
+
+
+class SpikedArmor(Armor):
+    """Aggressive armor with spikes for extra protection."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Spiked Armor", '[', 5, "Menacing armor covered in spikes")
