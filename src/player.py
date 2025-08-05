@@ -23,6 +23,7 @@ class Player:
         self.level = 1
         self.xp = 0
         self.xp_to_next = 50
+        self.fov = 10  # Field of view radius
         
         # Equipment slots - start with basic equipment
         from items import WoodenStick, WhiteTShirt

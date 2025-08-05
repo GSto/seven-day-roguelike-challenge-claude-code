@@ -7,7 +7,7 @@ import numpy as np
 import tcod
 
 from constants import (
-    MAP_WIDTH, MAP_HEIGHT, FOV_RADIUS,
+    MAP_WIDTH, MAP_HEIGHT,
     TILE_WALL, TILE_FLOOR, TILE_STAIRS_DOWN, TILE_STAIRS_UP,
     COLOR_DARK_WALL, COLOR_DARK_GROUND, COLOR_LIGHT_WALL, COLOR_LIGHT_GROUND
 )
@@ -311,12 +311,12 @@ class Level:
                 self.fov_map.transparent[y, x] = is_transparent
                 self.fov_map.walkable[y, x] = is_transparent
     
-    def update_fov(self, player_x, player_y):
+    def update_fov(self, player_x, player_y, fov_radius):
         """Update field of view from player position."""
         # Ensure player is within bounds
         if (0 <= player_x < MAP_WIDTH and 0 <= player_y < MAP_HEIGHT):
             # tcod.map.Map.compute_fov expects (x, y) coordinates
-            self.fov_map.compute_fov(player_x, player_y, FOV_RADIUS)
+            self.fov_map.compute_fov(player_x, player_y, fov_radius)
             
             # Update explored tiles 
             for x in range(MAP_WIDTH):
