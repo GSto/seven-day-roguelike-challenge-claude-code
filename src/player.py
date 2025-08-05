@@ -58,14 +58,19 @@ class Player:
     def gain_xp(self, amount):
         """Gain experience points."""
         self.xp += amount
+        return False  # No automatic leveling
+    
+    def can_level_up(self):
+        """Check if player has enough XP to level up."""
+        return self.xp >= self.xp_to_next
+    
+    def attempt_level_up(self):
+        """Try to level up manually. Returns True if successful."""
+        if not self.can_level_up():
+            return False
         
-        # Check for level up
-        leveled_up = False
-        while self.xp >= self.xp_to_next:
-            self.level_up()
-            leveled_up = True
-        
-        return leveled_up
+        self.level_up()
+        return True
     
     def level_up(self):
         """Level up the player."""

@@ -19,23 +19,24 @@ def test_player_gain_xp():
     # Check initial XP
     assert player.xp == 0
     assert player.level == 1
-    assert player.xp_to_next == 100
+    assert player.xp_to_next == 50
     
     # Gain some XP
     player.gain_xp(25)
     assert player.xp == 25
     assert player.level == 1  # Should not level up yet
     
-    # Gain more XP
-    player.gain_xp(30)
+    # Gain more XP (but still shouldn't auto-level with manual leveling)
+    player.gain_xp(30)  # Total 55 XP, more than 50 needed
     assert player.xp == 55
-    assert player.level == 1
+    assert player.level == 1  # Should not auto-level up
+    assert player.can_level_up()  # But should be able to level up manually
     
     print("✓ Basic XP gain works correctly")
 
 
 def test_player_level_up():
-    """Test that player levels up when reaching XP threshold."""
+    """Test that player levels up manually when reaching XP threshold."""
     player = Player(x=10, y=10)
     
     # Store initial stats
@@ -44,12 +45,21 @@ def test_player_level_up():
     initial_defense = player.defense
     
     # Gain enough XP to level up
-    player.gain_xp(100)
+    player.gain_xp(50)
+    
+    # Should not auto-level up
+    assert player.level == 1
+    assert player.xp == 50
+    assert player.can_level_up()
+    
+    # Manual level up
+    result = player.attempt_level_up()
+    assert result == True
     
     # Check that player leveled up
     assert player.level == 2
     assert player.xp == 0  # XP should be reset
-    assert player.xp_to_next == 150  # Should be 1.5x previous
+    assert player.xp_to_next == 75  # Should be 1.5x previous (50 * 1.5)
     
     # Check stat increases
     assert player.max_hp == initial_max_hp + 20
@@ -57,19 +67,33 @@ def test_player_level_up():
     assert player.defense == initial_defense + 1
     assert player.hp == player.max_hp  # Should heal to full
     
-    print("✓ Player level up works correctly")
+    print("✓ Player manual level up works correctly")
 
 
 def test_multiple_level_ups():
-    """Test gaining enough XP for multiple level ups."""
+    """Test gaining enough XP for multiple level ups requires multiple manual level ups."""
     player = Player(x=10, y=10)
     
-    # Gain massive XP (enough for multiple levels)
-    player.gain_xp(500)
+    # Gain massive XP (enough for multiple levels: 50 + 75 = 125)
+    player.gain_xp(125)
     
-    # Should have leveled up multiple times
-    assert player.level > 2
-    print(f"✓ Player reached level {player.level} with massive XP gain")
+    # Should not auto-level up
+    assert player.level == 1
+    assert player.can_level_up()
+    
+    # Manual level up to level 2
+    player.attempt_level_up()
+    assert player.level == 2
+    assert player.xp == 75  # 125 - 50 = 75
+    assert player.can_level_up()  # Can level up again
+    
+    # Manual level up to level 3
+    player.attempt_level_up()
+    assert player.level == 3
+    assert player.xp == 0  # 75 - 75 = 0
+    assert not player.can_level_up()  # Can't level up again
+    
+    print(f"✓ Multiple manual level ups work correctly - reached level {player.level}")
 
 
 def test_monster_xp_values():

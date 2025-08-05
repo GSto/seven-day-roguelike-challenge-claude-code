@@ -4,7 +4,7 @@ User interface rendering and management.
 
 from constants import (
     SCREEN_WIDTH, SCREEN_HEIGHT, MAP_HEIGHT,
-    COLOR_WHITE, COLOR_RED, COLOR_GREEN
+    COLOR_WHITE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW
 )
 
 
@@ -42,10 +42,17 @@ class UI:
             hp_color = COLOR_GREEN if player.hp > player.max_hp * 0.3 else COLOR_RED
             console.print(0, ui_y, f"HP: {player.hp}/{player.max_hp}", fg=hp_color)
             console.print(20, ui_y, f"Level: {player.level}", fg=COLOR_WHITE)
-            console.print(35, ui_y, f"XP: {player.xp}/{player.xp_to_next}", fg=COLOR_WHITE)
-            console.print(55, ui_y, f"Dungeon Level: {current_level}", fg=COLOR_WHITE)
+            console.print(35, ui_y, f"XP: {player.xp}", fg=COLOR_WHITE)
+            console.print(50, ui_y, f"Dungeon Level: {current_level}", fg=COLOR_WHITE)
             
-            ui_y += 1
+            # Add "Next Lvl:" under dungeon level with level up indicator
+            level_up_color = COLOR_YELLOW if player.can_level_up() else COLOR_WHITE
+            level_up_text = f"Next Lvl: {player.xp_to_next}"
+            if player.can_level_up():
+                level_up_text += " (Press L)"
+            console.print(50, ui_y + 1, level_up_text, fg=level_up_color)
+            
+            ui_y += 2  # Account for the extra "Next Lvl:" line
             
             # Combat stats
             if ui_y < SCREEN_HEIGHT:

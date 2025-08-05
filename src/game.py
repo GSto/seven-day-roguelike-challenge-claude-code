@@ -177,6 +177,9 @@ class Game:
                 self.try_move_player(-1, 1)
             elif key == ord('n'):
                 self.try_move_player(1, 1)
+            # Manual leveling
+            elif key == ord('L'):
+                self.handle_manual_level_up()
             # Quit game
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
                 self.running = False
@@ -505,6 +508,17 @@ class Game:
         # Only return to playing if not in inventory mode
         if self.game_state != 'INVENTORY':
             self.game_state = 'PLAYING'  # Return to game after equipping
+    
+    def handle_manual_level_up(self):
+        """Handle manual level up when L key is pressed."""
+        if self.player.attempt_level_up():
+            self.ui.add_message(f"Level up! You are now level {self.player.level}.")
+            self.ui.add_message(f"HP increased to {self.player.max_hp}!")
+            self.ui.add_message(f"Attack increased to {self.player.attack}!")
+            self.ui.add_message(f"Defense increased to {self.player.defense}!")
+            self.player_acted_this_frame = True  # Count as an action
+        else:
+            self.ui.add_message("Not enough XP to level up!")
     
     def render_death_screen(self):
         """Render the death screen with stats and restart option."""
