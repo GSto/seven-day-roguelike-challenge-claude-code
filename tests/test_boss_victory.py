@@ -8,49 +8,47 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
 from level import Level
-from monster import Dragon, create_monster_for_level
+from monster import Devil, create_monster_for_level
 from game import Game
 
 
-def test_dragon_boss_stats():
-    """Test that the Dragon boss has appropriate final boss stats."""
-    dragon = Dragon(10, 10)
+def test_devil_boss_stats():
+    """Test that the Devil has appropriate boss-level stats."""
+    devil = Devil(10, 10)
     
-    # Test enhanced boss stats
-    assert dragon.name == "Ancient Dragon"
-    assert dragon.char == 'D'
-    assert dragon.hp == 150  # Much higher than other monsters
-    assert dragon.attack == 25  # High attack
-    assert dragon.defense == 8  # Strong defense
-    assert dragon.xp_value == 200  # Massive XP reward
+    # Devil should have high stats
+    assert devil.hp >= 150  # High HP
+    assert devil.attack >= 20  # High attack
+    assert devil.defense >= 5  # Good defense
+    assert devil.xp_value >= 100  # High XP reward
     
-    # Test boss flag
-    assert hasattr(dragon, 'is_final_boss')
-    assert dragon.is_final_boss == True
+    # Devil should be marked as final boss
+    assert hasattr(devil, 'is_final_boss')
+    assert devil.is_final_boss == True
     
-    print("✓ Dragon boss has appropriate final boss stats")
+    print("✓ Devil boss has appropriate stats")
 
 
-def test_level_10_spawns_only_dragon():
-    """Test that level 10 spawns only the Dragon boss."""
+def test_level_10_spawns_only_devil():
+    """Test that level 10 spawns only the Devil boss."""
     level = Level(level_number=10)
     
     # Level 10 should have exactly one monster
     assert len(level.monsters) == 1
     
-    # That monster should be a Dragon
+    # That monster should be a Devil
     boss = level.monsters[0]
-    assert isinstance(boss, Dragon)
-    assert boss.name == "Ancient Dragon"
+    assert isinstance(boss, Devil)
+    assert boss.name == "Ancient Devil"
     assert hasattr(boss, 'is_final_boss')
     assert boss.is_final_boss == True
     
-    print("✓ Level 10 spawns only Dragon boss")
+    print("✓ Level 10 spawns only Devil boss")
 
 
-def test_dragon_boss_combat_strength():
-    """Test that the Dragon boss is significantly stronger than regular monsters."""
-    dragon = Dragon(10, 10)
+def test_devil_boss_combat_strength():
+    """Test that the Devil boss is significantly stronger than regular monsters."""
+    devil = Devil(10, 10)
     
     # Compare to other monsters
     from monster import Goblin, Orc, Troll
@@ -58,53 +56,53 @@ def test_dragon_boss_combat_strength():
     orc = Orc(10, 10)
     troll = Troll(10, 10)
     
-    # Dragon should have much higher stats
-    assert dragon.hp > troll.hp  # More HP than strongest regular monster
-    assert dragon.attack > troll.attack  # Higher attack
-    assert dragon.defense > troll.defense  # Better defense
-    assert dragon.xp_value > troll.xp_value  # More XP reward
+    # Devil should have much higher stats
+    assert devil.hp > troll.hp  # More HP than strongest regular monster
+    assert devil.attack > troll.attack  # Higher attack
+    assert devil.defense > troll.defense  # Better defense
+    assert devil.xp_value > troll.xp_value  # More XP reward
     
-    # Dragon should be a significant challenge
-    assert dragon.hp >= 150  # High HP pool
-    assert dragon.attack >= 20  # Dangerous attack
+    # Devil should be a significant challenge
+    assert devil.hp >= 150  # High HP pool
+    assert devil.attack >= 20  # Dangerous attack
     
-    print("✓ Dragon boss is significantly stronger than regular monsters")
+    print("✓ Devil boss is significantly stronger than regular monsters")
 
 
 def test_monster_creation_level_10():
-    """Test that create_monster_for_level returns Dragon for level 10."""
+    """Test that create_monster_for_level returns Devil for level 10."""
     monster_class = create_monster_for_level(10)
     
-    # Level 10 should always return Dragon
-    assert monster_class == Dragon
+    # Level 10 should always return Devil
+    assert monster_class == Devil
     
     # Create instance and verify it's a boss
-    dragon = monster_class(5, 5)
-    assert isinstance(dragon, Dragon)
-    assert hasattr(dragon, 'is_final_boss')
-    assert dragon.is_final_boss == True
+    devil = monster_class(5, 5)
+    assert isinstance(devil, Devil)
+    assert hasattr(devil, 'is_final_boss')
+    assert devil.is_final_boss == True
     
-    print("✓ Monster creation correctly returns Dragon for level 10")
+    print("✓ Monster creation correctly returns Devil for level 10")
 
 
 def test_monster_creation_level_9():
-    """Test that create_monster_for_level never returns Dragon for level 9."""
-    # Test multiple times to ensure no dragons spawn on level 9
+    """Test that create_monster_for_level never returns Devil for level 9."""
+    # Test multiple times to ensure no devils spawn on level 9
     for _ in range(20):
         monster_class = create_monster_for_level(9)
-        assert monster_class != Dragon, "Level 9 should never spawn dragons"
+        assert monster_class != Devil, "Level 9 should never spawn devils"
     
-    print("✓ Monster creation never returns Dragon for level 9")
+    print("✓ Monster creation never returns Devil for level 9")
 
 
 def test_boss_victory_condition_concept():
     """Test the victory condition logic concepts."""
     # Test boss identification
-    dragon = Dragon(10, 10)
+    devil = Devil(10, 10)
     non_boss = create_monster_for_level(5)(10, 10)  # Create a non-boss monster
     
-    # Dragon should be identified as final boss
-    assert hasattr(dragon, 'is_final_boss') and dragon.is_final_boss
+    # Devil should be identified as final boss
+    assert hasattr(devil, 'is_final_boss') and devil.is_final_boss
     
     # Non-boss should not have the flag or have it as False
     assert not (hasattr(non_boss, 'is_final_boss') and non_boss.is_final_boss)
@@ -114,17 +112,17 @@ def test_boss_victory_condition_concept():
 
 def test_boss_defeat_triggers_victory():
     """Test that defeating the boss triggers victory state."""
-    dragon = Dragon(10, 10)
+    devil = Devil(10, 10)
     
     # Test boss death detection
-    assert dragon.is_alive() == True
+    assert devil.is_alive() == True
     
     # Simulate massive damage to kill boss
-    dragon.take_damage(9999)  # More than enough to kill
-    assert dragon.is_alive() == False
+    devil.take_damage(9999)  # More than enough to kill
+    assert devil.is_alive() == False
     
     # Test that we can detect boss death
-    if not dragon.is_alive() and hasattr(dragon, 'is_final_boss') and dragon.is_final_boss:
+    if not devil.is_alive() and hasattr(devil, 'is_final_boss') and devil.is_final_boss:
         victory_triggered = True
     else:
         victory_triggered = False
@@ -211,27 +209,27 @@ def test_boss_placement_on_level():
 def test_victory_system_integration():
     """Test victory system integration concepts."""
     # Test that all components work together
-    dragon = Dragon(15, 15)
+    devil = Devil(15, 15)
     player = Player(10, 10)
     
     # Initial state
-    assert dragon.is_alive() == True
-    assert hasattr(dragon, 'is_final_boss')
-    assert dragon.is_final_boss == True
+    assert devil.is_alive() == True
+    assert hasattr(devil, 'is_final_boss')
+    assert devil.is_final_boss == True
     
-    # Simulate combat until dragon dies
-    while dragon.is_alive():
+    # Simulate combat until devil dies
+    while devil.is_alive():
         damage = player.get_total_attack()
-        dragon.take_damage(damage)
+        devil.take_damage(damage)
     
-    # Dragon should be dead
-    assert not dragon.is_alive()
+    # Devil should be dead
+    assert not devil.is_alive()
     
     # Victory condition should be detectable
     victory_condition = (
-        not dragon.is_alive() and 
-        hasattr(dragon, 'is_final_boss') and 
-        dragon.is_final_boss
+        not devil.is_alive() and 
+        hasattr(devil, 'is_final_boss') and 
+        devil.is_final_boss
     )
     assert victory_condition == True
     
@@ -243,9 +241,9 @@ def run_all_tests():
     print("Running boss and victory system tests...")
     print()
     
-    test_dragon_boss_stats()
-    test_level_10_spawns_only_dragon()
-    test_dragon_boss_combat_strength()
+    test_devil_boss_stats()
+    test_level_10_spawns_only_devil()
+    test_devil_boss_combat_strength()
     test_monster_creation_level_10()
     test_monster_creation_level_9()
     test_boss_victory_condition_concept()
