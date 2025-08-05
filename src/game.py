@@ -238,7 +238,7 @@ class Game:
             
             # Check if this was the final boss
             if hasattr(monster, 'is_final_boss') and monster.is_final_boss:
-                self.ui.add_message("You have defeated the Ancient Dragon!")
+                self.ui.add_message("You have defeated the Ancient Devil!")
                 self.ui.add_message("The dungeon is cleared! You are victorious!")
                 self.game_state = 'VICTORY'
                 return  # Don't process item drops or removal for boss
@@ -392,7 +392,7 @@ class Game:
         
         # Clear UI messages
         self.ui.message_log = []
-        self.ui.add_message("Welcome to the Dragon's Den!")
+        self.ui.add_message("Welcome to the Devil's Den!")
         
         # Reset inventory state
         self.selected_item_index = None
@@ -575,8 +575,8 @@ class Game:
         # Render congratulations message
         congrats_lines = [
             "Congratulations, brave adventurer!",
-            "You have conquered the Seven-Day Dungeon",
-            "and defeated the Ancient Dragon!"
+            "You have conquered the Devil's Den",
+            "and defeated the Ancient Devil!"
         ]
         
         for i, line in enumerate(congrats_lines):
@@ -614,12 +614,12 @@ class Game:
         center_y = screen_height // 2
         
         # Render game title
-        title_text = "SEVEN-DAY ROGUELIKE"
+        title_text = "DEVIL'S DEN"
         title_x = center_x - len(title_text) // 2
         self.console.print(title_x, center_y - 8, title_text, fg=COLOR_YELLOW)
         
         # Render subtitle
-        subtitle_text = "Conquer the dungeon and defeat the Ancient Dragon!"
+        subtitle_text = "Conquer the dungeon and defeat the Ancient Demon!"
         subtitle_x = center_x - len(subtitle_text) // 2
         self.console.print(subtitle_x, center_y - 6, subtitle_text, fg=COLOR_WHITE)
         
@@ -671,7 +671,7 @@ class Game:
             "GAME OBJECTIVE:",
             "  Explore 10 levels of the dungeon",
             "  Fight monsters and collect items",
-            "  Defeat the Ancient Dragon on level 10",
+            "  Defeat the Ancient Devil on level 10",
             "",
             "Press any key to return to menu"
         ]

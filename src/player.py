@@ -76,14 +76,15 @@ class Player:
         """Level up the player."""
         self.xp -= self.xp_to_next
         self.level += 1
-        self.xp_to_next = int(self.xp_to_next * 1.5)
+        self.xp_to_next = int(self.xp_to_next * 1.3)
         
         # Increase stats
-        old_max_hp = self.max_hp
-        self.max_hp += 20
-        self.hp += (self.max_hp - old_max_hp)  # Heal to full on level up
-        self.attack += 3
-        self.defense += 1
+        self.max_hp  = int(self.max_hp * 1.2)
+        self.hp += max(int(self.hp * self.health_aspect), self.max_hp) # heal on level up
+        if self.level % 2 == 0:
+          self.attack += 3
+        else:
+          self.defense += 1
         
         # Return level up info for UI message
         return True

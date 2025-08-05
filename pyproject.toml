@@ -9,7 +9,7 @@ description = "A complete roguelike game built in 7 days using Python and tcod"
 readme = "README.txt"
 license = {text = "MIT"}
 authors = [
-    {name = "Seven Day Roguelike Team"}
+    {name = "Glenn Stovall"}
 ]
 requires-python = ">=3.8"
 dependencies = [

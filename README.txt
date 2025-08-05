@@ -1,8 +1,8 @@
-Seven Day Roguelike Game
+Devil's Den Roguelike Game
 ========================
 
 A complete roguelike game built in 7 days using Python and the tcod library.
-Explore a 10-level dungeon, fight monsters, collect items, and defeat the Ancient Dragon!
+Explore a 10-level dungeon, fight monsters, collect items, and defeat the Ancient Devil!
 
 QUICK START
 -----------
@@ -45,7 +45,7 @@ Stairs:
 GAMEPLAY
 --------
 
-Goal: Descend through all 10 levels of the dungeon and defeat the Ancient Dragon!
+Goal: Descend through all 10 levels of the dungeon and defeat the Ancient Devil!
 
 Core Mechanics:
 - Turn-based gameplay - monsters move after you do
@@ -64,7 +64,7 @@ Monster Types:
 - Goblins (weak, fast) - Early levels
 - Orcs (medium strength) - Mid levels  
 - Trolls (strong, high defense) - Late levels
-- Ancient Dragon (final boss) - Level 10 only
+- Ancient Devil (final boss) - Level 10 only
 
 Item Types:
 - Health Potions: Restore HP based on your health aspect stat

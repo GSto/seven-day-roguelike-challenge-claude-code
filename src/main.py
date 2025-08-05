@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Seven Day Roguelike - Main Entry Point
+Devil's Den Roguelike - Main Entry Point
 A complete roguelike game built in 7 days using Python and tcod.
 """
 

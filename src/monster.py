@@ -111,13 +111,13 @@ class Troll(Monster):
         )
 
 
-class Dragon(Monster):
-    """Powerful dragon - final boss of the dungeon."""
+class Devil(Monster):
+    """Powerful devil - final boss of the dungeon."""
     
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Ancient Dragon",
+            name="Ancient Devil",
             char='D',
             color=COLOR_RED,
             hp=500,      # Increased HP for final boss
@@ -158,5 +158,5 @@ def create_monster_for_level(level_number):
             return Troll
     
     else:
-        # Final level (level 10): dragons only
-        return Dragon
+        # Final level (level 10): devil only
+        return Devil

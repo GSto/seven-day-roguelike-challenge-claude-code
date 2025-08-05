@@ -52,7 +52,7 @@ This project plan breaks down the development of a complete roguelike game into 
 
 ### 3.2 Monster System ✅
 - ✅ Monster data structures and stats (4 monster types with scaling difficulty)
-- ✅ Basic monster types with different attributes (Goblin, Orc, Troll, Dragon)
+- ✅ Basic monster types with different attributes (Goblin, Orc, Troll, Devil)
 - ✅ Monster placement on levels (level-appropriate spawning, 2-8 per level)
 
 ### 3.3 AI Implementation ✅
@@ -109,7 +109,7 @@ This project plan breaks down the development of a complete roguelike game into 
 - Level-appropriate challenges
 
 ### 6.2 Boss Implementation ✅ COMPLETED
-- ✅ Design final boss monster (Ancient Dragon with 150 HP, 25 attack, 8 defense)
+- ✅ Design final boss monster (Ancient Devil with 150 HP, 25 attack, 8 defense)
 - ✅ Special boss abilities and mechanics (enhanced stats, final boss flag)
 - ✅ Boss arena/level design (Level 10 spawns only the boss)
 - ✅ Victory condition implementation (boss defeat triggers victory screen)
@@ -136,7 +136,7 @@ This project plan breaks down the development of a complete roguelike game into 
 - ✅ Monster AI that chases player when spotted (DONE - FOV-based AI with pursuit)
 - ✅ FOV, level generation, and A* pathfinding (DONE - FOV and level gen complete)
 - ✅ Keyboard-navigated UI (DONE - Basic UI with player stats and combat messages)
-- ✅ Final boss and win condition (DONE - Ancient Dragon boss on level 10 with victory screen)
+- ✅ Final boss and win condition (DONE - Ancient Devil boss on level 10 with victory screen)
 - ✅ Death/reset mechanics (DONE - Player death detection and messages)
 - ✅ Cross-platform executables (DONE - Build system ready)
 
