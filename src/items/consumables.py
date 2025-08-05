@@ -197,3 +197,63 @@ class D6(Consumable):
             # Duplicate effect - +1 Attack (making it slightly more likely to be positive)
             player.attack += 1
             return True
+
+
+class AttackMultiplierElixir(Consumable):
+    """Permanently increases attack multiplier by 10%"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Attack Multiplier Elixir",
+            char='!',
+            color=COLOR_YELLOW,
+            description="Permanently increases attack multiplier by 10%",
+            effect_value=0.1,
+            attack_multiplier_effect=0.1
+        )
+    
+    def use(self, player):
+        """Permanently increase player's attack multiplier"""
+        player.attack_multiplier += self.attack_multiplier_effect
+        return True
+
+
+class DefenseMultiplierElixir(Consumable):
+    """Permanently increases defense multiplier by 10%"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Defense Multiplier Elixir",
+            char='!',
+            color=COLOR_BLUE,
+            description="Permanently increases defense multiplier by 10%",
+            effect_value=0.1,
+            defense_multiplier_effect=0.1
+        )
+    
+    def use(self, player):
+        """Permanently increase player's defense multiplier"""
+        player.defense_multiplier += self.defense_multiplier_effect
+        return True
+
+
+class XPMultiplierElixir(Consumable):
+    """Permanently increases XP multiplier by 20%"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="XP Multiplier Elixir",
+            char='!',
+            color=COLOR_WHITE,
+            description="Permanently increases XP multiplier by 20%",
+            effect_value=0.2,
+            xp_multiplier_effect=0.2
+        )
+    
+    def use(self, player):
+        """Permanently increase player's XP multiplier"""
+        player.xp_multiplier += self.xp_multiplier_effect
+        return True

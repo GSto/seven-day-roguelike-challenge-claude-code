@@ -3,7 +3,8 @@ Items package for the roguelike game.
 """
 
 from .base import Item, Consumable, Equipment
-from .consumables import HealthPotion, PowerCatalyst, DefenseCatalyst, D6
+from .consumables import (HealthPotion, PowerCatalyst, DefenseCatalyst, D6, 
+                           AttackMultiplierElixir, DefenseMultiplierElixir, XPMultiplierElixir)
 from .weapons import Weapon, WoodenStick, Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff
 from .armor import Armor, WhiteTShirt, LeatherArmor, ChainMail, PlateArmor, DragonScale, SpikedArmor
 from .accessories import Accessory, Ring, PowerRing, ProtectionRing
@@ -16,6 +17,7 @@ __all__ = [
     
     # Consumables
     'HealthPotion', 'PowerCatalyst', 'DefenseCatalyst', 'D6',
+    'AttackMultiplierElixir', 'DefenseMultiplierElixir', 'XPMultiplierElixir',
     
     # Weapons
     'Weapon', 'WoodenStick', 'Dagger', 'Sword', 'Longsword', 'WarHammer', 'BrightSword', 'ClericsStaff',

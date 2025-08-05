@@ -26,6 +26,11 @@ class Player:
         self.fov = 10  # Field of view radius
         self.health_aspect = 0.3  # Health potion effectiveness multiplier
         
+        # Multiplier stats for equipment/consumable bonuses
+        self.attack_multiplier = 1.0
+        self.defense_multiplier = 1.0
+        self.xp_multiplier = 1.0
+        
         # Equipment slots - start with basic equipment
         from items import WoodenStick, WhiteTShirt
         self.weapon = WoodenStick(0, 0)  # Starting weapon
@@ -43,7 +48,7 @@ class Player:
     
     def take_damage(self, damage):
         """Take damage, accounting for defense."""
-        actual_damage = max(1, damage - self.defense)
+        actual_damage = max(1, damage - self.get_total_defense())
         self.hp = max(0, self.hp - actual_damage)
         return actual_damage
     
@@ -56,8 +61,8 @@ class Player:
         return self.hp > 0
     
     def gain_xp(self, amount):
-        """Gain experience points."""
-        self.xp += amount
+        """Gain experience points with multiplier."""
+        self.xp += int(amount * self.get_total_xp_multiplier())
         return False  # No automatic leveling
     
     def can_level_up(self):
@@ -104,7 +109,7 @@ class Player:
         return False
     
     def get_total_attack(self):
-        """Get total attack power including equipment."""
+        """Get total attack power including equipment and multipliers."""
         total = self.attack
         if self.weapon:
             total += self.weapon.attack_bonus
@@ -112,16 +117,16 @@ class Player:
             total += self.armor.attack_bonus
         if self.accessory:
             total += self.accessory.attack_bonus
-        return total
+        return int(total * self.get_total_attack_multiplier())
     
     def get_total_defense(self):
-        """Get total defense including equipment."""
+        """Get total defense including equipment and multipliers."""
         total = self.defense
         if self.armor:
             total += self.armor.defense_bonus
         if self.accessory:
             total += self.accessory.defense_bonus
-        return total
+        return int(total * self.get_total_defense_multiplier())
     
     def get_total_fov(self):
         """Get total field of view including equipment bonuses."""
@@ -143,6 +148,39 @@ class Player:
             total += self.armor.health_aspect_bonus
         if self.accessory and hasattr(self.accessory, 'health_aspect_bonus'):
             total += self.accessory.health_aspect_bonus
+        return total
+    
+    def get_total_attack_multiplier(self):
+        """Get total attack multiplier including equipment bonuses."""
+        total = self.attack_multiplier
+        if self.weapon and hasattr(self.weapon, 'attack_multiplier_bonus'):
+            total += self.weapon.attack_multiplier_bonus
+        if self.armor and hasattr(self.armor, 'attack_multiplier_bonus'):
+            total += self.armor.attack_multiplier_bonus
+        if self.accessory and hasattr(self.accessory, 'attack_multiplier_bonus'):
+            total += self.accessory.attack_multiplier_bonus
+        return total
+    
+    def get_total_defense_multiplier(self):
+        """Get total defense multiplier including equipment bonuses."""
+        total = self.defense_multiplier
+        if self.weapon and hasattr(self.weapon, 'defense_multiplier_bonus'):
+            total += self.weapon.defense_multiplier_bonus
+        if self.armor and hasattr(self.armor, 'defense_multiplier_bonus'):
+            total += self.armor.defense_multiplier_bonus
+        if self.accessory and hasattr(self.accessory, 'defense_multiplier_bonus'):
+            total += self.accessory.defense_multiplier_bonus
+        return total
+    
+    def get_total_xp_multiplier(self):
+        """Get total XP multiplier including equipment bonuses."""
+        total = self.xp_multiplier
+        if self.weapon and hasattr(self.weapon, 'xp_multiplier_bonus'):
+            total += self.weapon.xp_multiplier_bonus
+        if self.armor and hasattr(self.armor, 'xp_multiplier_bonus'):
+            total += self.armor.xp_multiplier_bonus
+        if self.accessory and hasattr(self.accessory, 'xp_multiplier_bonus'):
+            total += self.accessory.xp_multiplier_bonus
         return total
     
     def render(self, console, fov):
