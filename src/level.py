@@ -155,13 +155,16 @@ class Level:
         """Place monsters randomly throughout the level."""
         # Number of monsters based on level
         if self.level_number == 1:
-            monster_count = random.randint(1, 2)  # Few monsters to introduce combat
+            monster_count = random.randint(2, 4)  # Few monsters to introduce combat
         elif self.level_number <= 3:
-            monster_count = random.randint(2, 4)
-        elif self.level_number <= 6:
-            monster_count = random.randint(3, 6)
-        elif self.level_number <= 9:
             monster_count = random.randint(4, 8)
+        elif self.level_number <= 6:
+            monster_count = random.randint(6, 12)
+        elif self.level_number <= 8:
+            monster_count = random.randint(8, 16)
+        elif self.level_number == 9: # swarm level
+            monster_count = random.randint(12, 20)
+
         else:  # Level 10 - boss level
             monster_count = 1  # Just the boss
         

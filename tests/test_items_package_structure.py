@@ -21,16 +21,13 @@ def test_base_imports():
 
 def test_consumable_imports():
     """Test importing consumable classes."""
-    from items import HealthPotion, ManaPotion
+    from items import HealthPotion
     
     # Create instances to ensure they work
     health_potion = HealthPotion(5, 5)
-    mana_potion = ManaPotion(5, 5)
     
     assert health_potion.name == "Health Potion"
-    assert mana_potion.name == "Mana Potion"
     assert hasattr(health_potion, 'heal_amount')
-    assert hasattr(mana_potion, 'heal_amount')
     
     print("✓ Consumable classes import and work correctly")
 
@@ -124,7 +121,7 @@ def test_all_exports():
     # Test that all expected classes are available
     expected_classes = [
         'Item', 'Consumable', 'Equipment',
-        'HealthPotion', 'ManaPotion',
+        'HealthPotion',
         'Weapon', 'WoodenStick', 'Dagger', 'Sword', 'Longsword', 'WarHammer',
         'Armor', 'WhiteTShirt', 'LeatherArmor', 'ChainMail', 'PlateArmor', 'DragonScale',
         'Accessory', 'Ring', 'PowerRing', 'ProtectionRing',

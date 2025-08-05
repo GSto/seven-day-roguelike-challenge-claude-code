@@ -28,8 +28,21 @@ class Accessory(Equipment):
 class Ring(Accessory):
     """Base class for rings."""
     
-    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0):
-        super().__init__(x, y, name, '=', attack_bonus, defense_bonus, f"A magical ring")
+    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0, description="A magical ring"):
+        super().__init__(x, y, name, '=', attack_bonus, defense_bonus, description)
+
+
+class Necklace(Accessory):
+    """Base class for necklaces."""
+    
+    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0,fov_bonus=0, health_aspect_bonus=0, description="A magical necklace"):
+        super().__init__(x, y, name, 'v', attack_bonus, defense_bonus, description)
+
+class Hat(Accessory):
+    """Base class for rings."""
+    
+    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0,fov_bonus=0, health_aspect_bonus=0, description="A cool hat"):
+        super().__init__(x, y, name, '^', attack_bonus, defense_bonus, description)
 
 
 class PowerRing(Ring):
@@ -45,6 +58,20 @@ class ProtectionRing(Ring):
     def __init__(self, x, y):
         super().__init__(x, y, "Ring of Protection", defense_bonus=3)
 
+class Rosary(Necklace):
+    """Necklace that increases health aspect."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Rosary", health_aspect_bonus=0.1, description="A healer's necklace")
+
+class HeadLamp(Hat):
+    """Hat that increases FOV"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "HeadLamp", fov_bonus=1, description="lamp on your head")
+
+
+# Later Game Accessories
 
 class GreaterPowerRing(Ring):
     """Ring that greatly boosts attack."""

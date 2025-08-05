@@ -7,7 +7,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from items.factory import create_random_item_for_level
-from items.consumables import HealthPotion, ManaPotion
+from items.consumables import HealthPotion
 from items.weapons import Dagger, Sword, Longsword, WarHammer
 from items.armor import LeatherArmor, ChainMail, PlateArmor, DragonScale
 from items.accessories import PowerRing, ProtectionRing
@@ -25,7 +25,7 @@ def test_item_generation_consistency():
     print(f"Early game items generated: {set(early_items)}")
     
     # Should only contain early game items
-    valid_early_items = {'HealthPotion', 'ManaPotion', 'Dagger', 'Sword', 'LeatherArmor'}
+    valid_early_items = {'HealthPotion', 'Dagger', 'Sword', 'LeatherArmor'}
     actual_early_items = set(early_items)
     
     if actual_early_items.issubset(valid_early_items):
@@ -44,7 +44,7 @@ def test_item_generation_consistency():
     print(f"End game items generated: {set(end_items)}")
     
     # Should only contain end game items
-    valid_end_items = {'HealthPotion', 'ManaPotion', 'WarHammer', 'PlateArmor', 'DragonScale', 'PowerRing', 'ProtectionRing'}
+    valid_end_items = {'HealthPotion', 'WarHammer', 'PlateArmor', 'DragonScale', 'PowerRing', 'ProtectionRing'}
     actual_end_items = set(end_items)
     
     if actual_end_items.issubset(valid_end_items):

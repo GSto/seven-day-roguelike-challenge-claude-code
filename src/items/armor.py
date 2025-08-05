@@ -2,7 +2,7 @@
 Armor items for defense.
 """
 
-from constants import COLOR_GREEN
+from constants import COLOR_GREEN, COLOR_ORANGE
 from .base import Equipment
 
 
@@ -38,6 +38,11 @@ class LeatherArmor(Armor):
     def __init__(self, x, y):
         super().__init__(x, y, "Leather Armor", '[', 2, "Basic leather protection")
 
+class SafetyVest(Armor):
+    """Light armor for early game."""
+
+    def __init__(self, x, y):
+        super().__init__(x, y, "Leather Armor", '[', 2, "Bright orange, easy to see", 1)
 
 class ChainMail(Armor):
     """Medium armor for mid-game."""

@@ -3,10 +3,10 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, ManaPotion
+from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge
 from .weapons import Dagger, Sword, Longsword, WarHammer
-from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale
-from .accessories import PowerRing, ProtectionRing
+from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest
+from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp
 
 
 # ============================================================================
@@ -14,10 +14,10 @@ from .accessories import PowerRing, ProtectionRing
 # ============================================================================
 
 # Consumable item pools
-EARLY_GAME_CONSUMABLES = [HealthPotion, ManaPotion]
-MID_GAME_CONSUMABLES = [HealthPotion, ManaPotion]
-LATE_GAME_CONSUMABLES = [HealthPotion, ManaPotion]
-END_GAME_CONSUMABLES = [HealthPotion, ManaPotion]
+EARLY_GAME_CONSUMABLES = [Carrot, SalmonOfKnowledge]
+MID_GAME_CONSUMABLES = [Beef, Carrot, SalmonOfKnowledge]
+LATE_GAME_CONSUMABLES = [Beef, SalmonOfKnowledge]
+END_GAME_CONSUMABLES = [Elixir]
 
 # Weapon item pools
 EARLY_GAME_WEAPONS = [Dagger, Sword]
@@ -26,20 +26,22 @@ LATE_GAME_WEAPONS = [Longsword, WarHammer]
 END_GAME_WEAPONS = [WarHammer]  # Single item list is fine
 
 # Armor item pools
-EARLY_GAME_ARMOR = [LeatherArmor]  # Single item list is fine
-MID_GAME_ARMOR = [LeatherArmor, ChainMail]
+EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest]  # Single item list is fine
+MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest]
 LATE_GAME_ARMOR = [ChainMail, PlateArmor]
 END_GAME_ARMOR = [PlateArmor, DragonScale]
 
 # Accessory item pools
 EARLY_GAME_ACCESSORIES = []  # No accessories in early game
-MID_GAME_ACCESSORIES = [PowerRing]  # Single item list is fine
-LATE_GAME_ACCESSORIES = [PowerRing, ProtectionRing]
-END_GAME_ACCESSORIES = [PowerRing, ProtectionRing]
+MID_GAME_ACCESSORIES = [PowerRing, Rosary, HeadLamp]  # Single item list is fine
+LATE_GAME_ACCESSORIES = [GreaterPowerRing, ProtectionRing, Rosary, HeadLamp]
+END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp]
 
 # Drop chances (adjust these to change item frequency)
+# this is the default, cranking it up to test some stuff
+
 CONSUMABLE_CHANCE = 0.4  # 40% chance for consumables
-HEALTH_POTION_CHANCE = 0.8  # 80% of consumables are health potions
+HEALTH_POTION_CHANCE = 0.67  # 80% of consumables are health potions
 
 # Equipment type weights for each tier
 EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'armor']  # No accessories

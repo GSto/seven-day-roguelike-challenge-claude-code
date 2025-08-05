@@ -389,7 +389,7 @@ class Game:
         
         # Clear UI messages
         self.ui.message_log = []
-        self.ui.add_message("Welcome to the Seven-Day Dungeon!")
+        self.ui.add_message("Welcome to the Dragon's Den!")
         
         # Reset inventory state
         self.selected_item_index = None

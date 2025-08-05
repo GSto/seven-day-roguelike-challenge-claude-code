@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from items import (
     Item, Consumable, Equipment, 
-    HealthPotion, ManaPotion,
+    HealthPotion,
     Weapon, Armor, Accessory,
     Dagger, Sword, Longsword, WarHammer,
     LeatherArmor, ChainMail, PlateArmor, DragonScale,
@@ -57,24 +57,6 @@ def test_health_potion():
     assert result == False  # Should fail (already at full health)
     
     print("✓ Health potion functionality works correctly")
-
-
-def test_mana_potion():
-    """Test mana potion creation and usage."""
-    potion = ManaPotion(10, 10)
-    player = Player(5, 5)
-    
-    # Test potion properties
-    assert potion.name == "Mana Potion"
-    assert potion.char == '!'
-    assert potion.effect_value == 20
-    
-    # Test usage (placeholder functionality)
-    result = potion.use(player)
-    assert result == True  # Should succeed
-    
-    print("✓ Mana potion functionality works correctly")
-
 
 def test_weapon_creation():
     """Test weapon creation and properties."""
