@@ -178,7 +178,7 @@ class Game:
             elif key == ord('n'):
                 self.try_move_player(1, 1)
             # Manual leveling
-            elif key == ord('L'):
+            elif key == ord('x'):
                 self.handle_manual_level_up()
             # Quit game
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
