@@ -120,7 +120,7 @@ def test_boss_defeat_triggers_victory():
     assert dragon.is_alive() == True
     
     # Simulate massive damage to kill boss
-    dragon.take_damage(200)  # More than enough to kill
+    dragon.take_damage(9999)  # More than enough to kill
     assert dragon.is_alive() == False
     
     # Test that we can detect boss death

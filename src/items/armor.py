@@ -10,13 +10,14 @@ class Armor(Equipment):
     """Armor equipment."""
     
     def __init__(self, x, y, name, char, defense_bonus, description="", 
-                 fov_bonus=0, health_aspect_bonus=0.0):
+                 attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0):
         super().__init__(
             x=x, y=y,
             name=name,
             char=char,
             color=COLOR_GREEN,
             description=description,
+            attack_bonus=attack_bonus,
             defense_bonus=defense_bonus,
             equipment_slot="armor",
             fov_bonus=fov_bonus,
@@ -66,7 +67,7 @@ class DragonScale(Armor):
 
 
 class SpikedArmor(Armor):
-    """Aggressive armor with spikes for extra protection."""
+    """Aggressive armor with spikes for extra protection and offense."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Spiked Armor", '[', 5, "Menacing armor covered in spikes")
+        super().__init__(x, y, "Spiked Armor", '[', 4, "Menacing armor covered in spikes", attack_bonus=2)

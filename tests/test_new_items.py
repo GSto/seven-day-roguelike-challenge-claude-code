@@ -130,24 +130,31 @@ def test_clerics_staff():
 
 
 def test_spiked_armor():
-    """Test that Spiked Armor provides defense bonus."""
+    """Test that Spiked Armor provides defense and attack bonuses."""
     player = Player(5, 5)
     armor = SpikedArmor(0, 0)
     
     # Check armor attributes
-    assert armor.defense_bonus == 5, f"Expected defense bonus 5, got {armor.defense_bonus}"
+    assert armor.defense_bonus == 4, f"Expected defense bonus 4, got {armor.defense_bonus}"
+    assert armor.attack_bonus == 2, f"Expected attack bonus 2, got {armor.attack_bonus}"
     
     # Test when equipped (replace the starting armor)
     base_defense_raw = player.defense  # Raw defense without armor
+    base_attack_raw = player.attack    # Raw attack without armor
     
     player.armor = armor
     
     total_defense = player.get_total_defense()
+    total_attack = player.get_total_attack()
     
     # Total defense should be base + armor bonus
     expected_defense = base_defense_raw + armor.defense_bonus
+    # Total attack should include starting weapon (+1) + armor bonus (+2)
+    expected_attack = base_attack_raw + 1 + armor.attack_bonus
+    
     assert total_defense == expected_defense, f"Expected total defense {expected_defense}, got {total_defense}"
-    print("✓ Spiked Armor provides +5 defense")
+    assert total_attack == expected_attack, f"Expected total attack {expected_attack}, got {total_attack}"
+    print("✓ Spiked Armor provides +4 defense and +2 attack")
 
 
 def test_new_items_attributes():

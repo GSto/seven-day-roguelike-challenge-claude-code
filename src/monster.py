@@ -89,7 +89,7 @@ class Orc(Monster):
             char='o',
             color=COLOR_RED,
             hp=25,
-            attack=7,
+            attack=9,
             defense=1,
             xp_value=20
         )
@@ -104,7 +104,7 @@ class Troll(Monster):
             name="Troll",
             char='T',
             color=COLOR_YELLOW,
-            hp=40,
+            hp=60,
             attack=10,
             defense=3,
             xp_value=35
@@ -120,7 +120,7 @@ class Dragon(Monster):
             name="Ancient Dragon",
             char='D',
             color=COLOR_RED,
-            hp=150,      # Increased HP for final boss
+            hp=500,      # Increased HP for final boss
             attack=25,   # Higher attack
             defense=8,   # Strong defense
             xp_value=200 # Massive XP reward
@@ -151,7 +151,7 @@ def create_monster_for_level(level_number):
             return Troll
     
     elif level_number <= 9:
-        # Later levels: orcs and trolls (including level 9)
+        # Later levels: orcs and trolls (levels 6-9)
         if rand < 0.3:
             return Orc
         else:

@@ -102,6 +102,8 @@ class Player:
         total = self.attack
         if self.weapon:
             total += self.weapon.attack_bonus
+        if self.armor and hasattr(self.armor, 'attack_bonus'):
+            total += self.armor.attack_bonus
         if self.accessory:
             total += self.accessory.attack_bonus
         return total

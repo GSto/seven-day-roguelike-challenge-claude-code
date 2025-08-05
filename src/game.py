@@ -499,6 +499,9 @@ class Game:
             self.player.remove_item(item)
             self.ui.add_message(f"You equipped {item.name}.")
         
+        # Update FOV after equipment change (some items affect FOV)
+        self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+        
         # Only return to playing if not in inventory mode
         if self.game_state != 'INVENTORY':
             self.game_state = 'PLAYING'  # Return to game after equipping
