@@ -111,7 +111,7 @@ class Troll(Monster):
             xp_value=35
         )
 
-class Horror(Monster)
+class Horror(Monster):
       """Aggressive abomination with high attack"""
       
       def __init__(self, x, y):
