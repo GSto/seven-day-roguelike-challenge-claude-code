@@ -14,7 +14,7 @@ class UI:
     def __init__(self):
         """Initialize the UI."""
         self.message_log = []
-        self.max_messages = 5
+        self.max_messages = 6
     
     def add_message(self, message, color=COLOR_WHITE):
         """Add a message to the message log."""
@@ -72,28 +72,38 @@ class UI:
                 console.print(armor_x, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
                 ui_y += 1
             
-            # Show contextual prompts
+            # Message log (reserve space for 6 lines, but only show actual messages)
+            log_start_y = ui_y
+            for i, (message, color) in enumerate(self.message_log):
+                if log_start_y + i < SCREEN_HEIGHT - 3:  # Leave space for prompts and controls
+                    console.print(0, log_start_y + i, message, fg=color)
+            
+            # Calculate where action prompts should go (ensure they fit on screen)
+            # Leave at least 2 lines for prompts + controls at bottom
+            max_log_space = SCREEN_HEIGHT - log_start_y - 3  # 3 lines for prompts/controls
+            actual_log_lines = min(len(self.message_log), max_log_space)
+            ui_y = log_start_y + actual_log_lines
+            
+            # Show contextual prompts on their own line
             if level and level.get_item_at(player.x, player.y):
                 item = level.get_item_at(player.x, player.y)
                 pickup_prompt = f"Press 'g' to pick up {item.name}"
-                console.print(0, ui_y, pickup_prompt, fg=COLOR_GREEN)
-                ui_y += 1
+                if ui_y < SCREEN_HEIGHT - 1:
+                    console.print(0, ui_y, pickup_prompt, fg=COLOR_GREEN)
+                    ui_y += 1
             elif level and level.is_stairs_down(player.x, player.y):
                 stairs_prompt = "Press arrow keys to descend to next level"
-                console.print(0, ui_y, stairs_prompt, fg=COLOR_GREEN)
-                ui_y += 1
+                if ui_y < SCREEN_HEIGHT - 1:
+                    console.print(0, ui_y, stairs_prompt, fg=COLOR_GREEN)
+                    ui_y += 1
             elif level and level.is_stairs_up(player.x, player.y):
                 stairs_prompt = "Press arrow keys to ascend to previous level"
-                console.print(0, ui_y, stairs_prompt, fg=COLOR_GREEN)
-                ui_y += 1
-            
-            # Message log
-            for i, (message, color) in enumerate(self.message_log):
-                if ui_y + i < SCREEN_HEIGHT:
-                    console.print(0, ui_y + i, message, fg=color)
+                if ui_y < SCREEN_HEIGHT - 1:
+                    console.print(0, ui_y, stairs_prompt, fg=COLOR_GREEN)
+                    ui_y += 1
             
             # Controls reminder at bottom
-            controls_text = "Controls: [G]et items  [I]nventory  [ESC]ape/Quit"
+            controls_text = "Controls: [G]et items  [I]nventory  [L]evel up  [ESC]ape/Quit"
             if SCREEN_HEIGHT - 1 >= 0:
                 console.print(0, SCREEN_HEIGHT - 1, controls_text, fg=COLOR_WHITE)
     

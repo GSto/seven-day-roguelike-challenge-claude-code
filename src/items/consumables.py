@@ -23,14 +23,16 @@ class HealthPotion(Consumable):
     def use(self, player):
         """Restore player health based on player's health_aspect."""
         if player.hp >= player.max_hp:
-            return False  # Already at full health
+            return (False, "You are already at full health!")
         
         old_hp = player.hp
         # Calculate healing based on effect_value * player's total health_aspect
         heal_amount = int(player.max_hp * (self.effect_value * player.get_total_health_aspect()))
         player.heal(heal_amount)
         actual_healing = player.hp - old_hp
-        return actual_healing > 0
+        if actual_healing > 0:
+            return (True, f"You recovered {actual_healing} HP!")
+        return (False, "The potion had no effect.")
 
 class Elixir(Consumable):
     """Fully restores health"""
@@ -48,14 +50,16 @@ class Elixir(Consumable):
     def use(self, player):
         """Restore player health based on player's health_aspect."""
         if player.hp >= player.max_hp:
-            return False  # Already at full health
+            return (False, "You are already at full health!")
         
         old_hp = player.hp
         # Calculate healing based on effect_value * player's total health_aspect
         heal_amount = player.max_hp
         player.heal(heal_amount)
         actual_healing = player.hp - old_hp
-        return actual_healing > 0
+        if actual_healing > 0:
+            return (True, f"You recovered {actual_healing} HP and feel fully restored!")
+        return (False, "The elixir had no effect.")
 
 class Beef(Consumable):
     """Makes you heartier"""
@@ -74,7 +78,7 @@ class Beef(Consumable):
         """Increase the player's max HP and attack."""
         player.max_hp += 20 
         player.attack += 1
-        return True
+        return (True, "You feel heartier! Max HP +20, Attack +1")
 
 class Carrot(Consumable):
     """Improves your eyesight"""
@@ -90,9 +94,9 @@ class Carrot(Consumable):
         )
     
     def use(self, player):
-        """Increase the player's max HP and attack."""
+        """Increase the player's FOV."""
         player.fov += self.effect_value
-        return True
+        return (True, f"Your vision improves! FOV +{self.effect_value}")
 
 class SalmonOfKnowledge(Consumable):
     """Gain insight"""
@@ -110,7 +114,7 @@ class SalmonOfKnowledge(Consumable):
     def use(self, player):
         """Player gains XP"""
         player.gain_xp(self.effect_value)
-        return True
+        return (True, f"You gain {self.effect_value} XP from ancient wisdom!")
 
 
 class PowerCatalyst(Consumable):
@@ -119,7 +123,7 @@ class PowerCatalyst(Consumable):
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Power Catalyst",
+            name="Warrior's Catalyst",
             char='*',
             color=COLOR_RED,
             description="Permanently increases attack by 1",
@@ -129,7 +133,7 @@ class PowerCatalyst(Consumable):
     def use(self, player):
         """Permanently increase player's attack"""
         player.attack += self.effect_value
-        return True
+        return (True, f"You feel more powerful! Attack +{self.effect_value}")
 
 
 class DefenseCatalyst(Consumable):
@@ -138,7 +142,7 @@ class DefenseCatalyst(Consumable):
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Defense Catalyst",
+            name="Defender's Catalyst",
             char='*',
             color=COLOR_BLUE,
             description="Permanently increases defense by 1",
@@ -148,8 +152,7 @@ class DefenseCatalyst(Consumable):
     def use(self, player):
         """Permanently increase player's defense"""
         player.defense += self.effect_value
-        return True
-
+        return (True, f"You feel more protected! Defense +{self.effect_value}")
 
 class D6(Consumable):
     """Random effect dice with 6 possible outcomes"""
@@ -171,41 +174,43 @@ class D6(Consumable):
         if roll == 1:
             # +1 Attack
             player.attack += 1
-            return True
+            return (True, f"Rolled {roll}! Attack +1")
         elif roll == 2:
             # +1 Defense
             player.defense += 1
-            return True
+            return (True, f"Rolled {roll}! Defense +1")
         elif roll == 3:
             # +10 max HP
             old_max = player.max_hp
             player.max_hp += 10
             player.hp += (player.max_hp - old_max)  # Heal the difference
-            return True
+            return (True, f"Rolled {roll}! Max HP +10")
         elif roll == 4:
             # +1 FOV
             player.fov += 1
-            return True
+            return (True, f"Rolled {roll}! FOV +1")
         elif roll == 5:
             # -20 max HP (but don't kill the player)
             if player.max_hp > 25:  # Ensure player doesn't die from this
                 player.max_hp -= 20
                 if player.hp > player.max_hp:
                     player.hp = player.max_hp
-            return True
+                return (True, f"Rolled {roll}! Max HP -20 (ouch!)")
+            else:
+                return (True, f"Rolled {roll}! But you're too weak for the penalty to apply.")
         else:  # roll == 6
             # Duplicate effect - +1 Attack (making it slightly more likely to be positive)
             player.attack += 1
-            return True
+            return (True, f"Rolled {roll}! Attack +1")
 
 
-class AttackMultiplierElixir(Consumable):
+class BaronCatalyst(Consumable):
     """Permanently increases attack multiplier by 10%"""
     
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Attack Multiplier Elixir",
+            name="Baron's Catalyst",
             char='!',
             color=COLOR_YELLOW,
             description="Permanently increases attack multiplier by 10%",
@@ -216,16 +221,16 @@ class AttackMultiplierElixir(Consumable):
     def use(self, player):
         """Permanently increase player's attack multiplier"""
         player.attack_multiplier += self.attack_multiplier_effect
-        return True
+        return (True, f"Your attacks become more effective! Attack multiplier +{int(self.attack_multiplier_effect*100)}%")
 
 
-class DefenseMultiplierElixir(Consumable):
+class WardenCatalyst(Consumable):
     """Permanently increases defense multiplier by 10%"""
     
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Defense Multiplier Elixir",
+            name="Warden's Catalyst",
             char='!',
             color=COLOR_BLUE,
             description="Permanently increases defense multiplier by 10%",
@@ -236,24 +241,24 @@ class DefenseMultiplierElixir(Consumable):
     def use(self, player):
         """Permanently increase player's defense multiplier"""
         player.defense_multiplier += self.defense_multiplier_effect
-        return True
+        return (True, f"Your defenses become more effective! Defense multiplier +{int(self.defense_multiplier_effect*100)}%")
 
 
-class XPMultiplierElixir(Consumable):
+class JewelerCatalyst(Consumable):
     """Permanently increases XP multiplier by 20%"""
     
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="XP Multiplier Elixir",
+            name="Jeweler's Catalyst",
             char='!',
             color=COLOR_WHITE,
-            description="Permanently increases XP multiplier by 20%",
-            effect_value=0.2,
-            xp_multiplier_effect=0.2
+            description="Permanently increases XP multiplier by 5%",
+            effect_value=0.05,
+            xp_multiplier_effect=0.05
         )
     
     def use(self, player):
         """Permanently increase player's XP multiplier"""
         player.xp_multiplier += self.xp_multiplier_effect
-        return True
+        return (True, f"You learn more efficiently! XP multiplier +{int(self.xp_multiplier_effect*100)}%")

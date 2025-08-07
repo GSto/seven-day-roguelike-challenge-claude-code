@@ -10,7 +10,8 @@ class Armor(Equipment):
     """Armor equipment."""
     
     def __init__(self, x, y, name, char, defense_bonus, description="", 
-                 attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0):
+                 attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0,
+                 attack_multiplier_bonus=0.0, defense_multiplier_bonus=0.0, xp_multiplier_bonus=0.0):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -21,7 +22,10 @@ class Armor(Equipment):
             defense_bonus=defense_bonus,
             equipment_slot="armor",
             fov_bonus=fov_bonus,
-            health_aspect_bonus=health_aspect_bonus
+            health_aspect_bonus=health_aspect_bonus,
+            attack_multiplier_bonus=attack_multiplier_bonus,
+            defense_multiplier_bonus=defense_multiplier_bonus,
+            xp_multiplier_bonus=xp_multiplier_bonus
         )
 
 

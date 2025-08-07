@@ -3,29 +3,30 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6
-from .weapons import Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff
+from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst
+from .weapons import Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff, Gauntlets
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor
-from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp
+from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades
 
 
 # ============================================================================
 # ITEM POOLS - Edit these to change what items appear at different levels
 # ============================================================================
 
+DEFAULT_CONSUMABLES = [Beef, SalmonOfKnowledge, D6]
 # Consumable item pools
 # Power and Defense Catalysts found in all levels, D6 found in all levels
-EARLY_GAME_CONSUMABLES = [Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6]
-MID_GAME_CONSUMABLES = [Beef, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6]
-LATE_GAME_CONSUMABLES = [Beef, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6]
-END_GAME_CONSUMABLES = [Elixir, PowerCatalyst, DefenseCatalyst, D6]
+EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + DEFAULT_CONSUMABLES
+MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + DEFAULT_CONSUMABLES
+LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + DEFAULT_CONSUMABLES
+END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + DEFAULT_CONSUMABLES
 
 # Weapon item pools
 # Cleric's Staff: early-late game, Bright Sword: mid & late game
 EARLY_GAME_WEAPONS = [Dagger, Sword, ClericsStaff]
-MID_GAME_WEAPONS = [Sword, Longsword, BrightSword, ClericsStaff]
-LATE_GAME_WEAPONS = [Longsword, WarHammer, BrightSword, ClericsStaff]
-END_GAME_WEAPONS = [WarHammer, BrightSword]
+MID_GAME_WEAPONS = [Sword, Longsword, BrightSword, ClericsStaff, Gauntlets]
+LATE_GAME_WEAPONS = [Longsword, WarHammer, BrightSword, ClericsStaff, Gauntlets]
+END_GAME_WEAPONS = [WarHammer, BrightSword, Gauntlets]
 
 # Armor item pools
 # Added SpikedArmor in mid-late game range
@@ -34,11 +35,13 @@ MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor]
 LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor]
 END_GAME_ARMOR = [PlateArmor, DragonScale]
 
+# Mostly for testing new things, may need to rebalance
+DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, AceOfSpades]
 # Accessory item pools
 EARLY_GAME_ACCESSORIES = []  # No accessories in early game
-MID_GAME_ACCESSORIES = [PowerRing, Rosary, HeadLamp]  # Single item list is fine
-LATE_GAME_ACCESSORIES = [GreaterPowerRing, ProtectionRing, Rosary, HeadLamp]
-END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp]
+MID_GAME_ACCESSORIES = [PowerRing, Rosary, HeadLamp] + DEFAULT_ACCESSORIES  # Single item list is fine
+LATE_GAME_ACCESSORIES = [GreaterPowerRing, ProtectionRing, Rosary, HeadLamp] + DEFAULT_ACCESSORIES
+END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp] + DEFAULT_ACCESSORIES
 
 # Drop chances (adjust these to change item frequency)
 # this is the default, cranking it up to test some stuff

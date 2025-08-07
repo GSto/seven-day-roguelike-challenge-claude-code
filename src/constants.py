@@ -4,7 +4,7 @@ Game constants and configuration values.
 
 # Screen dimensions
 SCREEN_WIDTH = 80
-SCREEN_HEIGHT = 50
+SCREEN_HEIGHT = 56
 
 # Map dimensions  
 MAP_WIDTH = 80
@@ -14,17 +14,22 @@ MAP_HEIGHT = 43
 UI_HEIGHT = 7
 
 # Game settings
-TITLE = "Dragon's Den"
+TITLE = "Devil's Den"
 MAX_LEVELS = 10
 
 # Colors (RGB tuples)
 COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
+
 COLOR_DARK_WALL = (0, 0, 150)
 COLOR_DARK_GROUND = (50, 50, 150)
+
 COLOR_LIGHT_WALL = (130, 110, 50)
 COLOR_LIGHT_GROUND = (200, 180, 50)
+
 COLOR_RED = (255, 0, 0)
+COLOR_CRIMSON = (220,20,60)
+
 COLOR_GREEN = (0, 255, 0)
 COLOR_BLUE = (0, 0, 255)
 COLOR_YELLOW = (255, 255, 0)

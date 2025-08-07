@@ -3,7 +3,7 @@ Monster system - creatures that populate the dungeon levels.
 """
 
 import random
-from constants import COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_WHITE
+from constants import COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_CRIMSON
 
 
 class Monster:
@@ -63,6 +63,7 @@ class Monster:
             console.print(self.x, self.y, self.char, fg=self.color)
 
 
+# Traditionally, Rogue had 26 monsters, one for each letter of the alphabet 
 class Goblin(Monster):
     """Weak but fast goblin."""
     
@@ -90,7 +91,7 @@ class Orc(Monster):
             color=COLOR_RED,
             hp=25,
             attack=9,
-            defense=1,
+            defense=2,
             xp_value=20
         )
 
@@ -106,9 +107,25 @@ class Troll(Monster):
             color=COLOR_YELLOW,
             hp=60,
             attack=10,
-            defense=3,
+            defense=6,
             xp_value=35
         )
+
+class Horror(Monster)
+      """Aggressive abomination with high attack"""
+      
+      def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Horror",
+            char='H',
+            color=COLOR_CRIMSON,
+            hp=100,
+            attack=16,
+            defense=3,
+            xp_value=50
+        )
+    
 
 
 class Devil(Monster):
@@ -149,6 +166,15 @@ def create_monster_for_level(level_number):
             return Orc
         else:
             return Troll
+        
+    elif level_number <= 7:
+      # Upper-mid levels: 
+      if rand < 0.4:
+          return Orc
+      elif rand < 0.8:
+          return Troll
+      else:
+          return Horror
     
     elif level_number <= 9:
         # Later levels: orcs and trolls (levels 6-9)

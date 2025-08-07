@@ -9,8 +9,8 @@ from .base import Equipment
 class Weapon(Equipment):
     """Weapon equipment."""
     
-    def __init__(self, x, y, name, char, attack_bonus, description="", 
-                 fov_bonus=0, health_aspect_bonus=0.0):
+    def __init__(self, x, y, name, char=')', attack_bonus=0, description="", 
+                 fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=0.0, defense_multiplier_bonus=0.0, xp_multiplier_bonus=0.0):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -20,8 +20,11 @@ class Weapon(Equipment):
             attack_bonus=attack_bonus,
             equipment_slot="weapon",
             fov_bonus=fov_bonus,
-            health_aspect_bonus=health_aspect_bonus
-        )
+            health_aspect_bonus=health_aspect_bonus,
+            attack_multiplier_bonus=attack_multiplier_bonus, 
+            defense_multiplier_bonus=defense_multiplier_bonus, 
+            xp_multiplier_bonus=xp_multiplier_bonus
+        ) 
 
 
 # Specific weapon types
@@ -72,3 +75,9 @@ class ClericsStaff(Weapon):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Cleric's Staff", ')', 4, "A holy staff that enhances healing", health_aspect_bonus=0.2)
+
+class Gauntlets(Weapon):
+    """Gloves that enhance your natural strength."""
+
+    def __init__(self, x, y):
+        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=1.1)

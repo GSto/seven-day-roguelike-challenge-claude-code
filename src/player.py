@@ -18,8 +18,8 @@ class Player:
         # Player stats
         self.max_hp = 50
         self.hp = self.max_hp
-        self.attack = 9
-        self.defense = 2
+        self.attack = 6
+        self.defense = 1
         self.level = 1
         self.xp = 0
         self.xp_to_next = 50
@@ -84,10 +84,13 @@ class Player:
         self.xp_to_next = int(self.xp_to_next * 1.3)
         
         # Increase stats
+        old_max_hp = self.max_hp
         self.max_hp  = int(self.max_hp * 1.2)
-        self.hp += max(int(self.hp * self.health_aspect), self.max_hp) # heal on level up
+        hp_gained = self.max_hp - old_max_hp
+        self.hp = min(self.hp + hp_gained, self.max_hp)  # heal for HP gained without going over max
+        
         if self.level % 2 == 0:
-          self.attack += 3
+          self.attack += 1
         else:
           self.defense += 1
         

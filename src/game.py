@@ -419,12 +419,24 @@ class Game:
             
             # Check if it's a consumable
             if hasattr(item, 'use') and callable(item.use):
-                if item.use(self.player):
-                    self.player.remove_item(item)
-                    self.ui.add_message(f"You used a {item.name}.")
-                    self.game_state = 'PLAYING'  # Return to game after use
+                result = item.use(self.player)
+                # Handle both old format (boolean) and new format (tuple)
+                if isinstance(result, tuple):
+                    success, message = result
+                    if success:
+                        self.player.remove_item(item)
+                        self.ui.add_message(message)
+                        self.game_state = 'PLAYING'  # Return to game after use
+                    else:
+                        self.ui.add_message(message)
                 else:
-                    self.ui.add_message(f"You can't use the {item.name} right now.")
+                    # Legacy boolean format
+                    if result:
+                        self.player.remove_item(item)
+                        self.ui.add_message(f"You used a {item.name}.")
+                        self.game_state = 'PLAYING'  # Return to game after use
+                    else:
+                        self.ui.add_message(f"You can't use the {item.name} right now.")
             
             # Check if it's equipment
             elif hasattr(item, 'equipment_slot'):

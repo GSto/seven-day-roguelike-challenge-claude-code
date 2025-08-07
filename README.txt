@@ -119,6 +119,16 @@ Project structure:
 
 The game follows a modular design with comprehensive test coverage.
 
+RUNNING TESTS
+-------------
+
+To run the test suite:
+- Run specific test file: uv run tests/test_filename.py
+- Run all tests: for file in tests/test_*.py; do uv run "$file"; done
+- List available tests: ls tests/test_*.py
+
+The tests cover core game mechanics, item systems, combat, and player progression.
+
 TIPS FOR NEW PLAYERS
 --------------------
 

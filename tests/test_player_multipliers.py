@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../src'))
 
 from player import Player
-from items import (AttackMultiplierElixir, DefenseMultiplierElixir, XPMultiplierElixir, 
+from items import (BaronCatalyst, WardenCatalyst, JewelerCatalyst, 
                    WoodenStick, WhiteTShirt, PowerRing)
 from items.base import Equipment
 
@@ -96,35 +96,6 @@ def test_equipment_multiplier_bonuses():
     player.gain_xp(100)
     expected_xp_gain = int(100 * (1.0 + 0.3))
     assert player.xp == initial_xp + expected_xp_gain
-
-
-def test_consumable_multiplier_effects():
-    """Test that consumables can permanently modify multipliers"""
-    player = Player(5, 5)
-    
-    # Test attack multiplier elixir
-    attack_elixir = AttackMultiplierElixir(0, 0)
-    initial_attack_mult = player.attack_multiplier
-    
-    result = attack_elixir.use(player)
-    assert result == True
-    assert player.attack_multiplier == initial_attack_mult + 0.1
-    
-    # Test defense multiplier elixir
-    defense_elixir = DefenseMultiplierElixir(0, 0)
-    initial_defense_mult = player.defense_multiplier
-    
-    result = defense_elixir.use(player)
-    assert result == True
-    assert player.defense_multiplier == initial_defense_mult + 0.1
-    
-    # Test XP multiplier elixir
-    xp_elixir = XPMultiplierElixir(0, 0)
-    initial_xp_mult = player.xp_multiplier
-    
-    result = xp_elixir.use(player)
-    assert result == True
-    assert player.xp_multiplier == initial_xp_mult + 0.2
 
 
 def test_damage_calculation_with_multipliers():

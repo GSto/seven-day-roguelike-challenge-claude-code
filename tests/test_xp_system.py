@@ -43,6 +43,7 @@ def test_player_level_up():
     initial_max_hp = player.max_hp
     initial_attack = player.attack
     initial_defense = player.defense
+    initial_hp = player.hp
     
     # Gain enough XP to level up
     player.gain_xp(50)
@@ -59,13 +60,18 @@ def test_player_level_up():
     # Check that player leveled up
     assert player.level == 2
     assert player.xp == 0  # XP should be reset
-    assert player.xp_to_next == 75  # Should be 1.5x previous (50 * 1.5)
+    assert player.xp_to_next == 65  # Should be 1.3x previous (50 * 1.3)
     
-    # Check stat increases
-    assert player.max_hp == initial_max_hp + 20
-    assert player.attack == initial_attack + 3
-    assert player.defense == initial_defense + 1
-    assert player.hp == player.max_hp  # Should heal to full
+    # Check stat increases - level 2 is even, so attack should increase
+    hp_gained = int(initial_max_hp * 1.2) - initial_max_hp
+    assert player.max_hp == int(initial_max_hp * 1.2)
+    assert player.attack == initial_attack + 1  # Even level increases attack
+    assert player.defense == initial_defense  # Defense unchanged at even level
+    
+    # Should heal for HP gained without going over max HP
+    hp_gained = int(initial_max_hp * 1.2) - initial_max_hp
+    expected_hp = min(initial_hp + hp_gained, player.max_hp)
+    assert player.hp == expected_hp
     
     print("✓ Player manual level up works correctly")
 
@@ -88,12 +94,69 @@ def test_multiple_level_ups():
     assert player.can_level_up()  # Can level up again
     
     # Manual level up to level 3
+    xp_needed_for_level_3 = player.xp_to_next
     player.attempt_level_up()
     assert player.level == 3
-    assert player.xp == 0  # 75 - 75 = 0
-    assert not player.can_level_up()  # Can't level up again
+    expected_xp = 75 - xp_needed_for_level_3  # Remaining XP after level up
+    assert player.xp == expected_xp
+    assert player.xp < player.xp_to_next  # Should not be able to level up again
     
     print(f"✓ Multiple manual level ups work correctly - reached level {player.level}")
+
+
+def test_alternating_power_defense():
+    """Test that level ups alternate between increasing attack and defense."""
+    player = Player(x=10, y=10)
+    
+    initial_attack = player.attack
+    initial_defense = player.defense
+    
+    # Level up to 2 (even) - should increase attack
+    player.gain_xp(50)
+    player.attempt_level_up()
+    assert player.level == 2
+    assert player.attack == initial_attack + 1
+    assert player.defense == initial_defense
+    
+    # Level up to 3 (odd) - should increase defense
+    player.gain_xp(player.xp_to_next)
+    player.attempt_level_up()
+    assert player.level == 3
+    assert player.attack == initial_attack + 1  # Still same as level 2
+    assert player.defense == initial_defense + 1
+    
+    # Level up to 4 (even) - should increase attack again
+    player.gain_xp(player.xp_to_next)
+    player.attempt_level_up()
+    assert player.level == 4
+    assert player.attack == initial_attack + 2  # +1 from level 2, +1 from level 4
+    assert player.defense == initial_defense + 1  # Still same as level 3
+    
+    print("✓ Alternating power/defense increases work correctly")
+
+
+def test_level_up_healing():
+    """Test that level up heals for HP gained without exceeding max HP."""
+    player = Player(x=10, y=10)
+    
+    # Damage the player first
+    initial_max_hp = player.max_hp
+    player.take_damage(30)  # Reduce HP
+    damaged_hp = player.hp
+    
+    # Level up
+    player.gain_xp(50)
+    player.attempt_level_up()
+    
+    # Calculate expected healing based on HP gained
+    new_max_hp = player.max_hp
+    hp_gained = new_max_hp - initial_max_hp
+    expected_hp = min(damaged_hp + hp_gained, new_max_hp)
+    
+    assert player.hp == expected_hp
+    assert player.hp <= player.max_hp  # Should never exceed max HP
+    
+    print("✓ Level up healing works correctly without exceeding max HP")
 
 
 def test_monster_xp_values():
@@ -143,6 +206,8 @@ def run_all_tests():
     test_player_gain_xp()
     test_player_level_up()
     test_multiple_level_ups()
+    test_alternating_power_defense()
+    test_level_up_healing()
     test_monster_xp_values()
     test_combat_xp_integration()
     
