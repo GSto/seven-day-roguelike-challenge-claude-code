@@ -4,6 +4,7 @@ Weapon items for combat.
 
 from constants import COLOR_YELLOW
 from .base import Equipment
+from .enchantments import Enchantment
 
 
 class Weapon(Equipment):
@@ -11,6 +12,9 @@ class Weapon(Equipment):
     
     def __init__(self, x, y, name, char=')', attack_bonus=0, description="", 
                  fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=0.0, defense_multiplier_bonus=0.0, xp_multiplier_bonus=0.0):
+        self.enchantments = []
+        self.base_name = name
+        
         super().__init__(
             x=x, y=y,
             name=name,
@@ -24,7 +28,66 @@ class Weapon(Equipment):
             attack_multiplier_bonus=attack_multiplier_bonus, 
             defense_multiplier_bonus=defense_multiplier_bonus, 
             xp_multiplier_bonus=xp_multiplier_bonus
-        ) 
+        )
+    
+    def add_enchantment(self, enchantment):
+        """Add an enchantment to this weapon (max 2 enchantments)."""
+        if len(self.enchantments) >= 2:
+            return False
+        
+        # Check if enchantment type already exists
+        for existing_enchantment in self.enchantments:
+            if existing_enchantment.type == enchantment.type:
+                return False
+        
+        self.enchantments.append(enchantment)
+        self._update_stats_from_enchantments()
+        self._update_display_name()
+        return True
+    
+    def _update_stats_from_enchantments(self):
+        """Update weapon stats based on current enchantments."""
+        # Store base values if we haven't already
+        if not hasattr(self, '_base_attack_bonus'):
+            self._base_attack_bonus = self.attack_bonus
+            self._base_defense_bonus = self.defense_bonus
+            self._base_fov_bonus = self.fov_bonus
+            self._base_health_aspect_bonus = self.health_aspect_bonus
+            self._base_attack_multiplier_bonus = self.attack_multiplier_bonus
+            self._base_xp_multiplier_bonus = self.xp_multiplier_bonus
+        
+        # Start with base values
+        total_attack = self._base_attack_bonus
+        total_defense = self._base_defense_bonus
+        total_fov = self._base_fov_bonus
+        total_health_aspect = self._base_health_aspect_bonus
+        total_attack_multiplier = self._base_attack_multiplier_bonus
+        total_xp_multiplier = self._base_xp_multiplier_bonus
+        
+        # Apply enchantment bonuses
+        for enchantment in self.enchantments:
+            total_attack += enchantment.get_attack_bonus()
+            total_defense += enchantment.get_defense_bonus()
+            total_fov += enchantment.get_fov_bonus()
+            total_health_aspect += enchantment.get_health_aspect_bonus()
+            total_attack_multiplier += enchantment.get_attack_multiplier_bonus()
+            total_xp_multiplier += enchantment.get_xp_multiplier_bonus()
+        
+        # Update the actual stats
+        self.attack_bonus = total_attack
+        self.defense_bonus = total_defense
+        self.fov_bonus = total_fov
+        self.health_aspect_bonus = total_health_aspect
+        self.attack_multiplier_bonus = total_attack_multiplier
+        self.xp_multiplier_bonus = total_xp_multiplier
+    
+    def _update_display_name(self):
+        """Update the display name to include enchantments."""
+        if not self.enchantments:
+            self.name = self.base_name
+        else:
+            enchantment_names = [e.name for e in self.enchantments]
+            self.name = f"{' '.join(enchantment_names)} {self.base_name}" 
 
 
 # Specific weapon types

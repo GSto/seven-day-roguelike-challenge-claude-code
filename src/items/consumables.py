@@ -3,8 +3,9 @@ Consumable items like potions.
 """
 
 import random
-from constants import COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_SALMON, COLOR_WHITE, COLOR_YELLOW
+from constants import COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_SALMON, COLOR_WHITE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN
 from .base import Consumable
+from .enchantments import EnchantmentType, get_enchantment_by_type, get_random_enchantment
 
 
 class HealthPotion(Consumable):
@@ -262,3 +263,157 @@ class JewelerCatalyst(Consumable):
         """Permanently increase player's XP multiplier"""
         player.xp_multiplier += self.xp_multiplier_effect
         return (True, f"You learn more efficiently! XP multiplier +{int(self.xp_multiplier_effect*100)}%")
+
+
+# ============================================================================
+# ENCHANTMENT BOONS - Add enchantments to equipped weapons
+# ============================================================================
+
+class BaronsBoon(Consumable):
+    """Applies Shiny enchantment to equipped weapon"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Baron's Boon",
+            char='*',
+            color=COLOR_YELLOW,
+            description="Applies Shiny enchantment to equipped weapon (+25% damage)",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Apply Shiny enchantment to equipped weapon"""
+        if not player.equipped_weapon:
+            return (False, "You need to have a weapon equipped to use this!")
+        
+        enchantment = get_enchantment_by_type(EnchantmentType.SHINY)
+        if player.equipped_weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.equipped_weapon.name} shines with new power!")
+        else:
+            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+
+
+class JewelersBoon(Consumable):
+    """Applies Gilded enchantment to equipped weapon"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Jeweler's Boon",
+            char='*',
+            color=COLOR_WHITE,
+            description="Applies Gilded enchantment to equipped weapon (+5% XP)",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Apply Gilded enchantment to equipped weapon"""
+        if not player.equipped_weapon:
+            return (False, "You need to have a weapon equipped to use this!")
+        
+        enchantment = get_enchantment_by_type(EnchantmentType.GILDED)
+        if player.equipped_weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.equipped_weapon.name} gleams with golden light!")
+        else:
+            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+
+
+class MinersBoon(Consumable):
+    """Applies Glowing enchantment to equipped weapon"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Miner's Boon",
+            char='*',
+            color=COLOR_CYAN,
+            description="Applies Glowing enchantment to equipped weapon (+2 FOV)",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Apply Glowing enchantment to equipped weapon"""
+        if not player.equipped_weapon:
+            return (False, "You need to have a weapon equipped to use this!")
+        
+        enchantment = get_enchantment_by_type(EnchantmentType.GLOWING)
+        if player.equipped_weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.equipped_weapon.name} begins to glow softly!")
+        else:
+            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+
+
+class ClericsBoon(Consumable):
+    """Applies Blessed enchantment to equipped weapon"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Cleric's Boon",
+            char='*',
+            color=COLOR_WHITE,
+            description="Applies Blessed enchantment to equipped weapon (+5% healing)",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Apply Blessed enchantment to equipped weapon"""
+        if not player.equipped_weapon:
+            return (False, "You need to have a weapon equipped to use this!")
+        
+        enchantment = get_enchantment_by_type(EnchantmentType.BLESSED)
+        if player.equipped_weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.equipped_weapon.name} is blessed with divine power!")
+        else:
+            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+
+
+class WardensBoon(Consumable):
+    """Applies Bolstered enchantment to equipped weapon"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Warden's Boon",
+            char='*',
+            color=COLOR_BLUE,
+            description="Applies Bolstered enchantment to equipped weapon (+1 defense)",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Apply Bolstered enchantment to equipped weapon"""
+        if not player.equipped_weapon:
+            return (False, "You need to have a weapon equipped to use this!")
+        
+        enchantment = get_enchantment_by_type(EnchantmentType.BOLSTERED)
+        if player.equipped_weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.equipped_weapon.name} feels more solid and protective!")
+        else:
+            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+
+
+class JokersBoon(Consumable):
+    """Applies a random enchantment to equipped weapon"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Joker's Boon",
+            char='*',
+            color=COLOR_GREEN,
+            description="Applies a random enchantment to equipped weapon",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Apply a random enchantment to equipped weapon"""
+        if not player.equipped_weapon:
+            return (False, "You need to have a weapon equipped to use this!")
+        
+        enchantment = get_random_enchantment()
+        if player.equipped_weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.equipped_weapon.name} is enchanted with {enchantment.name} power!")
+        else:
+            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")

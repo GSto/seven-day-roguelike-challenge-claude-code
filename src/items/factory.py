@@ -3,10 +3,11 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst
-from .weapons import Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff, Gauntlets
+from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon
+from .weapons import Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff, Gauntlets, Weapon
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades
+from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 
 
 # ============================================================================
@@ -14,12 +15,15 @@ from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterPro
 # ============================================================================
 
 DEFAULT_CONSUMABLES = [Beef, SalmonOfKnowledge, D6]
+# Boons (can appear from floor 2+)
+ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon]
+
 # Consumable item pools
 # Power and Defense Catalysts found in all levels, D6 found in all levels
 EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + DEFAULT_CONSUMABLES
-MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + DEFAULT_CONSUMABLES
-LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + DEFAULT_CONSUMABLES
-END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + DEFAULT_CONSUMABLES
+MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
+LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
+END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
 
 # Weapon item pools
 # Cleric's Staff: early-late game, Bright Sword: mid & late game
@@ -119,7 +123,12 @@ def create_random_item_for_level(level_number, x, y):
         item_type = random.choice(equipment_types)
         
         if item_type == 'weapon' and weapon_pool:
-            return random.choice(weapon_pool)(x, y)
+            weapon = random.choice(weapon_pool)(x, y)
+            # 25% chance to spawn with an enchantment
+            if should_spawn_with_enchantment():
+                enchantment = get_random_enchantment()
+                weapon.add_enchantment(enchantment)
+            return weapon
         elif item_type == 'armor' and armor_pool:
             return random.choice(armor_pool)(x, y)
         elif item_type == 'accessory' and accessory_pool:
@@ -127,7 +136,12 @@ def create_random_item_for_level(level_number, x, y):
         else:
             # Fallback to weapon if requested type is empty
             if weapon_pool:
-                return random.choice(weapon_pool)(x, y)
+                weapon = random.choice(weapon_pool)(x, y)
+                # 25% chance to spawn with an enchantment
+                if should_spawn_with_enchantment():
+                    enchantment = get_random_enchantment()
+                    weapon.add_enchantment(enchantment)
+                return weapon
             elif armor_pool:
                 return random.choice(armor_pool)(x, y)
             else:
