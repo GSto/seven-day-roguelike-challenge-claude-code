@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
 from level import Level
-from monster import Goblin
+from monster import Skeleton
 
 
 def test_player_action_flag_basics():
@@ -52,7 +52,7 @@ def test_movement_triggers_action():
 def test_combat_triggers_action():
     """Test that combat should trigger monster turns."""
     player = Player(10, 10)
-    goblin = Goblin(11, 10)
+    goblin = Skeleton(11, 10)
     
     # Test combat scenario
     initial_goblin_hp = goblin.hp

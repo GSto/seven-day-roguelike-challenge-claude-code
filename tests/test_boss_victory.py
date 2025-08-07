@@ -51,8 +51,8 @@ def test_devil_boss_combat_strength():
     devil = Devil(10, 10)
     
     # Compare to other monsters
-    from monster import Goblin, Orc, Troll
-    goblin = Goblin(10, 10)
+    from monster import Skeleton, Orc, Troll
+    goblin = Skeleton(10, 10)
     orc = Orc(10, 10)
     troll = Troll(10, 10)
     

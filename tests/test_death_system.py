@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
 from game import Game  
-from monster import Goblin
+from monster import Skeleton
 from level import Level
 
 
@@ -88,7 +88,7 @@ def test_game_state_tracking():
 def test_monster_damage_to_player():
     """Test that monsters can damage player to death."""
     player = Player(10, 10)
-    goblin = Goblin(11, 10)
+    goblin = Skeleton(11, 10)
     
     # Simulate multiple attacks until player dies
     attacks = 0

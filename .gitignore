@@ -1,6 +1,5 @@
 # Python cache files
-__pycache__/
-src/items/__pycache__/
+__pycache*
 *.py[cod]
 *$py.class
 

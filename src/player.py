@@ -18,8 +18,8 @@ class Player:
         # Player stats
         self.max_hp = 50
         self.hp = self.max_hp
-        self.attack = 6
-        self.defense = 1
+        self.attack = 7
+        self.defense = 2
         self.level = 1
         self.xp = 0
         self.xp_to_next = 50
@@ -81,7 +81,7 @@ class Player:
         """Level up the player."""
         self.xp -= self.xp_to_next
         self.level += 1
-        self.xp_to_next = int(self.xp_to_next * 1.3)
+        self.xp_to_next = int(self.xp_to_next * 1.4)
         
         # Increase stats
         old_max_hp = self.max_hp
@@ -89,10 +89,10 @@ class Player:
         hp_gained = self.max_hp - old_max_hp
         self.hp = min(self.hp + hp_gained, self.max_hp)  # heal for HP gained without going over max
         
-        if self.level % 2 == 0:
-          self.attack += 1
-        else:
+        if self.level % 3 == 0:
           self.defense += 1
+        else:
+          self.attack += 1
         
         # Return level up info for UI message
         return True

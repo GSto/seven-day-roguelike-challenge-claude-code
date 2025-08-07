@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from monster import Goblin, Orc
+from monster import Skeleton, Orc
 from game import Game
 from level import Level
 
@@ -161,7 +161,7 @@ def test_level_up_healing():
 
 def test_monster_xp_values():
     """Test that monsters have correct XP values."""
-    goblin = Goblin(5, 5)
+    goblin = Skeleton(5, 5)
     orc = Orc(5, 5)
     
     assert goblin.xp_value == 10
@@ -174,7 +174,7 @@ def test_combat_xp_integration():
     """Test XP gain through combat simulation."""
     # Create game components
     player = Player(x=10, y=10)
-    goblin = Goblin(x=11, y=10)
+    goblin = Skeleton(x=11, y=10)
     
     # Simulate combat - goblin should die (player has 10 attack, goblin has 15 HP, 0 defense)
     initial_xp = player.xp

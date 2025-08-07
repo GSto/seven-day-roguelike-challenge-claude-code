@@ -3,7 +3,7 @@ Monster system - creatures that populate the dungeon levels.
 """
 
 import random
-from constants import COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_CRIMSON
+from constants import COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_CRIMSON, COLOR_WHITE
 
 
 class Monster:
@@ -64,15 +64,16 @@ class Monster:
 
 
 # Traditionally, Rogue had 26 monsters, one for each letter of the alphabet 
-class Goblin(Monster):
+# ABC_EF__IJKLMN_PQR_TUVWXYZ
+class Skeleton(Monster):
     """Weak but fast goblin."""
     
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
             name="Goblin",
-            char='g',
-            color=COLOR_GREEN,
+            char='S',
+            color=COLOR_WHITE,
             hp=15,
             attack=4,
             defense=0,
@@ -87,12 +88,27 @@ class Orc(Monster):
         super().__init__(
             x=x, y=y,
             name="Orc",
-            char='o',
+            char='O',
             color=COLOR_RED,
             hp=25,
             attack=9,
             defense=2,
             xp_value=20
+        )
+
+class Goblin(Monster):
+    """Medium strength orc warrior."""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Goblin",
+            char='G',
+            color=COLOR_GREEN,
+            hp=35,
+            attack=9,
+            defense=1,
+            xp_value=25
         )
 
 
@@ -106,9 +122,9 @@ class Troll(Monster):
             char='T',
             color=COLOR_YELLOW,
             hp=60,
-            attack=10,
-            defense=6,
-            xp_value=35
+            attack=8,
+            defense=5,
+            xp_value=45
         )
 
 class Horror(Monster):
@@ -123,7 +139,7 @@ class Horror(Monster):
             hp=100,
             attack=16,
             defense=3,
-            xp_value=50
+            xp_value=60
         )
     
 
@@ -154,34 +170,48 @@ def create_monster_for_level(level_number):
     if level_number <= 2:
         # Early levels: mostly goblins
         if rand < 0.8:
-            return Goblin
+            return Skeleton
         else:
             return Orc
+        
+    elif level_number <= 4: 
+        #Early-mid, more orcs, fewer goblins, occasional Hobgoblins
+
+        if rand < 0.2:
+          return Skeleton
+        elif rand < 0.8:
+          return Orc
+        else: 
+          return Goblin
     
     elif level_number <= 5:
-        # Mid levels: goblins and orcs
+        # Mid levels: no more goblins, trolls start to appear
         if rand < 0.4:
-            return Goblin
-        elif rand < 0.8:
             return Orc
+        elif rand < 0.8:
+            return Goblin
         else:
             return Troll
         
     elif level_number <= 7:
       # Upper-mid levels: 
-      if rand < 0.4:
+      if rand < 0.2:
           return Orc
+      elif rand < 0.5:
+          return Goblin
       elif rand < 0.8:
           return Troll
       else:
           return Horror
     
     elif level_number <= 9:
-        # Later levels: orcs and trolls (levels 6-9)
+        # Later levels: no more orcs, only harder enemies
         if rand < 0.3:
-            return Orc
-        else:
+            return Goblin
+        elif rand < 0.7:
             return Troll
+        else:
+            return Horror
     
     else:
         # Final level (level 10): devil only

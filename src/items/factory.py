@@ -47,7 +47,7 @@ END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLam
 # this is the default, cranking it up to test some stuff
 
 CONSUMABLE_CHANCE = 0.4  # 40% chance for consumables
-HEALTH_POTION_CHANCE = 0.67  # 80% of consumables are health potions
+HEALTH_POTION_CHANCE = 0.5  # 50% of consumables are health potions
 
 # Equipment type weights for each tier
 EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'armor']  # No accessories
@@ -77,7 +77,7 @@ def create_random_item_for_level(level_number, x, y):
         else:
             consumable_pool = END_GAME_CONSUMABLES
         
-        # 80% health potions, 20% other consumables
+        # 67% health potions, 33% other consumables
         if random.random() < HEALTH_POTION_CHANCE:
             return HealthPotion(x, y)
         else:
