@@ -11,7 +11,7 @@ class Armor(Equipment):
     
     def __init__(self, x, y, name, char, defense_bonus, description="", 
                  attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0,
-                 attack_multiplier_bonus=0.0, defense_multiplier_bonus=0.0, xp_multiplier_bonus=0.0):
+                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0):
         super().__init__(
             x=x, y=y,
             name=name,

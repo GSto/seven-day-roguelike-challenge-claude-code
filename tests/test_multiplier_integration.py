@@ -78,14 +78,14 @@ def test_existing_consumables_still_work():
     # Test health potion
     potion = HealthPotion(0, 0)
     result = potion.use(player)
-    assert result == True
+    assert result[0] == True  # Check success boolean from tuple
     assert player.hp > 10  # Should have healed
     
     # Test power catalyst
     catalyst = PowerCatalyst(0, 0)
     initial_attack = player.attack
     result = catalyst.use(player)
-    assert result == True
+    assert result[0] == True  # Check success boolean from tuple
     assert player.attack == initial_attack + 1
     
     print("✓ Existing consumables still work")

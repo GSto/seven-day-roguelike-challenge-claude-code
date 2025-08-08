@@ -169,7 +169,7 @@ class TestEnchantmentBoons(unittest.TestCase):
         # Mock player with equipped weapon
         self.player = type('MockPlayer', (), {})()
         self.weapon = Sword(10, 10)
-        self.player.equipped_weapon = self.weapon
+        self.player.weapon = self.weapon
     
     def test_barons_boon_applies_shiny_enchantment(self):
         """Test Baron's Boon applies Shiny enchantment."""
@@ -251,7 +251,7 @@ class TestEnchantmentBoons(unittest.TestCase):
     def test_boon_fails_without_equipped_weapon(self):
         """Test boon fails when player has no equipped weapon."""
         boon = BaronsBoon(5, 5)
-        self.player.equipped_weapon = None
+        self.player.weapon = None  # Remove the weapon
         
         success, message = boon.use(self.player)
         

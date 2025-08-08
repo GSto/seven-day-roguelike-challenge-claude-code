@@ -49,7 +49,7 @@ class UI:
             level_up_color = COLOR_YELLOW if player.can_level_up() else COLOR_WHITE
             level_up_text = f"Next Lvl: {player.xp_to_next}"
             if player.can_level_up():
-                level_up_text += " (Press L)"
+                level_up_text += " (Press X)"
             console.print(50, ui_y + 1, level_up_text, fg=level_up_color)
             
             ui_y += 2  # Account for the extra "Next Lvl:" line

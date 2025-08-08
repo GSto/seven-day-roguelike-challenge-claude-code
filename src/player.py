@@ -157,33 +157,33 @@ class Player:
         """Get total attack multiplier including equipment bonuses."""
         total = self.attack_multiplier
         if self.weapon and hasattr(self.weapon, 'attack_multiplier_bonus'):
-            total += self.weapon.attack_multiplier_bonus
+            total *= self.weapon.attack_multiplier_bonus
         if self.armor and hasattr(self.armor, 'attack_multiplier_bonus'):
-            total += self.armor.attack_multiplier_bonus
+            total *= self.armor.attack_multiplier_bonus
         if self.accessory and hasattr(self.accessory, 'attack_multiplier_bonus'):
-            total += self.accessory.attack_multiplier_bonus
+            total *= self.accessory.attack_multiplier_bonus
         return total
     
     def get_total_defense_multiplier(self):
         """Get total defense multiplier including equipment bonuses."""
         total = self.defense_multiplier
         if self.weapon and hasattr(self.weapon, 'defense_multiplier_bonus'):
-            total += self.weapon.defense_multiplier_bonus
+            total *= self.weapon.defense_multiplier_bonus
         if self.armor and hasattr(self.armor, 'defense_multiplier_bonus'):
-            total += self.armor.defense_multiplier_bonus
+            total *= self.armor.defense_multiplier_bonus
         if self.accessory and hasattr(self.accessory, 'defense_multiplier_bonus'):
-            total += self.accessory.defense_multiplier_bonus
+            total *= self.accessory.defense_multiplier_bonus
         return total
     
     def get_total_xp_multiplier(self):
         """Get total XP multiplier including equipment bonuses."""
         total = self.xp_multiplier
         if self.weapon and hasattr(self.weapon, 'xp_multiplier_bonus'):
-            total += self.weapon.xp_multiplier_bonus
+            total *= self.weapon.xp_multiplier_bonus
         if self.armor and hasattr(self.armor, 'xp_multiplier_bonus'):
-            total += self.armor.xp_multiplier_bonus
+            total *= self.armor.xp_multiplier_bonus
         if self.accessory and hasattr(self.accessory, 'xp_multiplier_bonus'):
-            total += self.accessory.xp_multiplier_bonus
+            total *= self.accessory.xp_multiplier_bonus
         return total
     
     def render(self, console, fov):

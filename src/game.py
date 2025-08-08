@@ -426,7 +426,7 @@ class Game:
                     if success:
                         self.player.remove_item(item)
                         self.ui.add_message(message)
-                        self.game_state = 'PLAYING'  # Return to game after use
+                        
                     else:
                         self.ui.add_message(message)
                 else:

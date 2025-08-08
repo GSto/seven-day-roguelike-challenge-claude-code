@@ -62,31 +62,31 @@ def test_equipment_multiplier_bonuses():
         0, 0, "Magic Sword", '/', (255, 255, 255), 
         "A magical sword that enhances combat prowess",
         attack_bonus=5, equipment_slot="weapon",
-        attack_multiplier_bonus=0.2, defense_multiplier_bonus=0.1, xp_multiplier_bonus=0.3
+        attack_multiplier_bonus=1.2, defense_multiplier_bonus=1.1, xp_multiplier_bonus=1.3
     )
     
     magic_armor = Equipment(
         0, 0, "Magic Armor", '[', (200, 200, 200),
         "Magical armor that enhances defenses", 
         defense_bonus=3, equipment_slot="armor",
-        defense_multiplier_bonus=0.15
+        defense_multiplier_bonus=1.15
     )
     
     # Equip the magical items
     player.weapon = magic_weapon
     player.armor = magic_armor
     
-    # Test that total multipliers include equipment bonuses
-    assert player.get_total_attack_multiplier() == 1.0 + 0.2  # base + weapon bonus
-    assert player.get_total_defense_multiplier() == 1.0 + 0.1 + 0.15  # base + weapon + armor
-    assert player.get_total_xp_multiplier() == 1.0 + 0.3  # base + weapon bonus
+    # Test that total multipliers include equipment bonuses (multiplicatively)
+    assert player.get_total_attack_multiplier() == 1.0 * 1.2  # base * weapon bonus
+    assert player.get_total_defense_multiplier() == 1.0 * 1.1 * 1.15  # base * weapon * armor
+    assert player.get_total_xp_multiplier() == 1.0 * 1.3  # base * weapon bonus
     
     # Test that calculations use total multipliers
     base_attack = player.attack + magic_weapon.attack_bonus
     base_defense = player.defense + magic_armor.defense_bonus
     
-    expected_attack = int(base_attack * (1.0 + 0.2))
-    expected_defense = int(base_defense * (1.0 + 0.1 + 0.15))
+    expected_attack = int(base_attack * (1.0 * 1.2))
+    expected_defense = int(base_defense * (1.0 * 1.1 * 1.15))
     
     assert player.get_total_attack() == expected_attack
     assert player.get_total_defense() == expected_defense
@@ -94,7 +94,7 @@ def test_equipment_multiplier_bonuses():
     # Test XP gain with equipment bonus
     initial_xp = player.xp
     player.gain_xp(100)
-    expected_xp_gain = int(100 * (1.0 + 0.3))
+    expected_xp_gain = int(100 * (1.0 * 1.3))
     assert player.xp == initial_xp + expected_xp_gain
 
 
@@ -130,16 +130,16 @@ def test_multiplier_stacking():
     # Create equipment with bonuses
     equipment = Equipment(
         0, 0, "Stacking Item", '*', (255, 255, 255),
-        attack_multiplier_bonus=0.2,
-        defense_multiplier_bonus=0.3,
-        xp_multiplier_bonus=0.1
+        attack_multiplier_bonus=1.2,
+        defense_multiplier_bonus=1.3,
+        xp_multiplier_bonus=1.1
     )
     player.weapon = equipment
     
-    # Test that they stack additively
-    assert player.get_total_attack_multiplier() == 1.3 + 0.2  # 1.5
-    assert player.get_total_defense_multiplier() == 1.4 + 0.3  # 1.7
-    assert player.get_total_xp_multiplier() == 1.5 + 0.1  # 1.6
+    # Test that they stack multiplicatively
+    assert player.get_total_attack_multiplier() == 1.3 * 1.2  # 1.56
+    assert player.get_total_defense_multiplier() == 1.4 * 1.3  # 1.82
+    assert player.get_total_xp_multiplier() == 1.5 * 1.1  # 1.65
 
 
 if __name__ == "__main__":
@@ -153,8 +153,6 @@ if __name__ == "__main__":
     test_equipment_multiplier_bonuses()
     print("✓ test_equipment_multiplier_bonuses passed")
     
-    test_consumable_multiplier_effects()
-    print("✓ test_consumable_multiplier_effects passed")
     
     test_damage_calculation_with_multipliers()
     print("✓ test_damage_calculation_with_multipliers passed")

@@ -164,7 +164,7 @@ class D6(Consumable):
             name="D6",
             char='6',
             color=COLOR_WHITE,
-            description="Roll for one of 6 random effects: +1 Attack, +1 Defense, +10 max HP, +1 FOV, or -20 max HP",
+            description="Roll for one of 6 random effects:\n +1 Attack, +1 Defense, +10 max HP, +1 FOV, or -20 max HP",
             effect_value=1
         )
     
@@ -216,13 +216,13 @@ class BaronCatalyst(Consumable):
             color=COLOR_YELLOW,
             description="Permanently increases attack multiplier by 10%",
             effect_value=0.1,
-            attack_multiplier_effect=0.1
+            attack_multiplier_effect=1.1
         )
     
     def use(self, player):
         """Permanently increase player's attack multiplier"""
-        player.attack_multiplier += self.attack_multiplier_effect
-        return (True, f"Your attacks become more effective! Attack multiplier +{int(self.attack_multiplier_effect*100)}%")
+        player.attack_multiplier *= self.attack_multiplier_effect
+        return (True, f"Your attacks become more effective! Attack multiplier increased by {int((self.attack_multiplier_effect-1)*100)}%")
 
 
 class WardenCatalyst(Consumable):
@@ -236,13 +236,13 @@ class WardenCatalyst(Consumable):
             color=COLOR_BLUE,
             description="Permanently increases defense multiplier by 10%",
             effect_value=0.1,
-            defense_multiplier_effect=0.1
+            defense_multiplier_effect=1.1
         )
     
     def use(self, player):
         """Permanently increase player's defense multiplier"""
-        player.defense_multiplier += self.defense_multiplier_effect
-        return (True, f"Your defenses become more effective! Defense multiplier +{int(self.defense_multiplier_effect*100)}%")
+        player.defense_multiplier *= self.defense_multiplier_effect
+        return (True, f"Your defenses become more effective! Defense multiplier increased by {int((self.defense_multiplier_effect-1)*100)}%")
 
 
 class JewelerCatalyst(Consumable):
@@ -256,13 +256,13 @@ class JewelerCatalyst(Consumable):
             color=COLOR_WHITE,
             description="Permanently increases XP multiplier by 5%",
             effect_value=0.05,
-            xp_multiplier_effect=0.05
+            xp_multiplier_effect=1.05
         )
     
     def use(self, player):
         """Permanently increase player's XP multiplier"""
-        player.xp_multiplier += self.xp_multiplier_effect
-        return (True, f"You learn more efficiently! XP multiplier +{int(self.xp_multiplier_effect*100)}%")
+        player.xp_multiplier *= self.xp_multiplier_effect
+        return (True, f"You learn more efficiently! XP multiplier increased by {int((self.xp_multiplier_effect-1)*100)}%")
 
 
 # ============================================================================
@@ -284,14 +284,14 @@ class BaronsBoon(Consumable):
     
     def use(self, player):
         """Apply Shiny enchantment to equipped weapon"""
-        if not player.equipped_weapon:
+        if not player.weapon:
             return (False, "You need to have a weapon equipped to use this!")
         
         enchantment = get_enchantment_by_type(EnchantmentType.SHINY)
-        if player.equipped_weapon.add_enchantment(enchantment):
-            return (True, f"Your {player.equipped_weapon.name} shines with new power!")
+        if player.weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.weapon.name} shines with new power!")
         else:
-            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+            return (False, f"Your {player.weapon.name} cannot be further enhanced!")
 
 
 class JewelersBoon(Consumable):
@@ -309,14 +309,14 @@ class JewelersBoon(Consumable):
     
     def use(self, player):
         """Apply Gilded enchantment to equipped weapon"""
-        if not player.equipped_weapon:
+        if not player.weapon:
             return (False, "You need to have a weapon equipped to use this!")
         
         enchantment = get_enchantment_by_type(EnchantmentType.GILDED)
-        if player.equipped_weapon.add_enchantment(enchantment):
-            return (True, f"Your {player.equipped_weapon.name} gleams with golden light!")
+        if player.weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.weapon.name} gleams with golden light!")
         else:
-            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+            return (False, f"Your {player.weapon.name} cannot be further enhanced!")
 
 
 class MinersBoon(Consumable):
@@ -334,14 +334,14 @@ class MinersBoon(Consumable):
     
     def use(self, player):
         """Apply Glowing enchantment to equipped weapon"""
-        if not player.equipped_weapon:
+        if not player.weapon:
             return (False, "You need to have a weapon equipped to use this!")
         
         enchantment = get_enchantment_by_type(EnchantmentType.GLOWING)
-        if player.equipped_weapon.add_enchantment(enchantment):
-            return (True, f"Your {player.equipped_weapon.name} begins to glow softly!")
+        if player.weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.weapon.name} begins to glow softly!")
         else:
-            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+            return (False, f"Your {player.weapon.name} cannot be further enhanced!")
 
 
 class ClericsBoon(Consumable):
@@ -359,14 +359,14 @@ class ClericsBoon(Consumable):
     
     def use(self, player):
         """Apply Blessed enchantment to equipped weapon"""
-        if not player.equipped_weapon:
+        if not player.weapon:
             return (False, "You need to have a weapon equipped to use this!")
         
         enchantment = get_enchantment_by_type(EnchantmentType.BLESSED)
-        if player.equipped_weapon.add_enchantment(enchantment):
-            return (True, f"Your {player.equipped_weapon.name} is blessed with divine power!")
+        if player.weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.weapon.name} is blessed with divine power!")
         else:
-            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+            return (False, f"Your {player.weapon.name} cannot be further enhanced!")
 
 
 class WardensBoon(Consumable):
@@ -384,14 +384,14 @@ class WardensBoon(Consumable):
     
     def use(self, player):
         """Apply Bolstered enchantment to equipped weapon"""
-        if not player.equipped_weapon:
+        if not player.weapon:
             return (False, "You need to have a weapon equipped to use this!")
         
         enchantment = get_enchantment_by_type(EnchantmentType.BOLSTERED)
-        if player.equipped_weapon.add_enchantment(enchantment):
-            return (True, f"Your {player.equipped_weapon.name} feels more solid and protective!")
+        if player.weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.weapon.name} feels more solid and protective!")
         else:
-            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+            return (False, f"Your {player.weapon.name} cannot be further enhanced!")
 
 
 class JokersBoon(Consumable):
@@ -409,11 +409,11 @@ class JokersBoon(Consumable):
     
     def use(self, player):
         """Apply a random enchantment to equipped weapon"""
-        if not player.equipped_weapon:
+        if not player.weapon:
             return (False, "You need to have a weapon equipped to use this!")
         
         enchantment = get_random_enchantment()
-        if player.equipped_weapon.add_enchantment(enchantment):
-            return (True, f"Your {player.equipped_weapon.name} is enchanted with {enchantment.name} power!")
+        if player.weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.weapon.name} is enchanted with {enchantment.name} power!")
         else:
-            return (False, f"Your {player.equipped_weapon.name} cannot be further enhanced!")
+            return (False, f"Your {player.weapon.name} cannot be further enhanced!")
