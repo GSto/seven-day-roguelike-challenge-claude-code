@@ -66,14 +66,14 @@ class PowerRing(Ring):
     """Ring that boosts attack."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Ring of Power", attack_bonus=4, defense_bonus=0)
+        super().__init__(x, y, "Ring of Power", attack_bonus=3, defense_bonus=0)
 
 
 class ProtectionRing(Ring):
     """Ring that provides strong defense."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Ring of Protection", defense_bonus=3)
+        super().__init__(x, y, "Ring of Protection", defense_bonus=2)
 
 class Rosary(Necklace):
     """Necklace that increases health aspect."""
@@ -85,7 +85,7 @@ class HeadLamp(Hat):
     """Hat that increases FOV"""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "HeadLamp", attack_bonus=0, defense_bonus=1, fov_bonus=1, health_aspect_bonus=0, description="lamp on your head")
+        super().__init__(x, y, "HeadLamp", attack_bonus=0, defense_bonus=1, fov_bonus=3, health_aspect_bonus=0, description="lamp on your head")
 
 class BaronsCrown(Hat):
     """Hat with attack multiplier."""
@@ -105,14 +105,14 @@ class GreaterPowerRing(Ring):
     """Ring that greatly boosts attack."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Greater Ring of Power", attack_bonus=9, defense_bonus=0)
+        super().__init__(x, y, "Greater Ring of Power", attack_bonus=6, defense_bonus=0)
 
 
 class GreaterProtectionRing(Ring):
     """Ring that greatly boosts attack."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Greater Ring of Protection", attack_bonus=0, defense_bonus=7)
+        super().__init__(x, y, "Greater Ring of Protection", attack_bonus=0, defense_bonus=4)
 
 
 class AceOfSpades(Card):

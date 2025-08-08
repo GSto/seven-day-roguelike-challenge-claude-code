@@ -54,8 +54,8 @@ CONSUMABLE_CHANCE = 0.4  # 40% chance for consumables
 HEALTH_POTION_CHANCE = 0.5  # 50% of consumables are health potions
 
 # Equipment type weights for each tier
-EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'armor']  # No accessories
-MID_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']
+EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'weapon', 'armor']  # No accessories, increased weapons chances early
+MID_GAME_EQUIPMENT_TYPES = ['weapon', 'weapon', 'armor', 'accessory']
 LATE_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']
 END_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']
 
