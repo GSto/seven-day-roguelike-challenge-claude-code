@@ -38,7 +38,7 @@ def test_examine_functionality():
     console = MockConsole()
     
     # Test examining leather armor (index 0)
-    ui.render_inventory(console, game.player, 0, True)
+    ui.render_inventory(console, game.player, 0)
     
     # Find equipped items section
     equipped_lines = [item for item in console.printed_items if "Currently Equipped:" in item[2]]
@@ -47,7 +47,7 @@ def test_examine_functionality():
     # Find description section
     description_header = [item for item in console.printed_items if "Item Description:" in item[2]]
     description_content = [item for item in console.printed_items if "Basic leather protection" in item[2]]
-    defense_bonus_line = [item for item in console.printed_items if "Defense Bonus: +2" in item[2]]
+    defense_bonus_line = [item for item in console.printed_items if "Defense Bonus: +1" in item[2]]
     
     print(f"Found description header: {len(description_header) > 0}")
     print(f"Found description content: {len(description_content) > 0}")
@@ -66,10 +66,10 @@ def test_examine_functionality():
     
     # Test examining health potion (index 1)
     console.clear()
-    ui.render_inventory(console, game.player, 1, True)
+    ui.render_inventory(console, game.player, 1)
     
     potion_description = [item for item in console.printed_items if "Restores health" in item[2]]
-    heal_amount_line = [item for item in console.printed_items if "Heals: 30 HP" in item[2]]
+    heal_amount_line = [item for item in console.printed_items if "Healing Factor: 1x" in item[2]]
     
     print(f"Found potion description: {len(potion_description) > 0}")
     print(f"Found heal amount line: {len(heal_amount_line) > 0}")

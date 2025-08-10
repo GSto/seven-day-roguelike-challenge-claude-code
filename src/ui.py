@@ -131,16 +131,28 @@ class UI:
             else:
                 type_indicator = "[?]"
             
-            # Add stat information for equipment
-            stat_info = ""
+            # Add comprehensive stat information for equipment
+            stat_info_parts = []
             if hasattr(item, 'attack_bonus') and item.attack_bonus > 0:
-                stat_info = f" (+{item.attack_bonus} att)"
-            elif hasattr(item, 'defense_bonus') and item.defense_bonus > 0:
-                stat_info = f" (+{item.defense_bonus} def)"
-            elif hasattr(item, 'heal_percentage'):
-                stat_info = f" (heals {item.heal_percentage}%)"
-            elif hasattr(item, 'heal_amount'):
-                stat_info = f" (heals {item.heal_amount})"
+                stat_info_parts.append(f"+{item.attack_bonus} att")
+            if hasattr(item, 'defense_bonus') and item.defense_bonus > 0:
+                stat_info_parts.append(f"+{item.defense_bonus} def")
+            if hasattr(item, 'fov_bonus') and item.fov_bonus > 0:
+                stat_info_parts.append(f"+{item.fov_bonus} fov")
+            if hasattr(item, 'health_aspect_bonus') and item.health_aspect_bonus > 0:
+                stat_info_parts.append(f"+{item.health_aspect_bonus:.1f} heal")
+            if hasattr(item, 'attack_multiplier_bonus') and item.attack_multiplier_bonus > 1.0:
+                stat_info_parts.append(f"{item.attack_multiplier_bonus:.1f}x att")
+            if hasattr(item, 'defense_multiplier_bonus') and item.defense_multiplier_bonus > 1.0:
+                stat_info_parts.append(f"{item.defense_multiplier_bonus:.1f}x def")
+            if hasattr(item, 'xp_multiplier_bonus') and item.xp_multiplier_bonus > 1.0:
+                stat_info_parts.append(f"{item.xp_multiplier_bonus:.1f}x xp")
+            if hasattr(item, 'heal_percentage'):
+                stat_info_parts.append(f"heals {item.heal_percentage}%")
+            if hasattr(item, 'heal_amount'):
+                stat_info_parts.append(f"heals {item.heal_amount}")
+            
+            stat_info = f" ({', '.join(stat_info_parts)})" if stat_info_parts else ""
             
             # Highlight selected item
             fg_color = COLOR_GREEN if i == selected_item_index else COLOR_WHITE
@@ -184,25 +196,84 @@ class UI:
             console.print(0, desc_y, "Item Description:", fg=COLOR_GREEN)
             desc_y += 1
             
-            # Detailed description (you can expand this based on item types)
+            # Detailed description with comprehensive bonuses
             desc_lines = []
             if hasattr(selected_item, 'description'):
                 desc_lines.append(selected_item.description)
             
+            # Equipment bonuses
             if hasattr(selected_item, 'attack_bonus') and selected_item.attack_bonus > 0:
                 desc_lines.append(f"Attack Bonus: +{selected_item.attack_bonus}")
             
             if hasattr(selected_item, 'defense_bonus') and selected_item.defense_bonus > 0:
                 desc_lines.append(f"Defense Bonus: +{selected_item.defense_bonus}")
             
+            if hasattr(selected_item, 'fov_bonus') and selected_item.fov_bonus > 0:
+                desc_lines.append(f"FOV Bonus: +{selected_item.fov_bonus}")
+            
+            if hasattr(selected_item, 'health_aspect_bonus') and selected_item.health_aspect_bonus > 0:
+                desc_lines.append(f"Healing Bonus: +{selected_item.health_aspect_bonus:.1f}")
+            
+            # Multiplier bonuses
+            if hasattr(selected_item, 'attack_multiplier_bonus') and selected_item.attack_multiplier_bonus > 1.0:
+                desc_lines.append(f"Attack Multiplier: {selected_item.attack_multiplier_bonus:.1f}x")
+            
+            if hasattr(selected_item, 'defense_multiplier_bonus') and selected_item.defense_multiplier_bonus > 1.0:
+                desc_lines.append(f"Defense Multiplier: {selected_item.defense_multiplier_bonus:.1f}x")
+            
+            if hasattr(selected_item, 'xp_multiplier_bonus') and selected_item.xp_multiplier_bonus > 1.0:
+                desc_lines.append(f"XP Multiplier: {selected_item.xp_multiplier_bonus:.1f}x")
+            
+            # Consumable effects
             if hasattr(selected_item, 'heal_percentage'):
                 desc_lines.append(f"Heals: {selected_item.heal_percentage}% of max HP")
-            elif hasattr(selected_item, 'heal_amount'):
+            if hasattr(selected_item, 'heal_amount'):
                 desc_lines.append(f"Heals: {selected_item.heal_amount} HP")
+            # Show effect value for consumables that use dynamic healing
+            elif (hasattr(selected_item, 'effect_value') and 
+                  hasattr(selected_item, 'use') and 
+                  selected_item.effect_value > 0 and
+                  'Health Potion' in selected_item.name):
+                desc_lines.append(f"Healing Factor: {selected_item.effect_value}x (scales with health aspect)")
+            
+            # Show enchantments for weapons
+            if hasattr(selected_item, 'enchantments') and selected_item.enchantments:
+                enchant_names = [e.name for e in selected_item.enchantments]
+                desc_lines.append(f"Enchantments: {', '.join(enchant_names)}")
             
             for line in desc_lines:
                 console.print(0, desc_y, line, fg=COLOR_WHITE)
                 desc_y += 1
+            
+            desc_y += 1  # Add space between description and player summary
+        
+        # Player summary section (always show when in inventory)
+        # Position it after item description or after equipped items if no item selected
+        summary_y = desc_y if (selected_item_index is not None and 
+                              0 <= selected_item_index < len(player.inventory)) else eq_y + 1
+        
+        if summary_y < SCREEN_HEIGHT - 6:  # Leave space for controls
+            console.print(0, summary_y, "Player Summary:", fg=COLOR_GREEN)
+            summary_y += 1
+            
+            # HP
+            hp_color = COLOR_GREEN if player.hp > player.max_hp * 0.3 else COLOR_RED
+            console.print(0, summary_y, f"HP: {player.hp}/{player.max_hp}", fg=hp_color)
+            summary_y += 1
+            
+            # XP and level
+            console.print(0, summary_y, f"Level: {player.level}  XP: {player.xp}", fg=COLOR_WHITE)
+            summary_y += 1
+            
+            # Combat stats
+            console.print(0, summary_y, f"Attack: {player.get_total_attack()}  Defense: {player.get_total_defense()}", fg=COLOR_WHITE)
+            summary_y += 1
+            
+            # Healing aspect and multipliers
+            console.print(0, summary_y, f"Healing: {player.get_total_health_aspect():.1f}  Attack Mult: {player.get_total_attack_multiplier():.1f}x", fg=COLOR_WHITE)
+            summary_y += 1
+            
+            console.print(0, summary_y, f"Defense Mult: {player.get_total_defense_multiplier():.1f}x  XP Mult: {player.get_total_xp_multiplier():.1f}x", fg=COLOR_WHITE)
         
         # Instructions with better formatting
         console.print(0, SCREEN_HEIGHT - 4, "Controls:", fg=COLOR_GREEN)

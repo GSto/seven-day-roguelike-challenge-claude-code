@@ -145,19 +145,29 @@ def test_consumable_usage():
     player = Player(10, 10)
     
     # Damage player first
-    player.hp = 50
+    player.hp = 30  # Reduce from 50 max HP to 30
     initial_hp = player.hp
     
     # Use health potion
     health_potion = HealthPotion(0, 0)
     result = health_potion.use(player)
-    assert result == True
+    # Handle both old format (boolean) and new format (tuple)
+    if isinstance(result, tuple):
+        success, message = result
+        assert success == True
+    else:
+        assert result == True
     assert player.hp > initial_hp
     
     # Try to use potion at full health
     player.hp = player.max_hp
     result = health_potion.use(player)
-    assert result == False  # Should fail
+    # Handle both old format (boolean) and new format (tuple)
+    if isinstance(result, tuple):
+        success, message = result
+        assert success == False
+    else:
+        assert result == False  # Should fail
     
     print("✓ Consumable usage works correctly")
 

@@ -434,7 +434,6 @@ class Game:
                     if result:
                         self.player.remove_item(item)
                         self.ui.add_message(f"You used a {item.name}.")
-                        self.game_state = 'PLAYING'  # Return to game after use
                     else:
                         self.ui.add_message(f"You can't use the {item.name} right now.")
             
@@ -468,8 +467,6 @@ class Game:
                 self.selected_item_index = None
             elif self.selected_item_index >= len(self.player.inventory):
                 self.selected_item_index = len(self.player.inventory) - 1
-            
-            self.game_state = 'PLAYING'  # Return to game after dropping
     
     def equip_item(self, item):
         """Equip an item and handle slot management."""

@@ -74,4 +74,4 @@ class SpikedArmor(Armor):
     """Aggressive armor with spikes for extra protection and offense."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Spiked Armor", '[', 4, "Menacing armor covered in spikes", attack_bonus=2)
+        super().__init__(x, y, "Spiked Armor", '[',1, "Menacing armor covered in spikes", attack_bonus=2)
