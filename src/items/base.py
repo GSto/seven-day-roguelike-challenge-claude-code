@@ -47,7 +47,8 @@ class Equipment(Item):
     def __init__(self, x, y, name, char, color, description="", 
                  attack_bonus=0, defense_bonus=0, equipment_slot="", 
                  fov_bonus=0, health_aspect_bonus=0.0,
-                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0):
+                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 xp_cost=5):
         super().__init__(x, y, name, char, color, description)
         self.attack_bonus = attack_bonus
         self.defense_bonus = defense_bonus
@@ -59,7 +60,11 @@ class Equipment(Item):
         self.attack_multiplier_bonus = attack_multiplier_bonus
         self.defense_multiplier_bonus = defense_multiplier_bonus
         self.xp_multiplier_bonus = xp_multiplier_bonus
+        
+        # XP cost to equip this item
+        self.xp_cost = xp_cost
     
     def can_equip(self, player):
         """Check if player can equip this item."""
-        return True  # Basic check, can be overridden
+        # Check if player has enough XP to equip this item
+        return player.xp >= self.xp_cost

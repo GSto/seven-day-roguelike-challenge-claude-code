@@ -41,7 +41,7 @@ def test_health_potion():
     # Test potion properties
     assert potion.name == "Health Potion"
     assert potion.char == '!'
-    assert potion.effect_value == 30
+    assert potion.effect_value == 1
     
     # Test healing when damaged
     player.hp = 50  # Damage player

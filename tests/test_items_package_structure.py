@@ -27,7 +27,7 @@ def test_consumable_imports():
     health_potion = HealthPotion(5, 5)
     
     assert health_potion.name == "Health Potion"
-    assert hasattr(health_potion, 'heal_amount')
+    assert hasattr(health_potion, 'effect_value')
     
     print("✓ Consumable classes import and work correctly")
 

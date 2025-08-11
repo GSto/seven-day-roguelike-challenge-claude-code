@@ -470,6 +470,11 @@ class Game:
     
     def equip_item(self, item):
         """Equip an item and handle slot management."""
+        # Check if player can afford the XP cost
+        if not item.can_equip(self.player):
+            self.ui.add_message(f"Cannot equip {item.name}. Need {item.xp_cost} XP (you have {self.player.xp}).")
+            return
+        
         slot = item.equipment_slot
         
         if slot == "weapon":
@@ -483,7 +488,11 @@ class Game:
             # Equip new weapon
             self.player.weapon = item
             self.player.remove_item(item)
-            self.ui.add_message(f"You equipped {item.name}.")
+            self.player.xp -= item.xp_cost
+            if item.xp_cost > 0:
+                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
+            else:
+                self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "armor":
             # Unequip current armor if any
@@ -496,7 +505,11 @@ class Game:
             # Equip new armor
             self.player.armor = item
             self.player.remove_item(item)
-            self.ui.add_message(f"You equipped {item.name}.")
+            self.player.xp -= item.xp_cost
+            if item.xp_cost > 0:
+                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
+            else:
+                self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "accessory":
             # Unequip current accessory if any
@@ -509,7 +522,11 @@ class Game:
             # Equip new accessory
             self.player.accessory = item
             self.player.remove_item(item)
-            self.ui.add_message(f"You equipped {item.name}.")
+            self.player.xp -= item.xp_cost
+            if item.xp_cost > 0:
+                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
+            else:
+                self.ui.add_message(f"You equipped {item.name}.")
         
         # Update FOV after equipment change (some items affect FOV)
         self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())

@@ -11,7 +11,8 @@ class Weapon(Equipment):
     """Weapon equipment."""
     
     def __init__(self, x, y, name, char=')', attack_bonus=0, description="", 
-                 fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0):
+                 fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 xp_cost=5):
         self.enchantments = []
         self.base_name = name
         
@@ -27,7 +28,8 @@ class Weapon(Equipment):
             health_aspect_bonus=health_aspect_bonus,
             attack_multiplier_bonus=attack_multiplier_bonus, 
             defense_multiplier_bonus=defense_multiplier_bonus, 
-            xp_multiplier_bonus=xp_multiplier_bonus
+            xp_multiplier_bonus=xp_multiplier_bonus,
+            xp_cost=xp_cost
         )
     
     def add_enchantment(self, enchantment):
@@ -95,7 +97,7 @@ class WoodenStick(Weapon):
     """Basic starting weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Wooden Stick", ')', 1, "A simple wooden stick")
+        super().__init__(x, y, "Wooden Stick", ')', 1, "A simple wooden stick", xp_cost=0)
 
 
 class Dagger(Weapon):

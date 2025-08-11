@@ -11,7 +11,8 @@ class Armor(Equipment):
     
     def __init__(self, x, y, name, char, defense_bonus, description="", 
                  attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0,
-                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0):
+                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 xp_cost=5):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -25,7 +26,8 @@ class Armor(Equipment):
             health_aspect_bonus=health_aspect_bonus,
             attack_multiplier_bonus=attack_multiplier_bonus,
             defense_multiplier_bonus=defense_multiplier_bonus,
-            xp_multiplier_bonus=xp_multiplier_bonus
+            xp_multiplier_bonus=xp_multiplier_bonus,
+            xp_cost=xp_cost
         )
 
 
@@ -34,44 +36,44 @@ class WhiteTShirt(Armor):
     """Basic starting armor."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "White T-Shirt", '[', 0, "A plain white T-shirt")
+        super().__init__(x, y, "White T-Shirt", '[', 0, "A plain white T-shirt", xp_cost=0)
 
 
 class LeatherArmor(Armor):
     """Light armor for early game."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Leather Armor", '[', 1, "Basic leather protection")
+        super().__init__(x, y, "Leather Armor", '[', 1, description="Basic leather protection")
 
 class SafetyVest(Armor):
     """Light armor for early game."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Leather Armor", '[', 2, "Bright orange, easy to see", 1)
+        super().__init__(x, y, "Safety Vest", '[', 2, description="Bright orange, easy to see", attack_bonus=1)
 
 class ChainMail(Armor):
     """Medium armor for mid-game."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Chain Mail", '[', 2, "Flexible chain mail armor")
+        super().__init__(x, y, "Chain Mail", '[', 2, description="Flexible chain mail armor")
 
 
 class PlateArmor(Armor):
     """Heavy armor for late game."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Plate Armor", '[', 3, "Heavy plate armor")
+        super().__init__(x, y, "Plate Armor", '[', 3, description="Heavy plate armor")
 
 
 class DragonScale(Armor):
     """Legendary armor from dragon materials."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Dragon Scale Armor", '[', 5, "Legendary dragon scale armor")
+        super().__init__(x, y, "Dragon Scale Armor", '[', 5, description="Legendary dragon scale armor")
 
 
 class SpikedArmor(Armor):
     """Aggressive armor with spikes for extra protection and offense."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Spiked Armor", '[',1, "Menacing armor covered in spikes", attack_bonus=2)
+        super().__init__(x, y, "Spiked Armor", '[', 1, description="Menacing armor covered in spikes", attack_bonus=2)

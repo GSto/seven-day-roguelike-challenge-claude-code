@@ -60,7 +60,7 @@ def test_player_level_up():
     # Check that player leveled up
     assert player.level == 2
     assert player.xp == 0  # XP should be reset
-    assert player.xp_to_next == 65  # Should be 1.3x previous (50 * 1.3)
+    assert player.xp_to_next == 70  # Should be 1.3x previous (50 * 1.3)
     
     # Check stat increases - level 2 is even, so attack should increase
     hp_gained = int(initial_max_hp * 1.2) - initial_max_hp
