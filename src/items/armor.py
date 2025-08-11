@@ -2,8 +2,9 @@
 Armor items for defense.
 """
 
-from constants import COLOR_GREEN, COLOR_ORANGE
+from constants import COLOR_GREEN
 from .base import Equipment
+import random
 
 
 class Armor(Equipment):
@@ -50,6 +51,18 @@ class SafetyVest(Armor):
 
     def __init__(self, x, y):
         super().__init__(x, y, "Safety Vest", '[', 2, description="Bright orange, easy to see", fov_bonus=2)
+
+class GamblersVest(Armor):
+    def __init__(self, x, y):
+        super().__init__(x, y, "Gambler's Vest", '[', 0, description="Double or 0.5x on defense")
+
+    def get_defense_multiplier_bonus(self, player):
+      rand = random.random()
+      if rand <= 0.5:
+        return 2
+      else:
+        return 0.5
+
 
 class ChainMail(Armor):
     """Medium armor for mid-game."""

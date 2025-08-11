@@ -1,7 +1,7 @@
 """
 Accessory items like rings and amulets.
 """
-
+import random
 from constants import COLOR_WHITE
 from .base import Equipment
 
@@ -152,4 +152,29 @@ class AceOfHearts(Card):
             if(player.hp == player.max_hp): 
                 return 2
             else: 
-                return 0
+                return 1
+            
+class Joker(Card):
+        def __init__(self, x, y):
+          super().__init__(x, y, "Joker", description="Double or nothing on Everything")
+
+        def get_attack_multipler_bonus(self, player):
+            rand = random.random()
+            if rand <= 0.5:
+              return 2
+            else:
+              return 0.5
+            
+        def get_defense_multipler_bonus(self, player):
+            rand = random.random()
+            if rand <= 0.5:
+              return 2
+            else:
+              return 0.5
+            
+        def get_xp_multipler_bonus(self, player):
+            rand = random.random()
+            if rand <= 0.5:
+              return 2
+            else:
+              return 0.5

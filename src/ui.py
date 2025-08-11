@@ -40,10 +40,10 @@ class UI:
         if ui_y < SCREEN_HEIGHT:
             # Player stats
             hp_color = COLOR_GREEN if player.hp > player.max_hp * 0.3 else COLOR_RED
-            console.print(0, ui_y, f"HP: {player.hp}/{player.max_hp}", fg=hp_color)
-            console.print(20, ui_y, f"Level: {player.level}", fg=COLOR_WHITE)
+            console.print(0, ui_y, f"HP:  {player.hp}/{player.max_hp}", fg=hp_color)
+            console.print(20, ui_y, f"LVL: {player.level}", fg=COLOR_WHITE)
             console.print(35, ui_y, f"XP: {player.xp}", fg=COLOR_WHITE)
-            console.print(50, ui_y, f"Dungeon Level: {current_level}", fg=COLOR_WHITE)
+            console.print(50, ui_y, f"Floor: {current_level}", fg=COLOR_WHITE)
             
             # Add "Next Lvl:" under dungeon level with level up indicator
             level_up_color = COLOR_YELLOW if player.can_level_up() else COLOR_WHITE
@@ -52,13 +52,13 @@ class UI:
                 level_up_text += " (Press X)"
             console.print(50, ui_y + 1, level_up_text, fg=level_up_color)
             
-            ui_y += 2  # Account for the extra "Next Lvl:" line
+            ui_y += 1  # Account for the extra "Next Lvl:" line
             
             # Combat stats
             if ui_y < SCREEN_HEIGHT:
-                console.print(0, ui_y, f"Attack: {player.get_total_attack()}", fg=COLOR_WHITE)
-                console.print(20, ui_y, f"Defense: {player.get_total_defense()}", fg=COLOR_WHITE)
-                ui_y += 1
+                console.print(0, ui_y, f"ATK: {player.get_total_attack()}", fg=COLOR_WHITE)
+                console.print(20, ui_y, f"DEF: {player.get_total_defense()}", fg=COLOR_WHITE)
+                ui_y += 2
             
             # Equipment
             if ui_y < SCREEN_HEIGHT:
@@ -70,7 +70,7 @@ class UI:
                 console.print(0, ui_y, weapon_text, fg=COLOR_WHITE)
                 armor_x = len(weapon_text) + 3  # 3 character padding
                 console.print(armor_x, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
-                ui_y += 1
+                ui_y += 2
             
             # Message log (reserve space for 6 lines, but only show actual messages)
             log_start_y = ui_y

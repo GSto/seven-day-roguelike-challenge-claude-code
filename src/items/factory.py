@@ -4,9 +4,9 @@ Factory functions for creating random items.
 
 import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon
-from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield
-from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor
-from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts
+from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff
+from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest
+from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 
 
@@ -17,7 +17,7 @@ from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon]
-CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades]
+CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
 
 BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS + CARDS
 
@@ -27,16 +27,16 @@ MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + BASE_CONSUMABL
 LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + BASE_CONSUMABLES
 END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + BASE_CONSUMABLES
 # Weapon item pools
-EARLY_GAME_WEAPONS = [Dagger, Sword, Shield]
-MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, ClericsStaff, Gauntlets]
-LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, TowerShield, Gauntlets]
+EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, MateriaStaff]
+MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, ClericsStaff, Gauntlets, MateriaStaff]
+LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, TowerShield, Gauntlets, MateriaStaff]
 END_GAME_WEAPONS = [WarHammer, Gauntlets]
 
 # Armor item pools
-EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest]
-MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor]
-LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor]
-END_GAME_ARMOR = [PlateArmor, DragonScale]
+EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, GamblersVest]
+MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor, GamblersVest]
+LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor, GamblersVest]
+END_GAME_ARMOR = [PlateArmor, DragonScale, GamblersVest]
 
 # Mostly for testing new things, may need to rebalance
 DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, AceOfSpades]

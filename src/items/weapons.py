@@ -164,8 +164,24 @@ class ClericsStaff(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "Cleric's Staff", ')', 4, "A holy staff that enhances healing", health_aspect_bonus=0.2)
 
+class MateriaStaff(Weapon):
+        def __init__(self, x, y):
+          super().__init__(x, y, "Materia Staff", ')', 2, "A staff that gets better when enchanted")
+
+        def get_attack_bonus(self, player):
+            base_attack = super().get_attack_bonus(player) 
+            enchant_count = len(self.enchantments)
+            if enchant_count == 0:
+              return base_attack
+            elif enchant_count == 1:
+              return base_attack + 6
+            else:
+              return base_attack + 12
+                
+
+
 class Gauntlets(Weapon):
     """Gloves that enhance your natural strength."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=1.25)
+        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=1.5)

@@ -111,15 +111,19 @@ class Player:
             return True
         return False
     
-    def get_total_attack(self):
-        """Get total attack power including equipment and multipliers."""
-        total = self.attack
+    def get_attack_bonus(self): 
+        total = 0
         if self.weapon:
             total += self.weapon.get_attack_bonus(self)
         if self.armor and hasattr(self.armor, 'attack_bonus'):
             total += self.armor.get_attack_bonus(self)
         if self.accessory:
             total += self.accessory.get_attack_bonus(self)
+        return total
+    
+    def get_total_attack(self):
+        """Get total attack power including equipment and multipliers."""
+        total = self.attack + self.get_attack_bonus()
         return int(total * self.get_total_attack_multiplier())
     
     def get_total_defense(self):

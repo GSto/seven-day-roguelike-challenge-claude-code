@@ -4,14 +4,14 @@ Game constants and configuration values.
 
 # Screen dimensions
 SCREEN_WIDTH = 80
-SCREEN_HEIGHT = 56
+SCREEN_HEIGHT = 58
 
 # Map dimensions  
 MAP_WIDTH = 80
 MAP_HEIGHT = 43
 
 # UI dimensions
-UI_HEIGHT = 7
+UI_HEIGHT = 8
 
 # Game settings
 TITLE = "Devil's Den"
