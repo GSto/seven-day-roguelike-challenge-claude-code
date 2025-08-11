@@ -126,7 +126,7 @@ class AceOfSpades(Card):
 class AceOfDiamonds(Card):
     
     def __init__(self, x, y):
-        super().__init(x,y, "Ace of Hearts", description="2x XP if 20% HP or less")
+        super().__init__(x,y, "Ace of Hearts", description="2x XP if 20% HP or less")
 
     def get_xp_multiplier_bonus(self, player):
         if(player.hp <= (player.max_hp / 5)):
@@ -136,7 +136,7 @@ class AceOfDiamonds(Card):
         
 class AceOfClubs(Card):
         def __init__(self, x, y):
-          super().__init(x, y, "Ace of Clubs", description="+5 Def if 20% HP or less")
+          super().__init__(x, y, "Ace of Clubs", description="+5 Def if 20% HP or less")
 
         def get_defense_bonus(self, player):
           if(player.hp <= (player.max_hp / 5)):
@@ -146,7 +146,7 @@ class AceOfClubs(Card):
           
 class AceOfHearts(Card):
         def __init__(self, x, y):
-          super().__init(x, y, "Ace of Hearts", description="2x attack if at full health")
+          super().__init__(x, y, "Ace of Hearts", description="2x attack if at full health")
 
         def get_attack_multipler_bonus(self, player):
             if(player.hp == player.max_hp): 

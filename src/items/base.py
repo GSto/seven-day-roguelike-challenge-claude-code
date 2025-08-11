@@ -76,10 +76,10 @@ class Equipment(Item):
     def get_health_aspect_bonus(self, player):
         return self.health_aspect_bonus
     
-    def get_attack_multipler_bonus(self, player):
+    def get_attack_multiplier_bonus(self, player):
         return self.attack_multiplier_bonus
     
-    def get_defense_multipler_bonus(self, player):
+    def get_defense_multiplier_bonus(self, player):
         return self.defense_multiplier_bonus
     
     def get_xp_multiplier_bonus(self, player):

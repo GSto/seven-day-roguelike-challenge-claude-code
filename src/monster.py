@@ -81,12 +81,11 @@ class Skeleton(Monster):
         )
 
 class Zombie(Monster):
-    """Weak but fast goblin."""
     
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Skeleton",
+            name="Zombie",
             char='Z',
             color=COLOR_WHITE,
             hp=12,
