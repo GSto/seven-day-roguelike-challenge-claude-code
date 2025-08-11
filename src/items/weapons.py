@@ -104,13 +104,13 @@ class Dagger(Weapon):
     """Light, fast weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Dagger", ')', 3, "A sharp dagger")
+        super().__init__(x, y, "Dagger", ')', 3, "A sharp dagger. free to equip",xp_cost=0)
 
 class Shield(Weapon):
     """Defensive "weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Shield", ')', attack_bonus=0, defense_multiplier_bonus=1.25, description="A shield")
+        super().__init__(x, y, "Shield", ')', attack_bonus=0, defense_multiplier_bonus=1.25, description="A shield.")
 
 class TowerShield(Weapon):
     """Defensive "weapon."""

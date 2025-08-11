@@ -170,12 +170,12 @@ class UI:
             # Show equipped items with stat bonuses
             weapon_text = "None"
             if player.weapon:
-                weapon_bonus = f" (+{player.weapon.attack_bonus})" if player.weapon.attack_bonus > 0 else ""
+                weapon_bonus = f" (+{player.weapon.get_attack_bonus(player)})" if player.weapon.get_attack_bonus(player) != 0 else ""
                 weapon_text = f"{player.weapon.name}{weapon_bonus}"
             
             armor_text = "None"
             if player.armor:
-                armor_bonus = f" (+{player.armor.defense_bonus})" if player.armor.defense_bonus > 0 else ""
+                armor_bonus = f" (+{player.armor.get_defense_bonus(player)})" if player.armor.defense_bonus != 0 else ""
                 armor_text = f"{player.armor.name}{armor_bonus}"
             
             accessory_text = "None"
@@ -203,26 +203,26 @@ class UI:
             
             # Equipment bonuses
             if hasattr(selected_item, 'attack_bonus') and selected_item.attack_bonus > 0:
-                desc_lines.append(f"Attack Bonus: +{selected_item.attack_bonus}")
+                desc_lines.append(f"Attack Bonus: +{selected_item.get_attack_bonus(player)}")
             
             if hasattr(selected_item, 'defense_bonus') and selected_item.defense_bonus > 0:
-                desc_lines.append(f"Defense Bonus: +{selected_item.defense_bonus}")
+                desc_lines.append(f"Defense Bonus: +{selected_item.get_defense_bonus(player)}")
             
             if hasattr(selected_item, 'fov_bonus') and selected_item.fov_bonus > 0:
-                desc_lines.append(f"FOV Bonus: +{selected_item.fov_bonus}")
+                desc_lines.append(f"FOV Bonus: +{selected_item.get_fov_bonus(player)}")
             
             if hasattr(selected_item, 'health_aspect_bonus') and selected_item.health_aspect_bonus > 0:
-                desc_lines.append(f"Healing Bonus: +{selected_item.health_aspect_bonus:.1f}")
+                desc_lines.append(f"Healing Bonus: +{selected_item.get_health_aspect_bonus(player):.1f}")
             
             # Multiplier bonuses
             if hasattr(selected_item, 'attack_multiplier_bonus') and selected_item.attack_multiplier_bonus > 1.0:
-                desc_lines.append(f"Attack Multiplier: {selected_item.attack_multiplier_bonus:.1f}x")
+                desc_lines.append(f"Attack Multiplier: {selected_item.get_attack_multiplier_bonus(player):.1f}x")
             
             if hasattr(selected_item, 'defense_multiplier_bonus') and selected_item.defense_multiplier_bonus > 1.0:
-                desc_lines.append(f"Defense Multiplier: {selected_item.defense_multiplier_bonus:.1f}x")
+                desc_lines.append(f"Defense Multiplier: {selected_item.get_defense_multiplier_bonus(player):.1f}x")
             
             if hasattr(selected_item, 'xp_multiplier_bonus') and selected_item.xp_multiplier_bonus > 1.0:
-                desc_lines.append(f"XP Multiplier: {selected_item.xp_multiplier_bonus:.1f}x")
+                desc_lines.append(f"XP Multiplier: {selected_item.get_xp_multiplier_bonus(player):.1f}x")
             
             # Consumable effects
             if hasattr(selected_item, 'heal_percentage'):

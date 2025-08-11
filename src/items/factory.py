@@ -6,7 +6,7 @@ import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon
 from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor
-from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades
+from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 
 
@@ -17,13 +17,15 @@ from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon]
+CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades]
+
+BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS + CARDS
 
 # Consumable item pools
-EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + DEFAULT_CONSUMABLES
-MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
-LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
-END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
-
+EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + BASE_CONSUMABLES
+MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + BASE_CONSUMABLES
+LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + BASE_CONSUMABLES
+END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + BASE_CONSUMABLES
 # Weapon item pools
 EARLY_GAME_WEAPONS = [Dagger, Sword, Shield]
 MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, ClericsStaff, Gauntlets]
@@ -78,7 +80,7 @@ def create_random_item_for_level(level_number, x, y):
         else:
             consumable_pool = END_GAME_CONSUMABLES
         
-        # 67% health potions, 33% other consumables
+        
         if random.random() < HEALTH_POTION_CHANCE:
             return HealthPotion(x, y)
         else:

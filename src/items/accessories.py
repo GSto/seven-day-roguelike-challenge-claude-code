@@ -43,7 +43,7 @@ class Card(Accessory):
     
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0, xp_cost=5, description="An enchanted card"):
-        super().__init__(x, y, name, '🂡', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
+        super().__init__(x, y, name, '?', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                          attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus, xp_cost)
 
 
@@ -81,13 +81,13 @@ class Rosary(Necklace):
     """Necklace that increases health aspect."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Rosary", attack_bonus=0, defense_bonus=1, fov_bonus=0, health_aspect_bonus=0.1, description="A healer's necklace")
+        super().__init__(x, y, "Rosary", defense_bonus=1, health_aspect_bonus=0.1, description="A healer's necklace")
 
 class HeadLamp(Hat):
     """Hat that increases FOV"""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "HeadLamp", attack_bonus=0, defense_bonus=1, fov_bonus=3, health_aspect_bonus=0, description="lamp on your head")
+        super().__init__(x, y, "HeadLamp", attack_bonus=0, defense_bonus=1, fov_bonus=5, description="lamp on your head")
 
 class BaronsCrown(Hat):
     """Hat with attack multiplier."""
@@ -118,7 +118,38 @@ class GreaterProtectionRing(Ring):
 
 
 class AceOfSpades(Card):
-    """Legendary ring with high attack multiplier."""
+    """Double Attack, Zero Defense"""
     
     def __init__(self, x, y):
         super().__init__(x, y, "Ace of Spades", attack_multiplier_bonus=2.0, defense_multiplier_bonus=0.1, description="Are you a gambling man? doubles attack, decimates defense")
+
+class AceOfDiamonds(Card):
+    
+    def __init__(self, x, y):
+        super().__init(x,y, "Ace of Hearts", description="2x XP if 20% HP or less")
+
+    def get_xp_multiplier_bonus(self, player):
+        if(player.hp <= (player.max_hp / 5)):
+            return 2
+        else:
+            return 0
+        
+class AceOfClubs(Card):
+        def __init__(self, x, y):
+          super().__init(x, y, "Ace of Clubs", description="+5 Def if 20% HP or less")
+
+        def get_defense_bonus(self, player):
+          if(player.hp <= (player.max_hp / 5)):
+              return 5
+          else:
+              return 0
+          
+class AceOfHearts(Card):
+        def __init__(self, x, y):
+          super().__init(x, y, "Ace of Hearts", description="2x attack if at full health")
+
+        def get_attack_multipler_bonus(self, player):
+            if(player.hp == player.max_hp): 
+                return 2
+            else: 
+                return 0

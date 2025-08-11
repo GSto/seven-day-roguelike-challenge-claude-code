@@ -43,13 +43,13 @@ class LeatherArmor(Armor):
     """Light armor for early game."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Leather Armor", '[', 1, description="Basic leather protection")
+        super().__init__(x, y, "Leather Armor", '[', 1, description="Basic leather protection. Free to equip", xp_cost=0)
 
 class SafetyVest(Armor):
     """Light armor for early game."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Safety Vest", '[', 2, description="Bright orange, easy to see", attack_bonus=1)
+        super().__init__(x, y, "Safety Vest", '[', 2, description="Bright orange, easy to see", fov_bonus=2)
 
 class ChainMail(Armor):
     """Medium armor for mid-game."""

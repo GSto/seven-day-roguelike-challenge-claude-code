@@ -64,6 +64,28 @@ class Equipment(Item):
         # XP cost to equip this item
         self.xp_cost = xp_cost
     
+    def get_attack_bonus(self, player):
+          return self.attack_bonus
+    
+    def get_defense_bonus(self, player):
+        return self.defense_bonus
+    
+    def get_fov_bonus(self, player):
+        return self.fov_bonus
+    
+    def get_health_aspect_bonus(self, player):
+        return self.health_aspect_bonus
+    
+    def get_attack_multipler_bonus(self, player):
+        return self.attack_multiplier_bonus
+    
+    def get_defense_multipler_bonus(self, player):
+        return self.defense_multiplier_bonus
+    
+    def get_xp_multiplier_bonus(self, player):
+        return self.xp_multiplier_bonus
+  
+    
     def can_equip(self, player):
         """Check if player can equip this item."""
         # Check if player has enough XP to equip this item

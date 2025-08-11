@@ -71,11 +71,26 @@ class Skeleton(Monster):
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Goblin",
+            name="Skeleton",
             char='S',
             color=COLOR_WHITE,
             hp=15,
             attack=4,
+            defense=0,
+            xp_value=10
+        )
+
+class Zombie(Monster):
+    """Weak but fast goblin."""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Skeleton",
+            char='Z',
+            color=COLOR_WHITE,
+            hp=12,
+            attack=5,
             defense=0,
             xp_value=10
         )
@@ -168,17 +183,25 @@ def create_monster_for_level(level_number):
     rand = random.random()
     
     if level_number <= 2:
-        # Early levels: mostly goblins
-        if rand < 0.8:
+        if rand < 0.7:
             return Skeleton
+        else:
+            return Zombie
+        
+    elif level_number <=3:
+        if rand < 0.7:
+            return Skeleton
+        elif rand < 0.9:
+            return Zombie
         else:
             return Orc
         
+        
     elif level_number <= 4: 
-        #Early-mid, more orcs, fewer goblins, occasional Hobgoblins
-
-        if rand < 0.2:
+        if rand < 0.1:
           return Skeleton
+        if rand < 0.2:
+          return Zombie
         elif rand < 0.8:
           return Orc
         else: 
