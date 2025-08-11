@@ -8,8 +8,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
 from items.consumables import PowerCatalyst, DefenseCatalyst, D6
-from items.weapons import BrightSword, ClericsStaff
-from items.armor import SpikedArmor
 
 
 def test_power_catalyst():

@@ -69,7 +69,27 @@ class Beef(Consumable):
         super().__init__(
             x=x, y=y,
             name="Beef",
-            char='B',
+            char='b',
+            color=COLOR_RED,
+            description="Makes you heartier",
+            effect_value=20
+        )
+    
+    def use(self, player):
+        """Increase the player's max HP and attack."""
+        player.max_hp += self.effect_value 
+        player.attack += 1
+        player.heal(5)
+        return (True, "You feel heartier! Max HP +20, Attack +1")
+    
+class Chicken(Consumable):
+    """Makes you heartier"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Wall Chicken",
+            char='c',
             color=COLOR_RED,
             description="Makes you heartier",
             effect_value=1 
@@ -77,9 +97,9 @@ class Beef(Consumable):
     
     def use(self, player):
         """Increase the player's max HP and attack."""
-        player.max_hp += 20 
-        player.attack += 1
-        return (True, "You feel heartier! Max HP +20, Attack +1")
+        player.max_hp += 10 
+        player.heal(10)
+        return (True, "You feel heartier! Max HP +10")
 
 class Carrot(Consumable):
     """Improves your eyesight"""
@@ -91,12 +111,13 @@ class Carrot(Consumable):
             char='!',
             color=COLOR_ORANGE,
             description="Improves your eyesight",
-            effect_value=1 
+            effect_value=3 
         )
     
     def use(self, player):
         """Increase the player's FOV."""
         player.fov += self.effect_value
+        player.heal(10) # All food provides a little HP
         return (True, f"Your vision improves! FOV +{self.effect_value}")
 
 class SalmonOfKnowledge(Consumable):
@@ -114,6 +135,7 @@ class SalmonOfKnowledge(Consumable):
     
     def use(self, player):
         """Player gains XP"""
+        player.heal(5)
         player.gain_xp(self.effect_value)
         return (True, f"You gain {self.effect_value} XP from ancient wisdom!")
 
@@ -187,9 +209,9 @@ class D6(Consumable):
             player.hp += (player.max_hp - old_max)  # Heal the difference
             return (True, f"Rolled {roll}! Max HP +10")
         elif roll == 4:
-            # +1 FOV
+            # +3 FOV
             player.fov += 1
-            return (True, f"Rolled {roll}! FOV +1")
+            return (True, f"Rolled {roll}! FOV +3")
         elif roll == 5:
             # -20 max HP (but don't kill the player)
             if player.max_hp > 25:  # Ensure player doesn't die from this

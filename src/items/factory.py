@@ -3,8 +3,8 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, Beef, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon
-from .weapons import Dagger, Sword, Longsword, WarHammer, BrightSword, ClericsStaff, Gauntlets, Weapon
+from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon
+from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment
@@ -14,26 +14,23 @@ from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 # ITEM POOLS - Edit these to change what items appear at different levels
 # ============================================================================
 
-DEFAULT_CONSUMABLES = [Beef, SalmonOfKnowledge, D6]
+DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon]
 
 # Consumable item pools
-# Power and Defense Catalysts found in all levels, D6 found in all levels
 EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + DEFAULT_CONSUMABLES
 MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
 LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
 END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS
 
 # Weapon item pools
-# Cleric's Staff: early-late game, Bright Sword: mid & late game
-EARLY_GAME_WEAPONS = [Dagger, Sword, ClericsStaff]
-MID_GAME_WEAPONS = [Sword, Longsword, BrightSword, ClericsStaff, Gauntlets]
-LATE_GAME_WEAPONS = [Longsword, WarHammer, BrightSword, ClericsStaff, Gauntlets]
-END_GAME_WEAPONS = [WarHammer, BrightSword, Gauntlets]
+EARLY_GAME_WEAPONS = [Dagger, Sword, Shield]
+MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, ClericsStaff, Gauntlets]
+LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, TowerShield, Gauntlets]
+END_GAME_WEAPONS = [WarHammer, Gauntlets]
 
 # Armor item pools
-# Added SpikedArmor in mid-late game range
 EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest]
 MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor]
 LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor]

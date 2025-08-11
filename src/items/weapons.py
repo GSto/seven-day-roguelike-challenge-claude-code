@@ -106,12 +106,30 @@ class Dagger(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "Dagger", ')', 3, "A sharp dagger")
 
+class Shield(Weapon):
+    """Defensive "weapon."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Shield", ')', attack_bonus=0, defense_multiplier_bonus=1.25, description="A shield")
+
+class TowerShield(Weapon):
+    """Defensive "weapon."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Tower Shield", ')', attack_bonus=1, defense_multiplier_bonus=1.5, description="A shield")
+
 
 class Sword(Weapon):
     """Balanced weapon for mid-game."""
     
     def __init__(self, x, y):
         super().__init__(x, y, "Sword", ')', 5, "A well-balanced sword")
+
+class Axe(Weapon):
+    """Balanced weapon for mid-game."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Axe", ')', 6, "An axe")
 
 
 class Longsword(Weapon):
@@ -120,6 +138,12 @@ class Longsword(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "Longsword", ')', 8, "A two-handed longsword")
 
+class MorningStar(Weapon):
+    """Powerful two-handed weapon."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Morning Star", ')', 9, "A two-handed club")
+
 
 class WarHammer(Weapon):
     """Heavy weapon for maximum damage."""
@@ -127,12 +151,11 @@ class WarHammer(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "War Hammer", ')', 12, "A heavy war hammer")
 
-
-class BrightSword(Weapon):
-    """Magical sword that enhances vision."""
+class WarScythe(Weapon):
+    """Heavy weapon for maximum damage."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Bright Sword", ')', 6, "A luminous sword that enhances vision", fov_bonus=3)
+        super().__init__(x, y, "War Scythe", ')', 12, "A long, brutal weapon")
 
 
 class ClericsStaff(Weapon):
@@ -145,4 +168,4 @@ class Gauntlets(Weapon):
     """Gloves that enhance your natural strength."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=1.1)
+        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=1.25)
