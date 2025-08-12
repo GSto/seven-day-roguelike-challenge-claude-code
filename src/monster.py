@@ -9,7 +9,8 @@ from constants import COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_CRIMSON, COLOR
 class Monster:
     """Base class for all monsters."""
     
-    def __init__(self, x, y, name, char, color, hp, attack, defense, xp_value):
+    def __init__(self, x, y, name, char, color, hp, attack, defense, xp_value,
+                 evade=0.05, crit=0.05, crit_multiplier=2.0):
         """Initialize a monster."""
         self.x = x
         self.y = y
@@ -23,6 +24,11 @@ class Monster:
         self.attack = attack
         self.defense = defense
         self.xp_value = xp_value
+        
+        # Combat modifiers
+        self.evade = evade  # Base 5% evade chance
+        self.crit = crit  # Base 5% crit chance
+        self.crit_multiplier = crit_multiplier  # 2x damage on critical hit
         
         # AI state
         self.target_x = None
@@ -66,7 +72,7 @@ class Monster:
 # Traditionally, Rogue had 26 monsters, one for each letter of the alphabet 
 # ABC_EF__IJKLMN_PQR_TUVWXYZ
 class Skeleton(Monster):
-    """Weak but fast goblin."""
+    """Weak but fast skeleton with higher evade."""
     
     def __init__(self, x, y):
         super().__init__(
@@ -77,7 +83,10 @@ class Skeleton(Monster):
             hp=15,
             attack=4,
             defense=0,
-            xp_value=10
+            xp_value=10,
+            evade=0.15,  # Higher evade - skeletons are nimble
+            crit=0.05,
+            crit_multiplier=2.0
         )
 
 class Zombie(Monster):
@@ -111,7 +120,7 @@ class Orc(Monster):
         )
 
 class Goblin(Monster):
-    """Medium strength orc warrior."""
+    """Sneaky goblin with higher crit chance."""
     
     def __init__(self, x, y):
         super().__init__(
@@ -122,7 +131,10 @@ class Goblin(Monster):
             hp=35,
             attack=9,
             defense=1,
-            xp_value=25
+            xp_value=25,
+            evade=0.1,  # Decent evade
+            crit=0.15,  # Higher crit - goblins are sneaky
+            crit_multiplier=2.0
         )
 
 
@@ -142,7 +154,7 @@ class Troll(Monster):
         )
 
 class Horror(Monster):
-      """Aggressive abomination with high attack"""
+      """Aggressive abomination with devastating crits"""
       
       def __init__(self, x, y):
         super().__init__(
@@ -153,7 +165,10 @@ class Horror(Monster):
             hp=100,
             attack=16,
             defense=3,
-            xp_value=60
+            xp_value=60,
+            evade=0.02,  # Low evade - horrors are bulky
+            crit=0.1,  # Decent crit chance
+            crit_multiplier=2.5  # Higher crit damage
         )
     
 
@@ -170,7 +185,10 @@ class Devil(Monster):
             hp=500,      # Increased HP for final boss
             attack=25,   # Higher attack
             defense=8,   # Strong defense
-            xp_value=200 # Massive XP reward
+            xp_value=200, # Massive XP reward
+            evade=0.1,  # Devils are cunning
+            crit=0.2,  # High crit chance
+            crit_multiplier=3.0  # Devastating crits
         )
         # Mark this as the final boss
         self.is_final_boss = True

@@ -213,12 +213,23 @@ class Game:
     
     def player_attack_monster(self, monster):
         """Player attacks a monster."""
-        # Calculate damage
-        damage = self.player.get_total_attack()
-        actual_damage = monster.take_damage(damage)
+        # Check for evade
+        if random.random() < monster.evade:
+            self.ui.add_message(f"You try to attack {monster.name} and miss!")
+            return
         
-        # Add combat message
-        message = f"You attack the {monster.name} for {actual_damage} damage!"
+        # Calculate base damage
+        damage = self.player.get_total_attack()
+        
+        # Check for critical hit
+        if random.random() < self.player.get_total_crit():
+            damage = int(damage * self.player.get_total_crit_multiplier())
+            actual_damage = monster.take_damage(damage)
+            message = f"You hit a critical attack on the {monster.name} for {actual_damage}!"
+        else:
+            actual_damage = monster.take_damage(damage)
+            message = f"You attack the {monster.name} for {actual_damage} damage!"
+        
         self.ui.add_message(message)
         
         # Check if monster died
@@ -255,12 +266,23 @@ class Game:
     
     def monster_attack_player(self, monster):
         """Monster attacks the player."""
-        # Calculate damage
-        damage = monster.attack
-        actual_damage = self.player.take_damage(damage)
+        # Check for evade
+        if random.random() < self.player.get_total_evade():
+            self.ui.add_message(f"The {monster.name} tries to attack you and misses!")
+            return
         
-        # Add combat message
-        message = f"The {monster.name} attacks you for {actual_damage} damage!"
+        # Calculate base damage
+        damage = monster.attack
+        
+        # Check for critical hit
+        if random.random() < monster.crit:
+            damage = int(damage * monster.crit_multiplier)
+            actual_damage = self.player.take_damage(damage)
+            message = f"The {monster.name} hits you with a critical attack for {actual_damage}!"
+        else:
+            actual_damage = self.player.take_damage(damage)
+            message = f"The {monster.name} attacks you for {actual_damage} damage!"
+        
         self.ui.add_message(message)
         
         # Check if player died
@@ -331,11 +353,11 @@ class Game:
         
         # Check for level transitions (only if we didn't just change levels)
         if not self.just_changed_level:
-            if self.level.is_stairs_down(self.player.x, self.player.y):
-                self.descend_level()
-            elif self.level.is_stairs_up(self.player.x, self.player.y):
+            # removed down stairs, this is a one-way journey
+            if self.level.is_stairs_up(self.player.x, self.player.y):
                 self.ascend_level()
     
+    # Currently not in sure, but keeping here in case I change my mind later
     def descend_level(self):
         """Move to the next level down."""
         self.current_level += 1

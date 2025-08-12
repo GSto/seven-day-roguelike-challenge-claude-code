@@ -12,6 +12,7 @@ class Weapon(Equipment):
     
     def __init__(self, x, y, name, char=')', attack_bonus=0, description="", 
                  fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  xp_cost=5):
         self.enchantments = []
         self.base_name = name
@@ -29,6 +30,9 @@ class Weapon(Equipment):
             attack_multiplier_bonus=attack_multiplier_bonus, 
             defense_multiplier_bonus=defense_multiplier_bonus, 
             xp_multiplier_bonus=xp_multiplier_bonus,
+            evade_bonus=evade_bonus,
+            crit_bonus=crit_bonus,
+            crit_multiplier_bonus=crit_multiplier_bonus,
             xp_cost=xp_cost
         )
     
@@ -57,6 +61,9 @@ class Weapon(Equipment):
             self._base_health_aspect_bonus = self.health_aspect_bonus
             self._base_attack_multiplier_bonus = self.attack_multiplier_bonus
             self._base_xp_multiplier_bonus = self.xp_multiplier_bonus
+            self._base_evade_bonus = self.evade_bonus
+            self._base_crit_bonus = self.crit_bonus
+            self._base_crit_multiplier_bonus = self.crit_multiplier_bonus
         
         # Start with base values
         total_attack = self._base_attack_bonus
@@ -65,6 +72,7 @@ class Weapon(Equipment):
         total_health_aspect = self._base_health_aspect_bonus
         total_attack_multiplier = self._base_attack_multiplier_bonus
         total_xp_multiplier = self._base_xp_multiplier_bonus
+        total_crit = self._base_crit_bonus
         
         # Apply enchantment bonuses
         for enchantment in self.enchantments:
@@ -74,6 +82,8 @@ class Weapon(Equipment):
             total_health_aspect += enchantment.get_health_aspect_bonus()
             total_attack_multiplier += enchantment.get_attack_multiplier_bonus()
             total_xp_multiplier += enchantment.get_xp_multiplier_bonus()
+            if hasattr(enchantment, 'get_crit_bonus'):
+                total_crit += enchantment.get_crit_bonus()
         
         # Update the actual stats
         self.attack_bonus = total_attack
@@ -82,6 +92,7 @@ class Weapon(Equipment):
         self.health_aspect_bonus = total_health_aspect
         self.attack_multiplier_bonus = total_attack_multiplier
         self.xp_multiplier_bonus = total_xp_multiplier
+        self.crit_bonus = total_crit
     
     def _update_display_name(self):
         """Update the display name to include enchantments."""

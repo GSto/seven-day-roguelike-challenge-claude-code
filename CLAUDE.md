@@ -2,35 +2,44 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+
 ## Project Overview
 
-This is a seven-day roguelike game development project following the traditional 7DRL challenge format. The goal is to create a complete, playable roguelike game with all core features implemented.
+This is a seven-day roguelike game development project following the traditional 7DRL challenge format. It is a complete, playable roguelike.
 
-## Project Requirements
-
-The game must include:
-- Player inventory system with consumable potions and equippable items
-- At least 10 randomly generated levels with progressive difficulty
-- Items, monsters, walls, rooms, and stairs between levels
-- Final boss monster on the last level
-- Turn-based combat system where monsters move/attack after each player action
-- Monster AI that chases the player when spotted
-- Simple keyboard-navigated UI showing player stats, equipment, and inventory
-- Win condition (kill final boss) and death/reset mechanics
-
-## Technical Requirements
-
-- Must produce playable executables for Windows, Linux, and Mac
-- Should use an existing roguelike library (libtcod, T-Engine, or similar modern framework)
-- Must implement core roguelike features: FOV, level generation algorithms, A* pathfinding
-- All code must be clearly visible on GitHub
-- No complex deployment/build steps required
 
 ## Project Structure
+Read this project structure when making changes, to help you understand where items should be placed. 
 
+Overview
 - `plans/` - Project planning and roadmap documentation
 - `specs/` - Technical specifications (empty currently)
-- `src/` - Source code (empty currently - implementation needed)
+- `src/` - Source code 
+- `tests/` - Where we store unit tests. 
+
+### Logic
+- `game.py` - runs the game, handles events, player movement, combat, turns, item usage
+- `level.py` - level generation 
+- `main.py` - entry point, no logic here. 
+- `monster.py` - collection of monsters and logic for generating them
+- `player.py` - player related logic
+- `ui.py` - handles rendering elements on screen.
+
+### Game Pieces 
+Users have three kinds of equipment: Weapon, Armor, and Accessories
+- `src/items/accessories.py` - all of the accesories users can equip. 
+- `src/items/weapons.py` - all weapons
+- `src/items/armor.py` - all armor
+
+#### Consumables 
+- `src/items/consumables.py` There are all consumable items, which are things the user can use once. Includes, potions, boons, catalysts.
+
+#### Logic & Utilities
+- `src/items/enchantments.py` -enchantments that can be applied to users 
+- `src/items/base.py` - base item classes
+- `src/items/factory.py` - generates items for levels
+
+
 
 ## Development Commands
 

@@ -26,6 +26,11 @@ class Player:
         self.fov = 10  # Field of view radius
         self.health_aspect = 0.3  # Health potion effectiveness multiplier
         
+        # Combat stats
+        self.evade = 0.05  # 5% base evade chance
+        self.crit = 0.05  # 5% base crit chance
+        self.crit_multiplier = 2.0  # 2x damage on critical hit
+        
         # Multiplier stats for equipment/consumable bonuses
         self.attack_multiplier = 1.0
         self.defense_multiplier = 1.0
@@ -190,6 +195,39 @@ class Player:
             total *= self.armor.get_xp_multiplier_bonus(self)
         if self.accessory and hasattr(self.accessory, 'xp_multiplier_bonus'):
             total *= self.accessory.get_xp_multiplier_bonus(self)
+        return total
+    
+    def get_total_evade(self):
+        """Get total evade chance including equipment bonuses."""
+        total = self.evade
+        if self.weapon and hasattr(self.weapon, 'evade_bonus'):
+            total += self.weapon.evade_bonus
+        if self.armor and hasattr(self.armor, 'evade_bonus'):
+            total += self.armor.evade_bonus
+        if self.accessory and hasattr(self.accessory, 'evade_bonus'):
+            total += self.accessory.evade_bonus
+        return min(0.75, total)  # Cap at 75% evade
+    
+    def get_total_crit(self):
+        """Get total crit chance including equipment bonuses."""
+        total = self.crit
+        if self.weapon and hasattr(self.weapon, 'crit_bonus'):
+            total += self.weapon.crit_bonus
+        if self.armor and hasattr(self.armor, 'crit_bonus'):
+            total += self.armor.crit_bonus
+        if self.accessory and hasattr(self.accessory, 'crit_bonus'):
+            total += self.accessory.crit_bonus
+        return min(0.75, total)  # Cap at 75% crit
+    
+    def get_total_crit_multiplier(self):
+        """Get total crit multiplier including equipment bonuses."""
+        total = self.crit_multiplier
+        if self.weapon and hasattr(self.weapon, 'crit_multiplier_bonus'):
+            total += self.weapon.crit_multiplier_bonus
+        if self.armor and hasattr(self.armor, 'crit_multiplier_bonus'):
+            total += self.armor.crit_multiplier_bonus
+        if self.accessory and hasattr(self.accessory, 'crit_multiplier_bonus'):
+            total += self.accessory.crit_multiplier_bonus
         return total
     
     def render(self, console, fov):

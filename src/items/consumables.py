@@ -439,3 +439,66 @@ class JokersBoon(Consumable):
             return (True, f"Your {player.weapon.name} is enchanted with {enchantment.name} power!")
         else:
             return (False, f"Your {player.weapon.name} cannot be further enhanced!")
+
+
+class ReapersCatalyst(Consumable):
+    """Permanently increases crit chance"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Reaper's Catalyst",
+            char='*',
+            color=COLOR_RED,
+            description="Permanently increases crit chance by 5%",
+            effect_value=0.05
+        )
+    
+    def use(self, player):
+        """Permanently increase player's crit chance"""
+        player.crit += self.effect_value
+        return (True, f"You feel deadlier! Crit chance +{int(self.effect_value * 100)}%")
+
+
+class ShadowsCatalyst(Consumable):
+    """Permanently increases evade chance"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Shadow's Catalyst",
+            char='*',
+            color=COLOR_BLUE,
+            description="Permanently increases evade chance by 5%",
+            effect_value=0.05
+        )
+    
+    def use(self, player):
+        """Permanently increase player's evade chance"""
+        player.evade += self.effect_value
+        return (True, f"You feel more agile! Evade chance +{int(self.effect_value * 100)}%")
+
+
+class ReapersBoon(Consumable):
+    """Applies Rending enchantment to equipped weapon"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Reaper's Boon",
+            char='*',
+            color=COLOR_RED,
+            description="Applies Rending enchantment to equipped weapon (+10% crit)",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Apply Rending enchantment to player's weapon"""
+        if not player.weapon:
+            return (False, "You need to have a weapon equipped to use this!")
+        
+        enchantment = get_enchantment_by_type(EnchantmentType.RENDING)
+        if player.weapon.add_enchantment(enchantment):
+            return (True, f"Your {player.weapon.name} is enchanted with Rending power (+10% crit chance)!")
+        else:
+            return (False, f"Your {player.weapon.name} cannot be further enhanced!")

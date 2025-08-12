@@ -3,7 +3,7 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon
+from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon
 from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker
@@ -16,16 +16,16 @@ from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 
 DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6]
 # Boons (can appear from floor 2+)
-ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon]
+ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersBoon]
 CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
 
 BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS + CARDS
 
 # Consumable item pools
 EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + BASE_CONSUMABLES
-MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst] + BASE_CONSUMABLES
-LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst] + BASE_CONSUMABLES
-END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, Elixir] + BASE_CONSUMABLES
+MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, ReapersCatalyst, ShadowsCatalyst] + BASE_CONSUMABLES
+LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst] + BASE_CONSUMABLES
+END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst, Elixir] + BASE_CONSUMABLES
 # Weapon item pools
 EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, MateriaStaff]
 MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, ClericsStaff, Gauntlets, MateriaStaff]

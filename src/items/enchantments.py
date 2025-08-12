@@ -14,6 +14,7 @@ class EnchantmentType(Enum):
     GILDED = "Gilded"       # +5% XP bonus
     BLESSED = "Blessed"     # +5% healing aspect bonus
     BOLSTERED = "Bolstered" # +1 defense bonus
+    RENDING = "Rending"     # +10% crit chance
 
 
 class Enchantment:
@@ -59,6 +60,12 @@ class Enchantment:
         """Get the health aspect bonus provided by this enchantment."""
         if self.type == EnchantmentType.BLESSED:
             return 0.05  # 5% bonus
+        return 0.0
+    
+    def get_crit_bonus(self):
+        """Get the crit chance bonus provided by this enchantment."""
+        if self.type == EnchantmentType.RENDING:
+            return 0.10  # 10% crit chance bonus
         return 0.0
 
 

@@ -48,6 +48,7 @@ class Equipment(Item):
                  attack_bonus=0, defense_bonus=0, equipment_slot="", 
                  fov_bonus=0, health_aspect_bonus=0.0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  xp_cost=5):
         super().__init__(x, y, name, char, color, description)
         self.attack_bonus = attack_bonus
@@ -60,6 +61,11 @@ class Equipment(Item):
         self.attack_multiplier_bonus = attack_multiplier_bonus
         self.defense_multiplier_bonus = defense_multiplier_bonus
         self.xp_multiplier_bonus = xp_multiplier_bonus
+        
+        # Combat modifiers
+        self.evade_bonus = evade_bonus  # Bonus to evade chance
+        self.crit_bonus = crit_bonus  # Bonus to critical hit chance
+        self.crit_multiplier_bonus = crit_multiplier_bonus  # Bonus to critical hit multiplier
         
         # XP cost to equip this item
         self.xp_cost = xp_cost

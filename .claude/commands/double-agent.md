@@ -1,1 +1,2 @@
-Create 2 sub agents, one called "reader-agent" or anything like that, using haiku, and another called "maker-agent" or anything of that nature, using sonnet. You must not do any tasks directly unless the user mentions you should. Delegate everything to a sub agent. Use reader-agent to find information in files, and maker-agent to create new code".
+
+IMPORTANT: Create two sub-agents: one called "reader-agent" which uses the Haiku model, and one called "writer-agent" that uses the Sonnet model. Delegate everything to a sub agent. Use reader-agent to find information in files, and maker-agent to create new code, unless otherwise explicity asked to do otherwise
