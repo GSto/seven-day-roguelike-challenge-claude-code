@@ -141,6 +141,9 @@ class Game:
                         self.selected_item_index = 0
                     else:
                         self.selected_item_index = (self.selected_item_index + 1) % len(self.player.inventory)
+            elif ord('1') <= key <= ord('3'):
+                # Handle accessory slot keys 1-3
+                self.handle_accessory_slot_key(key - ord('1'))
             elif ord('a') <= key <= ord('z'):
                 # Select item by letter (but exclude action keys)
                 if key not in [ord('d'), ord('k'), ord('j')]:  # Removed 'u' and 'e'
@@ -518,6 +521,73 @@ class Game:
             self.ui.add_message(f"You dropped the {item.name}.")
             
             # Adjust selection after dropping
+            if len(self.player.inventory) == 0:
+                self.selected_item_index = None
+            elif self.selected_item_index >= len(self.player.inventory):
+                self.selected_item_index = len(self.player.inventory) - 1
+    
+    def handle_accessory_slot_key(self, slot_index):
+        """Handle accessory slot keys 1-3 for equipping/unequipping accessories."""
+        # Check if slot_index is valid (0-2 for slots 1-3)
+        if not (0 <= slot_index < 3):
+            return
+        
+        # Check if slot is currently occupied
+        slot_occupied = (slot_index < len(self.player.accessories) and 
+                        self.player.accessories[slot_index] is not None)
+        
+        if slot_occupied:
+            # Slot is occupied - UNEQUIP the accessory
+            accessory_to_unequip = self.player.accessories[slot_index]
+            self.player.accessories[slot_index] = None
+            self.player.add_item(accessory_to_unequip)
+            self.ui.add_message(f"You unequipped {accessory_to_unequip.name} from slot {slot_index + 1}.")
+            
+            # Update FOV after equipment change
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+            
+        else:
+            # Slot is empty - try to EQUIP selected accessory
+            if self.selected_item_index is None:
+                self.ui.add_message("No item selected. Select an accessory first.")
+                return
+            
+            if self.selected_item_index >= len(self.player.inventory):
+                self.ui.add_message("Invalid item selected.")
+                return
+            
+            selected_item = self.player.inventory[self.selected_item_index]
+            
+            # Check if selected item is an accessory
+            if not (hasattr(selected_item, 'equipment_slot') and 
+                   selected_item.equipment_slot == "accessory"):
+                self.ui.add_message("Selected item is not an accessory.")
+                return
+            
+            # Check if player can afford the XP cost
+            if not selected_item.can_equip(self.player):
+                self.ui.add_message(f"Cannot equip {selected_item.name}. Need {selected_item.xp_cost} XP (you have {self.player.xp}).")
+                return
+            
+            # Equip accessory to the specific slot
+            # Ensure accessories list is long enough
+            while len(self.player.accessories) <= slot_index:
+                self.player.accessories.append(None)
+            
+            # Equip the accessory
+            self.player.accessories[slot_index] = selected_item
+            self.player.remove_item(selected_item)
+            self.player.xp -= selected_item.xp_cost
+            
+            if selected_item.xp_cost > 0:
+                self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1} for {selected_item.xp_cost} XP.")
+            else:
+                self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1}.")
+            
+            # Update FOV after equipment change
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+            
+            # Adjust selection after equipping (item was removed from inventory)
             if len(self.player.inventory) == 0:
                 self.selected_item_index = None
             elif self.selected_item_index >= len(self.player.inventory):

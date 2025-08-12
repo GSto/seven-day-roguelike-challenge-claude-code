@@ -312,7 +312,8 @@ class UI:
             console.print(0, summary_y, f"Defense Mult: {player.get_total_defense_multiplier():.1f}x  XP Mult: {player.get_total_xp_multiplier():.1f}x", fg=COLOR_WHITE)
         
         # Instructions with better formatting
-        console.print(0, SCREEN_HEIGHT - 4, "Controls:", fg=COLOR_GREEN)
-        console.print(0, SCREEN_HEIGHT - 3, "Arrow keys or letter to select item", fg=COLOR_WHITE)
-        console.print(0, SCREEN_HEIGHT - 2, "[Enter] Use/Equip  [D] Drop", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 5, "Controls:", fg=COLOR_GREEN)
+        console.print(0, SCREEN_HEIGHT - 4, "Arrow keys or letter to select item", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 3, "[Enter] Use/Equip  [D] Drop", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 2, "1-3: Manage accessory slots", fg=COLOR_WHITE)
         console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close inventory", fg=COLOR_WHITE)
