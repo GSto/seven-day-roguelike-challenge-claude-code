@@ -100,8 +100,8 @@ class Zombie(Monster):
             hp=12,
             attack=5,
             defense=0,
-            xp_value=10
-            evade=0 #Zombies slow
+            xp_value=10,
+            evade=0, #Zombies slow
             crit=0
         )
 
@@ -152,8 +152,8 @@ class Troll(Monster):
             hp=60,
             attack=8,
             defense=5,
-            xp_value=45
-            evade=0.02
+            xp_value=45,
+            evade=0.02 # Trolls are slow
         )
 
 class Horror(Monster):
@@ -168,7 +168,7 @@ class Horror(Monster):
             hp=100,
             attack=16,
             defense=3,
-            xp_value=60,
+            xp_value=65,
             evade=0.08,  # Slightly higher evade
             crit=0.05,  # Nerfed crit abilities - Horrors are dangerous enough in current state
             crit_multiplier=1.5 

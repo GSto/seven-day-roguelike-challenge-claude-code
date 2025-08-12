@@ -164,7 +164,7 @@ class AceOfHearts(Card):
         def __init__(self, x, y):
           super().__init__(x, y, "Ace of Hearts", description="2x attack if at full health")
 
-        def get_attack_multipler_bonus(self, player):
+        def get_attack_multiplier_bonus(self, player):
             if(player.hp == player.max_hp): 
                 return 2
             else: 
@@ -174,21 +174,21 @@ class Joker(Card):
         def __init__(self, x, y):
           super().__init__(x, y, "Joker", description="Double or nothing on Everything")
 
-        def get_attack_multipler_bonus(self, player):
+        def get_attack_multiplier_bonus(self, player):
             rand = random.random()
             if rand <= 0.5:
               return 2
             else:
               return 0.5
             
-        def get_defense_multipler_bonus(self, player):
+        def get_defense_multiplier_bonus(self, player):
             rand = random.random()
             if rand <= 0.5:
               return 2
             else:
               return 0.5
             
-        def get_xp_multipler_bonus(self, player):
+        def get_xp_multiplier_bonus(self, player):
             rand = random.random()
             if rand <= 0.5:
               return 2

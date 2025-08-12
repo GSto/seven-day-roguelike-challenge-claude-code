@@ -49,6 +49,7 @@ class Game:
         
         # Inventory management
         self.selected_item_index = None
+        self.pending_accessory_replacement = None  # For accessory slot replacement
     
     def run(self):
         """Main game loop."""
@@ -150,6 +151,36 @@ class Game:
                             self.selected_item_index = None
                         else:
                             self.selected_item_index = item_index
+        elif self.game_state == 'ACCESSORY_REPLACEMENT':
+            # Handle accessory replacement selection
+            if key == tcod.event.KeySym.ESCAPE:
+                self.game_state = 'INVENTORY'  # Return to inventory
+                self.pending_accessory_replacement = None
+            elif ord('1') <= key <= ord('3'):
+                # Replace accessory at selected slot
+                slot_index = key - ord('1')
+                if 0 <= slot_index < len(self.player.accessories):
+                    # Unequip the old accessory and put it back in inventory
+                    old_accessory = self.player.accessories[slot_index]
+                    self.player.add_item(old_accessory)
+                    self.ui.add_message(f"You unequipped {old_accessory.name}.")
+                    
+                    # Equip the new accessory in that slot
+                    self.player.accessories[slot_index] = self.pending_accessory_replacement
+                    self.player.remove_item(self.pending_accessory_replacement)
+                    self.player.xp -= self.pending_accessory_replacement.xp_cost
+                    
+                    if self.pending_accessory_replacement.xp_cost > 0:
+                        self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name} for {self.pending_accessory_replacement.xp_cost} XP.")
+                    else:
+                        self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name}.")
+                    
+                    # Clear replacement state and return to inventory
+                    self.pending_accessory_replacement = None
+                    self.game_state = 'INVENTORY'
+                    
+                    # Update FOV after equipment change
+                    self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
         elif self.game_state == 'PLAYING':
             # Inventory key
             if key == ord('i'):
@@ -536,21 +567,24 @@ class Game:
                 self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "accessory":
-            # Unequip current accessory if any
-            if self.player.accessory:
-                old_accessory = self.player.accessory
-                self.player.accessory = None
-                self.player.add_item(old_accessory)
-                self.ui.add_message(f"You unequipped {old_accessory.name}.")
-            
-            # Equip new accessory
-            self.player.accessory = item
-            self.player.remove_item(item)
-            self.player.xp -= item.xp_cost
-            if item.xp_cost > 0:
-                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
+            # Check if there's an available accessory slot
+            if len(self.player.accessories) < self.player.accessory_slots:
+                # Find first available slot and equip
+                self.player.accessories.append(item)
+                self.player.remove_item(item)
+                self.player.xp -= item.xp_cost
+                if item.xp_cost > 0:
+                    self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
+                else:
+                    self.ui.add_message(f"You equipped {item.name}.")
             else:
-                self.ui.add_message(f"You equipped {item.name}.")
+                # All slots are full - ask which one to replace
+                self.ui.add_message("All accessory slots are full. Which accessory would you like to replace?")
+                for i, accessory in enumerate(self.player.accessories):
+                    self.ui.add_message(f"{i+1}: {accessory.name}")
+                self.ui.add_message("Press 1-3 to select which accessory to replace, or ESC to cancel.")
+                self.pending_accessory_replacement = item
+                self.game_state = 'ACCESSORY_REPLACEMENT'
         
         # Update FOV after equipment change (some items affect FOV)
         self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
@@ -760,6 +794,9 @@ class Game:
             self.render_victory_screen()
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
+            self.ui.render_inventory(self.console, self.player, self.selected_item_index)
+        elif self.game_state == 'ACCESSORY_REPLACEMENT':
+            # Render accessory replacement screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index)
         else:
             # Normal game rendering

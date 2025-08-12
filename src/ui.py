@@ -4,7 +4,7 @@ User interface rendering and management.
 
 from constants import (
     SCREEN_WIDTH, SCREEN_HEIGHT, MAP_HEIGHT,
-    COLOR_WHITE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW
+    COLOR_WHITE, COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_GRAY
 )
 
 
@@ -70,7 +70,22 @@ class UI:
                 console.print(0, ui_y, weapon_text, fg=COLOR_WHITE)
                 armor_x = len(weapon_text) + 3  # 3 character padding
                 console.print(armor_x, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
-                ui_y += 2
+                ui_y += 1
+                
+                # Show accessories (up to 3)
+                if ui_y < SCREEN_HEIGHT:
+                    accessories_text = "Accessories: "
+                    if len(player.accessories) == 0:
+                        accessories_text += "None"
+                    else:
+                        accessory_names = [acc.name for acc in player.accessories]
+                        accessories_text += ", ".join(accessory_names)
+                        # Add empty slot indicators
+                        empty_slots = player.accessory_slots - len(player.accessories)
+                        if empty_slots > 0:
+                            accessories_text += f" (+{empty_slots} empty)"
+                    console.print(0, ui_y, accessories_text, fg=COLOR_WHITE)
+                    ui_y += 1
             
             # Message log (reserve space for 6 lines, but only show actual messages)
             log_start_y = ui_y
@@ -178,14 +193,26 @@ class UI:
                 armor_bonus = f" (+{player.armor.get_defense_bonus(player)})" if player.armor.defense_bonus != 0 else ""
                 armor_text = f"{player.armor.name}{armor_bonus}"
             
-            accessory_text = "None"
-            if player.accessory:
-                accessory_text = player.accessory.name
-            
             console.print(0, eq_y, f"Weapon: {weapon_text}", fg=COLOR_WHITE)
             console.print(0, eq_y + 1, f"Armor: {armor_text}", fg=COLOR_WHITE)
-            console.print(0, eq_y + 2, f"Accessory: {accessory_text}", fg=COLOR_WHITE)
-            eq_y += 3  # Move past the equipment section
+            eq_y += 2
+            
+            # Show all accessories
+            console.print(0, eq_y, "Accessories:", fg=COLOR_WHITE)
+            eq_y += 1
+            if len(player.accessories) == 0:
+                console.print(2, eq_y, "None", fg=COLOR_WHITE)
+                eq_y += 1
+            else:
+                for i, accessory in enumerate(player.accessories):
+                    console.print(2, eq_y, f"Slot {i+1}: {accessory.name}", fg=COLOR_WHITE)
+                    eq_y += 1
+                # Show empty slots
+                empty_slots = player.accessory_slots - len(player.accessories)
+                for i in range(empty_slots):
+                    slot_num = len(player.accessories) + i + 1
+                    console.print(2, eq_y, f"Slot {slot_num}: Empty", fg=COLOR_GRAY)
+                    eq_y += 1
         
         # Show item description when an item is selected (always show when selected)
         # Place it AFTER the equipped items section
@@ -266,7 +293,16 @@ class UI:
             summary_y += 1
             
             # Combat stats
-            console.print(0, summary_y, f"Attack: {player.get_total_attack()}  Defense: {player.get_total_defense()}", fg=COLOR_WHITE)
+            console.print(0, summary_y, f"ATK: {player.get_total_attack()}", fg=COLOR_WHITE)
+            summary_y += 1
+
+            console.print(0, summary_y, f"DEF: {player.get_total_defense()}", fg=COLOR_WHITE)
+            summary_y += 1
+
+            console.print(0, summary_y, f"CRT: {player.get_total_crit()}", fg=COLOR_WHITE)
+            summary_y += 1
+
+            console.print(0, summary_y, f"EVD: {player.get_total_evade()}", fg=COLOR_WHITE)
             summary_y += 1
             
             # Healing aspect and multipliers

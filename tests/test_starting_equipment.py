@@ -79,8 +79,8 @@ def test_no_starting_accessory():
     """Test that player starts with no accessory."""
     player = Player(10, 10)
     
-    # Player should not have an accessory
-    assert player.accessory is None
+    # Player should not have any accessories
+    assert len(player.accessories) == 0
     
     print("✓ Player starts with no accessory")
 

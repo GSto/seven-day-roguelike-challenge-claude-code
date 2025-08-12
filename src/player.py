@@ -40,7 +40,8 @@ class Player:
         from items import WoodenStick, WhiteTShirt
         self.weapon = WoodenStick(0, 0)  # Starting weapon
         self.armor = WhiteTShirt(0, 0)   # Starting armor
-        self.accessory = None
+        self.accessories = []  # List of equipped accessories
+        self.accessory_slots = 3  # Number of accessory slots available
         
         # Inventory
         self.inventory = []
@@ -122,8 +123,8 @@ class Player:
             total += self.weapon.get_attack_bonus(self)
         if self.armor and hasattr(self.armor, 'attack_bonus'):
             total += self.armor.get_attack_bonus(self)
-        if self.accessory:
-            total += self.accessory.get_attack_bonus(self)
+        for accessory in self.accessories:
+            total += accessory.get_attack_bonus(self)
         return total
     
     def get_total_attack(self):
@@ -138,8 +139,8 @@ class Player:
             total += self.weapon.get_defense_bonus(self)
         if self.armor:
             total += self.armor.get_defense_bonus(self)
-        if self.accessory:
-            total += self.accessory.get_defense_bonus(self)
+        for accessory in self.accessories:
+            total += accessory.get_defense_bonus(self)
         return int(total * self.get_total_defense_multiplier())
     
     def get_total_fov(self):
@@ -149,8 +150,9 @@ class Player:
             total += self.weapon.fov_bonus
         if self.armor and hasattr(self.armor, 'fov_bonus'):
             total += self.armor.fov_bonus
-        if self.accessory and hasattr(self.accessory, 'fov_bonus'):
-            total += self.accessory.fov_bonus
+        for accessory in self.accessories:
+            if hasattr(accessory, 'fov_bonus'):
+                total += accessory.fov_bonus
         return total
     
     def get_total_health_aspect(self):
@@ -160,8 +162,9 @@ class Player:
             total += self.weapon.health_aspect_bonus
         if self.armor and hasattr(self.armor, 'health_aspect_bonus'):
             total += self.armor.health_aspect_bonus
-        if self.accessory and hasattr(self.accessory, 'health_aspect_bonus'):
-            total += self.accessory.health_aspect_bonus
+        for accessory in self.accessories:
+            if hasattr(accessory, 'health_aspect_bonus'):
+                total += accessory.health_aspect_bonus
         return total
     
     def get_total_attack_multiplier(self):
@@ -171,8 +174,9 @@ class Player:
             total *= self.weapon.get_attack_multiplier_bonus(self)
         if self.armor and hasattr(self.armor, 'attack_multiplier_bonus'):
             total *= self.armor.get_attack_multiplier_bonus(self)
-        if self.accessory and hasattr(self.accessory, 'attack_multiplier_bonus'):
-            total *= self.accessory.get_attack_multiplier_bonus(self)
+        for accessory in self.accessories:
+            if hasattr(accessory, 'attack_multiplier_bonus'):
+                total *= accessory.get_attack_multiplier_bonus(self)
         return total
     
     def get_total_defense_multiplier(self):
@@ -182,8 +186,9 @@ class Player:
             total *= self.weapon.get_defense_multiplier_bonus(self)
         if self.armor and hasattr(self.armor, 'defense_multiplier_bonus'):
             total *= self.armor.get_defense_multiplier_bonus(self)
-        if self.accessory and hasattr(self.accessory, 'defense_multiplier_bonus'):
-            total *= self.accessory.get_defense_multiplier_bonus(self)
+        for accessory in self.accessories:
+            if hasattr(accessory, 'defense_multiplier_bonus'):
+                total *= accessory.get_defense_multiplier_bonus(self)
         return total
     
     def get_total_xp_multiplier(self):
@@ -193,8 +198,9 @@ class Player:
             total *= self.weapon.get_xp_multiplier_bonus(self)
         if self.armor and hasattr(self.armor, 'xp_multiplier_bonus'):
             total *= self.armor.get_xp_multiplier_bonus(self)
-        if self.accessory and hasattr(self.accessory, 'xp_multiplier_bonus'):
-            total *= self.accessory.get_xp_multiplier_bonus(self)
+        for accessory in self.accessories:
+            if hasattr(accessory, 'xp_multiplier_bonus'):
+                total *= accessory.get_xp_multiplier_bonus(self)
         return total
     
     def get_total_evade(self):
@@ -204,8 +210,9 @@ class Player:
             total += self.weapon.evade_bonus
         if self.armor and hasattr(self.armor, 'evade_bonus'):
             total += self.armor.evade_bonus
-        if self.accessory and hasattr(self.accessory, 'evade_bonus'):
-            total += self.accessory.evade_bonus
+        for accessory in self.accessories:
+            if hasattr(accessory, 'evade_bonus'):
+                total += accessory.evade_bonus
         return min(0.75, total)  # Cap at 75% evade
     
     def get_total_crit(self):
@@ -215,8 +222,9 @@ class Player:
             total += self.weapon.crit_bonus
         if self.armor and hasattr(self.armor, 'crit_bonus'):
             total += self.armor.crit_bonus
-        if self.accessory and hasattr(self.accessory, 'crit_bonus'):
-            total += self.accessory.crit_bonus
+        for accessory in self.accessories:
+            if hasattr(accessory, 'crit_bonus'):
+                total += accessory.crit_bonus
         return min(0.75, total)  # Cap at 75% crit
     
     def get_total_crit_multiplier(self):
@@ -226,8 +234,9 @@ class Player:
             total += self.weapon.crit_multiplier_bonus
         if self.armor and hasattr(self.armor, 'crit_multiplier_bonus'):
             total += self.armor.crit_multiplier_bonus
-        if self.accessory and hasattr(self.accessory, 'crit_multiplier_bonus'):
-            total += self.accessory.crit_multiplier_bonus
+        for accessory in self.accessories:
+            if hasattr(accessory, 'crit_multiplier_bonus'):
+                total += accessory.crit_multiplier_bonus
         return total
     
     def render(self, console, fov):

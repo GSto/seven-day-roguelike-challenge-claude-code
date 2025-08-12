@@ -98,9 +98,9 @@ def test_equipment_basic():
     
     # Test accessory equipment (should still start empty)
     ring = PowerRing(0, 0)
-    assert player.accessory is None
-    player.accessory = ring
-    assert player.accessory == ring
+    assert len(player.accessories) == 0
+    player.accessories.append(ring)
+    assert ring in player.accessories
     
     print("✓ Basic equipment functionality works correctly")
 
@@ -131,7 +131,7 @@ def test_equipment_stat_bonuses():
     
     # Equip accessory
     ring = PowerRing(0, 0)
-    player.accessory = ring
+    player.accessories.append(ring)
     total_attack = base_attack + dagger.attack_bonus + ring.attack_bonus
     total_defense = base_defense + armor.defense_bonus + ring.defense_bonus
     assert player.get_total_attack() == total_attack
