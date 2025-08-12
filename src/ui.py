@@ -72,20 +72,21 @@ class UI:
                 console.print(armor_x, ui_y, f"Armor: {armor_name}", fg=COLOR_WHITE)
                 ui_y += 1
                 
-                # Show accessories (up to 3)
-                if ui_y < SCREEN_HEIGHT:
-                    accessories_text = "Accessories: "
-                    if len(player.accessories) == 0:
-                        accessories_text += "None"
-                    else:
-                        accessory_names = [acc.name for acc in player.accessories]
-                        accessories_text += ", ".join(accessory_names)
-                        # Add empty slot indicators
-                        empty_slots = player.accessory_slots - len(player.accessories)
-                        if empty_slots > 0:
-                            accessories_text += f" (+{empty_slots} empty)"
-                    console.print(0, ui_y, accessories_text, fg=COLOR_WHITE)
-                    ui_y += 1
+                # # Show accessories (up to 3)
+                # if ui_y < SCREEN_HEIGHT:
+                #     accessories_text = "Accessories: "
+                #     equipped_accessories = player.equipped_accessories()
+                #     if len(equipped_accessories) == 0:
+                #         accessories_text += "None"
+                #     else:
+                #         accessory_names = [acc.name for acc in equipped_accessories]
+                #         accessories_text += ", ".join(accessory_names)
+                #         # Add empty slot indicators
+                #         empty_slots = player.accessory_slots - len(equipped_accessories)
+                #         if empty_slots > 0:
+                #             accessories_text += f" (+{empty_slots} empty)"
+                #     console.print(0, ui_y, accessories_text, fg=COLOR_WHITE)
+                #     ui_y += 1
             
             # Message log (reserve space for 6 lines, but only show actual messages)
             log_start_y = ui_y
@@ -200,19 +201,14 @@ class UI:
             # Show all accessories
             console.print(0, eq_y, "Accessories:", fg=COLOR_WHITE)
             eq_y += 1
-            if len(player.accessories) == 0:
-                console.print(2, eq_y, "None", fg=COLOR_WHITE)
-                eq_y += 1
-            else:
-                for i, accessory in enumerate(player.accessories):
-                    console.print(2, eq_y, f"Slot {i+1}: {accessory.name}", fg=COLOR_WHITE)
-                    eq_y += 1
-                # Show empty slots
-                empty_slots = player.accessory_slots - len(player.accessories)
-                for i in range(empty_slots):
-                    slot_num = len(player.accessories) + i + 1
+
+            for i, accessory in enumerate(player.accessories):
+                slot_num = i + 1
+                if(accessory is None):
                     console.print(2, eq_y, f"Slot {slot_num}: Empty", fg=COLOR_GRAY)
-                    eq_y += 1
+                else: 
+                  console.print(2, eq_y, f"Slot {i+1}: {accessory.name}", fg=COLOR_WHITE)
+                eq_y += 1
         
         # Show item description when an item is selected (always show when selected)
         # Place it AFTER the equipped items section

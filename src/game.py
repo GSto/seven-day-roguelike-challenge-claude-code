@@ -533,8 +533,7 @@ class Game:
             return
         
         # Check if slot is currently occupied
-        slot_occupied = (slot_index < len(self.player.accessories) and 
-                        self.player.accessories[slot_index] is not None)
+        slot_occupied = self.player.accessories[slot_index] is not None
         
         if slot_occupied:
             # Slot is occupied - UNEQUIP the accessory
@@ -570,11 +569,7 @@ class Game:
                 return
             
             # Equip accessory to the specific slot
-            # Ensure accessories list is long enough
-            while len(self.player.accessories) <= slot_index:
-                self.player.accessories.append(None)
-            
-            # Equip the accessory
+            # Note: accessories list should always have 3 slots initialized with None
             self.player.accessories[slot_index] = selected_item
             self.player.remove_item(selected_item)
             self.player.xp -= selected_item.xp_cost
@@ -638,9 +633,12 @@ class Game:
             
         elif slot == "accessory":
             # Check if there's an available accessory slot
-            if len(self.player.accessories) < self.player.accessory_slots:
-                # Find first available slot and equip
-                self.player.accessories.append(item)
+            if len(self.player.equipped_accessories()) < self.player.accessory_slots:
+                # Find first empty slot (None) and equip there
+                for i in range(len(self.player.accessories)):
+                    if self.player.accessories[i] is None:
+                        self.player.accessories[i] = item
+                        break
                 self.player.remove_item(item)
                 self.player.xp -= item.xp_cost
                 if item.xp_cost > 0:
@@ -650,7 +648,7 @@ class Game:
             else:
                 # All slots are full - ask which one to replace
                 self.ui.add_message("All accessory slots are full. Which accessory would you like to replace?")
-                for i, accessory in enumerate(self.player.accessories):
+                for i, accessory in enumerate(self.player.equipped_accessories()):
                     self.ui.add_message(f"{i+1}: {accessory.name}")
                 self.ui.add_message("Press 1-3 to select which accessory to replace, or ESC to cancel.")
                 self.pending_accessory_replacement = item

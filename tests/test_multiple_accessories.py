@@ -17,7 +17,8 @@ class TestMultipleAccessories:
         """Test that player starts with 3 empty accessory slots."""
         player = Player(10, 10)
         assert player.accessory_slots == 3
-        assert len(player.accessories) == 0
+        assert len(player.accessories) == 3
+        assert all(accessory is None for accessory in player.accessories)
     
     def test_can_equip_multiple_accessories(self):
         """Test that player can equip multiple accessories."""
@@ -34,9 +35,9 @@ class TestMultipleAccessories:
         player.add_item(ring3)
         
         # Simulate equipping by directly manipulating accessories list
-        player.accessories.append(ring1)
-        player.accessories.append(ring2)
-        player.accessories.append(ring3)
+        player.accessories[0] = ring1
+        player.accessories[1] = ring2
+        player.accessories[2] = ring3
         
         assert len(player.accessories) == 3
         assert ring1 in player.accessories
@@ -55,8 +56,8 @@ class TestMultipleAccessories:
         base_bonus = player.get_attack_bonus()
         
         # Add accessories
-        player.accessories.append(ring1)
-        player.accessories.append(ring2)
+        player.accessories[0] = ring1
+        player.accessories[1] = ring2
         
         # Should have both bonuses stacked
         total_bonus = player.get_attack_bonus()
@@ -74,8 +75,8 @@ class TestMultipleAccessories:
         base_defense = player.get_total_defense()
         
         # Add accessories
-        player.accessories.append(ring1)
-        player.accessories.append(ring2)
+        player.accessories[0] = ring1
+        player.accessories[1] = ring2
         
         # Should have both bonuses stacked
         total_defense = player.get_total_defense()
@@ -93,8 +94,8 @@ class TestMultipleAccessories:
         base_multiplier = player.get_total_attack_multiplier()
         
         # Add accessories
-        player.accessories.append(crown1)
-        player.accessories.append(crown2)
+        player.accessories[0] = crown1
+        player.accessories[1] = crown2
         
         # Should multiply: base * 1.25 * 1.25 = base * 1.5625
         total_multiplier = player.get_total_attack_multiplier()
@@ -110,8 +111,8 @@ class TestMultipleAccessories:
         joker2 = Joker(0, 0)
         
         # Add accessories
-        player.accessories.append(joker1)
-        player.accessories.append(joker2)
+        player.accessories[0] = joker1
+        player.accessories[1] = joker2
         
         # Get multipliers - they should be calculated
         attack_multiplier = player.get_total_attack_multiplier()
@@ -135,8 +136,8 @@ class TestMultipleAccessories:
         base_evade = player.get_total_evade()
         
         # Add accessories
-        player.accessories.append(ring1)
-        player.accessories.append(ring2)
+        player.accessories[0] = ring1
+        player.accessories[1] = ring2
         
         # Should have both bonuses stacked
         total_evade = player.get_total_evade()
@@ -164,22 +165,27 @@ class TestMultipleAccessories:
         player.get_total_crit_multiplier()
     
     def test_accessory_slots_limitation(self):
-        """Test that accessory slots are properly limited."""
+        """Test that accessory slots are properly limited to 3."""
         player = Player(10, 10)
         
         # Should start with 3 slots
         assert player.accessory_slots == 3
+        assert len(player.accessories) == 3
         
-        # Should be able to track more accessories than slots (for testing equipment logic)
+        # Test that we can equip up to 3 accessories
         ring1 = PowerRing(0, 0)
         ring2 = ProtectionRing(0, 0)
         ring3 = ShadowRing(0, 0)
-        ring4 = PowerRing(0, 0)  # Extra accessory
         
-        # The game logic should prevent equipping more than 3, but the list can theoretically hold more
-        player.accessories.extend([ring1, ring2, ring3, ring4])
+        # Equip accessories in available slots
+        player.accessories[0] = ring1
+        player.accessories[1] = ring2
+        player.accessories[2] = ring3
         
-        # All accessories should still provide bonuses (though game logic should prevent this scenario)
+        # List should always be 3 slots
+        assert len(player.accessories) == 3
+        
+        # All accessories should provide bonuses
         attack_bonus = player.get_attack_bonus()
         assert isinstance(attack_bonus, int)
 
@@ -188,7 +194,8 @@ def test_player_has_three_accessory_slots():
     """Test that player starts with 3 empty accessory slots."""
     player = Player(10, 10)
     assert player.accessory_slots == 3
-    assert len(player.accessories) == 0
+    assert len(player.accessories) == 3
+    assert all(accessory is None for accessory in player.accessories)
 
 
 def test_can_equip_multiple_accessories():
@@ -200,12 +207,13 @@ def test_can_equip_multiple_accessories():
     ring2 = ProtectionRing(0, 0)
     
     # Simulate equipping by directly manipulating accessories list
-    player.accessories.append(ring1)
-    player.accessories.append(ring2)
+    player.accessories[0] = ring1
+    player.accessories[1] = ring2
     
-    assert len(player.accessories) == 2
+    assert len(player.accessories) == 3
     assert ring1 in player.accessories
     assert ring2 in player.accessories
+    assert player.accessories[2] is None
 
 
 def test_attack_bonus_stacking():
@@ -220,8 +228,8 @@ def test_attack_bonus_stacking():
     base_bonus = player.get_attack_bonus()
     
     # Add accessories
-    player.accessories.append(ring1)
-    player.accessories.append(ring2)
+    player.accessories[0] = ring1
+    player.accessories[1] = ring2
     
     # Should have both bonuses stacked
     total_bonus = player.get_attack_bonus()
