@@ -20,7 +20,7 @@ def test_rosary_health_aspect_bonus():
     assert base_health_aspect == 0.3  # Player base health aspect
     
     # Equip rosary
-    player.accessory = rosary
+    player.accessories.append(rosary)
     
     # Check health aspect with rosary equipped
     total_health_aspect = player.get_total_health_aspect()
@@ -38,11 +38,11 @@ def test_headlamp_fov_bonus():
     assert base_fov == 10  # Player base FOV
     
     # Equip headlamp
-    player.accessory = headlamp
+    player.accessories.append(headlamp)
     
     # Check FOV with headlamp equipped
     total_fov = player.get_total_fov()
-    expected = 10 + 1  # Base + headlamp bonus
+    expected = 10 + 5  # Base + headlamp bonus
     assert total_fov == expected, f"Expected {expected}, got {total_fov}"
 
 
@@ -59,7 +59,7 @@ def test_accessory_attributes_exist():
     
     # Check headlamp attributes
     assert hasattr(headlamp, 'fov_bonus')
-    assert headlamp.fov_bonus == 1
+    assert headlamp.fov_bonus == 5
     assert hasattr(headlamp, 'health_aspect_bonus')
     assert headlamp.health_aspect_bonus == 0
 

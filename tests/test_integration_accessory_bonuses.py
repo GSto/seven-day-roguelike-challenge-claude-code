@@ -22,13 +22,13 @@ def test_fov_bonus_integration():
     
     # Create and equip headlamp
     headlamp = HeadLamp(0, 0)
-    player.accessory = headlamp
+    player.accessories.append(headlamp)
     
     # Check FOV with headlamp
     fov_with_headlamp = player.get_total_fov()
     print(f"FOV with HeadLamp: {fov_with_headlamp}")
     
-    assert fov_with_headlamp == base_fov + 1, f"Expected {base_fov + 1}, got {fov_with_headlamp}"
+    assert fov_with_headlamp == base_fov + 5, f"Expected {base_fov + 5}, got {fov_with_headlamp}"
     print("✓ FOV bonus integration test passed!")
 
 
@@ -52,7 +52,7 @@ def test_health_aspect_bonus_integration():
     
     # Now equip rosary
     rosary = Rosary(0, 0)
-    player.accessory = rosary
+    player.accessories.append(rosary)
     
     # Check health aspect with rosary
     health_aspect_with_rosary = player.get_total_health_aspect()
