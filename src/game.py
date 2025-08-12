@@ -225,10 +225,10 @@ class Game:
         if random.random() < self.player.get_total_crit():
             damage = int(damage * self.player.get_total_crit_multiplier())
             actual_damage = monster.take_damage(damage)
-            message = f"You hit a critical attack on the {monster.name} for {actual_damage}!"
+            message = f"You critical hit on the {monster.name} for {actual_damage}!"
         else:
             actual_damage = monster.take_damage(damage)
-            message = f"You attack the {monster.name} for {actual_damage} damage!"
+            message = f"You attack the {monster.name} for {actual_damage}!"
         
         self.ui.add_message(message)
         
@@ -278,10 +278,10 @@ class Game:
         if random.random() < monster.crit:
             damage = int(damage * monster.crit_multiplier)
             actual_damage = self.player.take_damage(damage)
-            message = f"The {monster.name} hits you with a critical attack for {actual_damage}!"
+            message = f"The {monster.name} critical hits you for {actual_damage}!"
         else:
             actual_damage = self.player.take_damage(damage)
-            message = f"The {monster.name} attacks you for {actual_damage} damage!"
+            message = f"The {monster.name} attacks you for {actual_damage}!"
         
         self.ui.add_message(message)
         
@@ -353,11 +353,13 @@ class Game:
         
         # Check for level transitions (only if we didn't just change levels)
         if not self.just_changed_level:
+            if self.level.is_stairs_down(self.player.x, self.player.y):
+                self.descend_level()
             # removed down stairs, this is a one-way journey
-            if self.level.is_stairs_up(self.player.x, self.player.y):
-                self.ascend_level()
+            # if self.level.is_stairs_up(self.player.x, self.player.y):
+            #     self.ascend_level()
     
-    # Currently not in sure, but keeping here in case I change my mind later
+    
     def descend_level(self):
         """Move to the next level down."""
         self.current_level += 1

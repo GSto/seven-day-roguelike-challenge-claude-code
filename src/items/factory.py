@@ -4,7 +4,7 @@ Factory functions for creating random items.
 
 import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon
-from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff
+from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment
@@ -27,10 +27,10 @@ MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, ReapersCatalyst,
 LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst] + BASE_CONSUMABLES
 END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst, Elixir] + BASE_CONSUMABLES
 # Weapon item pools
-EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, MateriaStaff]
-MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, ClericsStaff, Gauntlets, MateriaStaff]
-LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, TowerShield, Gauntlets, MateriaStaff]
-END_GAME_WEAPONS = [WarHammer, Gauntlets]
+EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, MateriaStaff, Katana]
+MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana]
+LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana]
+END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
 
 # Armor item pools
 EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, GamblersVest]

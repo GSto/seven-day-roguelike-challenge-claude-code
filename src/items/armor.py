@@ -13,6 +13,7 @@ class Armor(Equipment):
     def __init__(self, x, y, name, char, defense_bonus, description="", 
                  attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  xp_cost=5):
         super().__init__(
             x=x, y=y,
@@ -28,6 +29,9 @@ class Armor(Equipment):
             attack_multiplier_bonus=attack_multiplier_bonus,
             defense_multiplier_bonus=defense_multiplier_bonus,
             xp_multiplier_bonus=xp_multiplier_bonus,
+            evade_bonus=evade_bonus,
+            crit_bonus=crit_bonus,
+            crit_multiplier_bonus=crit_multiplier_bonus,
             xp_cost=xp_cost
         )
 
@@ -52,6 +56,9 @@ class SafetyVest(Armor):
     def __init__(self, x, y):
         super().__init__(x, y, "Safety Vest", '[', 2, description="Bright orange, easy to see", fov_bonus=2)
 
+class Cloak(Armor):
+    def __init__(self, x, y):
+        super().__init__(x, y, "Cloak", '[', 1, description="Shadow black, difficult to see", evade_bonus=0.05)
 class GamblersVest(Armor):
     def __init__(self, x, y):
         super().__init__(x, y, "Gambler's Vest", '[', 0, description="Double or 0.5x on defense")
@@ -90,3 +97,19 @@ class SpikedArmor(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Spiked Armor", '[', 1, description="Menacing armor covered in spikes", attack_bonus=2)
+
+
+# Example armors using new evade/crit bonuses
+class NinjaSuit(Armor):
+    """Light armor that enhances evasion."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Ninja Suit", '[', 0, description="Shadow garb that enhances stealth", evade_bonus=0.15)
+
+
+class AssassinLeathers(Armor):
+    """Leather armor favored by assassins."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Assassin Leathers", '[', 1, description="Dark leathers that help strike vital spots", 
+                        evade_bonus=0.08, crit_bonus=0.12)

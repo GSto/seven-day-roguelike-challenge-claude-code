@@ -11,6 +11,7 @@ class Accessory(Equipment):
     
     def __init__(self, x, y, name, char, attack_bonus=0, defense_bonus=0, 
                  description="", fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  xp_cost=5):
         super().__init__(
             x=x, y=y,
@@ -26,6 +27,9 @@ class Accessory(Equipment):
             attack_multiplier_bonus=attack_multiplier_bonus,
             defense_multiplier_bonus=defense_multiplier_bonus,
             xp_multiplier_bonus=xp_multiplier_bonus,
+            evade_bonus=evade_bonus,
+            crit_bonus=crit_bonus,
+            crit_multiplier_bonus=crit_multiplier_bonus,
             xp_cost=xp_cost
         )
 
@@ -34,34 +38,46 @@ class Ring(Accessory):
     """Base class for rings."""
     
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0, 
-                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0, xp_cost=5, description="A magical ring"):
+                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 xp_cost=5, description="A magical ring"):
         super().__init__(x, y, name, '=', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
-                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus, xp_cost)
+                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
 
 class Card(Accessory):
     """Base class for cards."""
     
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
-                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0, xp_cost=5, description="An enchanted card"):
+                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 xp_cost=5, description="An enchanted card"):
         super().__init__(x, y, name, '?', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
-                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus, xp_cost)
+                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
 
 
 class Necklace(Accessory):
     """Base class for necklaces."""
     
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
-                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0, xp_cost=5, description="A magical necklace"):
+                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 xp_cost=5, description="A magical necklace"):
         super().__init__(x, y, name, 'v', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
-                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus, xp_cost)
+                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
 
 class Hat(Accessory):
     """Base class for hats."""
     
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
-                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0, xp_cost=5, description="A cool hat"):
+                 attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 xp_cost=5, description="A cool hat"):
         super().__init__(x, y, name, '^', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
-                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus, xp_cost)
+                         attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
 
 
 class PowerRing(Ring):
@@ -178,3 +194,33 @@ class Joker(Card):
               return 2
             else:
               return 0.5
+
+
+# Example accessories using new evade/crit bonuses
+class ShadowRing(Ring):
+    """Ring that enhances evasion."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Shadow Ring", evade_bonus=0.10, description="A ring that bends light around you")
+
+
+class RingOfPrecision(Ring):
+    """Ring that enhances critical strikes."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Ring of Precision", crit_bonus=0.12, description="A ring that guides your strikes")
+
+
+class BrutalityAmulet(Necklace):
+    """Necklace that enhances critical damage."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Amulet of Brutality", crit_multiplier_bonus=0.5, description="An amulet that amplifies your fury")
+
+
+class AssassinsMask(Hat):
+    """Mask combining stealth and lethality."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Assassin's Mask", evade_bonus=0.08, crit_bonus=0.08, 
+                        description="A mask that shrouds you in shadow and sharpens your focus")

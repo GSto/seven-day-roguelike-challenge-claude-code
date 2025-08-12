@@ -90,6 +90,15 @@ class Equipment(Item):
     
     def get_xp_multiplier_bonus(self, player):
         return self.xp_multiplier_bonus
+    
+    def get_evade_bonus(self, player):
+        return self.evade_bonus
+    
+    def get_crit_bonus(self, player):
+        return self.crit_bonus
+    
+    def get_crit_multiplier_bonus(self, player):
+        return self.get_crit_multiplier_bonus
   
     
     def can_equip(self, player):
