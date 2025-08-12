@@ -5,7 +5,7 @@ Factory functions for creating random items.
 import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon
 from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe
-from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest
+from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 
@@ -33,10 +33,10 @@ LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, 
 END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
 
 # Armor item pools
-EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, GamblersVest]
-MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor, GamblersVest]
-LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor, GamblersVest]
-END_GAME_ARMOR = [PlateArmor, DragonScale, GamblersVest]
+EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, GamblersVest, Cloak]
+MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor, GamblersVest, NightCloak]
+LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor, GamblersVest, NightCloak, ShadowCloak]
+END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak]
 
 # Mostly for testing new things, may need to rebalance
 DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, AceOfSpades]

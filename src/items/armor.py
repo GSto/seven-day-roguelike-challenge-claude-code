@@ -58,7 +58,15 @@ class SafetyVest(Armor):
 
 class Cloak(Armor):
     def __init__(self, x, y):
-        super().__init__(x, y, "Cloak", '[', 1, description="Shadow black, difficult to see", evade_bonus=0.05)
+        super().__init__(x, y, "Cloak", '[', 1, description="Shadow black, hard to see", evade_bonus=0.05)
+
+class NightCloak(Armor):
+    def __init__(self, x, y):
+        super().__init__(x, y, "Night Cloak", '[', 1, description="Vanta black, harder to see", evade_bonus=0.1)
+
+class ShadowCloak(Armor):
+    def __init__(self, x, y):
+        super().__init__(x, y, "Shadow's Cloak", '[', 1, description="Wearer is transcluent, harder to see", evade_bonus=0.2)
 class GamblersVest(Armor):
     def __init__(self, x, y):
         super().__init__(x, y, "Gambler's Vest", '[', 0, description="Double or 0.5x on defense")
@@ -97,19 +105,3 @@ class SpikedArmor(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Spiked Armor", '[', 1, description="Menacing armor covered in spikes", attack_bonus=2)
-
-
-# Example armors using new evade/crit bonuses
-class NinjaSuit(Armor):
-    """Light armor that enhances evasion."""
-    
-    def __init__(self, x, y):
-        super().__init__(x, y, "Ninja Suit", '[', 0, description="Shadow garb that enhances stealth", evade_bonus=0.15)
-
-
-class AssassinLeathers(Armor):
-    """Leather armor favored by assassins."""
-    
-    def __init__(self, x, y):
-        super().__init__(x, y, "Assassin Leathers", '[', 1, description="Dark leathers that help strike vital spots", 
-                        evade_bonus=0.08, crit_bonus=0.12)

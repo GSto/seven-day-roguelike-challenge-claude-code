@@ -101,6 +101,8 @@ class Zombie(Monster):
             attack=5,
             defense=0,
             xp_value=10
+            evade=0 #Zombies slow
+            crit=0
         )
 
 
@@ -151,6 +153,7 @@ class Troll(Monster):
             attack=8,
             defense=5,
             xp_value=45
+            evade=0.02
         )
 
 class Horror(Monster):
@@ -166,9 +169,9 @@ class Horror(Monster):
             attack=16,
             defense=3,
             xp_value=60,
-            evade=0.02,  # Low evade - horrors are bulky
-            crit=0.1,  # Decent crit chance
-            crit_multiplier=2.5  # Higher crit damage
+            evade=0.08,  # Slightly higher evade
+            crit=0.05,  # Nerfed crit abilities - Horrors are dangerous enough in current state
+            crit_multiplier=1.5 
         )
     
 
@@ -182,13 +185,13 @@ class Devil(Monster):
             name="Ancient Devil",
             char='D',
             color=COLOR_RED,
-            hp=500,      # Increased HP for final boss
-            attack=25,   # Higher attack
-            defense=8,   # Strong defense
-            xp_value=200, # Massive XP reward
-            evade=0.1,  # Devils are cunning
-            crit=0.2,  # High crit chance
-            crit_multiplier=3.0  # Devastating crits
+            hp=666,      
+            attack=20,   
+            defense=6,   
+            xp_value=666, # Massive XP reward
+            evade=0.06,  
+            crit=0.06,  
+            crit_multiplier=2.06
         )
         # Mark this as the final boss
         self.is_final_boss = True
