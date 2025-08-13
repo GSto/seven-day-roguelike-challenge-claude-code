@@ -3,6 +3,7 @@ Player character implementation.
 """
 
 from constants import COLOR_WHITE
+from traits import Trait
 
 
 class Player:
@@ -53,6 +54,11 @@ class Player:
         self.body_count = 0
         self.dodge_count = 0
         self.consumable_count = 0
+        
+        # Traits system
+        self.attack_traits = []  # List of Aspect enums for attack
+        self.weaknesses = []     # List of Aspect enums for weaknesses
+        self.resistances = []    # List of Aspect enums for resistances
     
     def move(self, dx, dy):
         """Move the player by dx, dy."""
@@ -250,6 +256,39 @@ class Player:
     
     def equipped_accessories(self):
         return [acc for acc in self.accessories if acc is not None]
+    
+    def get_total_attack_traits(self):
+        """Get all attack traits including equipment bonuses."""
+        total_traits = self.attack_traits.copy()
+        if self.weapon:
+            total_traits.extend(self.weapon.get_attack_traits())
+        if self.armor:
+            total_traits.extend(self.armor.get_attack_traits())
+        for accessory in self.equipped_accessories():
+            total_traits.extend(accessory.get_attack_traits())
+        return total_traits
+    
+    def get_total_weaknesses(self):
+        """Get all weaknesses including equipment effects."""
+        total_weaknesses = self.weaknesses.copy()
+        if self.weapon:
+            total_weaknesses.extend(self.weapon.get_weaknesses())
+        if self.armor:
+            total_weaknesses.extend(self.armor.get_weaknesses())
+        for accessory in self.equipped_accessories():
+            total_weaknesses.extend(accessory.get_weaknesses())
+        return total_weaknesses
+    
+    def get_total_resistances(self):
+        """Get all resistances including equipment bonuses."""
+        total_resistances = self.resistances.copy()
+        if self.weapon:
+            total_resistances.extend(self.weapon.get_resistances())
+        if self.armor:
+            total_resistances.extend(self.armor.get_resistances())
+        for accessory in self.equipped_accessories():
+            total_resistances.extend(accessory.get_resistances())
+        return total_resistances
     
     def render(self, console, fov):
         """Render the player on the console."""

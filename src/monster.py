@@ -4,13 +4,14 @@ Monster system - creatures that populate the dungeon levels.
 
 import random
 from constants import COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_CRIMSON, COLOR_WHITE
+from traits import Trait
 
 
 class Monster:
     """Base class for all monsters."""
     
     def __init__(self, x, y, name, char, color, hp, attack, defense, xp_value,
-                 evade=0.05, crit=0.05, crit_multiplier=2.0):
+                 evade=0.05, crit=0.05, crit_multiplier=2.0, attack_traits=None, weaknesses=None, resistances=None):
         """Initialize a monster."""
         self.x = x
         self.y = y
@@ -35,6 +36,11 @@ class Monster:
         self.target_y = None
         self.has_seen_player = False
         self.turns_since_seen_player = 0
+        
+        # Traits system
+        self.attack_traits = attack_traits or []
+        self.weaknesses = weaknesses or []
+        self.resistances = resistances or []
     
     def take_damage(self, damage):
         """Take damage, accounting for defense."""
@@ -86,7 +92,8 @@ class Skeleton(Monster):
             xp_value=10,
             evade=0.15,  # Higher evade - skeletons are nimble
             crit=0.05,
-            crit_multiplier=2.0
+            crit_multiplier=2.0,
+            weaknesses=[Trait.HOLY]
         )
 
 class Zombie(Monster):
@@ -102,7 +109,9 @@ class Zombie(Monster):
             defense=0,
             xp_value=10,
             evade=0, #Zombies slow
-            crit=0
+            crit=0,
+            weaknesses=[Trait.HOLY, Trait.FIRE],
+            resistances=[Trait.ICE]
         )
 
 
@@ -118,7 +127,9 @@ class Orc(Monster):
             hp=25,
             attack=9,
             defense=2,
-            xp_value=20
+            xp_value=20,
+            weaknesses=[Trait.STRIKE],
+            resistances=[Trait.FIRE]
         )
 
 class Goblin(Monster):
@@ -136,7 +147,10 @@ class Goblin(Monster):
             xp_value=25,
             evade=0.1,  # Decent evade
             crit=0.15,  # Higher crit - goblins are sneaky
-            crit_multiplier=2.0
+            crit_multiplier=2.0,
+            attack_traits=[Trait.SLASH],
+            weaknesses=[Trait.ICE, Trait.HOLY],
+            resistances=[Trait.FIRE]
         )
 
 
@@ -153,7 +167,9 @@ class Troll(Monster):
             attack=8,
             defense=5,
             xp_value=45,
-            evade=0.02 # Trolls are slow
+            evade=0.02, # Trolls are slow
+            attack_traits=[Trait.STRIKE],
+            weaknesses=[Trait.FIRE, Trait.SLASH]
         )
 
 class Horror(Monster):
@@ -171,7 +187,8 @@ class Horror(Monster):
             xp_value=65,
             evade=0.08,  # Slightly higher evade
             crit=0.05,  # Nerfed crit abilities - Horrors are dangerous enough in current state
-            crit_multiplier=1.5 
+            crit_multiplier=1.5,
+            weaknesses=[Trait.STRIKE]
         )
     
 
@@ -191,7 +208,9 @@ class Devil(Monster):
             xp_value=666, # Massive XP reward
             evade=0.06,  
             crit=0.06,  
-            crit_multiplier=2.06
+            crit_multiplier=2.06,
+            attack_traits=[Trait.DARK, Trait.FIRE],
+            weaknesses=[Trait.DEMONSLAYER]
         )
         # Mark this as the final boss
         self.is_final_boss = True

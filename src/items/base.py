@@ -3,6 +3,7 @@ Base item classes for the roguelike game.
 """
 
 from constants import COLOR_WHITE
+from traits import Trait
 
 
 class Item:
@@ -27,7 +28,8 @@ class Consumable(Item):
     """Base class for consumable items like potions."""
     
     def __init__(self, x, y, name, char, color, description="", effect_value=0,
-                 attack_multiplier_effect=0.0, defense_multiplier_effect=0.0, xp_multiplier_effect=0.0):
+                 attack_multiplier_effect=0.0, defense_multiplier_effect=0.0, xp_multiplier_effect=0.0,
+                 attack_traits=None, weaknesses=None, resistances=None):
         super().__init__(x, y, name, char, color, description)
         self.effect_value = effect_value
         
@@ -35,6 +37,11 @@ class Consumable(Item):
         self.attack_multiplier_effect = attack_multiplier_effect
         self.defense_multiplier_effect = defense_multiplier_effect
         self.xp_multiplier_effect = xp_multiplier_effect
+        
+        # Traits system
+        self.attack_traits = attack_traits or []
+        self.weaknesses = weaknesses or []
+        self.resistances = resistances or []
     
     def use(self, player):
         """Use the consumable item. Returns True if successfully used."""
@@ -49,6 +56,7 @@ class Equipment(Item):
                  fov_bonus=0, health_aspect_bonus=0.0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 attack_traits=None, weaknesses=None, resistances=None,
                  xp_cost=5):
         super().__init__(x, y, name, char, color, description)
         self.attack_bonus = attack_bonus
@@ -69,6 +77,11 @@ class Equipment(Item):
         
         # XP cost to equip this item
         self.xp_cost = xp_cost
+        
+        # Traits system
+        self.attack_traits = attack_traits or []
+        self.weaknesses = weaknesses or []
+        self.resistances = resistances or []
     
     def get_attack_bonus(self, player):
           return self.attack_bonus
@@ -99,6 +112,43 @@ class Equipment(Item):
     
     def get_crit_multiplier_bonus(self, player):
         return self.crit_multiplier_bonus
+    
+
+    def get_attack_traits(self):
+        """Get all attack traits including those from enchantments."""
+        traits = list(self.attack_traits)  # Copy base traits
+        
+        # Add traits from enchantments if this item has them
+        if hasattr(self, 'enchantments'):
+            for enchantment in self.enchantments:
+                if hasattr(enchantment, 'attack_traits'):
+                    traits.extend(enchantment.attack_traits)
+        
+        return traits
+    
+    def get_weaknesses(self):
+        """Get all weaknesses including those from enchantments."""
+        weaknesses = list(self.weaknesses)  # Copy base weaknesses
+        
+        # Add weaknesses from enchantments if this item has them
+        if hasattr(self, 'enchantments'):
+            for enchantment in self.enchantments:
+                if hasattr(enchantment, 'weaknesses'):
+                    weaknesses.extend(enchantment.weaknesses)
+        
+        return weaknesses
+    
+    def get_resistances(self):
+        """Get all resistances including those from enchantments."""
+        resistances = list(self.resistances)  # Copy base resistances
+        
+        # Add resistances from enchantments if this item has them
+        if hasattr(self, 'enchantments'):
+            for enchantment in self.enchantments:
+                if hasattr(enchantment, 'resistances'):
+                    resistances.extend(enchantment.resistances)
+        
+        return resistances
   
     
     def can_equip(self, player):

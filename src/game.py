@@ -11,6 +11,7 @@ import random
 from player import Player
 from level import Level
 from ui import UI
+from traits import Trait
 
 
 class Game:
@@ -50,6 +51,9 @@ class Game:
         # Inventory management
         self.selected_item_index = None
         self.pending_accessory_replacement = None  # For accessory slot replacement
+        
+        # ESC quit confirmation tracking
+        self.esc_pressed_once = False
     
     def run(self):
         """Main game loop."""
@@ -187,36 +191,57 @@ class Game:
         elif self.game_state == 'PLAYING':
             # Inventory key
             if key == ord('i'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.game_state = 'INVENTORY'
                 # Default to selecting first item if inventory is not empty
                 self.selected_item_index = 0 if len(self.player.inventory) > 0 else None
             # Item pickup key
             elif key == ord('g'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_pickup_item()
             # Movement keys using KeySym enum
             elif key == tcod.event.KeySym.UP or key == ord('k'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(0, -1)
             elif key == tcod.event.KeySym.DOWN or key == ord('j'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(0, 1)
             elif key == tcod.event.KeySym.LEFT or key == ord('h'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(-1, 0)
             elif key == tcod.event.KeySym.RIGHT or key == ord('l'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(1, 0)
             # Diagonal movement
             elif key == ord('y'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(-1, -1)
             elif key == ord('u'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(1, -1)
             elif key == ord('b'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(-1, 1)
             elif key == ord('n'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.try_move_player(1, 1)
             # Manual leveling
             elif key == ord('x'):
+                self.esc_pressed_once = False  # Reset ESC confirmation
                 self.handle_manual_level_up()
             # Quit game
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
-                self.running = False
+                if self.esc_pressed_once:
+                    # Second ESC press - quit the game
+                    self.running = False
+                else:
+                    # First ESC press - show confirmation
+                    self.esc_pressed_once = True
+                    self.ui.add_message("Are you sure? Press ESC again to quit.")
+            else:
+                # Any other key cancels the ESC confirmation
+                if self.esc_pressed_once:
+                    self.esc_pressed_once = False
     
     def try_move_player(self, dx, dy):
         """Attempt to move the player by dx, dy."""
@@ -245,6 +270,18 @@ class Game:
             elif self.level.is_stairs_up(new_x, new_y):
                 self.ui.add_message("You see stairs leading up.")
     
+    def calculate_aspect_damage_multiplier(self, attack_traits, target_weaknesses, target_resistances):
+        """Calculate damage multiplier based on aspects vs weaknesses/resistances."""
+        multiplier = 1.0
+        
+        for trait in attack_traits:
+            if trait in target_weaknesses:
+                multiplier *= 1.5  # 1.5x damage for weakness
+            elif trait in target_resistances:
+                multiplier *= 0.5  # 0.5x damage for resistance
+        
+        return multiplier
+    
     def player_attack_monster(self, monster):
         """Player attacks a monster."""
         # Check for evade
@@ -256,13 +293,24 @@ class Game:
         damage = self.player.get_total_attack()
         
         # Check for critical hit
-        if random.random() < self.player.get_total_crit():
+        is_crit = random.random() < self.player.get_total_crit()
+        if is_crit:
             damage = int(damage * self.player.get_total_crit_multiplier())
-            actual_damage = monster.take_damage(damage)
             self.player.crit_count += 1
+        
+        # Apply aspect damage multipliers (after crit calculation)
+        player_traits = self.player.get_total_attack_traits()
+        aspect_multiplier = self.calculate_aspect_damage_multiplier(
+            player_traits, monster.weaknesses, monster.resistances
+        )
+        damage = int(damage * aspect_multiplier)
+        
+        actual_damage = monster.take_damage(damage)
+        
+        # Create appropriate message
+        if is_crit:
             message = f"You critical hit on the {monster.name} for {actual_damage}!"
         else:
-            actual_damage = monster.take_damage(damage)
             message = f"You attack the {monster.name} for {actual_damage}!"
         
         self.ui.add_message(message)
@@ -312,12 +360,25 @@ class Game:
         damage = monster.attack
         
         # Check for critical hit
-        if random.random() < monster.crit:
+        is_crit = random.random() < monster.crit
+        if is_crit:
             damage = int(damage * monster.crit_multiplier)
-            actual_damage = self.player.take_damage(damage)
+        
+        # Apply aspect damage multipliers (after crit calculation)
+        monster_traits = monster.attack_traits
+        player_weaknesses = self.player.get_total_weaknesses()
+        player_resistances = self.player.get_total_resistances()
+        aspect_multiplier = self.calculate_aspect_damage_multiplier(
+            monster_traits, player_weaknesses, player_resistances
+        )
+        damage = int(damage * aspect_multiplier)
+        
+        actual_damage = self.player.take_damage(damage)
+        
+        # Create appropriate message
+        if is_crit:
             message = f"The {monster.name} critical hits you for {actual_damage}!"
         else:
-            actual_damage = self.player.take_damage(damage)
             message = f"The {monster.name} attacks you for {actual_damage}!"
         
         self.ui.add_message(message)

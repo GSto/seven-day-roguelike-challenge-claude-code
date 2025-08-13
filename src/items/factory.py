@@ -4,7 +4,7 @@ Factory functions for creating random items.
 
 import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon
-from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe
+from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe, DemonSlayer
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak, SkinSuit
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment
@@ -50,11 +50,11 @@ END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing] + DEFAULT_ACCES
 # Drop chances (adjust these to change item frequency)
 # this is the default, cranking it up to test some stuff
 
-CONSUMABLE_CHANCE = 0.4  # 40% chance for consumables
+CONSUMABLE_CHANCE = 0.6  # 60% chance for consumables
 HEALTH_POTION_CHANCE = 0.5  # 50% of consumables are health potions
 
 # Equipment type weights for each tier
-EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'weapon', 'armor']  # No accessories, increased weapons chances early
+EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']  # No accessories, increased weapons chances early
 MID_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory', 'accessory', 'accessory']
 LATE_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory', 'accessory', 'accessory']
 END_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']
@@ -66,6 +66,11 @@ END_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']
 
 def create_random_item_for_level(level_number, x, y):
     """Create a random item appropriate for the given dungeon level."""
+    # Special case: Level 10 always spawns exactly one DemonSlayer weapon
+    # This should be handled at the level generation level, but we can help here too
+    if level_number == 10 and random.random() < 0.1:  # 10% chance for any item to be DemonSlayer on level 10
+        return DemonSlayer(x, y)
+    
     # Item rarity based on level
     rand = random.random()
     

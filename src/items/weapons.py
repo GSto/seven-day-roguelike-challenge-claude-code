@@ -5,6 +5,7 @@ Weapon items for combat.
 from constants import COLOR_YELLOW
 from .base import Equipment
 from .enchantments import Enchantment
+from traits import Trait
 
 
 class Weapon(Equipment):
@@ -13,6 +14,7 @@ class Weapon(Equipment):
     def __init__(self, x, y, name, char=')', attack_bonus=0, description="", 
                  fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 attack_traits=None, weaknesses=None, resistances=None,
                  xp_cost=5):
         self.enchantments = []
         self.base_name = name
@@ -33,6 +35,9 @@ class Weapon(Equipment):
             evade_bonus=evade_bonus,
             crit_bonus=crit_bonus,
             crit_multiplier_bonus=crit_multiplier_bonus,
+            attack_traits=attack_traits,
+            weaknesses=weaknesses,
+            resistances=resistances,
             xp_cost=xp_cost
         )
     
@@ -120,6 +125,10 @@ class Weapon(Equipment):
         # No crit multiplier enchantments currently exist
         return total
     
+    def get_total_attack_traits(self):
+        """Get all attack traits including enchantments."""
+        return self.get_attack_traits()
+    
     def _update_display_name(self):
         """Update the display name to include enchantments."""
         if not self.enchantments:
@@ -146,7 +155,7 @@ class Dagger(Weapon):
     """Light, fast weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Dagger", ')', 3, "A sharp dagger. free to equip",xp_cost=0, crit_multiplier_bonus=0.5)
+        super().__init__(x, y, "Dagger", ')', 3, "A sharp dagger. free to equip",xp_cost=0, crit_multiplier_bonus=0.5, attack_traits=[Trait.SLASH])
 
 ## Shields
 ## Trade an attack bonus for a defensive buff
@@ -169,20 +178,20 @@ class Sword(Weapon):
     """Balanced weapon for mid-game."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Sword", ')', 5, "A well-balanced sword")
+        super().__init__(x, y, "Sword", ')', 5, "A well-balanced sword", attack_traits=[Trait.SLASH])
 
 class Longsword(Weapon):
     """Powerful two-handed weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Longsword", ')', 8, "A two-handed longsword")
+        super().__init__(x, y, "Longsword", ')', 8, "A two-handed longsword", attack_traits=[Trait.SLASH])
 
 
 class WarScythe(Weapon):
     """Heavy weapon for maximum damage."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "War Scythe", ')', 12, "A long, brutal weapon")
+        super().__init__(x, y, "War Scythe", ')', 12, "A long, brutal weapon", attack_traits=[Trait.SLASH])
 
 ## Blunt weapons
 ## Standard stiking weapons
@@ -190,33 +199,33 @@ class Axe(Weapon):
     """Balanced weapon for mid-game."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Axe", ')', 6, "An axe")
+        super().__init__(x, y, "Axe", ')', 6, "An axe", attack_traits=[Trait.STRIKE])
 class MorningStar(Weapon):
     """Powerful two-handed weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Morning Star", ')', 9, "A two-handed club")
+        super().__init__(x, y, "Morning Star", ')', 9, "A two-handed club", attack_traits=[Trait.STRIKE])
 
 class WarHammer(Weapon):
     """Heavy weapon for maximum damage."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "War Hammer", ')', 12, "A heavy war hammer")
+        super().__init__(x, y, "War Hammer", ')', 12, "A heavy war hammer", attack_traits=[Trait.STRIKE])
 
 
 ## Katanas
 ## Critical Chance Based weapons
 class Katana(Weapon):
     def __init__(self, x, y):
-      super().__init__(x, y, "Katana", ')', 4, "A light, fast blade", crit_bonus=0.25)
+      super().__init__(x, y, "Katana", ')', 4, "A light, fast blade", crit_bonus=0.25, attack_traits=[Trait.SLASH])
 
 class Uchigatana(Weapon):
     def __init__(self, x, y):
-      super().__init__(x, y, "Uchigatana", ')', 7, "A samurai warrior's blade", crit_bonus=0.20)
+      super().__init__(x, y, "Uchigatana", ')', 7, "A samurai warrior's blade", crit_bonus=0.20, attack_traits=[Trait.SLASH])
 
 class RiversOfBlood(Weapon):
     def __init__(self, x, y):
-      super().__init__(x, y, "Rivers of Blood", ')', 11, "A samurai warrior's blade", crit_bonus=0.20, crit_multiplier_bonus=0.25)
+      super().__init__(x, y, "Rivers of Blood", ')', 11, "A samurai warrior's blade", crit_bonus=0.20, crit_multiplier_bonus=0.25, attack_traits=[Trait.SLASH])
 
 ## Staffs
 ## Tend to focus on non-combat stats, or have different 'magical' abilities
@@ -224,7 +233,7 @@ class ClericsStaff(Weapon):
     """Holy staff that enhances healing abilities."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Cleric's Staff", ')', 4, "A holy staff that enhances healing", health_aspect_bonus=0.2)
+        super().__init__(x, y, "Cleric's Staff", ')', 4, "A holy staff that enhances healing", health_aspect_bonus=0.2, attack_traits=[Trait.HOLY])
 
 class MateriaStaff(Weapon):
         def __init__(self, x, y):
@@ -247,3 +256,11 @@ class Gauntlets(Weapon):
 
     def __init__(self, x, y):
         super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=1.5)
+
+
+class DemonSlayer(Weapon):
+    """Legendary weapon designed to slay demons."""
+
+    def __init__(self, x, y):
+        super().__init__(x, y, "Demon Slayer", ')', 15, "A legendary blade forged to slay demons", 
+                         attack_traits=[Trait.DEMONSLAYER, Trait.SLASH], xp_cost=100)

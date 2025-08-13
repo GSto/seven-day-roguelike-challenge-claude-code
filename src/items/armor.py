@@ -5,6 +5,7 @@ Armor items for defense.
 from constants import COLOR_GREEN
 from .base import Equipment
 import random
+from traits import Trait
 
 
 class Armor(Equipment):
@@ -14,7 +15,10 @@ class Armor(Equipment):
                  attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 attack_traits=None, weaknesses=None, resistances=None,
                  xp_cost=5):
+        self.enchantments = []
+        self.base_name = name
         super().__init__(
             x=x, y=y,
             name=name,
@@ -32,8 +36,37 @@ class Armor(Equipment):
             evade_bonus=evade_bonus,
             crit_bonus=crit_bonus,
             crit_multiplier_bonus=crit_multiplier_bonus,
+            attack_traits=attack_traits,
+            weaknesses=weaknesses,
+            resistances=resistances,
             xp_cost=xp_cost
         )
+    
+    def add_enchantment(self, enchantment):
+        """Add an enchantment to this armor (max 2 enchantments)."""
+        if len(self.enchantments) >= 2:
+            return False
+        
+        # Check if enchantment type already exists
+        for existing_enchantment in self.enchantments:
+            if existing_enchantment.type == enchantment.type:
+                return False
+        
+        self.enchantments.append(enchantment)
+        self._update_display_name()
+        return True
+    
+    def get_total_resistances(self):
+        """Get all resistances including enchantments."""
+        return self.get_resistances()
+    
+    def _update_display_name(self):
+        """Update the display name to include enchantments."""
+        if not self.enchantments:
+            self.name = self.base_name
+        else:
+            enchantment_names = [e.name for e in self.enchantments]
+            self.name = f"{' '.join(enchantment_names)} {self.base_name}"
 
 
 # Specific armor types

@@ -13,6 +13,7 @@ from constants import (
 )
 from monster import create_monster_for_level
 from items import create_random_item_for_level
+from items.weapons import DemonSlayer
 
 
 class Room:
@@ -215,6 +216,10 @@ class Level:
     
     def place_items(self):
         """Place items randomly throughout the level."""
+        # Special case: Level 10 always has exactly one DemonSlayer weapon
+        if self.level_number == 10:
+            self._place_demon_slayer()
+        
         # Number of items based on level
         if self.level_number <= 2:
             item_count = random.randint(1, 3)
@@ -252,6 +257,35 @@ class Level:
                 item = create_random_item_for_level(self.level_number, x, y)
                 self.items.append(item)
                 items_placed += 1
+    
+    def _place_demon_slayer(self):
+        """Place exactly one DemonSlayer weapon on level 10."""
+        attempts = 0
+        max_attempts = 100
+        
+        while attempts < max_attempts:
+            attempts += 1
+            
+            # Pick a random room
+            if len(self.rooms) == 0:
+                break
+                
+            room = random.choice(self.rooms)
+            
+            # Pick a random position in the room
+            x = random.randint(room.x1 + 1, room.x2 - 1)
+            y = random.randint(room.y1 + 1, room.y2 - 1)
+            
+            # Check if position is valid (walkable, not occupied, not on stairs)
+            if (self.is_walkable(x, y) and 
+                not self.is_position_occupied(x, y) and
+                not self.is_item_at(x, y) and
+                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y))):
+                
+                # Create the DemonSlayer weapon
+                demon_slayer = DemonSlayer(x, y)
+                self.items.append(demon_slayer)
+                break
     
     def is_item_at(self, x, y):
         """Check if there's an item at the given position."""

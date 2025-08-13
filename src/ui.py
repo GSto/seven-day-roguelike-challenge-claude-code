@@ -295,10 +295,10 @@ class UI:
             console.print(0, summary_y, f"DEF: {player.get_total_defense()}", fg=COLOR_WHITE)
             summary_y += 1
 
-            console.print(0, summary_y, f"CRT: {player.get_total_crit()}", fg=COLOR_WHITE)
+            console.print(0, summary_y, f"CRT: {int(player.get_total_crit() * 100)}%", fg=COLOR_WHITE)
             summary_y += 1
 
-            console.print(0, summary_y, f"EVD: {player.get_total_evade()}", fg=COLOR_WHITE)
+            console.print(0, summary_y, f"EVD: {int(player.get_total_evade() * 100)}%", fg=COLOR_WHITE)
             summary_y += 1
             
             # Healing aspect and multipliers
