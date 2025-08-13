@@ -194,7 +194,7 @@ class D6(Consumable):
         """Apply one of 6 random effects"""
         roll = random.randint(1, 6)
         
-        if roll == 1:
+        if roll == 5:
             # +1 Attack
             player.attack += 1
             return (True, f"Rolled {roll}! Attack +1")
@@ -212,7 +212,7 @@ class D6(Consumable):
             # +3 FOV
             player.fov += 1
             return (True, f"Rolled {roll}! FOV +3")
-        elif roll == 5:
+        elif roll == 1:
             # -20 max HP (but don't kill the player)
             if player.max_hp > 25:  # Ensure player doesn't die from this
                 player.max_hp -= 20

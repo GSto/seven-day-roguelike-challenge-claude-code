@@ -52,9 +52,19 @@ class Card(Accessory):
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  xp_cost=5, description="An enchanted card"):
-        super().__init__(x, y, name, '?', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
+        super().__init__(x, y, name, '#', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                          attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
                          evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
+
+class Artifact(Accessory):
+    """Base class for artifacts"""
+    def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
+              attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
+              evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+              xp_cost=5, description="An enchanted card"):
+      super().__init__(x, y, name, 'a', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
+                      attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
+                      evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
 
 
 class Necklace(Accessory):
@@ -224,3 +234,13 @@ class AssassinsMask(Hat):
     def __init__(self, x, y):
         super().__init__(x, y, "Assassin's Mask", evade_bonus=0.08, crit_bonus=0.08, 
                         description="A mask that shrouds you in shadow and sharpens your focus")
+        
+class PsychicsTurban(Hat):
+    """+1 ATK for every consumable used."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Psychic's Turban", 
+                        description="+1 ATK for each consumable used")
+    
+    def get_attack_bonus(self, player):
+        return super().get_attack_bonus(player) + player.consumable_count

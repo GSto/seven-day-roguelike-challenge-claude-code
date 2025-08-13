@@ -5,8 +5,8 @@ Factory functions for creating random items.
 import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon
 from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe
-from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak
-from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker
+from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak, SkinSuit
+from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 
 
@@ -17,9 +17,8 @@ from .enchantments import should_spawn_with_enchantment, get_random_enchantment
 DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersBoon]
-CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
 
-BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS + CARDS
+BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS 
 
 # Consumable item pools
 EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + BASE_CONSUMABLES
@@ -33,18 +32,20 @@ LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, 
 END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
 
 # Armor item pools
-EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, GamblersVest, Cloak]
-MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, SpikedArmor, GamblersVest, NightCloak]
-LATE_GAME_ARMOR = [ChainMail, PlateArmor, SpikedArmor, GamblersVest, NightCloak, ShadowCloak]
+DEFAULT_ARMOR = [SpikedArmor, GamblersVest, SkinSuit]
+EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, Cloak] + DEFAULT_ARMOR
+MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, NightCloak] + DEFAULT_ARMOR
+LATE_GAME_ARMOR = [ChainMail, PlateArmor, NightCloak, ShadowCloak] + DEFAULT_ARMOR
 END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak]
 
-# Mostly for testing new things, may need to rebalance
-DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, AceOfSpades]
+CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
+# Actually think I am going to put most accessories here, except for some that are specifcally not for early or late game
+DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban]
 # Accessory item pools
 EARLY_GAME_ACCESSORIES = []  # No accessories in early game
-MID_GAME_ACCESSORIES = [PowerRing, Rosary, HeadLamp] + DEFAULT_ACCESSORIES  # Single item list is fine
-LATE_GAME_ACCESSORIES = [GreaterPowerRing, ProtectionRing, Rosary, HeadLamp] + DEFAULT_ACCESSORIES
-END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp] + DEFAULT_ACCESSORIES
+MID_GAME_ACCESSORIES = [PowerRing, ProtectionRing] + DEFAULT_ACCESSORIES  # Single item list is fine
+LATE_GAME_ACCESSORIES = [GreaterPowerRing, ProtectionRing] + DEFAULT_ACCESSORIES
+END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing] + DEFAULT_ACCESSORIES
 
 # Drop chances (adjust these to change item frequency)
 # this is the default, cranking it up to test some stuff
@@ -54,8 +55,8 @@ HEALTH_POTION_CHANCE = 0.5  # 50% of consumables are health potions
 
 # Equipment type weights for each tier
 EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'weapon', 'armor']  # No accessories, increased weapons chances early
-MID_GAME_EQUIPMENT_TYPES = ['weapon', 'weapon', 'armor', 'accessory']
-LATE_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']
+MID_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory', 'accessory', 'accessory']
+LATE_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory', 'accessory', 'accessory']
 END_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']
 
 

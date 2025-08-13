@@ -259,6 +259,7 @@ class Game:
         if random.random() < self.player.get_total_crit():
             damage = int(damage * self.player.get_total_crit_multiplier())
             actual_damage = monster.take_damage(damage)
+            self.player.crit_count += 1
             message = f"You critical hit on the {monster.name} for {actual_damage}!"
         else:
             actual_damage = monster.take_damage(damage)
@@ -269,6 +270,7 @@ class Game:
         # Check if monster died
         if not monster.is_alive():
             death_message = f"The {monster.name} dies!"
+            self.player.body_count += 1
             self.ui.add_message(death_message)
             
             # Give player XP
@@ -303,6 +305,7 @@ class Game:
         # Check for evade
         if random.random() < self.player.get_total_evade():
             self.ui.add_message(f"The {monster.name} tries to attack you and misses!")
+            self.player.dodge_count += 1
             return
         
         # Calculate base damage
@@ -482,6 +485,7 @@ class Game:
                 if isinstance(result, tuple):
                     success, message = result
                     if success:
+                        self.player.consumable_count += 1
                         self.player.remove_item(item)
                         self.ui.add_message(message)
                         

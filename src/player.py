@@ -46,6 +46,13 @@ class Player:
         # Inventory
         self.inventory = []
         self.inventory_size = 20
+
+        # counts (used for item scaling)
+        self.crit_count = 0
+        self.heal_count = 0
+        self.body_count = 0
+        self.dodge_count = 0
+        self.consumable_count = 0
     
     def move(self, dx, dy):
         """Move the player by dx, dy."""
@@ -60,6 +67,8 @@ class Player:
     
     def heal(self, amount):
         """Heal the player."""
+        if(self.hp < self.max_hp):
+            self.heal_count += 1
         self.hp = min(self.max_hp, self.hp + amount)
     
     def is_alive(self):

@@ -77,6 +77,13 @@ class GamblersVest(Armor):
         return 2
       else:
         return 0.5
+      
+class SkinSuit(Armor):
+    def __init__(self, x, y):
+        super().__init__(x, y, "Gambler's Vest", '[', 0, description="+1 DEF for every enemy slain")
+
+    def get_defense_bonus(self, player):
+        return self.player.body_count
 
 
 class ChainMail(Armor):
