@@ -47,52 +47,78 @@ class Weapon(Equipment):
                 return False
         
         self.enchantments.append(enchantment)
-        self._update_stats_from_enchantments()
         self._update_display_name()
         return True
     
-    def _update_stats_from_enchantments(self):
-        """Update weapon stats based on current enchantments."""
-        # Store base values if we haven't already
-        if not hasattr(self, '_base_attack_bonus'):
-            self._base_attack_bonus = self.attack_bonus
-            self._base_defense_bonus = self.defense_bonus
-            self._base_fov_bonus = self.fov_bonus
-            self._base_health_aspect_bonus = self.health_aspect_bonus
-            self._base_attack_multiplier_bonus = self.attack_multiplier_bonus
-            self._base_xp_multiplier_bonus = self.xp_multiplier_bonus
-            self._base_evade_bonus = self.evade_bonus
-            self._base_crit_bonus = self.crit_bonus
-            self._base_crit_multiplier_bonus = self.crit_multiplier_bonus
-        
-        # Start with base values
-        total_attack = self._base_attack_bonus
-        total_defense = self._base_defense_bonus
-        total_fov = self._base_fov_bonus
-        total_health_aspect = self._base_health_aspect_bonus
-        total_attack_multiplier = self._base_attack_multiplier_bonus
-        total_xp_multiplier = self._base_xp_multiplier_bonus
-        total_crit = self._base_crit_bonus
-        
-        # Apply enchantment bonuses
+    def get_attack_bonus(self, player):
+        """Get attack bonus including enchantments."""
+        total = super().get_attack_bonus(player)
         for enchantment in self.enchantments:
-            total_attack += enchantment.get_attack_bonus()
-            total_defense += enchantment.get_defense_bonus()
-            total_fov += enchantment.get_fov_bonus()
-            total_health_aspect += enchantment.get_health_aspect_bonus()
-            total_attack_multiplier += enchantment.get_attack_multiplier_bonus()
-            total_xp_multiplier += enchantment.get_xp_multiplier_bonus()
+            total += enchantment.get_attack_bonus()
+        return total
+    
+    def get_defense_bonus(self, player):
+        """Get defense bonus including enchantments."""
+        total = super().get_defense_bonus(player)
+        for enchantment in self.enchantments:
+            total += enchantment.get_defense_bonus()
+        return total
+    
+    def get_fov_bonus(self, player):
+        """Get FOV bonus including enchantments."""
+        total = super().get_fov_bonus(player)
+        for enchantment in self.enchantments:
+            total += enchantment.get_fov_bonus()
+        return total
+    
+    def get_health_aspect_bonus(self, player):
+        """Get health aspect bonus including enchantments."""
+        total = super().get_health_aspect_bonus(player)
+        for enchantment in self.enchantments:
+            total += enchantment.get_health_aspect_bonus()
+        return total
+    
+    def get_attack_multiplier_bonus(self, player):
+        """Get attack multiplier bonus including enchantments."""
+        total = super().get_attack_multiplier_bonus(player)
+        for enchantment in self.enchantments:
+            total += enchantment.get_attack_multiplier_bonus()
+        return total
+    
+    def get_defense_multiplier_bonus(self, player):
+        """Get defense multiplier bonus including enchantments."""
+        total = super().get_defense_multiplier_bonus(player)
+        for enchantment in self.enchantments:
+            # Defense multiplier enchantments would be additive here if they existed
+            pass
+        return total
+    
+    def get_xp_multiplier_bonus(self, player):
+        """Get XP multiplier bonus including enchantments."""
+        total = super().get_xp_multiplier_bonus(player)
+        for enchantment in self.enchantments:
+            total += enchantment.get_xp_multiplier_bonus()
+        return total
+    
+    def get_evade_bonus(self, player):
+        """Get evade bonus including enchantments."""
+        total = super().get_evade_bonus(player)
+        # No evade enchantments currently exist
+        return total
+    
+    def get_crit_bonus(self, player):
+        """Get crit bonus including enchantments."""
+        total = super().get_crit_bonus(player)
+        for enchantment in self.enchantments:
             if hasattr(enchantment, 'get_crit_bonus'):
-                total_crit += enchantment.get_crit_bonus()
-        
-        # Update the actual stats
-        self.attack_bonus = total_attack
-        self.defense_bonus = total_defense
-        self.fov_bonus = total_fov
-        self.health_aspect_bonus = total_health_aspect
-        self.attack_multiplier_bonus = total_attack_multiplier
-        self.xp_multiplier_bonus = total_xp_multiplier
-        self.crit_bonus = total_crit
+                total += enchantment.get_crit_bonus()
+        return total
+    
+    def get_crit_multiplier_bonus(self, player):
+        """Get crit multiplier bonus including enchantments."""
+        total = super().get_crit_multiplier_bonus(player)
+        # No crit multiplier enchantments currently exist
+        return total
     
     def _update_display_name(self):
         """Update the display name to include enchantments."""
