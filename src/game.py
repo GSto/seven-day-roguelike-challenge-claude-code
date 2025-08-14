@@ -305,7 +305,18 @@ class Game:
         )
         damage = int(damage * aspect_multiplier)
         
+        # Check if weakness was exploited or resistance was applied
+        weakness_exploited = any(trait in monster.weaknesses for trait in player_traits)
+        resistance_applied = any(trait in monster.resistances for trait in player_traits)
+        
         actual_damage = monster.take_damage(damage)
+        
+        # Add weakness/resistance messages first if applicable
+        if weakness_exploited and not resistance_applied:
+            self.ui.add_message("Weakness exploited!")
+        elif resistance_applied and not weakness_exploited:
+            self.ui.add_message("Resistant!")
+        # If both apply, don't add any extra message
         
         # Create appropriate message
         if is_crit:
@@ -373,7 +384,18 @@ class Game:
         )
         damage = int(damage * aspect_multiplier)
         
+        # Check if weakness was exploited or resistance was applied
+        weakness_exploited = any(trait in player_weaknesses for trait in monster_traits)
+        resistance_applied = any(trait in player_resistances for trait in monster_traits)
+        
         actual_damage = self.player.take_damage(damage)
+        
+        # Add weakness/resistance messages first if applicable
+        if weakness_exploited and not resistance_applied:
+            self.ui.add_message("Weakness exploited!")
+        elif resistance_applied and not weakness_exploited:
+            self.ui.add_message("Resistant!")
+        # If both apply, don't add any extra message
         
         # Create appropriate message
         if is_crit:

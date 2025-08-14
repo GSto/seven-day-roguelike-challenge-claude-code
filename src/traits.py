@@ -9,6 +9,7 @@ class Trait(Enum):
     STRIKE = auto()
     SLASH = auto()
     DEMONSLAYER = auto()
+    MYSTIC = auto()
 
     def __str__(self):
         return self.name.lower()

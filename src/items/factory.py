@@ -3,18 +3,22 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon
+from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon, MagicMushroom
 from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe, DemonSlayer
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak, SkinSuit
-from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban
-from .enchantments import should_spawn_with_enchantment, get_random_enchantment
+from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban, GravePact
+from .enchantments import should_spawn_with_enchantment, get_random_enchantment, get_random_armor_enchantment
 
 
 # ============================================================================
 # ITEM POOLS - Edit these to change what items appear at different levels
 # ============================================================================
 
-DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6]
+# Taken out of rotation until they can be balanced 
+# Accessory: Psychic's Turban: way to much ATK bonus 
+# Armor: Skin Suit: still gets way to much DEF
+
+DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersBoon]
 
@@ -32,7 +36,7 @@ LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, 
 END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
 
 # Armor item pools
-DEFAULT_ARMOR = [SpikedArmor, GamblersVest, SkinSuit]
+DEFAULT_ARMOR = [SpikedArmor, GamblersVest]
 EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, Cloak] + DEFAULT_ARMOR
 MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, NightCloak] + DEFAULT_ARMOR
 LATE_GAME_ARMOR = [ChainMail, PlateArmor, NightCloak, ShadowCloak] + DEFAULT_ARMOR
@@ -40,7 +44,7 @@ END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak]
 
 CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
 # Actually think I am going to put most accessories here, except for some that are specifcally not for early or late game
-DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban]
+DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, GravePact]
 # Accessory item pools
 EARLY_GAME_ACCESSORIES = []  # No accessories in early game
 MID_GAME_ACCESSORIES = [PowerRing, ProtectionRing] + DEFAULT_ACCESSORIES  # Single item list is fine
@@ -129,13 +133,18 @@ def create_random_item_for_level(level_number, x, y):
         
         if item_type == 'weapon' and weapon_pool:
             weapon = random.choice(weapon_pool)(x, y)
-            # 25% chance to spawn with an enchantment
-            if should_spawn_with_enchantment():
+            can_be_enchanted = not getattr(weapon, 'no_initial_enchantments', False)
+            #chance to spawn with an enchantment
+            if should_spawn_with_enchantment() and can_be_enchanted:
                 enchantment = get_random_enchantment()
                 weapon.add_enchantment(enchantment)
             return weapon
         elif item_type == 'armor' and armor_pool:
-            return random.choice(armor_pool)(x, y)
+            armor = random.choice(armor_pool)(x, y)
+            if should_spawn_with_enchantment():
+                enchantment = get_random_armor_enchantment()
+                armor.add_enchantment(enchantment)
+            return armor
         elif item_type == 'accessory' and accessory_pool:
             return random.choice(accessory_pool)(x, y)
         else:

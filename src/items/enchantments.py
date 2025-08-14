@@ -7,8 +7,8 @@ import random
 from traits import Trait
 
 # TODO: should be 25% by default. ramping up for testing
-WEAPON_ENCHANT_CHANCE = 0.75
-ARMOR_ENCHANT_CHANCE = 0.75
+WEAPON_ENCHANT_CHANCE = 0.25
+ARMOR_ENCHANT_CHANCE = 0.25
 
 class EnchantmentType(Enum):
     """Types of enchantments available for weapons."""

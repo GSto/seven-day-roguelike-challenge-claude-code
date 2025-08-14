@@ -76,7 +76,7 @@ class Monster:
 
 
 # Traditionally, Rogue had 26 monsters, one for each letter of the alphabet 
-# ABC_EF__IJKLMN_PQR_TUVWXYZ
+# _BC_EF__IJKLMN__QR_TUVWXYZ
 class Skeleton(Monster):
     """Weak but fast skeleton with higher evade."""
     
@@ -130,6 +130,25 @@ class Orc(Monster):
             xp_value=20,
             weaknesses=[Trait.STRIKE],
             resistances=[Trait.FIRE]
+        )
+
+class Phantom(Monster):
+    """Hard to hit, ephemeral creature."""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Phantom",
+            char='P',
+            color=COLOR_WHITE,
+            hp=15,
+            attack=9,
+            defense=0,
+            xp_value=25,
+            evade=0.4,
+            weaknesses=[Trait.HOLY, Trait.DARK],
+            resistances=[Trait.ICE],
+            attack_traits=[Trait.MYSTIC]
         )
 
 class Goblin(Monster):
@@ -188,7 +207,27 @@ class Horror(Monster):
             evade=0.08,  # Slightly higher evade
             crit=0.05,  # Nerfed crit abilities - Horrors are dangerous enough in current state
             crit_multiplier=1.5,
-            weaknesses=[Trait.STRIKE]
+            weaknesses=[Trait.MYSTIC, Trait.ICE]
+        )
+
+class Angel(Monster):
+      """Angelic monster"""
+      
+      def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Angel",
+            char='A',
+            color=COLOR_YELLOW,
+            hp=100,
+            attack=11,
+            defense=2,
+            xp_value=65,
+            evade=0.20,  # Flying Creatures Evade More
+            crit=0.05,  
+            crit_multiplier=1.5,
+            weaknesses=[Trait.DARK, Trait.MYSTIC],
+            attack_traits=[Trait.HOLY]
         )
     
 
@@ -241,6 +280,8 @@ def create_monster_for_level(level_number):
           return Skeleton
         if rand < 0.2:
           return Zombie
+        elif rand < 0.5:
+          return Phantom
         elif rand < 0.8:
           return Orc
         else: 
@@ -248,7 +289,9 @@ def create_monster_for_level(level_number):
     
     elif level_number <= 5:
         # Mid levels: no more goblins, trolls start to appear
-        if rand < 0.4:
+        if rand < 0.2: 
+            return Phantom
+        elif rand < 0.4:
             return Orc
         elif rand < 0.8:
             return Goblin
@@ -263,6 +306,8 @@ def create_monster_for_level(level_number):
           return Goblin
       elif rand < 0.8:
           return Troll
+      elif rand < 0.9:
+          return Angel
       else:
           return Horror
     
@@ -272,6 +317,8 @@ def create_monster_for_level(level_number):
             return Goblin
         elif rand < 0.7:
             return Troll
+        elif rand < 0.85: 
+            return Angel
         else:
             return Horror
     

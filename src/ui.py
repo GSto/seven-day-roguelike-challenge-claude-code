@@ -156,13 +156,17 @@ class UI:
             if hasattr(item, 'fov_bonus') and item.fov_bonus > 0:
                 stat_info_parts.append(f"+{item.fov_bonus} fov")
             if hasattr(item, 'health_aspect_bonus') and item.health_aspect_bonus > 0:
-                stat_info_parts.append(f"+{item.health_aspect_bonus:.1f} heal")
+                heal_percent = int(item.health_aspect_bonus * 100)
+                stat_info_parts.append(f"{heal_percent}% heal")
             if hasattr(item, 'attack_multiplier_bonus') and item.attack_multiplier_bonus > 1.0:
-                stat_info_parts.append(f"{item.attack_multiplier_bonus:.1f}x att")
+                att_mult_percent = int(item.attack_multiplier_bonus * 100)
+                stat_info_parts.append(f"{att_mult_percent}% att")
             if hasattr(item, 'defense_multiplier_bonus') and item.defense_multiplier_bonus > 1.0:
-                stat_info_parts.append(f"{item.defense_multiplier_bonus:.1f}x def")
+                def_mult_percent = int(item.defense_multiplier_bonus * 100)
+                stat_info_parts.append(f"{def_mult_percent}% def")
             if hasattr(item, 'xp_multiplier_bonus') and item.xp_multiplier_bonus > 1.0:
-                stat_info_parts.append(f"{item.xp_multiplier_bonus:.1f}x xp")
+                xp_mult_percent = int(item.xp_multiplier_bonus * 100)
+                stat_info_parts.append(f"{xp_mult_percent}% xp")
             if hasattr(item, 'heal_percentage'):
                 stat_info_parts.append(f"heals {item.heal_percentage}%")
             if hasattr(item, 'heal_amount'):
@@ -235,17 +239,21 @@ class UI:
                 desc_lines.append(f"FOV Bonus: +{selected_item.get_fov_bonus(player)}")
             
             if hasattr(selected_item, 'health_aspect_bonus') and selected_item.health_aspect_bonus > 0:
-                desc_lines.append(f"Healing Bonus: +{selected_item.get_health_aspect_bonus(player):.1f}")
+                healing_bonus_percent = int(selected_item.get_health_aspect_bonus(player) * 100)
+                desc_lines.append(f"Healing Bonus: {healing_bonus_percent}%")
             
-            # Multiplier bonuses
+            # Multiplier bonuses (displayed as percentages)
             if hasattr(selected_item, 'attack_multiplier_bonus') and selected_item.attack_multiplier_bonus > 1.0:
-                desc_lines.append(f"Attack Multiplier: {selected_item.get_attack_multiplier_bonus(player):.1f}x")
+                attack_mult_percent = int(selected_item.get_attack_multiplier_bonus(player) * 100)
+                desc_lines.append(f"Attack Multiplier: {attack_mult_percent}%")
             
             if hasattr(selected_item, 'defense_multiplier_bonus') and selected_item.defense_multiplier_bonus > 1.0:
-                desc_lines.append(f"Defense Multiplier: {selected_item.get_defense_multiplier_bonus(player):.1f}x")
+                defense_mult_percent = int(selected_item.get_defense_multiplier_bonus(player) * 100)
+                desc_lines.append(f"Defense Multiplier: {defense_mult_percent}%")
             
             if hasattr(selected_item, 'xp_multiplier_bonus') and selected_item.xp_multiplier_bonus > 1.0:
-                desc_lines.append(f"XP Multiplier: {selected_item.get_xp_multiplier_bonus(player):.1f}x")
+                xp_mult_percent = int(selected_item.get_xp_multiplier_bonus(player) * 100)
+                desc_lines.append(f"XP Multiplier: {xp_mult_percent}%")
             
             # Consumable effects
             if hasattr(selected_item, 'heal_percentage'):
@@ -301,11 +309,21 @@ class UI:
             console.print(0, summary_y, f"EVD: {int(player.get_total_evade() * 100)}%", fg=COLOR_WHITE)
             summary_y += 1
             
-            # Healing aspect and multipliers
-            console.print(0, summary_y, f"Healing: {player.get_total_health_aspect():.1f}  Attack Mult: {player.get_total_attack_multiplier():.1f}x", fg=COLOR_WHITE)
+            # Healing aspect and multipliers (displayed as percentages, one per line)
+            healing_percent = int(player.get_total_health_aspect() * 100)
+            console.print(0, summary_y, f"Healing: {healing_percent}%", fg=COLOR_WHITE)
             summary_y += 1
             
-            console.print(0, summary_y, f"Defense Mult: {player.get_total_defense_multiplier():.1f}x  XP Mult: {player.get_total_xp_multiplier():.1f}x", fg=COLOR_WHITE)
+            attack_mult_percent = int(player.get_total_attack_multiplier() * 100)
+            console.print(0, summary_y, f"Attack Mult: {attack_mult_percent}%", fg=COLOR_WHITE)
+            summary_y += 1
+            
+            defense_mult_percent = int(player.get_total_defense_multiplier() * 100)
+            console.print(0, summary_y, f"Defense Mult: {defense_mult_percent}%", fg=COLOR_WHITE)
+            summary_y += 1
+            
+            xp_mult_percent = int(player.get_total_xp_multiplier() * 100)
+            console.print(0, summary_y, f"XP Mult: {xp_mult_percent}%", fg=COLOR_WHITE)
         
         # Instructions with better formatting
         console.print(0, SCREEN_HEIGHT - 5, "Controls:", fg=COLOR_GREEN)
