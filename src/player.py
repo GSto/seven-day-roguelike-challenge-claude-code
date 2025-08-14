@@ -145,7 +145,7 @@ class Player:
     def get_total_attack(self):
         """Get total attack power including equipment and multipliers."""
         total = self.attack + self.get_attack_bonus()
-        return int(total * self.get_total_attack_multiplier())
+        return max(1, int(total * self.get_total_attack_multiplier())) # attack cannot fall below 1
     
     def get_total_defense(self):
         """Get total defense including equipment and multipliers."""

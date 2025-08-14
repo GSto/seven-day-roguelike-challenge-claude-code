@@ -267,10 +267,39 @@ class UI:
                   'Health Potion' in selected_item.name):
                 desc_lines.append(f"Healing Factor: {selected_item.effect_value}x (scales with health aspect)")
             
-            # Show enchantments for weapons
+            # Show enchantments with their effects
             if hasattr(selected_item, 'enchantments') and selected_item.enchantments:
-                enchant_names = [e.name for e in selected_item.enchantments]
-                desc_lines.append(f"Enchantments: {', '.join(enchant_names)}")
+                enchant_effects = []
+                for e in selected_item.enchantments:
+                    # Show what the enchantment actually does
+                    if hasattr(e, 'attack_traits') and e.attack_traits:
+                        trait_str = ', '.join([str(t).capitalize() for t in e.attack_traits])
+                        enchant_effects.append(f"{e.name} (+{trait_str} damage)")
+                    elif hasattr(e, 'resistances') and e.resistances:
+                        resist_str = ', '.join([str(r).capitalize() for r in e.resistances])
+                        enchant_effects.append(f"{e.name} (resist {resist_str})")
+                    else:
+                        # For non-trait enchantments, show the basic name and effect
+                        if e.type.name == 'QUALITY':
+                            enchant_effects.append(f"{e.name} (+3 attack)")
+                        elif e.type.name == 'SHINY':
+                            enchant_effects.append(f"{e.name} (+25% damage)")
+                        elif e.type.name == 'GLOWING':
+                            enchant_effects.append(f"{e.name} (+2 FOV)")
+                        elif e.type.name == 'GILDED':
+                            enchant_effects.append(f"{e.name} (+5% XP)")
+                        elif e.type.name == 'BLESSED':
+                            enchant_effects.append(f"{e.name} (+5% healing)")
+                        elif e.type.name == 'BOLSTERED':
+                            enchant_effects.append(f"{e.name} (+1 defense)")
+                        elif e.type.name == 'RENDING':
+                            enchant_effects.append(f"{e.name} (+10% crit)")
+                        else:
+                            enchant_effects.append(e.name)
+                
+                if enchant_effects:
+                    for effect in enchant_effects:
+                        desc_lines.append(f"• {effect}")
             
             for line in desc_lines:
                 console.print(0, desc_y, line, fg=COLOR_WHITE)
@@ -324,6 +353,43 @@ class UI:
             
             xp_mult_percent = int(player.get_total_xp_multiplier() * 100)
             console.print(0, summary_y, f"XP Mult: {xp_mult_percent}%", fg=COLOR_WHITE)
+            summary_y += 1
+            
+            # Show attack traits/damage types
+            attack_traits = player.get_total_attack_traits()
+            if attack_traits:
+                trait_names = [str(trait).capitalize() for trait in attack_traits]
+                # Remove duplicates while preserving order
+                unique_traits = []
+                for trait in trait_names:
+                    if trait not in unique_traits:
+                        unique_traits.append(trait)
+                console.print(0, summary_y, f"Damage Types: {', '.join(unique_traits)}", fg=COLOR_YELLOW)
+                summary_y += 1
+            
+            # Show resistances
+            resistances = player.get_total_resistances()
+            if resistances:
+                resistance_names = [str(r).capitalize() for r in resistances]
+                # Remove duplicates while preserving order
+                unique_resistances = []
+                for res in resistance_names:
+                    if res not in unique_resistances:
+                        unique_resistances.append(res)
+                console.print(0, summary_y, f"Resistant to: {', '.join(unique_resistances)}", fg=COLOR_GREEN)
+                summary_y += 1
+            
+            # Show weaknesses
+            weaknesses = player.get_total_weaknesses()
+            if weaknesses:
+                weakness_names = [str(w).capitalize() for w in weaknesses]
+                # Remove duplicates while preserving order
+                unique_weaknesses = []
+                for weak in weakness_names:
+                    if weak not in unique_weaknesses:
+                        unique_weaknesses.append(weak)
+                console.print(0, summary_y, f"Weak against: {', '.join(unique_weaknesses)}", fg=COLOR_RED)
+                summary_y += 1
         
         # Instructions with better formatting
         console.print(0, SCREEN_HEIGHT - 5, "Controls:", fg=COLOR_GREEN)

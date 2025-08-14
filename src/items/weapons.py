@@ -257,12 +257,21 @@ class MateriaStaff(Weapon):
               return base_attack + 12
                 
 
+# Special Weapons
+class Pickaxe(Weapon):
+    """Gloves that enhance your natural strength."""
+
+    def __init__(self, x, y):
+        super().__init__(x, y, "Pickaxe", ')', 6, "Favorite of Miners, scales with light")
+
+        def get_attack_multiplier_bonus(self, player):
+            return max(1, player.fov)
 
 class Gauntlets(Weapon):
     """Gloves that enhance your natural strength."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=1.5)
+        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=2)
 
 
 class DemonSlayer(Weapon):

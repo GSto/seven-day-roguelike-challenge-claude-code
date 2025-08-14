@@ -4,7 +4,7 @@ Factory functions for creating random items.
 
 import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon, MagicMushroom
-from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe, DemonSlayer
+from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe, DemonSlayer, Pickaxe
 from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak, SkinSuit
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban, GravePact
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment, get_random_armor_enchantment
@@ -18,21 +18,22 @@ from .enchantments import should_spawn_with_enchantment, get_random_enchantment,
 # Accessory: Psychic's Turban: way to much ATK bonus 
 # Armor: Skin Suit: still gets way to much DEF
 
-DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom]
+DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersBoon]
+CATALYSTS = [PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, ShadowsCatalyst, BaronCatalyst, WardenCatalyst]
 
-BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS 
+BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS  + CATALYSTS
 
 # Consumable item pools
-EARLY_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, JewelerCatalyst] + BASE_CONSUMABLES
-MID_GAME_CONSUMABLES = [Carrot, PowerCatalyst, DefenseCatalyst, ReapersCatalyst, ShadowsCatalyst] + BASE_CONSUMABLES
-LATE_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst] + BASE_CONSUMABLES
-END_GAME_CONSUMABLES = [BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst, Elixir] + BASE_CONSUMABLES
+EARLY_GAME_CONSUMABLES =  BASE_CONSUMABLES
+MID_GAME_CONSUMABLES =   BASE_CONSUMABLES
+LATE_GAME_CONSUMABLES =  BASE_CONSUMABLES
+END_GAME_CONSUMABLES = [Elixir] + BASE_CONSUMABLES
 # Weapon item pools
-EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, MateriaStaff, Katana]
-MID_GAME_WEAPONS = [Sword, Shield, Axe, Longsword, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana]
-LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana]
+EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, Katana]
+MID_GAME_WEAPONS = [Sword, Shield, Axe, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana, Pickaxe]
+LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana, Pickaxe]
 END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
 
 # Armor item pools

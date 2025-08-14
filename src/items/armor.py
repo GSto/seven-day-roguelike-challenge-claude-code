@@ -117,6 +117,15 @@ class SkinSuit(Armor):
 
     def get_defense_bonus(self, player):
         return super().get_defense_bonus(player) + int(player.body_count / 4)
+    
+
+class MinimalSuit(Armor):
+    def __init__(self, x, y):
+        super().__init__(x, y, "Traveler's Garb", '[', 0, description="More evade the lighter you are")
+
+    def get_evade_bonus(self, player):
+        inventory_space = len(player.ininventory) - player.inventory_size
+        return super().get_evade_bonus(player) + (inventory_space / 100)
 
 
 class ChainMail(Armor):

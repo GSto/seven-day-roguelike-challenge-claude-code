@@ -147,7 +147,7 @@ class Phantom(Monster):
             xp_value=25,
             evade=0.4,
             weaknesses=[Trait.HOLY, Trait.DARK],
-            resistances=[Trait.ICE],
+            resistances=[Trait.ICE, Trait.SLASH, Trait.STRIKE],
             attack_traits=[Trait.MYSTIC]
         )
 
