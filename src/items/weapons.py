@@ -163,13 +163,13 @@ class Shield(Weapon):
     """Defensive "weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Shield", ')', attack_bonus=0, defense_multiplier_bonus=1.25, description="A shield.")
+        super().__init__(x, y, "Shield", ')', 1, defense_multiplier_bonus=1.25, description="A shield.")
 
 class TowerShield(Weapon):
     """Defensive "weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Tower Shield", ')', attack_bonus=1, defense_multiplier_bonus=1.5, description="A large powerful shield")
+        super().__init__(x, y, "Tower Shield", ')', attack_bonus=1, defense_bonus=4, defense_multiplier_bonus=1.5, description="A large powerful shield")
 
 
 ## Long Blade
@@ -217,11 +217,11 @@ class WarHammer(Weapon):
 ## Critical Chance Based weapons
 class Katana(Weapon):
     def __init__(self, x, y):
-      super().__init__(x, y, "Katana", ')', 4, "A light, fast blade", crit_bonus=0.25, attack_traits=[Trait.SLASH])
+      super().__init__(x, y, "Katana", ')', 4, "A light, fast blade", crit_bonus=0.15, attack_traits=[Trait.SLASH])
 
 class Uchigatana(Weapon):
     def __init__(self, x, y):
-      super().__init__(x, y, "Uchigatana", ')', 7, "A samurai warrior's blade", crit_bonus=0.20, attack_traits=[Trait.SLASH])
+      super().__init__(x, y, "Uchigatana", ')', 7, "A samurai warrior's blade", crit_bonus=0.15, attack_traits=[Trait.SLASH])
 
 class RiversOfBlood(Weapon):
     def __init__(self, x, y):

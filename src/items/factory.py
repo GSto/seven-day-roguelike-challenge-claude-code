@@ -5,7 +5,7 @@ Factory functions for creating random items.
 import random
 from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon, MagicMushroom
 from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe, DemonSlayer, Pickaxe
-from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak, SkinSuit
+from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak, SkinSuit, MinimalSuit
 from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban, GravePact
 from .enchantments import should_spawn_with_enchantment, get_random_enchantment, get_random_armor_enchantment
 
@@ -37,7 +37,7 @@ LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, 
 END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
 
 # Armor item pools
-DEFAULT_ARMOR = [SpikedArmor, GamblersVest]
+DEFAULT_ARMOR = [SpikedArmor, GamblersVest, MinimalSuit]
 EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, Cloak] + DEFAULT_ARMOR
 MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, NightCloak] + DEFAULT_ARMOR
 LATE_GAME_ARMOR = [ChainMail, PlateArmor, NightCloak, ShadowCloak] + DEFAULT_ARMOR
@@ -56,7 +56,7 @@ END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing] + DEFAULT_ACCES
 # this is the default, cranking it up to test some stuff
 
 CONSUMABLE_CHANCE = 0.6  # 60% chance for consumables
-HEALTH_POTION_CHANCE = 0.5  # 50% of consumables are health potions
+HEALTH_POTION_CHANCE = 0.3  # 50% of consumables are health potions
 
 # Equipment type weights for each tier
 EARLY_GAME_EQUIPMENT_TYPES = ['weapon', 'armor', 'accessory']  # No accessories, increased weapons chances early

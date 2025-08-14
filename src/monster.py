@@ -184,7 +184,7 @@ class Troll(Monster):
             color=COLOR_YELLOW,
             hp=60,
             attack=8,
-            defense=5,
+            defense=7,
             xp_value=45,
             evade=0.02, # Trolls are slow
             attack_traits=[Trait.STRIKE],
@@ -220,7 +220,7 @@ class Angel(Monster):
             char='A',
             color=COLOR_YELLOW,
             hp=100,
-            attack=11,
+            attack=13,
             defense=2,
             xp_value=65,
             evade=0.20,  # Flying Creatures Evade More
@@ -242,8 +242,8 @@ class Devil(Monster):
             char='D',
             color=COLOR_RED,
             hp=666,      
-            attack=20,   
-            defense=6,   
+            attack=30,   
+            defense=12,   
             xp_value=666, # Massive XP reward
             evade=0.06,  
             crit=0.06,  
