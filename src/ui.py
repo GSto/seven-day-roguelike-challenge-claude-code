@@ -136,10 +136,12 @@ class UI:
         inventory_info = f"Items: {len(player.inventory)}/{player.inventory_size}"
         console.print(0, 2, inventory_info, fg=COLOR_WHITE)
         
-        # List items
+        # List items (newest first)
         y = 4
-        for i, item in enumerate(player.inventory):
-            letter = chr(ord('a') + i)
+        for i, item in enumerate(reversed(player.inventory)):
+            # Letter should correspond to the actual inventory index, not reversed index
+            actual_index = len(player.inventory) - 1 - i
+            letter = chr(ord('a') + actual_index)
             # Show item type indicator
             if hasattr(item, 'equipment_slot'):
                 type_indicator = f"[{item.equipment_slot[0].upper()}]"
@@ -175,8 +177,8 @@ class UI:
             
             stat_info = f" ({', '.join(stat_info_parts)})" if stat_info_parts else ""
             
-            # Highlight selected item
-            fg_color = COLOR_GREEN if i == selected_item_index else COLOR_WHITE
+            # Highlight selected item (use actual inventory index)
+            fg_color = COLOR_GREEN if actual_index == selected_item_index else COLOR_WHITE
             item_text = f"{letter}) {type_indicator} {item.name}{stat_info}"
             console.print(0, y + i, item_text, fg=fg_color)
         
@@ -381,6 +383,10 @@ class UI:
             
             xp_mult_percent = int(player.get_total_xp_multiplier() * 100)
             console.print(0, summary_y, f"XP Mult: {xp_mult_percent}%", fg=COLOR_WHITE)
+            summary_y += 1
+
+            crit_mult_percent = int(player.get_total_crit_multiplier() * 100)
+            console.print(0, summary_y, f"XP Mult: {crit_mult_percent}%", fg=COLOR_WHITE)
             summary_y += 1
             
             # Show attack traits/damage types
