@@ -265,7 +265,7 @@ class Pickaxe(Weapon):
         super().__init__(x, y, "Pickaxe", ')', 6, "Favorite of Miners, scales with light")
 
         def get_attack_multiplier_bonus(self, player):
-            return max(1, player.fov)
+            return min(1, 1 + (player.fov / 100)) # return 1 so we don't accidently scale down
 
 class Gauntlets(Weapon):
     """Gloves that enhance your natural strength."""

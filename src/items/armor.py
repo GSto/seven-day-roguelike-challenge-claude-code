@@ -124,7 +124,7 @@ class MinimalSuit(Armor):
         super().__init__(x, y, "Traveler's Garb", '[', 0, description="More evade the lighter you are")
 
     def get_evade_bonus(self, player):
-        inventory_space = len(player.ininventory) - player.inventory_size
+        inventory_space =  player.inventory_size - len(player.inventory)
         return super().get_evade_bonus(player) + (inventory_space / 100)
 
 

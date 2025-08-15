@@ -149,16 +149,18 @@ class Game:
             elif ord('a') <= key <= ord('z'):
                 # Select item by letter (but exclude action keys)
                 if key not in [ord('d'), ord('k'), ord('j'), ord('u')]:
-                    item_index = key - ord('a')
-                    if 0 <= item_index < len(self.player.inventory):
+                    display_index = key - ord('a')  # Display position (newest = 0)
+                    if 0 <= display_index < len(self.player.inventory):
+                        # Convert display index to actual inventory index (reverse mapping)
+                        actual_item_index = len(self.player.inventory) - 1 - display_index
                         # Switch to inventory mode and select item
                         self.selection_mode = "inventory"
                         self.selected_equipment_index = None
                         # If same item is selected again, reset selection
-                        if self.selected_item_index == item_index:
+                        if self.selected_item_index == actual_item_index:
                             self.selected_item_index = None
                         else:
-                            self.selected_item_index = item_index
+                            self.selected_item_index = actual_item_index
         elif self.game_state == 'ACCESSORY_REPLACEMENT':
             # Handle accessory replacement selection
             if key == tcod.event.KeySym.ESCAPE:
@@ -194,9 +196,9 @@ class Game:
             if key == ord('i'):
                 self.esc_pressed_once = False  # Reset ESC confirmation
                 self.game_state = 'INVENTORY'
-                # Default to selecting first item if inventory is not empty
+                # Default to selecting newest item if inventory is not empty
                 if len(self.player.inventory) > 0:
-                    self.selected_item_index = 0
+                    self.selected_item_index = len(self.player.inventory) - 1  # Newest item
                     self.selection_mode = "inventory"
                     self.selected_equipment_index = None
                 else:
@@ -627,14 +629,16 @@ class Game:
         if self.selection_mode == "inventory":
             if len(self.player.inventory) > 0:
                 if self.selected_item_index is None:
-                    self.selected_item_index = 0
-                elif self.selected_item_index == 0:
-                    # Move to equipment section
+                    # Start at newest item (last in actual list, first in display)
+                    self.selected_item_index = len(self.player.inventory) - 1
+                elif self.selected_item_index == len(self.player.inventory) - 1:
+                    # At newest item (top of display), move to equipment section
                     self.selection_mode = "equipment" 
                     self.selected_item_index = None
                     self.selected_equipment_index = self.get_equipment_count() - 1  # Start at bottom of equipment
                 else:
-                    self.selected_item_index = (self.selected_item_index - 1) % len(self.player.inventory)
+                    # Move to next newer item (higher actual index, up in display)
+                    self.selected_item_index += 1
             else:
                 # No inventory items, go to equipment
                 self.selection_mode = "equipment"
@@ -645,11 +649,11 @@ class Game:
                 if self.selected_equipment_index is None:
                     self.selected_equipment_index = 0
                 elif self.selected_equipment_index == 0:
-                    # Move to inventory section (bottom)
+                    # Move to inventory section (top of display = newest item)
                     if len(self.player.inventory) > 0:
                         self.selection_mode = "inventory"
                         self.selected_equipment_index = None
-                        self.selected_item_index = len(self.player.inventory) - 1
+                        self.selected_item_index = len(self.player.inventory) - 1  # Newest item
                     # If no inventory, stay in equipment
                 else:
                     self.selected_equipment_index = (self.selected_equipment_index - 1) % equipment_count
@@ -659,14 +663,16 @@ class Game:
         if self.selection_mode == "inventory":
             if len(self.player.inventory) > 0:
                 if self.selected_item_index is None:
-                    self.selected_item_index = 0
-                elif self.selected_item_index == len(self.player.inventory) - 1:
-                    # Move to equipment section
+                    # Start at newest item (last in actual list, first in display)
+                    self.selected_item_index = len(self.player.inventory) - 1
+                elif self.selected_item_index == 0:
+                    # At oldest item (bottom of display), move to equipment section
                     self.selection_mode = "equipment"
                     self.selected_item_index = None
                     self.selected_equipment_index = 0  # Start at top of equipment
                 else:
-                    self.selected_item_index = (self.selected_item_index + 1) % len(self.player.inventory)
+                    # Move to next older item (lower actual index, down in display)
+                    self.selected_item_index -= 1
             else:
                 # No inventory items, go to equipment
                 self.selection_mode = "equipment"
@@ -677,11 +683,11 @@ class Game:
                 if self.selected_equipment_index is None:
                     self.selected_equipment_index = 0
                 elif self.selected_equipment_index == equipment_count - 1:
-                    # Move to inventory section (top)
+                    # Move to inventory section (top of display = newest item)
                     if len(self.player.inventory) > 0:
                         self.selection_mode = "inventory"
                         self.selected_equipment_index = None
-                        self.selected_item_index = 0
+                        self.selected_item_index = len(self.player.inventory) - 1  # Newest item
                     # If no inventory, stay in equipment
                 else:
                     self.selected_equipment_index = (self.selected_equipment_index + 1) % equipment_count

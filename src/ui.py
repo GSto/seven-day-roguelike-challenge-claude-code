@@ -139,9 +139,10 @@ class UI:
         # List items (newest first)
         y = 4
         for i, item in enumerate(reversed(player.inventory)):
-            # Letter should correspond to the actual inventory index, not reversed index
+            # Letter should correspond to display order (newest = 'a')
+            letter = chr(ord('a') + i)
+            # Actual inventory index for selection purposes
             actual_index = len(player.inventory) - 1 - i
-            letter = chr(ord('a') + actual_index)
             # Show item type indicator
             if hasattr(item, 'equipment_slot'):
                 type_indicator = f"[{item.equipment_slot[0].upper()}]"

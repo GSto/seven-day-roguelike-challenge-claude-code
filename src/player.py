@@ -162,12 +162,12 @@ class Player:
         """Get total field of view including equipment bonuses."""
         total = self.fov
         if self.weapon and hasattr(self.weapon, 'fov_bonus'):
-            total += self.weapon.fov_bonus
+            total += self.weapon.get_fov_bonus(self)
         if self.armor and hasattr(self.armor, 'fov_bonus'):
-            total += self.armor.fov_bonus
+            total += self.armor.get_fov_bonus(self)
         for accessory in self.equipped_accessories():
             if hasattr(accessory, 'fov_bonus'):
-                total += accessory.fov_bonus
+                total += accessory.get_fov_bonus(self)
         return total
     
     def get_total_health_aspect(self):
