@@ -4,6 +4,7 @@ Player character implementation.
 
 from constants import COLOR_WHITE
 from traits import Trait
+from status_effects import StatusEffects
 
 
 class Player:
@@ -55,10 +56,16 @@ class Player:
         self.dodge_count = 0
         self.consumable_count = 0
         
+        # Catalyst tax system - HP cost for using catalysts
+        self.catalyst_tax = 0.1  # Starts at 10%
+        
         # Traits system
         self.attack_traits = []  # List of Aspect enums for attack
         self.weaknesses = []     # List of Aspect enums for weaknesses
         self.resistances = []    # List of Aspect enums for resistances
+        
+        # Status effects system
+        self.status_effects = StatusEffects()
     
     def move(self, dx, dy):
         """Move the player by dx, dy."""
@@ -68,6 +75,27 @@ class Player:
     def take_damage(self, damage):
         """Take damage, accounting for defense."""
         actual_damage = max(1, damage - self.get_total_defense())
+        self.hp = max(0, self.hp - actual_damage)
+        return actual_damage
+    
+    def take_damage_with_traits(self, damage, attack_traits=None):
+        """Take damage with trait consideration for resistances/weaknesses."""
+        if attack_traits is None:
+            attack_traits = []
+        
+        # Check for trait interactions
+        final_damage = damage
+        player_resistances = self.get_total_resistances()
+        player_weaknesses = self.get_total_weaknesses()
+        
+        for trait in attack_traits:
+            if trait in player_resistances:
+                final_damage = int(final_damage * 0.5)  # 50% damage if resistant
+            elif trait in player_weaknesses:
+                final_damage = int(final_damage * 2.0)  # 200% damage if weak
+        
+        # Apply normal damage calculation
+        actual_damage = max(1, final_damage - self.get_total_defense())
         self.hp = max(0, self.hp - actual_damage)
         return actual_damage
     

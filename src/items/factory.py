@@ -3,11 +3,15 @@ Factory functions for creating random items.
 """
 
 import random
-from .consumables import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersCatalyst, ShadowsCatalyst, ReapersBoon, MagicMushroom, FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst
-from .weapons import Dagger, Sword, Axe, Longsword, MorningStar, WarHammer, ClericsStaff, Gauntlets, Shield, TowerShield, MateriaStaff, Katana, Uchigatana, RiversOfBlood, WarScythe, DemonSlayer, Pickaxe
-from .armor import LeatherArmor, ChainMail, PlateArmor, DragonScale, SafetyVest, SpikedArmor, GamblersVest, Cloak, NightCloak, ShadowCloak, SkinSuit, MinimalSuit
-from .accessories import PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing, Rosary, HeadLamp, BaronsCrown, JewelersCap, AceOfSpades, AceOfClubs, AceOfDiamonds, AceOfHearts, Joker, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, PsychicsTurban, GravePact
-from .enchantments import should_spawn_with_enchantment, get_random_enchantment, get_random_armor_enchantment
+# Import from organized consumable subcategories
+from .foods import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, Antidote, ShellPotion, MezzoForte
+from .catalysts import PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst, MagicMushroom, FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst
+from .boons import BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon
+from .consumables import *  # Keep for any backward compatibility needs
+from .weapons import * 
+from .armor import * 
+from .accessories import  * 
+from .enchantments import * 
 
 
 # ============================================================================
@@ -19,11 +23,12 @@ from .enchantments import should_spawn_with_enchantment, get_random_enchantment,
 # Armor: Skin Suit: still gets way to much DEF
 
 DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot]
+STATUS_CONSUMABLES = [Antidote, ShellPotion, MezzoForte]
 # Boons (can appear from floor 2+)
-ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon, ReapersBoon]
+ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon]
 CATALYSTS = [PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, ShadowsCatalyst, BaronCatalyst, WardenCatalyst, FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst]
 
-BASE_CONSUMABLES = DEFAULT_CONSUMABLES + ENCHANTMENT_BOONS  + CATALYSTS
+BASE_CONSUMABLES = DEFAULT_CONSUMABLES + STATUS_CONSUMABLES + ENCHANTMENT_BOONS  + CATALYSTS
 
 # Consumable item pools
 EARLY_GAME_CONSUMABLES =  BASE_CONSUMABLES
@@ -32,8 +37,8 @@ LATE_GAME_CONSUMABLES =  BASE_CONSUMABLES
 END_GAME_CONSUMABLES = [Elixir] + BASE_CONSUMABLES
 # Weapon item pools
 EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, Katana]
-MID_GAME_WEAPONS = [Sword, Shield, Axe, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana, Pickaxe]
-LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana, Pickaxe]
+MID_GAME_WEAPONS = [Sword, Shield, Axe, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier]
+LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, Rapier]
 END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
 
 # Armor item pools
@@ -45,7 +50,7 @@ END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak]
 
 CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
 # Actually think I am going to put most accessories here, except for some that are specifcally not for early or late game
-DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, GravePact]
+DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, GravePact, SturdyRock, PunishTheWeak]
 # Accessory item pools
 EARLY_GAME_ACCESSORIES = []  # No accessories in early game
 MID_GAME_ACCESSORIES = [PowerRing, ProtectionRing] + DEFAULT_ACCESSORIES  # Single item list is fine

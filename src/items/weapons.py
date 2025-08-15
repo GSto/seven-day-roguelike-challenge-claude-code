@@ -317,3 +317,33 @@ class DemonSlayer(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "Demon Slayer", ')', 15, "A legendary blade forged to slay demons", 
                          attack_traits=[Trait.DEMONSLAYER, Trait.SLASH], xp_cost=100)
+
+
+class SnakesFang(Weapon):
+    """Venomous blade that applies poison on hit."""
+
+    def __init__(self, x, y):
+        super().__init__(x, y, "Snake's Fang", ')', 4, "Deals slash & poison damage. Applies additional poison on hit", 
+                         attack_traits=[Trait.SLASH, Trait.POISON])
+    
+    def on_hit(self, attacker, target):
+        """Apply additional poison when hitting a target."""
+        if hasattr(target, 'status_effects'):
+            if target.status_effects.apply_status('poison', 5, target):
+                return f"The venom seeps into {target.name if hasattr(target, 'name') else 'the target'}!"
+        return None
+
+
+class Rapier(Weapon):
+    """Elegant blade that leaves enemies off-guard."""
+
+    def __init__(self, x, y):
+        super().__init__(x, y, "Rapier", ')', 6, "Mid-game weapon that applies off-guard on attack", 
+                         attack_traits=[Trait.SLASH])
+    
+    def on_hit(self, attacker, target):
+        """Apply off-guard status when hitting a target."""
+        if hasattr(target, 'status_effects'):
+            if target.status_effects.apply_status('off_guard', 1, target):
+                return f"{target.name if hasattr(target, 'name') else 'The target'} is caught off-guard!"
+        return None

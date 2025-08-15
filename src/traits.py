@@ -6,6 +6,7 @@ class Trait(Enum):
     ICE = auto()
     HOLY = auto()
     DARK = auto()
+    POISON = auto()
     STRIKE = auto()
     SLASH = auto()
     DEMONSLAYER = auto()
@@ -16,8 +17,8 @@ class Trait(Enum):
     
     @property
     def is_elemental(self):
-        """Return True if this trait is elemental (fire, ice, holy, dark)."""
-        return self in {Trait.FIRE, Trait.ICE, Trait.HOLY, Trait.DARK}
+        """Return True if this trait is elemental (fire, ice, holy, dark, poison)."""
+        return self in {Trait.FIRE, Trait.ICE, Trait.HOLY, Trait.DARK, Trait.POISON}
     
     @property
     def opposing_element(self):

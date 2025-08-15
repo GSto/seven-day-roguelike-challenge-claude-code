@@ -5,6 +5,7 @@ Monster system - creatures that populate the dungeon levels.
 import random
 from constants import COLOR_RED, COLOR_GREEN, COLOR_YELLOW, COLOR_CRIMSON, COLOR_WHITE
 from traits import Trait
+from status_effects import StatusEffects
 
 
 class Monster:
@@ -41,10 +42,32 @@ class Monster:
         self.attack_traits = attack_traits or []
         self.weaknesses = weaknesses or []
         self.resistances = resistances or []
+        
+        # Status effects system
+        self.status_effects = StatusEffects()
     
     def take_damage(self, damage):
         """Take damage, accounting for defense."""
         actual_damage = max(1, damage - self.defense)
+        self.hp = max(0, self.hp - actual_damage)
+        return actual_damage
+    
+    def take_damage_with_traits(self, damage, attack_traits=None):
+        """Take damage with trait consideration for resistances/weaknesses."""
+        if attack_traits is None:
+            attack_traits = []
+        
+        # Check for trait interactions
+        final_damage = damage
+        
+        for trait in attack_traits:
+            if trait in self.resistances:
+                final_damage = int(final_damage * 0.5)  # 50% damage if resistant
+            elif trait in self.weaknesses:
+                final_damage = int(final_damage * 2.0)  # 200% damage if weak
+        
+        # Apply normal damage calculation
+        actual_damage = max(1, final_damage - self.defense)
         self.hp = max(0, self.hp - actual_damage)
         return actual_damage
     

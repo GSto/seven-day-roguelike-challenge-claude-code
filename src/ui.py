@@ -40,7 +40,14 @@ class UI:
         if ui_y < SCREEN_HEIGHT:
             # Player stats
             hp_color = COLOR_GREEN if player.hp > player.max_hp * 0.3 else COLOR_RED
-            console.print(0, ui_y, f"HP:  {player.hp}/{player.max_hp}", fg=hp_color)
+            hp_text = f"HP:  {player.hp}/{player.max_hp}"
+            console.print(0, ui_y, hp_text, fg=hp_color)
+            
+            # Show shields if player has any
+            if player.status_effects.shields > 0:
+                shields_text = f"Shields: {player.status_effects.shields}"
+                shield_x = len(hp_text) + 3  # 3 character padding
+                console.print(shield_x, ui_y, shields_text, fg=COLOR_CYAN)
             console.print(20, ui_y, f"LVL: {player.level}", fg=COLOR_WHITE)
             console.print(35, ui_y, f"XP: {player.xp}", fg=COLOR_WHITE)
             console.print(50, ui_y, f"Floor: {current_level}", fg=COLOR_WHITE)
@@ -247,7 +254,10 @@ class UI:
             
             # Detailed description with comprehensive bonuses
             desc_lines = []
-            if hasattr(selected_item, 'description'):
+            # For catalysts, show description with HP cost
+            if hasattr(selected_item, 'get_description_with_cost'):
+                desc_lines.append(selected_item.get_description_with_cost(player))
+            elif hasattr(selected_item, 'description'):
                 desc_lines.append(selected_item.description)
             
             # Equipment bonuses
@@ -339,7 +349,14 @@ class UI:
             
             # HP
             hp_color = COLOR_GREEN if player.hp > player.max_hp * 0.3 else COLOR_RED
-            console.print(0, summary_y, f"HP: {player.hp}/{player.max_hp}", fg=hp_color)
+            hp_text = f"HP: {player.hp}/{player.max_hp}"
+            console.print(0, summary_y, hp_text, fg=hp_color)
+            
+            # Show shields if player has any (in inventory view)
+            if player.status_effects.shields > 0:
+                shields_text = f"Shields: {player.status_effects.shields}"
+                shield_x = len(hp_text) + 3  # 3 character padding
+                console.print(shield_x, summary_y, shields_text, fg=COLOR_CYAN)
             summary_y += 1
             
             # XP and level

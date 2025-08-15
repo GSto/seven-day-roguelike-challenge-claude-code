@@ -293,18 +293,88 @@ class Game:
         
         return multiplier
     
+    def apply_elemental_status_effects(self, attack_traits, target):
+        """Apply status effects based on elemental attack traits."""
+        from traits import Trait
+        import random
+        
+        for trait in attack_traits:
+            # Only apply if target is not resistant to this trait
+            if trait not in target.resistances:
+                if trait == Trait.ICE:
+                    if random.random() < 0.25:  # 25% chance
+                        if target.status_effects.apply_status('stun', 3, target):
+                            entity_name = target.name if hasattr(target, 'name') else 'You'
+                            self.ui.add_message(f"{entity_name} become stunned!")
+                        
+                elif trait == Trait.FIRE:
+                    if random.random() < 0.5:  # 50% chance
+                        if target.status_effects.apply_status('burn', 2, target):
+                            entity_name = target.name if hasattr(target, 'name') else 'You'
+                            self.ui.add_message(f"{entity_name} start burning!")
+                        
+                elif trait == Trait.HOLY:
+                    if random.random() < 0.5:  # 50% chance
+                        if target.status_effects.apply_status('blinded', 3, target):
+                            entity_name = target.name if hasattr(target, 'name') else 'You'
+                            self.ui.add_message(f"{entity_name} become blinded!")
+                        
+                elif trait == Trait.DARK:
+                    # DARK always applies (100% chance)
+                    if target.status_effects.apply_status('frightened', 2, target):
+                        entity_name = target.name if hasattr(target, 'name') else 'You'
+                        self.ui.add_message(f"{entity_name} become frightened!")
+                    
+                elif trait == Trait.POISON:
+                    # POISON always applies (100% chance)
+                    if target.status_effects.apply_status('poison', 2, target):
+                        entity_name = target.name if hasattr(target, 'name') else 'You'
+                        self.ui.add_message(f"{entity_name} become poisoned!")
+    
+    def process_status_effects_turn_start(self, entity):
+        """Process status effects at the start of an entity's turn."""
+        # Check for stun skip turn
+        if entity.status_effects.check_stun_skip_turn():
+            entity_name = entity.name if hasattr(entity, 'name') else 'You'
+            self.ui.add_message(f"{entity_name} are stunned and skip their turn!")
+            return True  # Turn should be skipped
+        
+        # Process burn and poison damage
+        damage_taken, messages = entity.status_effects.process_turn_start_effects(entity)
+        for message in messages:
+            self.ui.add_message(message)
+        
+        return False  # Turn should not be skipped
+    
     def player_attack_monster(self, monster):
         """Player attacks a monster."""
+        # Apply status effect modifiers to attack
+        attack_modifier = self.player.status_effects.get_attack_modifier()
+        miss_chance_increase = self.player.status_effects.get_miss_chance_increase()
+        can_crit = self.player.status_effects.can_crit()
+        
+        # Check for miss (including blinded effect)
+        base_miss_chance = 0.05  # 5% base miss chance
+        total_miss_chance = min(0.95, base_miss_chance + (miss_chance_increase / 100.0))
+        
+        if random.random() < total_miss_chance:
+            if miss_chance_increase > 0:
+                self.ui.add_message(f"You attack {monster.name} blindly and miss!")
+            else:
+                self.ui.add_message(f"You try to attack {monster.name} and miss!")
+            return
+        
         # Check for evade
         if random.random() < monster.evade:
             self.ui.add_message(f"You try to attack {monster.name} and miss!")
             return
         
-        # Calculate base damage
-        damage = self.player.get_total_attack()
+        # Calculate base damage (with frightened modifier)
+        damage = self.player.get_total_attack() + attack_modifier
+        damage = max(1, damage)  # Ensure minimum 1 damage
         
-        # Check for critical hit
-        is_crit = random.random() < self.player.get_total_crit()
+        # Check for critical hit (blocked by blinded)
+        is_crit = can_crit and random.random() < self.player.get_total_crit()
         if is_crit:
             damage = int(damage * self.player.get_total_crit_multiplier())
             self.player.crit_count += 1
@@ -316,11 +386,31 @@ class Game:
         )
         damage = int(damage * aspect_multiplier)
         
+        # Apply accessory damage bonuses (like PunishTheWeak)
+        for accessory in self.player.equipped_accessories():
+            if hasattr(accessory, 'get_damage_multiplier_vs_target'):
+                accessory_multiplier = accessory.get_damage_multiplier_vs_target(monster)
+                damage = int(damage * accessory_multiplier)
+        
         # Check if weakness was exploited or resistance was applied
         weakness_exploited = any(trait in monster.weaknesses for trait in player_traits)
         resistance_applied = any(trait in monster.resistances for trait in player_traits)
         
-        actual_damage = monster.take_damage(damage)
+        # Check if shields absorb the attack
+        if monster.status_effects.absorb_attack():
+            actual_damage = 0
+            self.ui.add_message(f"The {monster.name}'s shields absorb the attack!")
+        else:
+            actual_damage = monster.take_damage_with_traits(damage, player_traits)
+            
+            # Apply elemental status effects if monster is not resistant to the trait
+            self.apply_elemental_status_effects(player_traits, monster)
+            
+            # Apply weapon on-hit effects
+            if self.player.weapon and hasattr(self.player.weapon, 'on_hit'):
+                hit_message = self.player.weapon.on_hit(self.player, monster)
+                if hit_message:
+                    self.ui.add_message(hit_message)
         
         # Add weakness/resistance messages first if applicable
         if weakness_exploited and not resistance_applied:
@@ -399,7 +489,26 @@ class Game:
         weakness_exploited = any(trait in player_weaknesses for trait in monster_traits)
         resistance_applied = any(trait in player_resistances for trait in monster_traits)
         
-        actual_damage = self.player.take_damage(damage)
+        # Check if shields absorb the attack
+        if self.player.status_effects.absorb_attack():
+            actual_damage = 0
+            self.ui.add_message("Your shields absorb the attack!")
+        else:
+            # Apply status effect modifiers to defense and evade
+            effective_defense = self.player.status_effects.get_effective_defense(self.player.get_total_defense())
+            effective_evade = self.player.status_effects.get_effective_evade(self.player.get_total_evade())
+            
+            # Check for evade first
+            if random.random() < effective_evade:
+                actual_damage = 0
+                self.player.dodge_count += 1
+                self.ui.add_message("You dodged the attack!")
+            else:
+                # Apply damage with traits
+                actual_damage = self.player.take_damage_with_traits(damage, monster_traits)
+                
+                # Apply elemental status effects if player is not resistant to the trait
+                self.apply_elemental_status_effects(monster_traits, self.player)
         
         # Add weakness/resistance messages first if applicable
         if weakness_exploited and not resistance_applied:
@@ -426,7 +535,10 @@ class Game:
         """Process AI turns for all monsters."""
         for monster in self.level.monsters:
             if monster.is_alive():
-                self.monster_take_turn(monster)
+                # Process status effects at turn start
+                should_skip_turn = self.process_status_effects_turn_start(monster)
+                if not should_skip_turn:
+                    self.monster_take_turn(monster)
     
     def monster_take_turn(self, monster):
         """Process a single monster's turn."""
@@ -473,6 +585,14 @@ class Game:
     
     def update(self):
         """Update game state."""
+        # Process player status effects at turn start
+        if self.player.is_alive() and self.game_state == 'PLAYING':
+            player_skips_turn = self.process_status_effects_turn_start(self.player)
+            if player_skips_turn:
+                # Player loses their turn, but monsters still get to act
+                self.process_monster_turns()
+                return
+        
         # Reset level change flag if player moved away from stairs
         if (not self.level.is_stairs_down(self.player.x, self.player.y) and 
             not self.level.is_stairs_up(self.player.x, self.player.y)):
