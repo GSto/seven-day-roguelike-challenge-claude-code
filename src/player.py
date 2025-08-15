@@ -269,7 +269,7 @@ class Player:
         return total_traits
     
     def get_total_weaknesses(self):
-        """Get all weaknesses including equipment effects."""
+        """Get all weaknesses including equipment effects, after cancellation with resistances."""
         total_weaknesses = self.weaknesses.copy()
         if self.weapon:
             total_weaknesses.extend(self.weapon.get_weaknesses())
@@ -277,10 +277,35 @@ class Player:
             total_weaknesses.extend(self.armor.get_weaknesses())
         for accessory in self.equipped_accessories():
             total_weaknesses.extend(accessory.get_weaknesses())
-        return total_weaknesses
+        
+        # Get all resistances for cancellation
+        all_resistances = self._get_all_resistances()
+        
+        # Remove weaknesses that are cancelled by resistances
+        final_weaknesses = []
+        for weakness in total_weaknesses:
+            if weakness not in all_resistances:
+                final_weaknesses.append(weakness)
+        
+        return final_weaknesses
     
     def get_total_resistances(self):
-        """Get all resistances including equipment bonuses."""
+        """Get all resistances including equipment bonuses, after cancellation with weaknesses."""
+        all_resistances = self._get_all_resistances()
+        
+        # Get all weaknesses for cancellation
+        all_weaknesses = self._get_all_weaknesses()
+        
+        # Remove resistances that are cancelled by weaknesses
+        final_resistances = []
+        for resistance in all_resistances:
+            if resistance not in all_weaknesses:
+                final_resistances.append(resistance)
+        
+        return final_resistances
+    
+    def _get_all_resistances(self):
+        """Get all resistances before cancellation."""
         total_resistances = self.resistances.copy()
         if self.weapon:
             total_resistances.extend(self.weapon.get_resistances())
@@ -289,6 +314,17 @@ class Player:
         for accessory in self.equipped_accessories():
             total_resistances.extend(accessory.get_resistances())
         return total_resistances
+    
+    def _get_all_weaknesses(self):
+        """Get all weaknesses before cancellation."""
+        total_weaknesses = self.weaknesses.copy()
+        if self.weapon:
+            total_weaknesses.extend(self.weapon.get_weaknesses())
+        if self.armor:
+            total_weaknesses.extend(self.armor.get_weaknesses())
+        for accessory in self.equipped_accessories():
+            total_weaknesses.extend(accessory.get_weaknesses())
+        return total_weaknesses
     
     def render(self, console, fov):
         """Render the player on the console."""

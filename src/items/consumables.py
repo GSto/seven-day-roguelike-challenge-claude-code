@@ -6,6 +6,7 @@ import random
 from constants import COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_SALMON, COLOR_WHITE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN
 from .base import Consumable
 from .enchantments import EnchantmentType, get_enchantment_by_type, get_random_enchantment
+from traits import Trait
 
 
 class HealthPotion(Consumable):
@@ -532,3 +533,179 @@ class ReapersBoon(Consumable):
             return (True, f"Your {player.weapon.name} is enchanted with Rending power (+10% crit chance)!")
         else:
             return (False, f"Your {player.weapon.name} cannot be further enhanced!")
+
+
+# ============================================================================
+# ELEMENTAL ATTACK CATALYSTS - Permanently add attack traits and weaknesses
+# ============================================================================
+
+class FireAttackCatalyst(Consumable):
+    """Permanently adds Fire attack trait and Ice weakness"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Ember Catalyst",
+            char='*',
+            color=COLOR_RED,
+            description="Permanently adds Fire attack trait but makes you weak to Ice",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Fire attack trait and Ice weakness to player"""
+        if Trait.FIRE not in player.attack_traits:
+            player.attack_traits.append(Trait.FIRE)
+        if Trait.ICE not in player.weaknesses:
+            player.weaknesses.append(Trait.ICE)
+        return (True, "Your attacks burn with fire, but you feel vulnerable to ice!")
+
+
+class IceAttackCatalyst(Consumable):
+    """Permanently adds Ice attack trait and Fire weakness"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Frost Catalyst",
+            char='*',
+            color=COLOR_CYAN,
+            description="Permanently adds Ice attack trait but makes you weak to Fire",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Ice attack trait and Fire weakness to player"""
+        if Trait.ICE not in player.attack_traits:
+            player.attack_traits.append(Trait.ICE)
+        if Trait.FIRE not in player.weaknesses:
+            player.weaknesses.append(Trait.FIRE)
+        return (True, "Your attacks freeze with ice, but you feel vulnerable to fire!")
+
+
+class HolyAttackCatalyst(Consumable):
+    """Permanently adds Holy attack trait and Dark weakness"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Divine Catalyst",
+            char='*',
+            color=COLOR_YELLOW,
+            description="Permanently adds Holy attack trait but makes you weak to Dark",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Holy attack trait and Dark weakness to player"""
+        if Trait.HOLY not in player.attack_traits:
+            player.attack_traits.append(Trait.HOLY)
+        if Trait.DARK not in player.weaknesses:
+            player.weaknesses.append(Trait.DARK)
+        return (True, "Your attacks shine with holy light, but you feel vulnerable to darkness!")
+
+
+class DarkAttackCatalyst(Consumable):
+    """Permanently adds Dark attack trait and Holy weakness"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Shadow Catalyst",
+            char='*',
+            color=COLOR_SALMON,
+            description="Permanently adds Dark attack trait but makes you weak to Holy",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Dark attack trait and Holy weakness to player"""
+        if Trait.DARK not in player.attack_traits:
+            player.attack_traits.append(Trait.DARK)
+        if Trait.HOLY not in player.weaknesses:
+            player.weaknesses.append(Trait.HOLY)
+        return (True, "Your attacks darken with shadow, but you feel vulnerable to holy light!")
+
+
+# ============================================================================
+# ELEMENTAL RESISTANCE CATALYSTS - Permanently add resistance traits
+# ============================================================================
+
+class FireResistanceCatalyst(Consumable):
+    """Permanently adds Fire resistance"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Salamander Catalyst",
+            char='*',
+            color=COLOR_ORANGE,
+            description="Permanently adds Fire resistance",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Fire resistance to player"""
+        if Trait.FIRE not in player.resistances:
+            player.resistances.append(Trait.FIRE)
+        return (True, "You feel protected against fire!")
+
+
+class IceResistanceCatalyst(Consumable):
+    """Permanently adds Ice resistance"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Yeti Catalyst",
+            char='*',
+            color=COLOR_BLUE,
+            description="Permanently adds Ice resistance",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Ice resistance to player"""
+        if Trait.ICE not in player.resistances:
+            player.resistances.append(Trait.ICE)
+        return (True, "You feel protected against ice!")
+
+
+class HolyResistanceCatalyst(Consumable):
+    """Permanently adds Holy resistance"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Angel Catalyst",
+            char='*',
+            color=COLOR_WHITE,
+            description="Permanently adds Holy resistance",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Holy resistance to player"""
+        if Trait.HOLY not in player.resistances:
+            player.resistances.append(Trait.HOLY)
+        return (True, "You feel protected against holy light!")
+
+
+class DarkResistanceCatalyst(Consumable):
+    """Permanently adds Dark resistance"""
+    
+    def __init__(self, x, y):
+        super().__init__(
+            x=x, y=y,
+            name="Demon Catalyst",
+            char='*',
+            color=COLOR_SALMON,
+            description="Permanently adds Dark resistance",
+            effect_value=1
+        )
+    
+    def use(self, player):
+        """Add Dark resistance to player"""
+        if Trait.DARK not in player.resistances:
+            player.resistances.append(Trait.DARK)
+        return (True, "You feel protected against darkness!")
