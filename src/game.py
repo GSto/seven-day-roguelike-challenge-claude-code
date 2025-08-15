@@ -143,9 +143,9 @@ class Game:
                 self.navigate_up()
             elif key == tcod.event.KeySym.DOWN or key == ord('j'):
                 self.navigate_down()
-            elif ord('1') <= key <= ord('3'):
-                # Handle accessory slot keys 1-3
-                self.handle_accessory_slot_key(key - ord('1'))
+            elif ord('1') <= key <= ord('5'):
+                # Handle equipment slot keys 1-5 (highlight equipment)
+                self.select_equipment_slot(key - ord('1'))
             elif ord('a') <= key <= ord('z'):
                 # Select item by letter (but exclude action keys)
                 if key not in [ord('d'), ord('k'), ord('j'), ord('u')]:
@@ -164,9 +164,9 @@ class Game:
             if key == tcod.event.KeySym.ESCAPE:
                 self.game_state = 'INVENTORY'  # Return to inventory
                 self.pending_accessory_replacement = None
-            elif ord('1') <= key <= ord('3'):
-                # Replace accessory at selected slot
-                slot_index = key - ord('1')
+            elif ord('3') <= key <= ord('5'):
+                # Replace accessory at selected slot (slots 3-5 for accessories)
+                slot_index = key - ord('3')  # Map 3->0, 4->1, 5->2
                 if 0 <= slot_index < len(self.player.accessories):
                     # Unequip the old accessory and put it back in inventory
                     old_accessory = self.player.accessories[slot_index]
@@ -798,6 +798,21 @@ class Game:
                 self.selected_item_index = None
             elif self.selected_item_index >= len(self.player.inventory):
                 self.selected_item_index = len(self.player.inventory) - 1
+    
+    def select_equipment_slot(self, slot_index):
+        """Select an equipment slot (0-4 for slots 1-5) and highlight it."""
+        # Map slot numbers to equipment indices:
+        # Slot 1 (index 0) = Weapon (equipment_index 0)
+        # Slot 2 (index 1) = Armor (equipment_index 1) 
+        # Slot 3 (index 2) = Accessory 1 (equipment_index 2)
+        # Slot 4 (index 3) = Accessory 2 (equipment_index 3)
+        # Slot 5 (index 4) = Accessory 3 (equipment_index 4)
+        
+        if 0 <= slot_index <= 4:  # Valid slot indices
+            # Switch to equipment mode and select the slot
+            self.selection_mode = "equipment"
+            self.selected_item_index = None
+            self.selected_equipment_index = slot_index
     
     def equip_item(self, item):
         """Equip an item and handle slot management."""
