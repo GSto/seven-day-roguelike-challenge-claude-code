@@ -365,19 +365,19 @@ class UI:
             summary_y += 1
             
             attack_mult_percent = int(player.get_total_attack_multiplier() * 100)
-            console.print(0, summary_y, f"Attack Mult: {attack_mult_percent}%", fg=COLOR_WHITE)
+            console.print(0, summary_y, f"ATK-X: {attack_mult_percent}%", fg=COLOR_WHITE)
             summary_y += 1
             
             defense_mult_percent = int(player.get_total_defense_multiplier() * 100)
-            console.print(0, summary_y, f"Defense Mult: {defense_mult_percent}%", fg=COLOR_WHITE)
+            console.print(0, summary_y, f"DEF-X: {defense_mult_percent}%", fg=COLOR_WHITE)
             summary_y += 1
             
             xp_mult_percent = int(player.get_total_xp_multiplier() * 100)
-            console.print(0, summary_y, f"XP Mult: {xp_mult_percent}%", fg=COLOR_WHITE)
+            console.print(0, summary_y, f"XP-X: {xp_mult_percent}%", fg=COLOR_WHITE)
             summary_y += 1
 
             crit_mult_percent = int(player.get_total_crit_multiplier() * 100)
-            console.print(0, summary_y, f"XP Mult: {crit_mult_percent}%", fg=COLOR_WHITE)
+            console.print(0, summary_y, f"CRT-X: {crit_mult_percent}%", fg=COLOR_WHITE)
             summary_y += 1
             
             # Show attack traits/damage types

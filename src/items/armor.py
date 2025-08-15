@@ -56,6 +56,77 @@ class Armor(Equipment):
         self._update_display_name()
         return True
     
+    def get_attack_bonus(self, player):
+        """Get attack bonus including enchantments."""
+        total = super().get_attack_bonus(player)
+        for enchantment in self.enchantments:
+            total += self.get_enchantment_bonus(enchantment, "attack", player)
+        return total
+    
+    def get_defense_bonus(self, player):
+        """Get defense bonus including enchantments."""
+        total = super().get_defense_bonus(player)
+        for enchantment in self.enchantments:
+            total += self.get_enchantment_bonus(enchantment, "defense", player)
+        return total
+    
+    def get_fov_bonus(self, player):
+        """Get FOV bonus including enchantments."""
+        total = super().get_fov_bonus(player)
+        for enchantment in self.enchantments:
+            total += self.get_enchantment_bonus(enchantment, "fov", player)
+        return total
+    
+    def get_health_aspect_bonus(self, player):
+        """Get health aspect bonus including enchantments."""
+        total = super().get_health_aspect_bonus(player)
+        for enchantment in self.enchantments:
+            total += self.get_enchantment_bonus(enchantment, "health_aspect", player)
+        return total
+    
+    def get_defense_multiplier_bonus(self, player):
+        """Get defense multiplier bonus including enchantments."""
+        total = super().get_defense_multiplier_bonus(player)
+        for enchantment in self.enchantments:
+            total += self.get_enchantment_bonus(enchantment, "defense_multiplier", player)
+        return total
+    
+    def get_xp_multiplier_bonus(self, player):
+        """Get XP multiplier bonus including enchantments."""
+        total = super().get_xp_multiplier_bonus(player)
+        for enchantment in self.enchantments:
+            total += self.get_enchantment_bonus(enchantment, "xp_multiplier", player)
+        return total
+    
+    def get_evade_bonus(self, player):
+        """Get evade bonus including enchantments."""
+        total = super().get_evade_bonus(player)
+        for enchantment in self.enchantments:
+            total += self.get_enchantment_bonus(enchantment, "evade", player)
+        return total
+    
+    def get_enchantment_bonus(self, enchantment, bonus_type, player):
+        """
+        Override method to customize enchantment effects for specific armor.
+        
+        Args:
+            enchantment: The enchantment to get bonus from
+            bonus_type: Type of bonus ("attack", "defense", "fov", etc.)
+            player: Player instance for context
+            
+        Returns:
+            The bonus value for this enchantment and bonus type
+        """
+        # Default behavior - call the appropriate method on the enchantment
+        armor_method_name = f"get_armor_{bonus_type}_bonus"
+        shared_method_name = f"get_{bonus_type}_bonus"
+        
+        if hasattr(enchantment, armor_method_name):
+            return getattr(enchantment, armor_method_name)()
+        elif hasattr(enchantment, shared_method_name):
+            return getattr(enchantment, shared_method_name)()
+        return 0.0
+    
     def get_total_resistances(self):
         """Get all resistances including enchantments."""
         return self.get_resistances()
@@ -105,11 +176,12 @@ class GamblersVest(Armor):
         super().__init__(x, y, "Gambler's Vest", '[', 0, description="Double or 0.5x on defense")
 
     def get_defense_multiplier_bonus(self, player):
+      base = super().get_defense_multiplier_bonus(player)
       rand = random.random()
       if rand <= 0.5:
-        return 2
+        return base + 1.0  # 2x total (base 1.0 + 1.0 bonus)
       else:
-        return 0.5
+        return base - 0.5  # 0.5x total (base 1.0 - 0.5 penalty)
       
 class SkinSuit(Armor):
     def __init__(self, x, y):

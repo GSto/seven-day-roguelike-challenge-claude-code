@@ -59,35 +59,35 @@ class Weapon(Equipment):
         """Get attack bonus including enchantments."""
         total = super().get_attack_bonus(player)
         for enchantment in self.enchantments:
-            total += enchantment.get_attack_bonus()
+            total += self.get_enchantment_bonus(enchantment, "attack", player)
         return total
     
     def get_defense_bonus(self, player):
         """Get defense bonus including enchantments."""
         total = super().get_defense_bonus(player)
         for enchantment in self.enchantments:
-            total += enchantment.get_defense_bonus()
+            total += self.get_enchantment_bonus(enchantment, "defense", player)
         return total
     
     def get_fov_bonus(self, player):
         """Get FOV bonus including enchantments."""
         total = super().get_fov_bonus(player)
         for enchantment in self.enchantments:
-            total += enchantment.get_fov_bonus()
+            total += self.get_enchantment_bonus(enchantment, "fov", player)
         return total
     
     def get_health_aspect_bonus(self, player):
         """Get health aspect bonus including enchantments."""
         total = super().get_health_aspect_bonus(player)
         for enchantment in self.enchantments:
-            total += enchantment.get_health_aspect_bonus()
+            total += self.get_enchantment_bonus(enchantment, "health_aspect", player)
         return total
     
     def get_attack_multiplier_bonus(self, player):
         """Get attack multiplier bonus including enchantments."""
         total = super().get_attack_multiplier_bonus(player)
         for enchantment in self.enchantments:
-            total += enchantment.get_attack_multiplier_bonus()
+            total += self.get_enchantment_bonus(enchantment, "attack_multiplier", player)
         return total
     
     def get_defense_multiplier_bonus(self, player):
@@ -102,8 +102,30 @@ class Weapon(Equipment):
         """Get XP multiplier bonus including enchantments."""
         total = super().get_xp_multiplier_bonus(player)
         for enchantment in self.enchantments:
-            total += enchantment.get_xp_multiplier_bonus()
+            total += self.get_enchantment_bonus(enchantment, "xp_multiplier", player)
         return total
+    
+    def get_enchantment_bonus(self, enchantment, bonus_type, player):
+        """
+        Override method to customize enchantment effects for specific weapons.
+        
+        Args:
+            enchantment: The enchantment to get bonus from
+            bonus_type: Type of bonus ("attack", "defense", "fov", etc.)
+            player: Player instance for context
+            
+        Returns:
+            The bonus value for this enchantment and bonus type
+        """
+        # Default behavior - call the appropriate method on the enchantment
+        weapon_method_name = f"get_weapon_{bonus_type}_bonus"
+        shared_method_name = f"get_{bonus_type}_bonus"
+        
+        if hasattr(enchantment, weapon_method_name):
+            return getattr(enchantment, weapon_method_name)()
+        elif hasattr(enchantment, shared_method_name):
+            return getattr(enchantment, shared_method_name)()
+        return 0.0
     
     def get_evade_bonus(self, player):
         """Get evade bonus including enchantments."""
@@ -115,8 +137,7 @@ class Weapon(Equipment):
         """Get crit bonus including enchantments."""
         total = super().get_crit_bonus(player)
         for enchantment in self.enchantments:
-            if hasattr(enchantment, 'get_crit_bonus'):
-                total += enchantment.get_crit_bonus()
+            total += self.get_enchantment_bonus(enchantment, "crit", player)
         return total
     
     def get_crit_multiplier_bonus(self, player):
@@ -169,8 +190,8 @@ class TowerShield(Weapon):
     """Defensive "weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Tower Shield", ')', attack_bonus=1, defense_bonus=4, defense_multiplier_bonus=1.5, description="A large powerful shield")
-
+        super().__init__(x, y, "Tower Shield", ')', 1, defense_multiplier_bonus=1.5, description="A large powerful shield")
+        self.defense_bonus = 4
 
 ## Long Blade
 ## Standard slashing weapons
@@ -234,6 +255,22 @@ class ClericsStaff(Weapon):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Cleric's Staff", ')', 4, "A holy staff that enhances healing", health_aspect_bonus=0.2, attack_traits=[Trait.HOLY, Trait.MYSTIC])
+    
+    def get_enchantment_bonus(self, enchantment, bonus_type, player):
+        """Override to give special bonuses for BLESSED and HOLY enchantments."""
+        from .enchantments import EnchantmentType
+        
+        # Get base bonus
+        base_bonus = super().get_enchantment_bonus(enchantment, bonus_type, player)
+        
+        # Special bonuses for BLESSED and HOLY enchantments on Cleric's Staff
+        if enchantment.type in [EnchantmentType.BLESSED, EnchantmentType.HOLY]:
+            if bonus_type == "attack":
+                base_bonus += 4  # Additional +4 ATK bonus
+            elif bonus_type == "health_aspect":
+                base_bonus += 0.10  # Additional +10% health aspect bonus
+        
+        return base_bonus
 
 class MateriaStaff(Weapon):
         def __init__(self, x, y):

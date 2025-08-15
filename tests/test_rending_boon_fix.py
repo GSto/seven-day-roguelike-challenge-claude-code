@@ -37,9 +37,9 @@ class TestRendingBoonFix(unittest.TestCase):
         enchantment = self.player.weapon.enchantments[0]
         self.assertEqual(enchantment.type, EnchantmentType.RENDING)
         
-        # Verify crit chance increased by 10%
+        # Verify crit chance increased by 5%
         final_crit = self.player.get_total_crit()
-        expected_crit = initial_crit + 0.10
+        expected_crit = initial_crit + 0.05
         
         self.assertAlmostEqual(final_crit, expected_crit, places=3)
         self.assertGreater(final_crit, initial_crit)
@@ -55,13 +55,13 @@ class TestRendingBoonFix(unittest.TestCase):
         rending = get_enchantment_by_type(EnchantmentType.RENDING)
         weapon.add_enchantment(rending)
         
-        # Test that enchantment provides 0.10 crit bonus
-        crit_bonus = rending.get_crit_bonus()
-        self.assertEqual(crit_bonus, 0.10)
+        # Test that enchantment provides 0.05 crit bonus
+        crit_bonus = rending.get_weapon_crit_bonus()
+        self.assertEqual(crit_bonus, 0.05)
         
         # Test that weapon includes enchantment bonus
         weapon_crit_bonus = weapon.get_crit_bonus(self.player)
-        self.assertEqual(weapon_crit_bonus, 0.10)  # Base 0 + enchantment 0.10
+        self.assertEqual(weapon_crit_bonus, 0.05)  # Base 0 + enchantment 0.05
     
     def test_multiple_crit_sources_stack(self):
         """Test that crit bonuses from different sources stack correctly."""
@@ -81,7 +81,7 @@ class TestRendingBoonFix(unittest.TestCase):
         
         # Verify both bonuses are applied
         final_crit = self.player.get_total_crit()
-        expected_final_crit = self.player.crit + 0.15 + 0.10  # Player + weapon + enchantment
+        expected_final_crit = self.player.crit + 0.15 + 0.05  # Player + weapon + enchantment
         self.assertAlmostEqual(final_crit, expected_final_crit, places=3)
     
     def test_rending_boon_fails_without_weapon(self):
@@ -109,11 +109,11 @@ class TestRendingBoonFix(unittest.TestCase):
         
         # Test that get_crit_bonus includes enchantments
         weapon_crit = weapon.get_crit_bonus(self.player)
-        self.assertEqual(weapon_crit, 0.10)
+        self.assertEqual(weapon_crit, 0.05)
         
         # Test that player's total crit includes weapon's enchantment bonus
         total_crit = self.player.get_total_crit()
-        expected_crit = self.player.crit + 0.10
+        expected_crit = self.player.crit + 0.05
         self.assertAlmostEqual(total_crit, expected_crit, places=3)
 
 
