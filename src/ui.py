@@ -123,7 +123,8 @@ class UI:
             if SCREEN_HEIGHT - 1 >= 0:
                 console.print(0, SCREEN_HEIGHT - 1, controls_text, fg=COLOR_WHITE)
     
-    def render_inventory(self, console, player, selected_item_index=None):
+    def render_inventory(self, console, player, selected_item_index=None, 
+                        selected_equipment_index=None, selection_mode="inventory"):
         """Render the inventory screen."""
         console.clear()
         
@@ -182,43 +183,71 @@ class UI:
         if not player.inventory:
             console.print(0, y, "Empty", fg=COLOR_WHITE)
         
-        # Show currently equipped items
+        # Show currently equipped items with selection highlighting
         eq_y = y + len(player.inventory) + 2
         if eq_y < SCREEN_HEIGHT - 8:  # Leave more space for description
             console.print(0, eq_y, "Currently Equipped:", fg=COLOR_GREEN)
             eq_y += 1
-            # Show equipped items with stat bonuses
-            weapon_text = "None"
-            if player.weapon:
-                weapon_bonus = f" (+{player.weapon.get_attack_bonus(player)})" if player.weapon.get_attack_bonus(player) != 0 else ""
-                weapon_text = f"{player.weapon.name}{weapon_bonus}"
             
-            armor_text = "None"
-            if player.armor:
-                armor_bonus = f" (+{player.armor.get_defense_bonus(player)})" if player.armor.defense_bonus != 0 else ""
-                armor_text = f"{player.armor.name}{armor_bonus}"
+            # Helper function to render equipment line with selection
+            def render_equipment_line(index, label, item, eq_y):
+                # Determine if this equipment slot is selected
+                is_selected = (selection_mode == "equipment" and selected_equipment_index == index)
+                color = COLOR_GREEN if is_selected else COLOR_WHITE
+                
+                if item:
+                    # Show item with bonus
+                    bonus = ""
+                    if hasattr(item, 'get_attack_bonus') and item.get_attack_bonus(player) != 0:
+                        bonus = f" (+{item.get_attack_bonus(player)} att)"
+                    elif hasattr(item, 'get_defense_bonus') and item.get_defense_bonus(player) != 0:
+                        bonus = f" (+{item.get_defense_bonus(player)} def)"
+                    item_text = f"{item.name}{bonus}"
+                else:
+                    item_text = "None"
+                
+                console.print(0, eq_y, f"{label}: {item_text}", fg=color)
+                return eq_y + 1
             
-            console.print(0, eq_y, f"Weapon: {weapon_text}", fg=COLOR_WHITE)
-            console.print(0, eq_y + 1, f"Armor: {armor_text}", fg=COLOR_WHITE)
-            eq_y += 2
+            # Render weapon (index 0)
+            eq_y = render_equipment_line(0, "Weapon", player.weapon, eq_y)
             
-            # Show all accessories
+            # Render armor (index 1)  
+            eq_y = render_equipment_line(1, "Armor", player.armor, eq_y)
+            
+            # Show all accessories (indices 2, 3, 4)
             console.print(0, eq_y, "Accessories:", fg=COLOR_WHITE)
             eq_y += 1
 
             for i, accessory in enumerate(player.accessories):
+                equipment_index = i + 2  # Accessories start at index 2
+                is_selected = (selection_mode == "equipment" and selected_equipment_index == equipment_index)
+                color = COLOR_GREEN if is_selected else (COLOR_WHITE if accessory else COLOR_GRAY)
+                
                 slot_num = i + 1
-                if(accessory is None):
-                    console.print(2, eq_y, f"Slot {slot_num}: Empty", fg=COLOR_GRAY)
+                if accessory is None:
+                    console.print(2, eq_y, f"Slot {slot_num}: Empty", fg=color)
                 else: 
-                  console.print(2, eq_y, f"Slot {i+1}: {accessory.name}", fg=COLOR_WHITE)
+                    console.print(2, eq_y, f"Slot {slot_num}: {accessory.name}", fg=color)
                 eq_y += 1
         
-        # Show item description when an item is selected (always show when selected)
+        # Show item description when an item is selected (inventory or equipment)
         # Place it AFTER the equipped items section
+        selected_item = None
         if (selected_item_index is not None and 
             0 <= selected_item_index < len(player.inventory)):
             selected_item = player.inventory[selected_item_index]
+        elif (selection_mode == "equipment" and selected_equipment_index is not None):
+            # Get selected equipment item
+            if selected_equipment_index == 0:
+                selected_item = player.weapon
+            elif selected_equipment_index == 1:
+                selected_item = player.armor
+            elif 2 <= selected_equipment_index <= 4:
+                accessory_index = selected_equipment_index - 2
+                selected_item = player.accessories[accessory_index]
+        
+        if selected_item is not None:
             desc_y = eq_y + 1  # Place after equipped items
             console.print(0, desc_y, "Item Description:", fg=COLOR_GREEN)
             desc_y += 1
@@ -309,8 +338,7 @@ class UI:
         
         # Player summary section (always show when in inventory)
         # Position it after item description or after equipped items if no item selected
-        summary_y = desc_y if (selected_item_index is not None and 
-                              0 <= selected_item_index < len(player.inventory)) else eq_y + 1
+        summary_y = desc_y if selected_item is not None else eq_y + 1
         
         if summary_y < SCREEN_HEIGHT - 6:  # Leave space for controls
             console.print(0, summary_y, "Player Summary:", fg=COLOR_GREEN)
@@ -393,7 +421,7 @@ class UI:
         
         # Instructions with better formatting
         console.print(0, SCREEN_HEIGHT - 5, "Controls:", fg=COLOR_GREEN)
-        console.print(0, SCREEN_HEIGHT - 4, "Arrow keys or letter to select item", fg=COLOR_WHITE)
-        console.print(0, SCREEN_HEIGHT - 3, "[Enter] Use/Equip  [D] Drop", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 4, "Arrow keys: Navigate  Letter: Select inventory item", fg=COLOR_WHITE)
+        console.print(0, SCREEN_HEIGHT - 3, "[Enter] Use/Equip  [D] Drop  [U] Unequip", fg=COLOR_WHITE)
         console.print(0, SCREEN_HEIGHT - 2, "1-3: Manage accessory slots", fg=COLOR_WHITE)
         console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close inventory", fg=COLOR_WHITE)

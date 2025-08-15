@@ -50,6 +50,8 @@ class Game:
         
         # Inventory management
         self.selected_item_index = None
+        self.selected_equipment_index = None  # For equipment/accessory selection
+        self.selection_mode = "inventory"  # "inventory" or "equipment"
         self.pending_accessory_replacement = None  # For accessory slot replacement
         
         # ESC quit confirmation tracking
@@ -124,35 +126,34 @@ class Game:
             if key == tcod.event.KeySym.ESCAPE:
                 self.game_state = 'PLAYING'
                 self.selected_item_index = None
+                self.selected_equipment_index = None
+                self.selection_mode = "inventory"
             # Handle action keys FIRST (before letter selection)
-            elif key == tcod.event.KeySym.RETURN and self.selected_item_index is not None:
-                # Use/equip selected item with Enter key
-                self.use_inventory_item(self.selected_item_index)
-            elif key == ord('d') and self.selected_item_index is not None:
+            elif key == tcod.event.KeySym.RETURN:
+                if self.selection_mode == "inventory" and self.selected_item_index is not None:
+                    # Use/equip selected item with Enter key
+                    self.use_inventory_item(self.selected_item_index)
+            elif key == ord('d') and self.selection_mode == "inventory" and self.selected_item_index is not None:
                 # Drop selected item
                 self.drop_inventory_item(self.selected_item_index)
+            elif key == ord('u') and self.selection_mode == "equipment" and self.selected_equipment_index is not None:
+                # Unequip selected equipped item
+                self.unequip_selected_item()
             elif key == tcod.event.KeySym.UP or key == ord('k'):
-                # Navigate up in inventory
-                if len(self.player.inventory) > 0:
-                    if self.selected_item_index is None:
-                        self.selected_item_index = 0
-                    else:
-                        self.selected_item_index = (self.selected_item_index - 1) % len(self.player.inventory)
+                self.navigate_up()
             elif key == tcod.event.KeySym.DOWN or key == ord('j'):
-                # Navigate down in inventory
-                if len(self.player.inventory) > 0:
-                    if self.selected_item_index is None:
-                        self.selected_item_index = 0
-                    else:
-                        self.selected_item_index = (self.selected_item_index + 1) % len(self.player.inventory)
+                self.navigate_down()
             elif ord('1') <= key <= ord('3'):
                 # Handle accessory slot keys 1-3
                 self.handle_accessory_slot_key(key - ord('1'))
             elif ord('a') <= key <= ord('z'):
                 # Select item by letter (but exclude action keys)
-                if key not in [ord('d'), ord('k'), ord('j')]:  # Removed 'u' and 'e'
+                if key not in [ord('d'), ord('k'), ord('j'), ord('u')]:
                     item_index = key - ord('a')
                     if 0 <= item_index < len(self.player.inventory):
+                        # Switch to inventory mode and select item
+                        self.selection_mode = "inventory"
+                        self.selected_equipment_index = None
                         # If same item is selected again, reset selection
                         if self.selected_item_index == item_index:
                             self.selected_item_index = None
@@ -194,7 +195,15 @@ class Game:
                 self.esc_pressed_once = False  # Reset ESC confirmation
                 self.game_state = 'INVENTORY'
                 # Default to selecting first item if inventory is not empty
-                self.selected_item_index = 0 if len(self.player.inventory) > 0 else None
+                if len(self.player.inventory) > 0:
+                    self.selected_item_index = 0
+                    self.selection_mode = "inventory"
+                    self.selected_equipment_index = None
+                else:
+                    self.selected_item_index = None
+                    # Start with equipment if no inventory items
+                    self.selection_mode = "equipment"
+                    self.selected_equipment_index = 0
             # Item pickup key
             elif key == ord('g'):
                 self.esc_pressed_once = False  # Reset ESC confirmation
@@ -613,6 +622,121 @@ class Game:
             elif self.selected_item_index >= len(self.player.inventory):
                 self.selected_item_index = len(self.player.inventory) - 1
     
+    def navigate_up(self):
+        """Navigate up in the inventory, cycling between inventory and equipment."""
+        if self.selection_mode == "inventory":
+            if len(self.player.inventory) > 0:
+                if self.selected_item_index is None:
+                    self.selected_item_index = 0
+                elif self.selected_item_index == 0:
+                    # Move to equipment section
+                    self.selection_mode = "equipment" 
+                    self.selected_item_index = None
+                    self.selected_equipment_index = self.get_equipment_count() - 1  # Start at bottom of equipment
+                else:
+                    self.selected_item_index = (self.selected_item_index - 1) % len(self.player.inventory)
+            else:
+                # No inventory items, go to equipment
+                self.selection_mode = "equipment"
+                self.selected_equipment_index = self.get_equipment_count() - 1
+        elif self.selection_mode == "equipment":
+            equipment_count = self.get_equipment_count()
+            if equipment_count > 0:
+                if self.selected_equipment_index is None:
+                    self.selected_equipment_index = 0
+                elif self.selected_equipment_index == 0:
+                    # Move to inventory section (bottom)
+                    if len(self.player.inventory) > 0:
+                        self.selection_mode = "inventory"
+                        self.selected_equipment_index = None
+                        self.selected_item_index = len(self.player.inventory) - 1
+                    # If no inventory, stay in equipment
+                else:
+                    self.selected_equipment_index = (self.selected_equipment_index - 1) % equipment_count
+    
+    def navigate_down(self):
+        """Navigate down in the inventory, cycling between inventory and equipment."""
+        if self.selection_mode == "inventory":
+            if len(self.player.inventory) > 0:
+                if self.selected_item_index is None:
+                    self.selected_item_index = 0
+                elif self.selected_item_index == len(self.player.inventory) - 1:
+                    # Move to equipment section
+                    self.selection_mode = "equipment"
+                    self.selected_item_index = None
+                    self.selected_equipment_index = 0  # Start at top of equipment
+                else:
+                    self.selected_item_index = (self.selected_item_index + 1) % len(self.player.inventory)
+            else:
+                # No inventory items, go to equipment
+                self.selection_mode = "equipment"
+                self.selected_equipment_index = 0
+        elif self.selection_mode == "equipment":
+            equipment_count = self.get_equipment_count()
+            if equipment_count > 0:
+                if self.selected_equipment_index is None:
+                    self.selected_equipment_index = 0
+                elif self.selected_equipment_index == equipment_count - 1:
+                    # Move to inventory section (top)
+                    if len(self.player.inventory) > 0:
+                        self.selection_mode = "inventory"
+                        self.selected_equipment_index = None
+                        self.selected_item_index = 0
+                    # If no inventory, stay in equipment
+                else:
+                    self.selected_equipment_index = (self.selected_equipment_index + 1) % equipment_count
+    
+    def get_equipment_count(self):
+        """Get the number of equipment slots (weapon + armor + 3 accessories)."""
+        return 5  # Weapon, Armor, 3 Accessory slots
+    
+    def get_selected_equipment_item(self):
+        """Get the currently selected equipment item or None if slot is empty."""
+        if self.selected_equipment_index is None:
+            return None
+        
+        if self.selected_equipment_index == 0:  # Weapon
+            return self.player.weapon
+        elif self.selected_equipment_index == 1:  # Armor
+            return self.player.armor
+        elif 2 <= self.selected_equipment_index <= 4:  # Accessories
+            accessory_index = self.selected_equipment_index - 2
+            return self.player.accessories[accessory_index]
+        
+        return None
+    
+    def unequip_selected_item(self):
+        """Unequip the currently selected equipment item."""
+        if self.selected_equipment_index is None:
+            return
+        
+        # Check if inventory has space first
+        if len(self.player.inventory) >= self.player.inventory_size:
+            self.ui.add_message("Cannot unequip. Inventory is full.")
+            return
+        
+        item = self.get_selected_equipment_item()
+        if item is None:
+            self.ui.add_message("No item equipped in this slot.")
+            return
+        
+        # Unequip the item
+        if self.selected_equipment_index == 0:  # Weapon
+            self.player.weapon = None
+        elif self.selected_equipment_index == 1:  # Armor  
+            self.player.armor = None
+        elif 2 <= self.selected_equipment_index <= 4:  # Accessories
+            accessory_index = self.selected_equipment_index - 2
+            self.player.accessories[accessory_index] = None
+        
+        # Add to inventory
+        self.player.add_item(item)
+        self.ui.add_message(f"You unequipped {item.name}.")
+        
+        # Update FOV if weapon/armor changed
+        if self.selected_equipment_index <= 1:
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+    
     def handle_accessory_slot_key(self, slot_index):
         """Handle accessory slot keys 1-3 for equipping/unequipping accessories."""
         # Check if slot_index is valid (0-2 for slots 1-3)
@@ -955,10 +1079,12 @@ class Game:
             self.render_victory_screen()
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
-            self.ui.render_inventory(self.console, self.player, self.selected_item_index)
+            self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
+                                    self.selected_equipment_index, self.selection_mode)
         elif self.game_state == 'ACCESSORY_REPLACEMENT':
             # Render accessory replacement screen
-            self.ui.render_inventory(self.console, self.player, self.selected_item_index)
+            self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
+                                    self.selected_equipment_index, self.selection_mode)
         else:
             # Normal game rendering
             # Render the level
