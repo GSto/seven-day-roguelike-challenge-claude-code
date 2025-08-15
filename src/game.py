@@ -685,11 +685,14 @@ class Game:
         slot = item.equipment_slot
         
         if slot == "weapon":
-            # Unequip current weapon if any
+            # Check if we need to unequip current weapon and if there's space
             if self.player.weapon:
                 old_weapon = self.player.weapon
+                # Check if inventory has space for the old weapon
+                if not self.player.add_item(old_weapon):
+                    self.ui.add_message(f"Cannot equip {item.name}. Inventory is full.")
+                    return
                 self.player.weapon = None
-                self.player.add_item(old_weapon)  # Put back in inventory
                 self.ui.add_message(f"You unequipped {old_weapon.name}.")
             
             # Equip new weapon
@@ -702,11 +705,14 @@ class Game:
                 self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "armor":
-            # Unequip current armor if any
+            # Check if we need to unequip current armor and if there's space
             if self.player.armor:
                 old_armor = self.player.armor
+                # Check if inventory has space for the old armor
+                if not self.player.add_item(old_armor):
+                    self.ui.add_message(f"Cannot equip {item.name}. Inventory is full.")
+                    return
                 self.player.armor = None
-                self.player.add_item(old_armor)
                 self.ui.add_message(f"You unequipped {old_armor.name}.")
             
             # Equip new armor
