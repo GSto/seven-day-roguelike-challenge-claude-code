@@ -221,37 +221,37 @@ class Player:
     def get_total_evade(self):
         """Get total evade chance including equipment bonuses."""
         total = self.evade
-        if self.weapon and hasattr(self.weapon, 'evade_bonus'):
-            total += self.weapon.evade_bonus
-        if self.armor and hasattr(self.armor, 'evade_bonus'):
-            total += self.armor.evade_bonus
+        if self.weapon and hasattr(self.weapon, 'get_evade_bonus'):
+            total += self.weapon.get_evade_bonus(self)
+        if self.armor and hasattr(self.armor, 'get_evade_bonus'):
+            total += self.armor.get_evade_bonus(self)
         for accessory in self.equipped_accessories():
-            if hasattr(accessory, 'evade_bonus'):
-                total += accessory.evade_bonus
+            if hasattr(accessory, 'get_evade_bonus'):
+                total += accessory.get_evade_bonus(self)
         return min(0.75, total)  # Cap at 75% evade
     
     def get_total_crit(self):
         """Get total crit chance including equipment bonuses."""
         total = self.crit
-        if self.weapon and hasattr(self.weapon, 'crit_bonus'):
-            total += self.weapon.crit_bonus
-        if self.armor and hasattr(self.armor, 'crit_bonus'):
-            total += self.armor.crit_bonus
+        if self.weapon and hasattr(self.weapon, 'get_crit_bonus'):
+            total += self.weapon.get_crit_bonus(self)
+        if self.armor and hasattr(self.armor, 'get_crit_bonus'):
+            total += self.armor.get_crit_bonus(self)
         for accessory in self.equipped_accessories():
-            if hasattr(accessory, 'crit_bonus'):
-                total += accessory.crit_bonus
+            if hasattr(accessory, 'get_crit_bonus'):
+                total += accessory.get_crit_bonus(self)
         return min(0.75, total)  # Cap at 75% crit
     
     def get_total_crit_multiplier(self):
         """Get total crit multiplier including equipment bonuses."""
         total = self.crit_multiplier
-        if self.weapon and hasattr(self.weapon, 'crit_multiplier_bonus'):
-            total += self.weapon.crit_multiplier_bonus
-        if self.armor and hasattr(self.armor, 'crit_multiplier_bonus'):
-            total += self.armor.crit_multiplier_bonus
+        if self.weapon and hasattr(self.weapon, 'get_crit_multiplier_bonus'):
+            total += self.weapon.get_crit_multiplier_bonus(self)
+        if self.armor and hasattr(self.armor, 'get_crit_multiplier_bonus'):
+            total += self.armor.get_crit_multiplier_bonus(self)
         for accessory in self.equipped_accessories():
-            if hasattr(accessory, 'crit_multiplier_bonus'):
-                total += accessory.crit_multiplier_bonus
+            if hasattr(accessory, 'get_crit_multiplier_bonus'):
+                total += accessory.get_crit_multiplier_bonus(self)
         return total
     
     def equipped_accessories(self):
