@@ -2,12 +2,13 @@
 Catalyst consumables that permanently modify player stats and traits.
 """
 
-import random
 from constants import COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_SALMON, COLOR_WHITE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN
 from .base import Consumable
 from traits import Trait
 
-
+# ============================================================================
+# BUFF CATALYSTS - Permanently increase stats
+# ============================================================================
 class Catalyst(Consumable):
     """Base class for catalysts that have HP costs based on catalyst tax."""
     
@@ -86,56 +87,6 @@ class DefenseCatalyst(Catalyst):
         return (True, f"You feel more protected! Defense +{self.effect_value} (Cost: {hp_cost} HP)")
 
 
-class D6(Catalyst):
-    """Random effect dice with 6 possible outcomes"""
-    
-    def __init__(self, x, y):
-        super().__init__(
-            x=x, y=y,
-            name="D6",
-            char='6',
-            color=COLOR_WHITE,
-            description="Roll for one of 6 random effects:\n +1 Attack, +1 Defense, +10 max HP, +1 FOV, or -20 max HP",
-            effect_value=1
-        )
-    
-    def _apply_catalyst_effect(self, player, hp_cost):
-        """Apply one of 6 random effects"""
-        roll = random.randint(1, 6)
-        
-        if roll == 5:
-            # +1 Attack
-            player.attack += 1
-            return (True, f"Rolled {roll}! Attack +1 (Cost: {hp_cost} HP)")
-        elif roll == 2:
-            # +1 Defense
-            player.defense += 1
-            return (True, f"Rolled {roll}! Defense +1 (Cost: {hp_cost} HP)")
-        elif roll == 3:
-            # +10 max HP
-            old_max = player.max_hp
-            player.max_hp += 10
-            player.hp += (player.max_hp - old_max)  # Heal the difference
-            return (True, f"Rolled {roll}! Max HP +10 (Cost: {hp_cost} HP)")
-        elif roll == 4:
-            # +3 FOV
-            player.fov += 1
-            return (True, f"Rolled {roll}! FOV +3 (Cost: {hp_cost} HP)")
-        elif roll == 1:
-            # -20 max HP (but don't kill the player)
-            if player.max_hp > 25:  # Ensure player doesn't die from this
-                player.max_hp -= 20
-                if player.hp > player.max_hp:
-                    player.hp = player.max_hp
-                return (True, f"Rolled {roll}! Max HP -20 (ouch!) (Cost: {hp_cost} HP)")
-            else:
-                return (True, f"Rolled {roll}! But you're too weak for the penalty to apply. (Cost: {hp_cost} HP)")
-        else:  # roll == 6
-            # Duplicate effect - +1 Attack (making it slightly more likely to be positive)
-            player.attack += 1
-            return (True, f"Rolled {roll}! Attack +1 (Cost: {hp_cost} HP)")
-
-
 class BaronCatalyst(Catalyst):
     """Permanently increases attack multiplier by 10%"""
     
@@ -195,37 +146,6 @@ class JewelerCatalyst(Catalyst):
         player.xp_multiplier *= self.xp_multiplier_effect
         return (True, f"You learn more efficiently! XP multiplier increased by {int((self.xp_multiplier_effect-1)*100)}% (Cost: {hp_cost} HP)")
 
-
-class MagicMushroom(Catalyst): 
-    """All stats up +1"""
-
-    def __init__(self, x, y):
-          super().__init__(
-              x=x, y=y,
-              name="Magic Mushroom",
-              char='m',
-              color=COLOR_RED,
-              description="Permanently increases XP multiplier by 5%",
-              effect_value=1,
-              xp_multiplier_effect=1.05
-          )
-    
-    def _apply_catalyst_effect(self, player, hp_cost): 
-        player.max_hp += 1
-        player.attack += 1
-        player.defense += 1 
-        player.xp += 1
-        player.fov += 1
-        player.evade += 0.01
-        player.crit += 0.01
-        player.crit_multiplier += 0.01
-        player.health_aspect += 0.01
-        player.attack_multiplier += 0.01
-        player.defense_multiplier += 0.01
-        player.xp_multiplier += 0.01 
-        return (True, f"all up by 1 (Cost: {hp_cost} HP)")
-
-
 class ReapersCatalyst(Catalyst):
     """Permanently increases crit chance"""
     
@@ -243,7 +163,6 @@ class ReapersCatalyst(Catalyst):
         """Permanently increase player's crit chance"""
         player.crit += self.effect_value
         return (True, f"You feel deadlier! Crit chance +{int(self.effect_value * 100)}% (Cost: {hp_cost} HP)")
-
 
 class ShadowsCatalyst(Catalyst):
     """Permanently increases evade chance"""

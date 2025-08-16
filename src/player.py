@@ -20,7 +20,7 @@ class Player:
         # Player stats
         self.max_hp = 50
         self.hp = self.max_hp
-        self.attack = 7
+        self.attack = 6
         self.defense = 2
         self.level = 1
         self.xp = 0

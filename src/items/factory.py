@@ -4,10 +4,10 @@ Factory functions for creating random items.
 
 import random
 # Import from organized consumable subcategories
-from .foods import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, Antidote, ShellPotion, MezzoForte
-from .catalysts import PowerCatalyst, DefenseCatalyst, D6, JewelerCatalyst, BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst, MagicMushroom, FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst
+from .foods import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, Antidote, ShellPotion, MezzoForte, MagicMushroom
+from .catalysts import PowerCatalyst, DefenseCatalyst, JewelerCatalyst, BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst, FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst
 from .boons import BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon
-from .consumables import *  # Keep for any backward compatibility needs
+from .consumables import D6 
 from .weapons import * 
 from .armor import * 
 from .accessories import  * 

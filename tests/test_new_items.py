@@ -7,7 +7,8 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from items.consumables import PowerCatalyst, DefenseCatalyst, D6
+from items.consumables import  D6
+from items.catalysts import PowerCatalyst, DefenseCatalyst,
 
 
 def test_power_catalyst():
