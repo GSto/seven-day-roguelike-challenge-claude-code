@@ -167,7 +167,7 @@ class WoodenStick(Weapon):
     """Basic starting weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Wooden Stick", ')', 1, "A simple wooden stick", xp_cost=0)
+        super().__init__(x, y, "Wooden Stick", ')', 1, "A simple wooden stick", xp_cost=0, attack_traits=[Trait.STRIKE])
 
 
 ## Short blade
@@ -184,13 +184,13 @@ class Shield(Weapon):
     """Defensive "weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Shield", ')', 1, defense_multiplier_bonus=1.25, description="A shield.")
+        super().__init__(x, y, "Shield", ')', 1, defense_multiplier_bonus=1.25, description="A shield.", attack_traits=[Trait.STRIKE])
 
 class TowerShield(Weapon):
     """Defensive "weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Tower Shield", ')', 1, defense_multiplier_bonus=1.5, description="A large powerful shield")
+        super().__init__(x, y, "Tower Shield", ')', 1, defense_multiplier_bonus=1.5, description="A large powerful shield", attack_traits=[Trait.STRIKE])
         self.defense_bonus = 4
 
 ## Long Blade
@@ -299,16 +299,16 @@ class Pickaxe(Weapon):
     """Gloves that enhance your natural strength."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Pickaxe", ')', 6, "Favorite of Miners, scales with light")
+        super().__init__(x, y, "Pickaxe", ')', 6, "Favorite of Miners, scales with light", attack_traits=[Trait.STRIKE])
 
         def get_attack_multiplier_bonus(self, player):
-            return min(1, 1 + (player.fov / 100)) # return 1 so we don't accidently scale down
+            return min(1, 1 + (player.get_total_fov() / 100)) # return 1 so we don't accidently scale down
 
 class Gauntlets(Weapon):
     """Gloves that enhance your natural strength."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=2)
+        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=2, attack_traits=[Trait.STRIKE])
 
 
 class DemonSlayer(Weapon):
@@ -326,7 +326,7 @@ class SnakesFang(Weapon):
         super().__init__(x, y, "Snake's Fang", ')', 4, "Deals slash & poison damage. Applies additional poison on hit", 
                          attack_traits=[Trait.SLASH, Trait.POISON])
     
-    def on_hit(self, attacker, target):
+    def on_hit(self, player, target):
         """Apply additional poison when hitting a target."""
         if hasattr(target, 'status_effects'):
             if target.status_effects.apply_status('poison', 5, target):

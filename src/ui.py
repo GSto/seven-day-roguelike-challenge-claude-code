@@ -45,7 +45,7 @@ class UI:
             
             # Show shields if player has any
             if player.status_effects.shields > 0:
-                shields_text = f"Shields: {player.status_effects.shields}"
+                shields_text = f"SLD: {player.status_effects.shields}"
                 shield_x = len(hp_text) + 3  # 3 character padding
                 console.print(shield_x, ui_y, shields_text, fg=COLOR_CYAN)
             console.print(20, ui_y, f"LVL: {player.level}", fg=COLOR_WHITE)
@@ -396,6 +396,12 @@ class UI:
             crit_mult_percent = int(player.get_total_crit_multiplier() * 100)
             console.print(0, summary_y, f"CRT-X: {crit_mult_percent}%", fg=COLOR_WHITE)
             summary_y += 1
+            
+            # Show status effects
+            status_effects_str = str(player.status_effects)
+            if status_effects_str != "None":
+                console.print(0, summary_y, f"Status Effects: {status_effects_str}", fg=COLOR_YELLOW)
+                summary_y += 1
             
             # Show attack traits/damage types
             attack_traits = player.get_total_attack_traits()

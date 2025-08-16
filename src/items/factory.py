@@ -4,10 +4,10 @@ Factory functions for creating random items.
 
 import random
 # Import from organized consumable subcategories
-from .foods import HealthPotion, Beef, Chicken, Elixir, Carrot, SalmonOfKnowledge, Antidote, ShellPotion, MezzoForte, MagicMushroom
-from .catalysts import PowerCatalyst, DefenseCatalyst, JewelerCatalyst, BaronCatalyst, WardenCatalyst, ReapersCatalyst, ShadowsCatalyst, FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst
-from .boons import BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon
-from .consumables import D6 
+from .foods import *
+from .catalysts import *
+from .boons import *
+from .consumables import * 
 from .weapons import * 
 from .armor import * 
 from .accessories import  * 
@@ -25,8 +25,8 @@ from .enchantments import *
 DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot]
 STATUS_CONSUMABLES = [Antidote, ShellPotion, MezzoForte]
 # Boons (can appear from floor 2+)
-ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon]
-CATALYSTS = [PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, ShadowsCatalyst, BaronCatalyst, WardenCatalyst, FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst]
+ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon, FireBoon, IceBoon, HolyBoon, DarkBoon]
+CATALYSTS = [PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, ShadowsCatalyst, BaronCatalyst, WardenCatalyst, FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst]
 
 BASE_CONSUMABLES = DEFAULT_CONSUMABLES + STATUS_CONSUMABLES + ENCHANTMENT_BOONS  + CATALYSTS
 
@@ -50,7 +50,23 @@ END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak]
 
 CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
 # Actually think I am going to put most accessories here, except for some that are specifcally not for early or late game
-DEFAULT_ACCESSORIES = [BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask, GravePact, SturdyRock, PunishTheWeak]
+DEFAULT_ACCESSORIES = [
+    BaronsCrown,
+    JewelersCap, 
+    Rosary,
+    HeadLamp,
+    ShadowRing,
+    RingOfPrecision,
+    BrutalityAmulet,
+    AssassinsMask,
+    GravePact,
+    SturdyRock,
+    PunishTheWeak,
+    StrikeBonus,
+    SlashBonus
+    ]
+
+BASE_ACCESSORIES = DEFAULT_ACCESSORIES + CARDS
 # Accessory item pools
 EARLY_GAME_ACCESSORIES = []  # No accessories in early game
 MID_GAME_ACCESSORIES = [PowerRing, ProtectionRing] + DEFAULT_ACCESSORIES  # Single item list is fine

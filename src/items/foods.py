@@ -220,7 +220,7 @@ class MagicMushroom(Consumable):
               xp_multiplier_effect=1.05
           )
     
-    def _apply_catalyst_effect(self, player, hp_cost): 
+    def use(self, player): 
         player.max_hp += 1
         player.attack += 1
         player.defense += 1 
@@ -233,6 +233,6 @@ class MagicMushroom(Consumable):
         player.attack_multiplier += 0.01
         player.defense_multiplier += 0.01
         player.xp_multiplier += 0.01 
-        player.status.shields += 1
-        return (True, f"all up by 1 (Cost: {hp_cost} HP)")
+        player.status_effects.apply_status('shields', 1)
+        return (True, f"all stats up by 1")
 
