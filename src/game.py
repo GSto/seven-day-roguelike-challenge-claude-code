@@ -309,7 +309,7 @@ class Game:
                         
                 elif trait == Trait.FIRE:
                     if random.random() < 0.5:  # 50% chance
-                        if target.status_effects.apply_status('burn', 2, target):
+                        if target.status_effects.apply_status('burn', 4, target):
                             entity_name = target.name if hasattr(target, 'name') else 'You'
                             self.ui.add_message(f"{entity_name} start burning!")
                         

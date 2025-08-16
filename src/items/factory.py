@@ -22,7 +22,7 @@ from .enchantments import *
 # Accessory: Psychic's Turban: way to much ATK bonus 
 # Armor: Skin Suit: still gets way to much DEF
 
-DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot]
+DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot, MayhemsBoon, Compass, Map, Bomb, SwordsToPlowshares, Transmutation]
 STATUS_CONSUMABLES = [Antidote, ShellPotion, MezzoForte]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon, FireBoon, IceBoon, HolyBoon, DarkBoon]
@@ -37,16 +37,16 @@ LATE_GAME_CONSUMABLES =  BASE_CONSUMABLES
 END_GAME_CONSUMABLES = [Elixir] + BASE_CONSUMABLES
 # Weapon item pools
 EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, Katana]
-MID_GAME_WEAPONS = [Sword, Shield, Axe, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier]
-LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, Rapier]
-END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe]
+MID_GAME_WEAPONS = [Sword, Shield, Axe, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick]
+LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, Rapier, ClairObscur, FeuGlace]
+END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe, ClairObscur, FeuGlace]
 
 # Armor item pools
 DEFAULT_ARMOR = [SpikedArmor, GamblersVest, MinimalSuit]
 EARLY_GAME_ARMOR = [LeatherArmor, SafetyVest, Cloak] + DEFAULT_ARMOR
-MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, NightCloak] + DEFAULT_ARMOR
-LATE_GAME_ARMOR = [ChainMail, PlateArmor, NightCloak, ShadowCloak] + DEFAULT_ARMOR
-END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak]
+MID_GAME_ARMOR = [LeatherArmor, ChainMail, SafetyVest, NightCloak, CoatedPlate, AntiAngelTechnology, SpikedCuirass, UtilityBelt, SOSArmor] + DEFAULT_ARMOR
+LATE_GAME_ARMOR = [ChainMail, PlateArmor, NightCloak, ShadowCloak, CoatedPlate, AntiAngelTechnology, SpikedCuirass, UtilityBelt] + DEFAULT_ARMOR
+END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak, UtilityBelt]
 
 CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
 # Actually think I am going to put most accessories here, except for some that are specifcally not for early or late game
@@ -63,7 +63,14 @@ DEFAULT_ACCESSORIES = [
     SturdyRock,
     PunishTheWeak,
     StrikeBonus,
-    SlashBonus
+    SlashBonus,
+    ElementalMayhem,
+    GodsEye,
+    SavingThrow,
+    Anaglyph,
+    MallNinja,
+    RighteousFury,
+    SongOfIceAndFire
     ]
 
 BASE_ACCESSORIES = DEFAULT_ACCESSORIES + CARDS

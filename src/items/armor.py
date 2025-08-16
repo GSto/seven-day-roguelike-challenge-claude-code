@@ -226,3 +226,65 @@ class SpikedArmor(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Spiked Armor", '[', 1, description="Menacing armor covered in spikes", attack_bonus=2)
+
+
+# New Item Pack 2 Armor
+
+class CoatedPlate(Armor):
+    """Mid-game+ armor. +4 DEF. Immune to poison, burn, stun."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Coated Plate", '[', 4, 
+                        description="Mid-game+ armor. +4 DEF. Immune to poison, burn, stun")
+    
+    def blocks_status_effect(self, effect_name):
+        """Check if this armor blocks a specific status effect."""
+        return effect_name in ['poison', 'burn', 'stun']
+
+
+class AntiAngelTechnology(Armor):
+    """Mid-game armor. +4 DEF. Holy resistance, immune to blindness."""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Anti-Angel Technology", '[', 4, 
+                        description="Mid-game armor. +4 DEF. Holy resistance, immune to blindness",
+                        resistances=[Trait.HOLY])
+    
+    def blocks_status_effect(self, effect_name):
+        """Check if this armor blocks a specific status effect."""
+        return effect_name in ['blindness']
+
+
+class SpikedCuirass(Armor):
+    """Mid-game+ armor. +4 DEF, +2 ATK"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Spiked Cuirass", '[', 4, 
+                        description="Mid-game+ armor. +4 DEF, +2 ATK",
+                        attack_bonus=2)
+
+
+class UtilityBelt(Armor):
+    """Mid-game+ armor. +3 DEF, +10% healing, +10% XP, +3 FOV"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Utility Belt", '[', 3, 
+                        description="Mid-game+ armor. +3 DEF, +10% healing, +10% XP, +3 FOV",
+                        fov_bonus=3,
+                        health_aspect_bonus=0.1,
+                        xp_multiplier_bonus=1.1)
+
+
+class SOSArmor(Armor):
+    """+2 DEF. +6 DEF if HP is 20% or less of max HP"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "SOS Armor", '[', 2, 
+                        description="+2 DEF. +6 DEF if HP is 20% or less of max HP")
+    
+    def get_defense_bonus(self, player):
+        """Get defense bonus with conditional extra defense at low HP."""
+        base_defense = super().get_defense_bonus(player)
+        if player.hp <= (player.max_hp * 0.2):  # 20% or less HP
+            return base_defense + 6
+        return base_defense

@@ -29,7 +29,7 @@ class Consumable(Item):
     
     def __init__(self, x, y, name, char, color, description="", effect_value=0,
                  attack_multiplier_effect=0.0, defense_multiplier_effect=0.0, xp_multiplier_effect=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None):
+                 attack_traits=None, weaknesses=None, resistances=None, charges=None):
         super().__init__(x, y, name, char, color, description)
         self.effect_value = effect_value
         
@@ -42,10 +42,30 @@ class Consumable(Item):
         self.attack_traits = attack_traits or []
         self.weaknesses = weaknesses or []
         self.resistances = resistances or []
+        
+        # Charges system - if None, item is destroyed after use
+        self.charges = charges
+        self.max_charges = charges if charges is not None else None
     
     def use(self, player):
-        """Use the consumable item. Returns True if successfully used."""
-        return False  # Override in subclasses
+        """Use the consumable item. Returns (success, message, should_destroy)."""
+        # Default implementation - override in subclasses
+        # Returns whether use was successful, message, and whether item should be destroyed
+        return False, "Cannot use this item", True
+    
+    def use_charge(self):
+        """Use one charge and return whether item should be destroyed."""
+        if self.charges is None:
+            return True  # Item has no charges, should be destroyed
+        
+        self.charges -= 1
+        return self.charges <= 0  # Destroy if no charges left
+    
+    def get_display_name(self):
+        """Get display name including charges if applicable."""
+        if self.charges is not None:
+            return f"{self.name} ({self.charges}/{self.max_charges})"
+        return self.name
 
 
 class Equipment(Item):
@@ -57,7 +77,7 @@ class Equipment(Item):
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5):
+                 xp_cost=5, is_cleanup=False):
         super().__init__(x, y, name, char, color, description)
         self.attack_bonus = attack_bonus
         self.defense_bonus = defense_bonus
@@ -77,6 +97,9 @@ class Equipment(Item):
         
         # XP cost to equip this item
         self.xp_cost = xp_cost
+        
+        # Cleanup step - if True, effects are calculated after all other equipment
+        self.is_cleanup = is_cleanup
         
         # Traits system
         self.attack_traits = attack_traits or []

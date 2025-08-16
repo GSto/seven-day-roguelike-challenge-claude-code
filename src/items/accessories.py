@@ -13,7 +13,8 @@ class Accessory(Equipment):
     def __init__(self, x, y, name, char, attack_bonus=0, defense_bonus=0, 
                  description="", fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 xp_cost=5):
+                 attack_traits=None, weaknesses=None, resistances=None,
+                 xp_cost=5, is_cleanup=False):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -31,7 +32,11 @@ class Accessory(Equipment):
             evade_bonus=evade_bonus,
             crit_bonus=crit_bonus,
             crit_multiplier_bonus=crit_multiplier_bonus,
-            xp_cost=xp_cost
+            attack_traits=attack_traits,
+            weaknesses=weaknesses,
+            resistances=resistances,
+            xp_cost=xp_cost,
+            is_cleanup=is_cleanup
         )
 
 # Base Classes
@@ -41,10 +46,11 @@ class Ring(Accessory):
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0, 
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 xp_cost=5, description="A magical ring"):
+                 attack_traits=None, weaknesses=None, resistances=None,
+                 xp_cost=5, description="A magical ring", is_cleanup=False):
         super().__init__(x, y, name, '=', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                          attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
-                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, attack_traits, weaknesses, resistances, xp_cost, is_cleanup)
 
 class Card(Accessory):
     """Base class for cards."""
@@ -52,20 +58,22 @@ class Card(Accessory):
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 xp_cost=5, description="An enchanted card"):
+                 attack_traits=None, weaknesses=None, resistances=None,
+                 xp_cost=5, description="An enchanted card", is_cleanup=False):
         super().__init__(x, y, name, '#', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                          attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
-                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, attack_traits, weaknesses, resistances, xp_cost, is_cleanup)
 
 class Artifact(Accessory):
     """Base class for artifacts"""
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
               attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
               evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-              xp_cost=5, description="An enchanted card"):
+              attack_traits=None, weaknesses=None, resistances=None,
+              xp_cost=5, description="An enchanted card", is_cleanup=False):
       super().__init__(x, y, name, 'a', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                       attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
-                      evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
+                      evade_bonus, crit_bonus, crit_multiplier_bonus, attack_traits, weaknesses, resistances, xp_cost, is_cleanup)
 
 
 class Necklace(Accessory):
@@ -74,10 +82,11 @@ class Necklace(Accessory):
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 xp_cost=5, description="A magical necklace"):
+                 attack_traits=None, weaknesses=None, resistances=None,
+                 xp_cost=5, description="A magical necklace", is_cleanup=False):
         super().__init__(x, y, name, 'v', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                          attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
-                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, attack_traits, weaknesses, resistances, xp_cost, is_cleanup)
 
 class Hat(Accessory):
     """Base class for hats."""
@@ -85,10 +94,11 @@ class Hat(Accessory):
     def __init__(self, x, y, name, attack_bonus=0, defense_bonus=0, fov_bonus=0, health_aspect_bonus=0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 xp_cost=5, description="A cool hat"):
+                 attack_traits=None, weaknesses=None, resistances=None,
+                 xp_cost=5, description="A cool hat", is_cleanup=False):
         super().__init__(x, y, name, '^', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                          attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
-                         evade_bonus, crit_bonus, crit_multiplier_bonus, xp_cost)
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, attack_traits, weaknesses, resistances, xp_cost, is_cleanup)
 
 
 class PowerRing(Ring):
@@ -334,4 +344,117 @@ class PunishTheWeak(Accessory):
         if hasattr(target, 'status_effects') and target.status_effects.has_negative_effects():
             return 1.25  # 25% more damage
         return 1.0
+
+
+# New Item Pack 2 Accessories
+
+class ElementalMayhem(Accessory):
+    """Grants a +3 attack bonus for every unique elemental trait among attack traits, and resistance traits"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Elemental Mayhem", '=',
+                        description="Grants a +3 attack bonus for every unique elemental trait among attack traits and resistance traits")
+    
+    def get_attack_bonus(self, player):
+        """Get attack bonus based on unique elemental traits."""
+        base_bonus = super().get_attack_bonus(player)
+        
+        # Get all attack traits from player
+        attack_traits = player.get_total_attack_traits()
+        resistance_traits = player.get_total_resistances()
+        
+        # Combine and count unique elemental traits
+        all_traits = set(attack_traits + resistance_traits)
+        elemental_traits = {trait for trait in all_traits if trait.is_elemental}
+        
+        return base_bonus + (len(elemental_traits) * 3)
+
+
+class GodsEye(Accessory):
+    """FOV +20, Holy attack trait"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "God's Eye", '=',
+                        description="FOV +20, Holy attack trait",
+                        fov_bonus=20,
+                        attack_traits=[Trait.HOLY])
+
+
+class SavingThrow(Accessory):
+    """If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Saving Throw", '=',
+                        description="If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1")
+    
+    def prevents_death(self, player, starting_hp):
+        """Check if this accessory prevents death."""
+        return starting_hp > 1
+
+
+class Anaglyph(Accessory):
+    """Balances stats. ATK = (ATK+DEF)/2, DEF = (DEF+ATK)/2"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Anaglyph", '=',
+                        description="Balances stats. ATK = (ATK+DEF)/2, DEF = (DEF+ATK)/2",
+                        is_cleanup=True)
+    
+    def apply_cleanup_effect(self, player, current_attack, current_defense):
+        """Apply the stat balancing effect during cleanup phase."""
+        balanced_value = (current_attack + current_defense) // 2
+        return balanced_value, balanced_value  # new_attack, new_defense
+
+
+class MallNinja(Accessory):
+    """+1 ATK for every weapon in your inventory"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Mall Ninja", '=',
+                        description="+1 ATK for every weapon in your inventory")
+    
+    def get_attack_bonus(self, player):
+        """Get attack bonus based on number of weapons in inventory."""
+        base_bonus = super().get_attack_bonus(player)
+        weapon_count = sum(1 for item in player.inventory if hasattr(item, 'equipment_slot') and item.equipment_slot == 'weapon')
+        return base_bonus + weapon_count
+
+
+class RighteousFury(Accessory):
+    """Holy attacks also apply 4 burn damage"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Righteous Fury", '=',
+                        description="Holy attacks also apply 4 burn damage")
+    
+    def on_holy_attack(self, attacker, target):
+        """Apply burn damage when making holy attacks."""
+        if hasattr(target, 'status_effects'):
+            if target.status_effects.apply_status('burn', 4, target):
+                return f"{target.name if hasattr(target, 'name') else 'The target'} is burned by righteous fire!"
+        return None
+
+
+class SongOfIceAndFire(Accessory):
+    """If on floor 5 or lower, +6 ATK for Ice or fire damage"""
+    
+    def __init__(self, x, y):
+        super().__init__(x, y, "Song of Ice and Fire", '=',
+                        description="If on floor 5 or lower, +6 ATK for Ice or fire damage")
+    
+    def get_attack_bonus(self, player):
+        """Get attack bonus based on floor and elemental traits."""
+        base_bonus = super().get_attack_bonus(player)
+        
+        # Check if player is on floor 5 or lower
+        current_floor = getattr(player, 'current_floor', 1)
+        if current_floor > 5:
+            return base_bonus
+        
+        # Check if player has ice or fire attack traits
+        attack_traits = player.get_total_attack_traits()
+        if Trait.ICE in attack_traits or Trait.FIRE in attack_traits:
+            return base_bonus + 6
+        
+        return base_bonus
         
