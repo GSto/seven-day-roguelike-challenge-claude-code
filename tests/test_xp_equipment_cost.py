@@ -7,8 +7,8 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from items import Dagger, Sword, LeatherArmor, PowerRing, WhiteTShirt, WoodenStick
-from items.base import Equipment
+from items import Dagger, Sword, LeatherArmor, ChainMail, PowerRing, WhiteTShirt, WoodenStick
+from items.equipment import Equipment
 from game import Game
 import level
 
@@ -16,14 +16,14 @@ import level
 def test_equipment_has_xp_cost():
     """Test that equipment items have an xp_cost attribute."""
     # Test weapons
-    dagger = Dagger(5, 5)
-    assert hasattr(dagger, 'xp_cost')
-    assert dagger.xp_cost == 5  # Default cost
+    sword = Sword(5, 5)
+    assert hasattr(sword, 'xp_cost')
+    assert sword.xp_cost == 5  # Default cost
     
     # Test armor
-    leather = LeatherArmor(5, 5)
-    assert hasattr(leather, 'xp_cost')
-    assert leather.xp_cost == 5  # Default cost
+    chainmail = ChainMail(5, 5)
+    assert hasattr(chainmail, 'xp_cost')
+    assert chainmail.xp_cost == 5  # Default cost
     
     # Test accessories
     ring = PowerRing(5, 5)
@@ -54,8 +54,8 @@ def test_cannot_equip_with_insufficient_xp():
     player = Player(5, 5)
     player.xp = 3  # Not enough for default cost of 5
     
-    dagger = Dagger(5, 5)
-    assert dagger.can_equip(player) == False
+    sword = Sword(5, 5)
+    assert sword.can_equip(player) == False
 
 
 def test_can_equip_starting_equipment():
@@ -124,19 +124,19 @@ def test_equip_blocked_with_insufficient_xp():
     game.player.x = 5
     game.player.y = 5
     game.player.xp = 3  # Less than required 5
-    game.player.add_item(Dagger(0, 0))
+    game.player.add_item(Sword(0, 0))
     
     initial_xp = game.player.xp
     initial_weapon = game.player.weapon
-    dagger = game.player.inventory[0]
+    sword = game.player.inventory[0]
     
-    # Try to equip the dagger
-    game.equip_item(dagger)
+    # Try to equip the sword
+    game.equip_item(sword)
     
     # Check equipping was blocked
     assert game.player.xp == initial_xp  # No XP deducted
     assert game.player.weapon == initial_weapon  # Weapon unchanged
-    assert dagger in game.player.inventory  # Item still in inventory
+    assert sword in game.player.inventory  # Item still in inventory
 
 
 def test_different_equipment_slots_xp_costs():
@@ -150,13 +150,13 @@ def test_different_equipment_slots_xp_costs():
     game.player.xp = 50  # Plenty of XP
     
     # Test weapon
-    game.player.add_item(Dagger(0, 0))
+    game.player.add_item(Sword(0, 0))
     initial_xp = game.player.xp
     game.equip_item(game.player.inventory[0])
     assert game.player.xp == initial_xp - 5
     
     # Test armor
-    armor = LeatherArmor(0, 0)
+    armor = ChainMail(0, 0)
     game.player.add_item(armor)
     initial_xp = game.player.xp
     game.equip_item(armor)

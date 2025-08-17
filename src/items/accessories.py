@@ -3,7 +3,7 @@ Accessory items like rings and amulets.
 """
 import random
 from constants import COLOR_WHITE
-from .base import Equipment
+from .equipment import Equipment
 from traits import Trait
 
 

@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../src'))
 from player import Player
 from items import (BaronCatalyst, WardenCatalyst, JewelerCatalyst, 
                    WoodenStick, WhiteTShirt, PowerRing)
-from items.base import Equipment
+from items.equipment import Equipment
 
 
 def test_player_default_multipliers():

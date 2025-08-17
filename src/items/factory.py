@@ -11,7 +11,7 @@ from .consumables import *
 from .weapons import * 
 from .armor import * 
 from .accessories import  * 
-from .enchantments import * 
+from enchantments import * 
 
 
 # ============================================================================

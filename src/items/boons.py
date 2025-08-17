@@ -3,8 +3,8 @@ Boon consumables that apply enchantments to equipped items.
 """
 
 from constants import COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_SALMON, COLOR_WHITE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN
-from .base import Consumable
-from .enchantments import EnchantmentType, get_weapon_enchantment_by_type
+from .consumable import Consumable
+from enchantments import EnchantmentType, get_weapon_enchantment_by_type
 
 
 class Boon(Consumable):
@@ -71,7 +71,7 @@ class Boon(Consumable):
     
     def apply_to_armor(self, player, enchantment_type):
         """Apply enchantment to armor."""
-        from .enchantments import get_armor_enchantment_by_type
+        from enchantments import get_armor_enchantment_by_type
         enchantment = get_armor_enchantment_by_type(enchantment_type)
         if player.armor.add_enchantment(enchantment):
             return (True, f"Your {player.armor.name} gleams with new protection!")
@@ -204,7 +204,7 @@ class JokersBoon(Boon):
     
     def apply_to_armor(self, player, enchantment_type):
         """Override to provide custom message for Joker's Boon."""
-        from .enchantments import get_armor_enchantment_by_type
+        from enchantments import get_armor_enchantment_by_type
         enchantment = get_armor_enchantment_by_type(enchantment_type)
         if player.armor.add_enchantment(enchantment):
             return (True, f"Your {player.armor.name} is enchanted with {enchantment.name} power!")
@@ -263,7 +263,7 @@ class FireBoon(Boon):
     
     def apply_to_armor(self, player, enchantment_type):
         """Apply Fire enchantment to armor for resistance."""
-        from .enchantments import get_armor_enchantment_by_type
+        from enchantments import get_armor_enchantment_by_type
         enchantment = get_armor_enchantment_by_type(enchantment_type)
         if player.armor.add_enchantment(enchantment):
             return (True, f"Your {player.armor.name} becomes fireproof!")
@@ -295,7 +295,7 @@ class IceBoon(Boon):
     
     def apply_to_armor(self, player, enchantment_type):
         """Apply Ice enchantment to armor for resistance."""
-        from .enchantments import get_armor_enchantment_by_type
+        from enchantments import get_armor_enchantment_by_type
         enchantment = get_armor_enchantment_by_type(enchantment_type)
         if player.armor.add_enchantment(enchantment):
             return (True, f"Your {player.armor.name} becomes snuggly warm!")
@@ -327,7 +327,7 @@ class HolyBoon(Boon):
     
     def apply_to_armor(self, player, enchantment_type):
         """Apply Holy enchantment to armor for resistance."""
-        from .enchantments import get_armor_enchantment_by_type
+        from enchantments import get_armor_enchantment_by_type
         enchantment = get_armor_enchantment_by_type(enchantment_type)
         if player.armor.add_enchantment(enchantment):
             return (True, f"Your {player.armor.name} glows with blessed protection!")
@@ -359,7 +359,7 @@ class DarkBoon(Boon):
     
     def apply_to_armor(self, player, enchantment_type):
         """Apply Dark enchantment to armor for resistance."""
-        from .enchantments import get_armor_enchantment_by_type
+        from enchantments import get_armor_enchantment_by_type
         enchantment = get_armor_enchantment_by_type(enchantment_type)
         if player.armor.add_enchantment(enchantment):
             return (True, f"Your {player.armor.name} radiates an ominous aura!")

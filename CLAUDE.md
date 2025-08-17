@@ -9,35 +9,21 @@ This is a seven-day roguelike game development project following the traditional
 
 
 ## Project Structure
-Read this project structure when making changes, to help you understand where items should be placed. 
 
-Overview
+For a detailed overview of the project structure and file organization, see [.claude/project-structure.md](.claude/project-structure.md).
+
+The project follows a strict **one-class-per-file** rule to improve maintainability and follows Python best practices. Key directories include:
+
+- `src/` - Source code with organized subdirectories for items, monsters, enchantments, and levels
+- `tests/` - Unit tests for all game functionality
+- `specs/` - Technical specifications including the comprehensive refactoring plan
 - `plans/` - Project planning and roadmap documentation
-- `specs/` - Technical specifications (empty currently)
-- `src/` - Source code 
-- `tests/` - Where we store unit tests. 
 
-### Logic
-- `game.py` - runs the game, handles events, player movement, combat, turns, item usage
-- `level.py` - level generation 
-- `main.py` - entry point, no logic here. 
-- `monster.py` - collection of monsters and logic for generating them
-- `player.py` - player related logic
-- `ui.py` - handles rendering elements on screen.
-
-### Game Pieces 
-Users have three kinds of equipment: Weapon, Armor, and Accessories
-- `src/items/accessories.py` - all of the accesories users can equip. 
-- `src/items/weapons.py` - all weapons
-- `src/items/armor.py` - all armor
-
-#### Consumables 
-- `src/items/consumables.py` There are all consumable items, which are things the user can use once. Includes, potions, boons, catalysts.
-
-#### Logic & Utilities
-- `src/items/enchantments.py` -enchantments that can be applied to users 
-- `src/items/base.py` - base item classes
-- `src/items/factory.py` - generates items for levels
+All item classes are organized into type-specific subdirectories:
+- `src/items/weapons/` - Individual weapon classes
+- `src/items/armor/` - Individual armor classes
+- `src/items/accessories/` - Individual accessory classes
+- `src/items/consumables/` - Individual consumable classes (foods, catalysts, boons, misc)
 
 
 
@@ -73,30 +59,22 @@ Dependencies are managed in `pyproject.toml`. The main dependencies are:
 - `tcod>=13.8.0` - Roguelike library for rendering, FOV, pathfinding
 - `numpy>=1.21.0` - For efficient array operations in level generation
 
-## Development Status
 
-Phase 1 (Foundation Setup) - COMPLETED:
-✓ Technology stack: Python + tcod library
-✓ Project structure with pyproject.toml
-✓ Core game loop and rendering system
-✓ Player movement and controls
-✓ Level generation with rooms and corridors
-✓ Field of view system
-✓ Stairs between levels
-✓ Basic UI with player stats
-
-Next Phase (Core Mechanics):
-- Monster system and AI
-- Combat mechanics
-- Item and inventory system
 
 
 ## Development Guidelines
+
+### Python best practices
+- One Class Per File. 
+- Use type hinting. 
+- Use dataclasses on files. 
+- Use pure functions whenever possible. 
 
 ### Testing Requirements
 **MANDATORY: Always write and run unit tests when implementing features or fixing bugs.**
 
 When implementing new features or fixing bugs, you MUST:
+0. **Write tests first** Write tests first before you implement new features
 1. **Write unit tests** for the new functionality in `tests/test_[feature_name].py`
 2. **Run the tests** to ensure they pass: `uv run tests/test_[feature_name].py`
 3. **Update existing tests** if changes affect existing functionality

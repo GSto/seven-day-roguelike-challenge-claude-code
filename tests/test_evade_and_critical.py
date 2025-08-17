@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from monster import Skeleton, Goblin, Horror, Devil
+from monsters import Skeleton, Goblin, Horror, Devil
 from items.consumables import ReapersCatalyst, ShadowsCatalyst, ReapersBoon
 from items.enchantments import EnchantmentType, get_enchantment_by_type
 from items.weapons import Sword

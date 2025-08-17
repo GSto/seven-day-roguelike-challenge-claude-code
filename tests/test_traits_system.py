@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from traits import Trait
 from player import Player
-from monster import Orc, Goblin, Troll, Devil
+from monsters import Orc, Goblin, Troll, Devil
 from items.weapons import Sword, Axe, DemonSlayer
 from items.armor import ChainMail
 from items.enchantments import Enchantment, EnchantmentType, ArmorEnchantment, ArmorEnchantmentType

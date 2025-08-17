@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from game import Game
-from monster import Monster
+from monsters import Monster
 from traits import Trait
 
 def test_weakness_resistance_messages():

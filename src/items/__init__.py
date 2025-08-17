@@ -2,7 +2,9 @@
 Items package for the roguelike game.
 """
 
-from .base import Item, Consumable, Equipment
+from .item import Item
+from .consumable import Consumable
+from .equipment import Equipment
 from .consumables import *
 from .catalysts import *
 from .foods import *

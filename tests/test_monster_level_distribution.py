@@ -6,7 +6,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from monster import create_monster_for_level, Skeleton, Orc, Troll, Devil
+from monsters import create_monster_for_level, Skeleton, Orc, Troll, Devil
 
 
 def test_level_9_no_devils():

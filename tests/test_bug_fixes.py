@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from player import Player
 from items.accessories import HeadLamp
 from items.armor import SpikedArmor
-from monster import create_monster_for_level, Devil
+from monsters import create_monster_for_level, Devil
 from game import Game
 
 

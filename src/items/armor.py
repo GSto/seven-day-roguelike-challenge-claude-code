@@ -3,7 +3,7 @@ Armor items for defense.
 """
 
 from constants import COLOR_GREEN
-from .base import Equipment
+from .equipment import Equipment
 import random
 from traits import Trait
 

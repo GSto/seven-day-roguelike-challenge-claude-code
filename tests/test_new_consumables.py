@@ -10,7 +10,7 @@ from player import Player
 from items.consumables import Map, Compass, Bomb, SwordsToPlowshares
 from items.weapons import WoodenStick
 from items.foods import HealthPotion, ShellPotion
-from monster import Monster
+from monsters import Monster
 from constants import COLOR_RED, MAP_WIDTH, MAP_HEIGHT
 
 

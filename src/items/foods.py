@@ -3,7 +3,7 @@ Food consumables that provide healing and nutrition.
 """
 
 from constants import COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_SALMON, COLOR_WHITE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN
-from .base import Consumable
+from .consumable import Consumable
 
 
 class HealthPotion(Consumable):

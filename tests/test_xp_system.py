@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from monster import Skeleton, Orc
+from monsters import Skeleton, Orc
 from game import Game
 from level import Level
 

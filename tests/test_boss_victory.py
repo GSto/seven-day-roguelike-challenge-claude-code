@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
 from level import Level
-from monster import Devil, create_monster_for_level
+from monsters import Devil, create_monster_for_level
 from game import Game
 
 
@@ -51,7 +51,7 @@ def test_devil_boss_combat_strength():
     devil = Devil(10, 10)
     
     # Compare to other monsters
-    from monster import Skeleton, Orc, Troll
+    from monsters import Skeleton, Orc, Troll
     goblin = Skeleton(10, 10)
     orc = Orc(10, 10)
     troll = Troll(10, 10)

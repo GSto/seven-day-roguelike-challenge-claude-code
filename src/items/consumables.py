@@ -6,7 +6,7 @@ This file imports all consumables for backward compatibility.
 # Import all consumable subcategories for backward compatibility
 import random
 from constants import COLOR_WHITE
-from .base import Consumable
+from .consumable import Consumable
 
 
 class D6(Consumable):
@@ -76,7 +76,7 @@ class MayhemsBoon(Consumable):
     def use(self, player):
         """Apply a random elemental enchantment to equipped weapon or armor"""
         import random
-        from .enchantments import EnchantmentType, get_weapon_enchantment_by_type, get_armor_enchantment_by_type
+        from enchantments import EnchantmentType, get_weapon_enchantment_by_type, get_armor_enchantment_by_type
         
         # Get elemental enchantment types
         elemental_enchantments = [EnchantmentType.FIRE, EnchantmentType.ICE, EnchantmentType.HOLY, EnchantmentType.DARK]

@@ -15,7 +15,7 @@ from items.armor import CoatedPlate, AntiAngelTechnology, SpikedCuirass, Utility
 from items.weapons import AcidDagger, ClairObscur, FeuGlace, BigStick
 from items.accessories import ElementalMayhem, GodsEye, SavingThrow, Anaglyph, MallNinja, RighteousFury, SongOfIceAndFire
 from traits import Trait
-from items.base import Consumable
+from items.consumable import Consumable
 
 
 class TestChargesMechanic(unittest.TestCase):

@@ -11,7 +11,7 @@ from constants import (
     TILE_WALL, TILE_FLOOR, TILE_STAIRS_DOWN, TILE_STAIRS_UP,
     COLOR_DARK_WALL, COLOR_DARK_GROUND, COLOR_LIGHT_WALL, COLOR_LIGHT_GROUND
 )
-from monster import create_monster_for_level
+from monsters import create_monster_for_level
 from items import create_random_item_for_level
 from items.weapons import DemonSlayer
 

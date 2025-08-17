@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
 from level import Level
-from monster import Skeleton
+from monsters import Skeleton
 
 
 def test_player_action_flag_basics():

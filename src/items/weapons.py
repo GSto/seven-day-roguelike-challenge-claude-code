@@ -3,8 +3,8 @@ Weapon items for combat.
 """
 
 from constants import COLOR_YELLOW
-from .base import Equipment
-from .enchantments import Enchantment
+from .equipment import Equipment
+from enchantments import Enchantment
 from traits import Trait
 
 
@@ -258,7 +258,7 @@ class ClericsStaff(Weapon):
     
     def get_enchantment_bonus(self, enchantment, bonus_type, player):
         """Override to give special bonuses for BLESSED and HOLY enchantments."""
-        from .enchantments import EnchantmentType
+        from enchantments import EnchantmentType
         
         # Get base bonus
         base_bonus = super().get_enchantment_bonus(enchantment, bonus_type, player)

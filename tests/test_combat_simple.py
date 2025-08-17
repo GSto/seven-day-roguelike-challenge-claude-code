@@ -11,7 +11,7 @@ def test_combat_messages():
     
     # Import game components
     from game import Game
-    from monster import Skeleton, Zombie, Goblin
+    from monsters import Skeleton, Zombie, Goblin
     from traits import Trait
     
     # Create a game instance
