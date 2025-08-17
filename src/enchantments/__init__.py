@@ -12,7 +12,9 @@ from .utils import (
     get_random_enchantment,
     get_enchantment_by_type,
     should_spawn_with_enchantment,
-    should_armor_spawn_with_enchantment
+    should_armor_spawn_with_enchantment,
+    WEAPON_ENCHANT_CHANCE,
+    ARMOR_ENCHANT_CHANCE
 )
 
 __all__ = [
@@ -25,5 +27,7 @@ __all__ = [
     'get_random_enchantment',
     'get_enchantment_by_type',
     'should_spawn_with_enchantment',
-    'should_armor_spawn_with_enchantment'
+    'should_armor_spawn_with_enchantment',
+    'WEAPON_ENCHANT_CHANCE',
+    'ARMOR_ENCHANT_CHANCE'
 ]

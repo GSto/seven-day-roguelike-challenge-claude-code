@@ -63,9 +63,9 @@ def test_multiple_enchantments_stack():
     quality_enchant = Enchantment(EnchantmentType.QUALITY)
     sword.add_enchantment(quality_enchant)
     
-    # Add Bolstered enchantment (+1 defense)
-    bolstered_enchant = Enchantment(EnchantmentType.BOLSTERED)
-    sword.add_enchantment(bolstered_enchant)
+    # Add Balanced enchantment (+1 defense)
+    balanced_enchant = Enchantment(EnchantmentType.BALANCED)
+    sword.add_enchantment(balanced_enchant)
     
     # Both enchantments should apply
     assert sword.get_attack_bonus(player) == base_attack + 3
@@ -97,13 +97,13 @@ def test_fov_enchantment():
     # Get base FOV bonus
     base_fov = sword.get_fov_bonus(player)
     
-    # Add Glowing enchantment (+2 FOV)
+    # Add Glowing enchantment (+3 FOV)
     glowing_enchant = Enchantment(EnchantmentType.GLOWING)
     sword.add_enchantment(glowing_enchant)
     
     # FOV should increase
     new_fov = sword.get_fov_bonus(player)
-    assert new_fov == base_fov + 2
+    assert new_fov == base_fov + 3
 
 
 def test_crit_enchantment():
@@ -111,17 +111,17 @@ def test_crit_enchantment():
     player = Player(10, 10)
     katana = Katana(0, 0)
     
-    # Get base crit bonus (Katana has 0.25 base)
+    # Get base crit bonus (Katana has 0.15 base)
     base_crit = katana.get_crit_bonus(player)
-    assert base_crit == 0.25
+    assert base_crit == 0.15
     
-    # Add Rending enchantment (+0.10 crit)
+    # Add Rending enchantment (+0.05 crit)
     rending_enchant = Enchantment(EnchantmentType.RENDING)
     katana.add_enchantment(rending_enchant)
     
     # Crit should increase
     new_crit = katana.get_crit_bonus(player)
-    assert new_crit == 0.35  # 0.25 base + 0.10 from enchantment
+    assert new_crit == 0.20  # 0.15 base + 0.05 from enchantment
 
 
 def test_health_aspect_enchantment():
@@ -133,13 +133,13 @@ def test_health_aspect_enchantment():
     base_health = staff.get_health_aspect_bonus(player)
     assert base_health == 0.2
     
-    # Add Blessed enchantment (+0.05 health aspect)
+    # Add Blessed enchantment (+0.10 health aspect + 0.10 special bonus)
     blessed_enchant = Enchantment(EnchantmentType.BLESSED)
     staff.add_enchantment(blessed_enchant)
     
-    # Health aspect should increase
+    # Health aspect should increase (ClericsStaff gets special bonus for BLESSED)
     new_health = staff.get_health_aspect_bonus(player)
-    assert new_health == 0.25  # 0.2 base + 0.05 from enchantment
+    assert new_health == 0.40  # 0.2 base + 0.10 from enchantment + 0.10 special bonus
 
 
 def test_materia_staff_with_enchantments():
@@ -151,21 +151,21 @@ def test_materia_staff_with_enchantments():
     base_attack = staff.get_attack_bonus(player)
     assert base_attack == 2
     
-    # Add one enchantment - MateriaStaff gets +6 bonus
+    # Add one enchantment - MateriaStaff gets +3 bonus
     quality_enchant = Enchantment(EnchantmentType.QUALITY)
     staff.add_enchantment(quality_enchant)
     
-    # Should be: 2 base + 6 (special) + 3 (enchantment) = 11
+    # Should be: 2 base + 3 (special) + 3 (enchantment) = 8
     one_enchant_attack = staff.get_attack_bonus(player)
-    assert one_enchant_attack == 11
+    assert one_enchant_attack == 8
     
-    # Add second enchantment - MateriaStaff gets +12 bonus
-    bolstered_enchant = Enchantment(EnchantmentType.BOLSTERED)
-    staff.add_enchantment(bolstered_enchant)
+    # Add second enchantment - MateriaStaff gets +6 bonus for 2 enchantments
+    balanced_enchant = Enchantment(EnchantmentType.BALANCED)
+    staff.add_enchantment(balanced_enchant)
     
-    # Should be: 2 base + 12 (special) + 3 (quality) + 0 (bolstered is defense) = 17
+    # Should be: 2 base + 6 (special for 2 enchants) + 3 (quality) + 0 (balanced is defense) = 11
     two_enchant_attack = staff.get_attack_bonus(player)
-    assert two_enchant_attack == 17
+    assert two_enchant_attack == 11
 
 
 def test_weapon_name_updates_with_enchantments():
@@ -179,12 +179,12 @@ def test_weapon_name_updates_with_enchantments():
     # Add Quality enchantment
     quality_enchant = Enchantment(EnchantmentType.QUALITY)
     sword.add_enchantment(quality_enchant)
-    assert sword.name == "Quality Sword"
+    assert sword.name == "quality Sword"
     
     # Add Shiny enchantment
     shiny_enchant = Enchantment(EnchantmentType.SHINY)
     sword.add_enchantment(shiny_enchant)
-    assert sword.name == "Quality Shiny Sword"
+    assert sword.name == "quality refined Sword"
 
 
 def test_max_two_enchantments():

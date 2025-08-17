@@ -56,10 +56,10 @@ class EnchantmentType(Enum):
             EnchantmentType.GILDED: "gilded",
             EnchantmentType.BLESSED: "blessed",
             EnchantmentType.BALANCED: "spiked",
-            EnchantmentType.SHADOW: "shadowy",
-            EnchantmentType.FIRE: "flaming",
-            EnchantmentType.ICE: "chilling",
-            EnchantmentType.HOLY: "glorious",
-            EnchantmentType.DARK: "blasphemous"
+            EnchantmentType.SHADOW: "shadow",
+            EnchantmentType.FIRE: "fireproof",
+            EnchantmentType.ICE: "snuggly",
+            EnchantmentType.HOLY: "hexed",
+            EnchantmentType.DARK: "haloed"
         }
         return labels.get(self, self.value.lower())

@@ -60,7 +60,7 @@ class Enchantment:
     def get_weapon_attack_multiplier_bonus(self):
         """Get the attack multiplier bonus when applied to weapons."""
         if self.type == EnchantmentType.SHINY:
-            return 0.25  # 25% bonus = 1.25x attack
+            return 0.25  # 25% bonus = 1.25x damage
         return 0.0
     
     def get_armor_defense_multiplier_bonus(self):
