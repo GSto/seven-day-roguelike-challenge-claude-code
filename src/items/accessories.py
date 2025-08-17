@@ -427,9 +427,10 @@ class RighteousFury(Accessory):
         super().__init__(x, y, "Righteous Fury", '=',
                         description="Holy attacks also apply 4 burn damage")
     
-    def on_holy_attack(self, attacker, target):
+    def on_hit(self, player, target):
         """Apply burn damage when making holy attacks."""
-        if hasattr(target, 'status_effects'):
+
+        if hasattr(target, 'status_effects') and Trait.HOLY in player.attack_traits:
             if target.status_effects.apply_status('burn', 4, target):
                 return f"{target.name if hasattr(target, 'name') else 'The target'} is burned by righteous fire!"
         return None

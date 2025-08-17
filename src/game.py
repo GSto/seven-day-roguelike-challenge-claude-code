@@ -53,6 +53,8 @@ class Game:
         self.selected_equipment_index = None  # For equipment/accessory selection
         self.selection_mode = "inventory"  # "inventory" or "equipment"
         self.pending_accessory_replacement = None  # For accessory slot replacement
+        self.pending_boon_item = None  # For boon choice selection
+        self.pending_boon_enchantment = None  # For boon enchantment type
         
         # ESC quit confirmation tracking
         self.esc_pressed_once = False
@@ -191,6 +193,33 @@ class Game:
                     
                     # Update FOV after equipment change
                     self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+        elif self.game_state == 'BOON_CHOICE':
+            # Handle boon enchantment choice selection
+            if key == tcod.event.KeySym.ESCAPE:
+                self.game_state = 'INVENTORY'  # Return to inventory
+                self.pending_boon_item = None
+                self.pending_boon_enchantment = None
+                self.ui.add_message("Enchantment cancelled.")
+            elif key == ord('w') or key == ord('W'):
+                # Apply enchantment to weapon
+                success, message = self.pending_boon_item.apply_to_weapon(self.player, self.pending_boon_enchantment)
+                if success:
+                    self.player.consumable_count += 1
+                    self.player.remove_item(self.pending_boon_item)
+                self.ui.add_message(message)
+                self.pending_boon_item = None
+                self.pending_boon_enchantment = None
+                self.game_state = 'INVENTORY'
+            elif key == ord('a') or key == ord('A'):
+                # Apply enchantment to armor
+                success, message = self.pending_boon_item.apply_to_armor(self.player, self.pending_boon_enchantment)
+                if success:
+                    self.player.consumable_count += 1
+                    self.player.remove_item(self.pending_boon_item)
+                self.ui.add_message(message)
+                self.pending_boon_item = None
+                self.pending_boon_enchantment = None
+                self.game_state = 'INVENTORY'
         elif self.game_state == 'PLAYING':
             # Inventory key
             if key == ord('i'):
@@ -698,7 +727,17 @@ class Game:
                 # Handle both old format (boolean) and new format (tuple)
                 if isinstance(result, tuple):
                     success, message = result
-                    if success:
+                    if success == "CHOICE_NEEDED":
+                        # Boon needs player to choose between weapon and armor
+                        enchantment_type = message  # message contains the enchantment type
+                        self.pending_boon_item = item
+                        self.pending_boon_enchantment = enchantment_type
+                        self.ui.add_message(f"Choose enchantment target for {item.name}:")
+                        self.ui.add_message(f"[W]eapon: {self.player.weapon.name}")
+                        self.ui.add_message(f"[A]rmor: {self.player.armor.name}")
+                        self.ui.add_message("Press W for weapon, A for armor, or ESC to cancel.")
+                        self.game_state = 'BOON_CHOICE'
+                    elif success:
                         self.player.consumable_count += 1
                         self.player.remove_item(item)
                         self.ui.add_message(message)
@@ -1224,6 +1263,10 @@ class Game:
                                     self.selected_equipment_index, self.selection_mode)
         elif self.game_state == 'ACCESSORY_REPLACEMENT':
             # Render accessory replacement screen
+            self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
+                                    self.selected_equipment_index, self.selection_mode)
+        elif self.game_state == 'BOON_CHOICE':
+            # Render boon choice screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
                                     self.selected_equipment_index, self.selection_mode)
         else:

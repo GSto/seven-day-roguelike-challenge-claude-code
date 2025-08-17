@@ -42,9 +42,10 @@ class Boon(Consumable):
         elif armor_eligible and not weapon_eligible:
             return self.apply_to_armor(player, enchantment_type)
         
-        # Both are eligible - prompt for choice
-        # For now, default to weapon until UI choice is implemented
-        return self.apply_to_weapon(player, enchantment_type)
+        # Both are eligible - player needs to choose
+        # Return a special state indicating choice is needed
+        # This will be handled by the game's choice system
+        return ("CHOICE_NEEDED", enchantment_type)
     
     def can_enchant_weapon(self, player, enchantment_type):
         """Check if weapon can be enchanted."""
@@ -186,6 +187,9 @@ class JokersBoon(Boon):
         # Get all possible enchantment types
         all_enchantments = [e for e in EnchantmentType]
         random_enchantment_type = random.choice(all_enchantments)
+        
+        # Store the selected enchantment type for later use
+        self.selected_enchantment_type = random_enchantment_type
         
         # Use the choice logic with the random enchantment type
         return self.apply_enchantment_with_choice(player, random_enchantment_type)

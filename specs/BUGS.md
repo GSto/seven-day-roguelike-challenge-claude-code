@@ -1,0 +1,6 @@
+- when you use a consumable in the first inventory slot, inventory pointer should default back to first inventory slot
+- pressing ‘enter’ on an equipped item or accessory should remove it entirely
+- enchanment modifiers on weapons and armor should be uppercase ('flaming Dagger' -> 'Flaming Dagger')
+- There should be a line of space in the bottom UI (between the line that has Weapon: Armor: and the game log)
+- Anaglyph accessory does not display correctly in the UI. if your start Atk was 8 and Def was 12, it should display as ATK: 10, DEF: 10. This should also be the values used to calculate attack and defense.
+- Transmutation does not function correctly. When used all unequipped armor in the inventory should be replaced with shield potion consumables

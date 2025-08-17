@@ -91,19 +91,19 @@ class MayhemsBoon(Consumable):
                          not any(e.type == random_enchantment for e in player.armor.enchantments))
         
         if not weapon_eligible and not armor_eligible:
-            return (False, "You need equipped items that can be further enhanced!", True)
+            return (False, "You need equipped items that can be further enhanced!")
         
         # Prefer weapon if both available
         if weapon_eligible:
             enchantment = get_weapon_enchantment_by_type(random_enchantment)
             if player.weapon.add_enchantment(enchantment):
-                return (True, f"Your {player.weapon.name} is enchanted with {random_enchantment.value} power!", True)
+                return (True, f"Your {player.weapon.name} is enchanted with {random_enchantment.value} power!")
         elif armor_eligible:
             enchantment = get_armor_enchantment_by_type(random_enchantment)
             if player.armor.add_enchantment(enchantment):
-                return (True, f"Your {player.armor.name} is enchanted with {random_enchantment.value} protection!", True)
+                return (True, f"Your {player.armor.name} is enchanted with {random_enchantment.value} protection!")
         
-        return (False, "The enchantment failed to take hold!", True)
+        return (False, "The enchantment failed to take hold!")
 
 
 class Compass(Consumable):
@@ -121,10 +121,29 @@ class Compass(Consumable):
     
     def use(self, player):
         """Reveal all items on the current floor"""
-        # This will need to interface with the game level/map system
-        # For now, just return success - implementation depends on game architecture
-        should_destroy = self.use_charge()
-        return (True, "All items on this floor are now visible!", should_destroy)
+        # This requires access to the current level's items
+        if not hasattr(player, '_current_level') or player._current_level is None:
+            self.use_charge()
+            return (False, "Unable to detect items - no floor detected!")
+        
+        level = player._current_level
+        
+        # Mark all item positions as visible in FOV
+        # This creates a temporary "sight" of all items
+        items_revealed = 0
+        for item in level.items:
+            # Set FOV to true for item positions to make them visible
+            level.fov[item.x, item.y] = True
+            items_revealed += 1
+        
+        self.use_charge()
+        
+        if items_revealed == 0:
+            return (True, "No items detected on this floor.")
+        elif items_revealed == 1:
+            return (True, "1 item is now visible on this floor!")
+        else:
+            return (True, f"{items_revealed} items are now visible on this floor!")
 
 
 class Map(Consumable):
@@ -141,9 +160,16 @@ class Map(Consumable):
     
     def use(self, player):
         """Reveal entire floor"""
-        # This will need to interface with the game level/map system
-        # For now, just return success - implementation depends on game architecture
-        return (True, "The entire floor layout is revealed!", True)
+        # This requires access to the current level's explored map
+        if not hasattr(player, '_current_level') or player._current_level is None:
+            return (False, "Unable to reveal map - no floor detected!")
+        
+        level = player._current_level
+        
+        # Mark all tiles as explored
+        level.explored.fill(True)
+        
+        return (True, "The entire floor layout is revealed!")
 
 
 class Bomb(Consumable):
@@ -160,9 +186,33 @@ class Bomb(Consumable):
     
     def use(self, player):
         """Deal damage to nearby enemies"""
-        # This will need to interface with the game's enemy system
-        # For now, just return success - implementation depends on game architecture
-        return (True, "BOOM! The bomb explodes, damaging nearby enemies!", True)
+        # This requires access to the current level's monsters
+        # Since we don't have direct access to the level here, we'll need to check
+        # if the player object has a reference to the current level/game state
+        if not hasattr(player, '_current_level') or player._current_level is None:
+            return (False, "Unable to detonate bomb - no enemies detected!")
+        
+        level = player._current_level
+        damage_dealt = 30
+        radius = 3
+        enemies_hit = 0
+        
+        # Find all monsters within radius
+        for monster in level.monsters:
+            distance = monster.distance_to(player.x, player.y)
+            if distance <= radius:
+                monster.take_damage(damage_dealt)
+                enemies_hit += 1
+        
+        # Remove dead monsters
+        level.remove_dead_monsters()
+        
+        if enemies_hit == 0:
+            return (True, "BOOM! The bomb explodes, but no enemies were in range.")
+        elif enemies_hit == 1:
+            return (True, f"BOOM! The bomb explodes, dealing {damage_dealt} damage to 1 enemy!")
+        else:
+            return (True, f"BOOM! The bomb explodes, dealing {damage_dealt} damage to {enemies_hit} enemies!")
 
 
 class SwordsToPlowshares(Consumable):
@@ -179,9 +229,29 @@ class SwordsToPlowshares(Consumable):
     
     def use(self, player):
         """Convert weapons to health potions"""
-        # This will need to interface with the player's inventory system
-        # For now, just return success - implementation depends on game architecture
-        return (True, "Your weapons transform into healing potions!", True)
+        from .foods import HealthPotion
+        from .weapons import Weapon
+        
+        # Find all unequipped weapons in inventory
+        weapon_items = []
+        for item in player.inventory:
+            if isinstance(item, Weapon) and item != player.weapon:
+                weapon_items.append(item)
+        
+        if not weapon_items:
+            return (False, "You have no unequipped weapons to convert!")
+        
+        # Convert each weapon to a health potion
+        for weapon in weapon_items:
+            player.remove_item(weapon)
+            health_potion = HealthPotion(0, 0)
+            player.add_item(health_potion)
+        
+        count = len(weapon_items)
+        if count == 1:
+            return (True, f"Your {weapon_items[0].name} transforms into a healing potion!")
+        else:
+            return (True, f"{count} weapons transform into healing potions!")
 
 
 class Transmutation(Consumable):
@@ -198,6 +268,26 @@ class Transmutation(Consumable):
     
     def use(self, player):
         """Convert armor to shield potions"""
-        # This will need to interface with the player's inventory system
-        # For now, just return success - implementation depends on game architecture
-        return (True, "Your armor transforms into protective potions!", True)
+        from .foods import ShellPotion
+        from .armor import Armor
+        
+        # Find all unequipped armor in inventory
+        armor_items = []
+        for item in player.inventory:
+            if isinstance(item, Armor) and item != player.armor:
+                armor_items.append(item)
+        
+        if not armor_items:
+            return (False, "You have no unequipped armor to transmute!")
+        
+        # Convert each armor piece to a shield potion
+        for armor in armor_items:
+            player.remove_item(armor)
+            shield_potion = ShellPotion(0, 0)
+            player.add_item(shield_potion)
+        
+        count = len(armor_items)
+        if count == 1:
+            return (True, f"Your {armor_items[0].name} transforms into a protective potion!")
+        else:
+            return (True, f"{count} pieces of armor transform into protective potions!")

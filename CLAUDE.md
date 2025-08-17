@@ -119,9 +119,13 @@ After implementing functionality or resolving problems, run the tests for that u
 
 999. Important: When authoring documentation capture the why tests and the backing implementation is important.
 
+9999. Important
+
 9999. Important: We want single sources of truth, no migrations/adapters. If tests unrelated to your work fail then it's your job to resolve these tests as part of the increment of change.
 
 9999. Important: As soon as there are no build or test errors create a git commit with a comment explaing the changes and what was implemented
+
+9999999999999999999999999999. DO NOT IMPLEMENT PLACEHOLDER OR SIMPLE IMPLEMENTATIONS. WE WANT FULL IMPLEMENTATIONS. DO IT OR I WILL YELL AT YOU
 
 Include a README.txt that explains how to start and play the game. Update the README as you implement new features.
 
