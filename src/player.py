@@ -39,7 +39,8 @@ class Player:
         self.xp_multiplier = 1.0
         
         # Equipment slots - start with basic equipment
-        from items import WoodenStick, WhiteTShirt
+        from items.weapons import WoodenStick
+        from items.armor import WhiteTShirt
         self.weapon = WoodenStick(0, 0)  # Starting weapon
         self.armor = WhiteTShirt(0, 0)   # Starting armor
         self.accessories = [None, None, None]  # List of equipped accessories

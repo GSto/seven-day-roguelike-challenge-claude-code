@@ -3,15 +3,41 @@ Factory functions for creating random items.
 """
 
 import random
-# Import from organized consumable subcategories
-from .foods import *
-from .catalysts import *
-from .boons import *
-from .consumables import * 
-from .weapons import * 
-from .armor import * 
-from .accessories import  * 
-from enchantments import * 
+# Import from organized subcategories (using proper imports)
+from .consumables import (
+    HealthPotion, Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot,
+    Antidote, ShellPotion, MezzoForte, Elixir, Compass, Map, Bomb, 
+    SwordsToPlowshares, Transmutation,
+    # Catalysts
+    PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, 
+    ShadowsCatalyst, BaronCatalyst, WardenCatalyst, FireResistanceCatalyst,
+    IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst,
+    # Boons
+    BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon,
+    FireBoon, IceBoon, HolyBoon, DarkBoon, MayhemsBoon
+)
+from .weapons import (
+    Dagger, Sword, Shield, Katana, Axe, MorningStar, ClericsStaff, Gauntlets,
+    MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick,
+    Longsword, WarHammer, WarScythe, TowerShield, ClairObscur, FeuGlace,
+    RiversOfBlood, DemonSlayer
+)
+from .armor import (
+    LeatherArmor, SafetyVest, Cloak, SpikedArmor, GamblersVest, MinimalSuit,
+    ChainMail, NightCloak, CoatedPlate, AntiAngelTechnology, SpikedCuirass,
+    UtilityBelt, SOSArmor, PlateArmor, ShadowCloak, DragonScale
+)
+from .accessories import (
+    PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing,
+    BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision,
+    BrutalityAmulet, AssassinsMask, GravePact, SturdyRock, PunishTheWeak,
+    StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, SavingThrow, Anaglyph,
+    MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
+    AceOfDiamonds, AceOfSpades, Joker
+)
+from enchantments import (
+    get_random_enchantment, get_random_armor_enchantment, should_spawn_with_enchantment
+) 
 
 
 # ============================================================================

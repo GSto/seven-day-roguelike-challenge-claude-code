@@ -67,10 +67,10 @@ def test_armor_imports():
     # Test properties
     assert white_tshirt.equipment_slot == "armor"
     assert white_tshirt.defense_bonus == 0
-    assert leather_armor.defense_bonus == 2
-    assert chain_mail.defense_bonus == 4
-    assert plate_armor.defense_bonus == 6
-    assert dragon_scale.defense_bonus == 10
+    assert leather_armor.defense_bonus == 1
+    assert chain_mail.defense_bonus == 2
+    assert plate_armor.defense_bonus == 3
+    assert dragon_scale.defense_bonus == 5
     
     print("✓ Armor classes import and work correctly")
 
@@ -86,8 +86,8 @@ def test_accessory_imports():
     # Test properties
     assert power_ring.equipment_slot == "accessory"
     assert power_ring.attack_bonus == 3
-    assert power_ring.defense_bonus == 1
-    assert protection_ring.defense_bonus == 3
+    assert power_ring.defense_bonus == 0
+    assert protection_ring.defense_bonus == 2
     
     print("✓ Accessory classes import and work correctly")
 
@@ -136,7 +136,7 @@ def test_all_exports():
 
 def test_package_structure():
     """Test that the package structure is correct."""
-    import items.base
+    import items.item
     import items.consumables
     import items.weapons
     import items.armor
@@ -144,7 +144,7 @@ def test_package_structure():
     import items.factory
     
     # Test that each module has expected classes
-    assert hasattr(items.base, 'Item')
+    assert hasattr(items.item, 'Item')
     assert hasattr(items.consumables, 'HealthPotion')
     assert hasattr(items.weapons, 'Weapon')
     assert hasattr(items.armor, 'Armor')

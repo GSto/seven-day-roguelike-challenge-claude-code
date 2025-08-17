@@ -96,11 +96,12 @@ def test_equipment_basic():
     player.armor = armor
     assert player.armor == armor
     
-    # Test accessory equipment (should still start empty)
+    # Test accessory equipment (should start with 3 None slots)
     ring = PowerRing(0, 0)
-    assert len(player.accessories) == 0
-    player.accessories.append(ring)
-    assert ring in player.accessories
+    assert len(player.accessories) == 3
+    assert all(a is None for a in player.accessories)
+    player.accessories[0] = ring
+    assert player.accessories[0] == ring
     
     print("✓ Basic equipment functionality works correctly")
 
