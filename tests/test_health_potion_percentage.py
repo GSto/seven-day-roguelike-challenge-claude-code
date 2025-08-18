@@ -8,7 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from game import Game
 from player import Player
-from items.consumables import HealthPotion
+from items.consumables.health_potion import HealthPotion
 from ui import UI
 
 def test_percentage_healing():

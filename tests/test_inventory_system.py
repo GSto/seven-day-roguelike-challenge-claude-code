@@ -7,8 +7,11 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from level import Level
-from items import HealthPotion, Dagger, LeatherArmor, PowerRing
+from level.level import Level
+from items.consumables.health_potion import HealthPotion
+from items.weapons.dagger import Dagger
+from items.armor.leather_armor import LeatherArmor
+from items.accessories.power_ring import PowerRing
 from game import Game
 
 

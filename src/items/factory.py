@@ -35,7 +35,7 @@ from .accessories import (
     MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
     AceOfDiamonds, AceOfSpades, Joker
 )
-from enchantments import (
+from enchantments.utils import (
     get_random_enchantment, get_random_armor_enchantment, should_spawn_with_enchantment
 ) 
 

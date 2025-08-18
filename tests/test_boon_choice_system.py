@@ -6,8 +6,10 @@ import sys
 sys.path.insert(0, 'src')
 
 from player import Player
-from items.boons import BaronsBoon, FireBoon, JokersBoon
-from items.enchantments import EnchantmentType
+from items.consumables.barons_boon import BaronsBoon
+from items.consumables.fire_boon import FireBoon
+from items.consumables.jokers_boon import JokersBoon
+from enchantments import EnchantmentType
 from game import Game
 import tcod.event
 
@@ -125,7 +127,7 @@ def test_boon_automatic_choice_when_only_weapon_eligible():
     game.game_state = 'INVENTORY'
     
     # Fill armor with enchantments so it can't be further enchanted
-    from items.enchantments import get_armor_enchantment_by_type
+    from enchantments import get_armor_enchantment_by_type
     enchant1 = get_armor_enchantment_by_type(EnchantmentType.FIRE)
     enchant2 = get_armor_enchantment_by_type(EnchantmentType.ICE)
     game.player.armor.add_enchantment(enchant1)
@@ -151,7 +153,7 @@ def test_boon_automatic_choice_when_only_armor_eligible():
     game.game_state = 'INVENTORY'
     
     # Fill weapon with enchantments so it can't be further enchanted
-    from items.enchantments import get_weapon_enchantment_by_type
+    from enchantments import get_weapon_enchantment_by_type
     enchant1 = get_weapon_enchantment_by_type(EnchantmentType.FIRE)
     enchant2 = get_weapon_enchantment_by_type(EnchantmentType.ICE)
     game.player.weapon.add_enchantment(enchant1)

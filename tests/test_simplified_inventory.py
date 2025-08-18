@@ -9,8 +9,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 import tcod.event
 from game import Game
 from ui import UI
-from items.armor import LeatherArmor
-from items.consumables import HealthPotion
+from items.armor.leather_armor import LeatherArmor
+from items.consumables.health_potion import HealthPotion
 
 def test_automatic_description_display():
     """Test that descriptions show automatically when items are selected."""

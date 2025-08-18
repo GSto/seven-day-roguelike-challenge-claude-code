@@ -10,10 +10,28 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from items.consumables import MayhemsBoon, Compass, Map, Bomb, SwordsToPlowshares, Transmutation
-from items.armor import CoatedPlate, AntiAngelTechnology, SpikedCuirass, UtilityBelt, SOSArmor
-from items.weapons import AcidDagger, ClairObscur, FeuGlace, BigStick
-from items.accessories import ElementalMayhem, GodsEye, SavingThrow, Anaglyph, MallNinja, RighteousFury, SongOfIceAndFire
+from items.consumables.mayhems_boon import MayhemsBoon
+from items.consumables.compass import Compass
+from items.consumables.map import Map
+from items.consumables.bomb import Bomb
+from items.consumables.swords_to_plowshares import SwordsToPlowshares
+from items.consumables.transmutation import Transmutation
+from items.armor.coated_plate import CoatedPlate
+from items.armor.anti_angel_technology import AntiAngelTechnology
+from items.armor.spiked_cuirass import SpikedCuirass
+from items.armor.utility_belt import UtilityBelt
+from items.armor.sos_armor import SOSArmor
+from items.weapons.acid_dagger import AcidDagger
+from items.weapons.clair_obscur import ClairObscur
+from items.weapons.feu_glace import FeuGlace
+from items.weapons.big_stick import BigStick
+from items.accessories.elemental_mayhem import ElementalMayhem
+from items.accessories.gods_eye import GodsEye
+from items.accessories.saving_throw import SavingThrow
+from items.accessories.anaglyph import Anaglyph
+from items.accessories.mall_ninja import MallNinja
+from items.accessories.righteous_fury import RighteousFury
+from items.accessories.song_of_ice_and_fire import SongOfIceAndFire
 from traits import Trait
 from items.consumable import Consumable
 
@@ -261,7 +279,8 @@ class TestNewAccessories(unittest.TestCase):
         accessory = MallNinja(0, 0)
         
         # Mock weapons in inventory
-        from items.weapons import Sword, Dagger
+        from items.weapons.sword import Sword
+        from items.weapons.dagger import Dagger
         self.player.inventory = [Sword(0, 0), Dagger(0, 0)]
         
         attack_bonus = accessory.get_attack_bonus(self.player)

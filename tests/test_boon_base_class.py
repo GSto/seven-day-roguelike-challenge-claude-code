@@ -7,9 +7,15 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from items.boons import BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon, Boon
-from items.weapons import Sword
-from items.armor import LeatherArmor
+from items.consumables.barons_boon import BaronsBoon
+from items.consumables.jewelers_boon import JewelersBoon
+from items.consumables.miners_boon import MinersBoon
+from items.consumables.clerics_boon import ClericsBoon
+from items.consumables.jokers_boon import JokersBoon
+from items.consumables.reapers_boon import ReapersBoon
+from items.consumables.boon import Boon
+from items.weapons.sword import Sword
+from items.armor.leather_armor import LeatherArmor
 
 def test_base_boon_class():
     """Test that the base Boon class has all required methods."""

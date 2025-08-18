@@ -7,9 +7,13 @@ sys.path.insert(0, 'src')
 import numpy as np
 
 from player import Player
-from items.consumables import Map, Compass, Bomb, SwordsToPlowshares
-from items.weapons import WoodenStick
-from items.foods import HealthPotion, ShellPotion
+from items.consumables.map import Map
+from items.consumables.compass import Compass
+from items.consumables.bomb import Bomb
+from items.consumables.swords_to_plowshares import SwordsToPlowshares
+from items.weapons.wooden_stick import WoodenStick
+from items.consumables.health_potion import HealthPotion
+from items.consumables.shell_potion import ShellPotion
 from monsters import Monster
 from constants import COLOR_RED, MAP_WIDTH, MAP_HEIGHT
 

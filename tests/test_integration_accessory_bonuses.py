@@ -7,8 +7,9 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from game import Game
-from items.accessories import Rosary, HeadLamp
-from items.consumables import HealthPotion
+from items.accessories.rosary import Rosary
+from items.accessories.head_lamp import HeadLamp
+from items.consumables.health_potion import HealthPotion
 
 
 def test_fov_bonus_integration():

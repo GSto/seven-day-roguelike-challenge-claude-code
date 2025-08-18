@@ -6,9 +6,10 @@ import sys
 sys.path.insert(0, 'src')
 
 from player import Player
-from items.consumables import Transmutation
-from items.armor import LeatherArmor, ChainMail
-from items.foods import ShellPotion
+from items.consumables.transmutation import Transmutation
+from items.armor.leather_armor import LeatherArmor
+from items.armor.chain_mail import ChainMail
+from items.consumables.shell_potion import ShellPotion
 
 
 def test_transmutation_converts_unequipped_armor():

@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from level import Level
+from level.level import Level
 from monsters import Devil, create_monster_for_level
 from game import Game
 

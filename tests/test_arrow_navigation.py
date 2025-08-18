@@ -6,7 +6,8 @@ import sys
 sys.path.append('src')
 
 from game import Game
-from items import HealthPotion, create_random_item_for_level
+from items.consumables.health_potion import HealthPotion
+from items.factory import create_random_item_for_level
 
 def test_arrow_navigation():
     """Test that arrow key navigation works correctly."""

@@ -12,8 +12,8 @@ from constants import (
     COLOR_DARK_WALL, COLOR_DARK_GROUND, COLOR_LIGHT_WALL, COLOR_LIGHT_GROUND
 )
 from monsters import create_monster_for_level
-from items import create_random_item_for_level
-from items.weapons import DemonSlayer
+from items.factory import create_random_item_for_level
+from items.weapons.demon_slayer import DemonSlayer
 from .room import Room
 
 

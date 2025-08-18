@@ -6,9 +6,19 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from items.weapons import Weapon, Katana, Uchigatana, RiversOfBlood
-from items.armor import Armor, NinjaSuit, AssassinLeathers, Cloak
-from items.accessories import Accessory, ShadowRing, RingOfPrecision, BrutalityAmulet, AssassinsMask
+from items.weapons.base import Weapon
+from items.weapons.katana import Katana
+from items.weapons.uchigatana import Uchigatana
+from items.weapons.rivers_of_blood import RiversOfBlood
+from items.armor.base import Armor
+from items.armor.minimal_suit import MinimalSuit
+from items.armor.cloak import Cloak
+# AssassinLeathers and NinjaSuit don't exist in new structure
+from items.accessories.accessory import Accessory
+from items.accessories.shadow_ring import ShadowRing
+from items.accessories.ring_of_precision import RingOfPrecision
+from items.accessories.brutality_amulet import BrutalityAmulet
+from items.accessories.assassins_mask import AssassinsMask
 from player import Player
 
 

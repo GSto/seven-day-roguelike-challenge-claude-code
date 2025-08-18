@@ -10,8 +10,8 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from items.accessories import HeadLamp
-from items.armor import SpikedArmor
+from items.accessories.head_lamp import HeadLamp
+from items.armor.spiked_armor import SpikedArmor
 from monsters import create_monster_for_level, Devil
 from game import Game
 

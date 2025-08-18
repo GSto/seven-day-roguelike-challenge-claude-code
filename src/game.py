@@ -6,10 +6,10 @@ import tcod
 import tcod.event
 
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, TITLE, TILE_WALL, COLOR_GREEN, COLOR_YELLOW
-from items import create_random_item_for_level
+from items.factory import create_random_item_for_level
 import random
 from player import Player
-from level import Level
+from level.level import Level
 from ui import UI
 from traits import Trait
 

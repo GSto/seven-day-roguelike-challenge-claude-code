@@ -7,8 +7,9 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from level import Level
-from items import HealthPotion, Dagger
+from level.level import Level
+from items.consumables.health_potion import HealthPotion
+from items.weapons.dagger import Dagger
 from ui import UI
 
 

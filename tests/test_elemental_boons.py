@@ -7,10 +7,13 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from items.boons import FireBoon, IceBoon, HolyBoon, DarkBoon
-from items.weapons import Sword
-from items.armor import LeatherArmor
-from items.enchantments import EnchantmentType
+from items.consumables.fire_boon import FireBoon
+from items.consumables.ice_boon import IceBoon
+from items.consumables.holy_boon import HolyBoon
+from items.consumables.dark_boon import DarkBoon
+from items.weapons.sword import Sword
+from items.armor.leather_armor import LeatherArmor
+from enchantments import EnchantmentType
 from traits import Trait
 
 

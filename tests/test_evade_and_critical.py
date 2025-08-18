@@ -8,9 +8,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
 from monsters import Skeleton, Goblin, Horror, Devil
-from items.consumables import ReapersCatalyst, ShadowsCatalyst, ReapersBoon
-from items.enchantments import EnchantmentType, get_enchantment_by_type
-from items.weapons import Sword
+from items.consumables.reapers_catalyst import ReapersCatalyst
+from items.consumables.shadows_catalyst import ShadowsCatalyst
+from items.consumables.reapers_boon import ReapersBoon
+from enchantments import EnchantmentType, get_enchantment_by_type
+from items.weapons.sword import Sword
 
 
 def test_player_has_evade_crit_stats():

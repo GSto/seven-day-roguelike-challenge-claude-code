@@ -8,8 +8,11 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from player import Player
-from items.weapons import Sword, MateriaStaff, Katana, ClericsStaff
-from items.enchantments import EnchantmentType, Enchantment
+from items.weapons.sword import Sword
+from items.weapons.materia_staff import MateriaStaff
+from items.weapons.katana import Katana
+from items.weapons.clerics_staff import ClericsStaff
+from enchantments import EnchantmentType, Enchantment
 
 
 def test_enchantments_dont_modify_base_stats():

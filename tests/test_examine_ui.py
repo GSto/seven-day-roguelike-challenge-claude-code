@@ -7,7 +7,7 @@ sys.path.append('src')
 
 from game import Game
 from ui import UI
-from items.armor import LeatherArmor
+from items.armor.leather_armor import LeatherArmor
 
 def test_examine_ui():
     """Test that examine shows descriptions in UI."""

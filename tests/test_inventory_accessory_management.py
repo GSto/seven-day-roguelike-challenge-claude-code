@@ -7,9 +7,12 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from game import Game
-from items.accessories import Rosary, HeadLamp, PowerRing, ProtectionRing
-from items.weapons import Sword  
-from items.consumables import HealthPotion
+from items.accessories.rosary import Rosary
+from items.accessories.head_lamp import HeadLamp
+from items.accessories.power_ring import PowerRing
+from items.accessories.protection_ring import ProtectionRing
+from items.weapons.sword import Sword  
+from items.consumables.health_potion import HealthPotion
 
 
 def test_equip_accessory_to_specific_slot():

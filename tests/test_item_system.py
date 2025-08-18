@@ -16,7 +16,7 @@ from items import (
     create_random_item_for_level
 )
 from player import Player
-from level import Level
+from level.level import Level
 
 
 def test_basic_item_creation():

@@ -9,9 +9,12 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from traits import Trait
 from player import Player
 from monsters import Orc, Goblin, Troll, Devil
-from items.weapons import Sword, Axe, DemonSlayer
-from items.armor import ChainMail
-from items.enchantments import Enchantment, EnchantmentType, ArmorEnchantment, ArmorEnchantmentType
+from items.weapons.sword import Sword
+from items.weapons.axe import Axe
+from items.weapons.demon_slayer import DemonSlayer
+from items.armor.chain_mail import ChainMail
+from enchantments import Enchantment, EnchantmentType
+# ArmorEnchantment, ArmorEnchantmentType may not exist in new structure - needs investigation
 from game import Game
 
 

@@ -10,7 +10,7 @@ import os
 # Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from items.enchantments import (
+from enchantments import (
     EnchantmentType, 
     Enchantment,
     get_random_weapon_enchantment,

@@ -10,9 +10,9 @@ import os
 # Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from items.enchantments import EnchantmentType, get_weapon_enchantment_by_type, get_armor_enchantment_by_type
-from items.weapons import ClericsStaff
-from items.armor import Armor
+from enchantments import EnchantmentType, get_weapon_enchantment_by_type, get_armor_enchantment_by_type
+from items.weapons.clerics_staff import ClericsStaff
+from items.armor.base import Armor
 from player import Player
 
 
@@ -78,7 +78,7 @@ class TestEnchantmentOverride(unittest.TestCase):
     
     def test_regular_weapon_no_override(self):
         """Test that regular weapons don't get special bonuses."""
-        from items.weapons import Sword
+        from items.weapons.sword import Sword
         
         sword = Sword(0, 0)
         blessed_enchant = get_weapon_enchantment_by_type(EnchantmentType.BLESSED)

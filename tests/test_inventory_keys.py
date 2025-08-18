@@ -8,8 +8,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 import tcod.event
 from game import Game
-from items.armor import LeatherArmor
-from items.consumables import HealthPotion
+from items.armor.leather_armor import LeatherArmor
+from items.consumables.health_potion import HealthPotion
 
 def test_u_key_functionality():
     """Test that U key works to use/equip items."""

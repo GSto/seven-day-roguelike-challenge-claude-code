@@ -7,10 +7,17 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from items.factory import create_random_item_for_level
-from items.consumables import HealthPotion
-from items.weapons import Dagger, Sword, Longsword, WarHammer
-from items.armor import LeatherArmor, ChainMail, PlateArmor, DragonScale
-from items.accessories import PowerRing, ProtectionRing
+from items.consumables.health_potion import HealthPotion
+from items.weapons.dagger import Dagger
+from items.weapons.sword import Sword
+from items.weapons.longsword import Longsword
+from items.weapons.war_hammer import WarHammer
+from items.armor.leather_armor import LeatherArmor
+from items.armor.chain_mail import ChainMail
+from items.armor.plate_armor import PlateArmor
+from items.armor.dragon_scale import DragonScale
+from items.accessories.power_ring import PowerRing
+from items.accessories.protection_ring import ProtectionRing
 
 def test_item_generation_consistency():
     """Test that item generation produces consistent results for each level range."""

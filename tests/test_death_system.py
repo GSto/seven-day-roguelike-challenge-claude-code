@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from player import Player
 from game import Game  
 from monsters import Skeleton
-from level import Level
+from level.level import Level
 
 
 def test_player_death_detection():

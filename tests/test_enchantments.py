@@ -10,12 +10,18 @@ import os
 # Add src directory to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from items.enchantments import (
+from enchantments import (
     EnchantmentType, Enchantment, get_random_enchantment, 
     get_enchantment_by_type, should_spawn_with_enchantment
 )
-from items.weapons import Weapon, Sword
-from items.consumables import BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, WardensBoon, JokersBoon
+from items.weapons.base import Weapon
+from items.weapons.sword import Sword
+from items.consumables.barons_boon import BaronsBoon
+from items.consumables.jewelers_boon import JewelersBoon
+from items.consumables.miners_boon import MinersBoon
+from items.consumables.clerics_boon import ClericsBoon
+from items.consumables.jokers_boon import JokersBoon
+# WardensBoon appears to not exist in the new structure - will need investigation
 
 
 class TestEnchantment(unittest.TestCase):

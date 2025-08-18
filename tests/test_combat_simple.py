@@ -23,7 +23,7 @@ def test_combat_messages():
     game.level.monsters.append(skeleton)
     
     # Give player a weapon with HOLY trait
-    from items.weapons import ClericsStaff
+    from items.weapons.clerics_staff import ClericsStaff
     holy_weapon = ClericsStaff(0, 0)
     game.player.weapon = holy_weapon
     
@@ -45,7 +45,7 @@ def test_combat_messages():
     game.level.monsters = [zombie]  # Replace monsters list
     
     # Give player a weapon with SLASH trait
-    from items.weapons import Sword
+    from items.weapons.sword import Sword
     slash_weapon = Sword(0, 0)
     game.player.weapon = slash_weapon
     
@@ -66,7 +66,7 @@ def test_combat_messages():
     goblin = Goblin(game.player.x + 1, game.player.y)
     
     # Give player armor with weakness
-    from items.armor import LeatherArmor
+    from items.armor.leather_armor import LeatherArmor
     armor = LeatherArmor(0, 0)
     # Temporarily add a weakness for testing
     armor.weaknesses = [Trait.SLASH]
