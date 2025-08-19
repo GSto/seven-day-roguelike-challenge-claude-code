@@ -5,37 +5,37 @@ Player character implementation.
 from constants import COLOR_WHITE
 from traits import Trait
 from status_effects import StatusEffects
+from entity import Entity
 
 
-class Player:
+class Player(Entity):
     """Represents the player character."""
     
     def __init__(self, x, y):
         """Initialize the player."""
-        self.x = x
-        self.y = y
-        self.char = '@'
-        self.color = COLOR_WHITE
+        # Initialize base Entity attributes
+        super().__init__(
+            x=x,
+            y=y,
+            character='@',
+            color=COLOR_WHITE,
+            max_hp=50,
+            hp=50,
+            attack=6,
+            defense=2,
+            evade=0.05,
+            crit=0.05,
+            crit_multiplier=2.0,
+            attack_multiplier=1.0,
+            defense_multiplier=1.0
+        )
         
-        # Player stats
-        self.max_hp = 50
-        self.hp = self.max_hp
-        self.attack = 6
-        self.defense = 2
+        # Player-specific stats
         self.level = 1
         self.xp = 0
         self.xp_to_next = 50
         self.fov = 10  # Field of view radius
         self.health_aspect = 0.3  # Health potion effectiveness multiplier
-        
-        # Combat stats
-        self.evade = 0.05  # 5% base evade chance
-        self.crit = 0.05  # 5% base crit chance
-        self.crit_multiplier = 2.0  # 2x damage on critical hit
-        
-        # Multiplier stats for equipment/consumable bonuses
-        self.attack_multiplier = 1.0
-        self.defense_multiplier = 1.0
         self.xp_multiplier = 1.0
         
         # Equipment slots - start with basic equipment
@@ -59,28 +59,15 @@ class Player:
         
         # Catalyst tax system - HP cost for using catalysts
         self.catalyst_tax = 0.1  # Starts at 10%
-        
-        # Traits system
-        self.attack_traits = []  # List of Aspect enums for attack
-        self.weaknesses = []     # List of Aspect enums for weaknesses
-        self.resistances = []    # List of Aspect enums for resistances
-        
-        # Status effects system
-        self.status_effects = StatusEffects()
-    
-    def move(self, dx, dy):
-        """Move the player by dx, dy."""
-        self.x += dx
-        self.y += dy
     
     def take_damage(self, damage):
-        """Take damage, accounting for defense."""
+        """Override to use total defense instead of base defense."""
         actual_damage = max(1, damage - self.get_total_defense())
         self.hp = max(0, self.hp - actual_damage)
         return actual_damage
     
     def take_damage_with_traits(self, damage, attack_traits=None):
-        """Take damage with trait consideration for resistances/weaknesses."""
+        """Override to use total resistances/weaknesses and total defense."""
         if attack_traits is None:
             attack_traits = []
         
@@ -105,10 +92,6 @@ class Player:
         if(self.hp < self.max_hp):
             self.heal_count += 1
         self.hp = min(self.max_hp, self.hp + amount)
-    
-    def is_alive(self):
-        """Check if the player is alive."""
-        return self.hp > 0
     
     def gain_xp(self, amount):
         """Gain experience points with multiplier."""
@@ -358,4 +341,4 @@ class Player:
     def render(self, console, fov):
         """Render the player on the console."""
         # Player should always be visible (they're the center of vision)
-        console.print(self.x, self.y, self.char, fg=self.color)
+        console.print(self.x, self.y, self.character, fg=self.color)
