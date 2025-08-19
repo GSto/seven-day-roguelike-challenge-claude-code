@@ -5,6 +5,7 @@ Base Monster class for all creatures in the dungeon.
 import random
 from status_effects import StatusEffects
 from entity import Entity
+from stats import Stats, StatType
 
 
 class Monster(Entity):
@@ -13,12 +14,8 @@ class Monster(Entity):
     def __init__(self, x, y, name, char, color, hp, attack, defense, xp_value,
                  evade=0.05, crit=0.05, crit_multiplier=2.0, attack_traits=None, weaknesses=None, resistances=None):
         """Initialize a monster."""
-        # Initialize base Entity attributes
-        super().__init__(
-            x=x,
-            y=y,
-            character=char,
-            color=color,
+        # Create stats for the monster
+        monster_stats = Stats(
             max_hp=hp,
             hp=hp,
             attack=attack,
@@ -26,6 +23,17 @@ class Monster(Entity):
             evade=evade,
             crit=crit,
             crit_multiplier=crit_multiplier,
+            attack_multiplier=1.0,
+            defense_multiplier=1.0
+        )
+        
+        # Initialize base Entity attributes
+        super().__init__(
+            x=x,
+            y=y,
+            character=char,
+            color=color,
+            stats=monster_stats,
             attack_traits=attack_traits or [],
             weaknesses=weaknesses or [],
             resistances=resistances or []

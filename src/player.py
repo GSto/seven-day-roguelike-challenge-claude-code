@@ -6,6 +6,7 @@ from constants import COLOR_WHITE
 from traits import Trait
 from status_effects import StatusEffects
 from entity import Entity
+from stats import Stats, StatType
 
 
 class Player(Entity):
@@ -13,12 +14,8 @@ class Player(Entity):
     
     def __init__(self, x, y):
         """Initialize the player."""
-        # Initialize base Entity attributes
-        super().__init__(
-            x=x,
-            y=y,
-            character='@',
-            color=COLOR_WHITE,
+        # Create stats for the player
+        player_stats = Stats(
             max_hp=50,
             hp=50,
             attack=6,
@@ -27,16 +24,25 @@ class Player(Entity):
             crit=0.05,
             crit_multiplier=2.0,
             attack_multiplier=1.0,
-            defense_multiplier=1.0
+            defense_multiplier=1.0,
+            xp_multiplier=1.0,
+            xp=0,
+            health_aspect=0.3
         )
         
-        # Player-specific stats
+        # Initialize base Entity attributes
+        super().__init__(
+            x=x,
+            y=y,
+            character='@',
+            color=COLOR_WHITE,
+            stats=player_stats
+        )
+        
+        # Player-specific stats not in Stats class
         self.level = 1
-        self.xp = 0
         self.xp_to_next = 50
         self.fov = 10  # Field of view radius
-        self.health_aspect = 0.3  # Health potion effectiveness multiplier
-        self.xp_multiplier = 1.0
         
         # Equipment slots - start with basic equipment
         from items.weapons import WoodenStick
@@ -342,3 +348,27 @@ class Player(Entity):
         """Render the player on the console."""
         # Player should always be visible (they're the center of vision)
         console.print(self.x, self.y, self.character, fg=self.color)
+    
+    @property
+    def xp(self):
+        return self.stats.get_stat(StatType.XP)
+    
+    @xp.setter
+    def xp(self, value):
+        self.stats.set_stat(StatType.XP, value)
+    
+    @property
+    def xp_multiplier(self):
+        return self.stats.get_stat(StatType.XP_MULTIPLIER)
+    
+    @xp_multiplier.setter
+    def xp_multiplier(self, value):
+        self.stats.set_stat(StatType.XP_MULTIPLIER, value)
+    
+    @property
+    def health_aspect(self):
+        return self.stats.get_stat(StatType.HEALTH_ASPECT)
+    
+    @health_aspect.setter
+    def health_aspect(self, value):
+        self.stats.set_stat(StatType.HEALTH_ASPECT, value)
