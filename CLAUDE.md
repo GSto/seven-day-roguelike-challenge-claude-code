@@ -67,7 +67,7 @@ Dependencies are managed in `pyproject.toml`. The main dependencies are:
 ### Python best practices
 - One Class Per File. 
 - Use type hinting. 
-- Use dataclasses on files. 
+- Use classes on files. 
 - Use pure functions whenever possible. 
 
 ### Testing Requirements

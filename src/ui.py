@@ -131,7 +131,8 @@ class UI:
                 console.print(0, SCREEN_HEIGHT - 1, controls_text, fg=COLOR_WHITE)
     
     def render_inventory(self, console, player, selected_item_index=None, 
-                        selected_equipment_index=None, selection_mode="inventory"):
+                        selected_equipment_index=None, selection_mode="inventory",
+                        game_state="INVENTORY", pending_boon=None):
         """Render the inventory screen."""
         console.clear()
         
@@ -440,8 +441,17 @@ class UI:
                 summary_y += 1
         
         # Instructions with better formatting
-        console.print(0, SCREEN_HEIGHT - 5, "Controls:", fg=COLOR_GREEN)
-        console.print(0, SCREEN_HEIGHT - 4, "Arrow keys: Navigate  Letter: Select inventory item", fg=COLOR_WHITE)
-        console.print(0, SCREEN_HEIGHT - 3, "[Enter] Use/Equip  [D] Drop  [U] Unequip selected", fg=COLOR_WHITE)
-        console.print(0, SCREEN_HEIGHT - 2, "1-5: Select equipment slots", fg=COLOR_WHITE)
-        console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close inventory", fg=COLOR_WHITE)
+        if game_state == "BOON_CHOICE":
+            # Special instructions for boon choice
+            console.print(0, SCREEN_HEIGHT - 5, f"Choose enchantment target for {pending_boon.name if pending_boon else 'Boon'}:", fg=COLOR_GREEN)
+            console.print(0, SCREEN_HEIGHT - 4, f"[W] Apply to Weapon: {player.weapon.name if player.weapon else 'None'}", fg=COLOR_WHITE)
+            console.print(0, SCREEN_HEIGHT - 3, f"[A] Apply to Armor: {player.armor.name if player.armor else 'None'}", fg=COLOR_WHITE)
+            console.print(0, SCREEN_HEIGHT - 2, "", fg=COLOR_WHITE)  # Empty line for spacing
+            console.print(0, SCREEN_HEIGHT - 1, "Press W for weapon, A for armor, or ESC to cancel", fg=COLOR_YELLOW)
+        else:
+            # Normal inventory controls
+            console.print(0, SCREEN_HEIGHT - 5, "Controls:", fg=COLOR_GREEN)
+            console.print(0, SCREEN_HEIGHT - 4, "Arrow keys: Navigate  Letter: Select inventory item", fg=COLOR_WHITE)
+            console.print(0, SCREEN_HEIGHT - 3, "[Enter] Use/Equip  [D] Drop  [U] Unequip selected", fg=COLOR_WHITE)
+            console.print(0, SCREEN_HEIGHT - 2, "1-5: Select equipment slots", fg=COLOR_WHITE)
+            console.print(0, SCREEN_HEIGHT - 1, "Press ESC to close inventory", fg=COLOR_WHITE)

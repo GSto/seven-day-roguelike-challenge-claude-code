@@ -1260,15 +1260,16 @@ class Game:
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
-                                    self.selected_equipment_index, self.selection_mode)
+                                    self.selected_equipment_index, self.selection_mode, game_state=self.game_state)
         elif self.game_state == 'ACCESSORY_REPLACEMENT':
             # Render accessory replacement screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
-                                    self.selected_equipment_index, self.selection_mode)
+                                    self.selected_equipment_index, self.selection_mode, game_state=self.game_state)
         elif self.game_state == 'BOON_CHOICE':
             # Render boon choice screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
-                                    self.selected_equipment_index, self.selection_mode)
+                                    self.selected_equipment_index, self.selection_mode, 
+                                    game_state=self.game_state, pending_boon=self.pending_boon_item)
         else:
             # Normal game rendering
             # Render the level
