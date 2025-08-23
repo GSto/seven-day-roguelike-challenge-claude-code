@@ -47,8 +47,8 @@ from enchantments.utils import (
 # Taken out of rotation until they can be balanced 
 # Accessory: Psychic's Turban: way to much ATK bonus 
 # Armor: Skin Suit: still gets way to much DEF
-
-DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot, MayhemsBoon, Compass, Map, Bomb, SwordsToPlowshares, Transmutation]
+# Consumables in jail, do not function: Map, Compass, Bomb
+DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot, MayhemsBoon, SwordsToPlowshares, Transmutation]
 STATUS_CONSUMABLES = [Antidote, ShellPotion, MezzoForte]
 # Boons (can appear from floor 2+)
 ENCHANTMENT_BOONS = [BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon, FireBoon, IceBoon, HolyBoon, DarkBoon]
