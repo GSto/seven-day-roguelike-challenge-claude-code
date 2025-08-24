@@ -94,6 +94,9 @@ class UI:
                 #             accessories_text += f" (+{empty_slots} empty)"
                 #     console.print(0, ui_y, accessories_text, fg=COLOR_WHITE)
                 #     ui_y += 1
+                
+                # Add a line of space between equipment and message log
+                ui_y += 1
             
             # Message log (reserve space for 6 lines, but only show actual messages)
             log_start_y = ui_y
