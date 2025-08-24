@@ -155,5 +155,5 @@ class Weapon(Equipment):
         if not self.enchantments:
             self.name = self.base_name
         else:
-            enchantment_names = [e.name for e in self.enchantments]
+            enchantment_names = [e.name.capitalize() for e in self.enchantments]
             self.name = f"{' '.join(enchantment_names)} {self.base_name}"
