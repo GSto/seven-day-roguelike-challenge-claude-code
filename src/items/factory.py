@@ -6,7 +6,7 @@ import random
 # Import from organized subcategories (using proper imports)
 from .consumables import (
     HealthPotion, Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot,
-    Antidote, ShellPotion, MezzoForte, Elixir, Compass, Map, Bomb, 
+    Antidote, ShellPotion, MezzoForte, Elixir,
     SwordsToPlowshares, Transmutation,
     # Catalysts
     PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, 
@@ -47,7 +47,6 @@ from enchantments.utils import (
 # Taken out of rotation until they can be balanced 
 # Accessory: Psychic's Turban: way to much ATK bonus 
 # Armor: Skin Suit: still gets way to much DEF
-# Consumables in jail, do not function: Map, Compass, Bomb
 DEFAULT_CONSUMABLES = [Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot, MayhemsBoon, SwordsToPlowshares, Transmutation]
 STATUS_CONSUMABLES = [Antidote, ShellPotion, MezzoForte]
 # Boons (can appear from floor 2+)

@@ -44,9 +44,6 @@ from .dark_boon import DarkBoon
 # Miscellaneous consumables
 from .d6 import D6
 from .mayhems_boon import MayhemsBoon
-from .compass import Compass
-from .map import Map
-from .bomb import Bomb
 from .swords_to_plowshares import SwordsToPlowshares
 from .transmutation import Transmutation
 
@@ -93,9 +90,6 @@ __all__ = [
     # Miscellaneous consumables
     'D6',
     'MayhemsBoon',
-    'Compass',
-    'Map',
-    'Bomb',
     'SwordsToPlowshares',
     'Transmutation',
 ]
