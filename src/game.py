@@ -135,6 +135,9 @@ class Game:
                 if self.selection_mode == "inventory" and self.selected_item_index is not None:
                     # Use/equip selected item with Enter key
                     self.use_inventory_item(self.selected_item_index)
+                elif self.selection_mode == "equipment" and self.selected_equipment_index is not None:
+                    # Unequip selected equipped item with Enter key
+                    self.unequip_selected_item()
             elif key == ord('d') and self.selection_mode == "inventory" and self.selected_item_index is not None:
                 # Drop selected item
                 self.drop_inventory_item(self.selected_item_index)
