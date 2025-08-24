@@ -97,7 +97,7 @@ After implementing functionality or resolving problems, run the tests for that u
 
 999. Important: When authoring documentation capture the why tests and the backing implementation is important.
 
-9999. Important
+9999. Important: we are iterating on a design. instead of maintaining backward compatibility with a change, make all of the other changes needed to support the new functionality you are implementing.
 
 9999. Important: We want single sources of truth, no migrations/adapters. If tests unrelated to your work fail then it's your job to resolve these tests as part of the increment of change.
 

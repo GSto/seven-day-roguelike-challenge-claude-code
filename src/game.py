@@ -741,7 +741,11 @@ class Game:
                         self.player.consumable_count += 1
                         self.player.remove_item(item)
                         self.ui.add_message(message)
-                        
+                        # Reset inventory pointer to first slot after consumable use
+                        if len(self.player.inventory) > 0:
+                            self.selected_item_index = len(self.player.inventory) - 1  # Newest item (first slot)
+                        else:
+                            self.selected_item_index = None
                     else:
                         self.ui.add_message(message)
                 else:
@@ -749,6 +753,11 @@ class Game:
                     if result:
                         self.player.remove_item(item)
                         self.ui.add_message(f"You used a {item.name}.")
+                        # Reset inventory pointer to first slot after consumable use
+                        if len(self.player.inventory) > 0:
+                            self.selected_item_index = len(self.player.inventory) - 1  # Newest item (first slot)
+                        else:
+                            self.selected_item_index = None
                     else:
                         self.ui.add_message(f"You can't use the {item.name} right now.")
             
