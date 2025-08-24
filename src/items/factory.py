@@ -113,7 +113,7 @@ DEFAULT_ACCESSORIES = [
 
 BASE_ACCESSORIES = DEFAULT_ACCESSORIES + CARDS
 # Accessory item pools
-EARLY_GAME_ACCESSORIES = []  # No accessories in early game
+EARLY_GAME_ACCESSORIES = DEFAULT_ACCESSORIES  # No accessories in early game
 MID_GAME_ACCESSORIES = [PowerRing, ProtectionRing] + DEFAULT_ACCESSORIES  # Single item list is fine
 LATE_GAME_ACCESSORIES = [GreaterPowerRing, ProtectionRing] + DEFAULT_ACCESSORIES
 END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing] + DEFAULT_ACCESSORIES

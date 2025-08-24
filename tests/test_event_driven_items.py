@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import MagicMock
 from event_emitter import EventEmitter
 from event_type import EventType
-from event_context import AttackContext, DeathContext, LevelUpContext, FloorContext
+from event_context import AttackContext, DeathContext, LevelUpContext, FloorContext, ConsumeContext
 from player import Player
 
 # Import new event-driven items
@@ -269,6 +269,166 @@ class TestEventDrivenWeapons(unittest.TestCase):
         # Check for Dark trait
         from traits import Trait
         self.assertIn(Trait.DARK, blade.attack_traits)
+
+
+class TestUpdatedEventDrivenItems(unittest.TestCase):
+    """Tests for existing items updated to use the event system."""
+    
+    def setUp(self):
+        # Reset singleton instance for each test
+        EventEmitter._instance = None
+        self.emitter = EventEmitter()
+        self.player = Player(5, 5)
+    
+    def tearDown(self):
+        # Clear all listeners after each test
+        self.emitter.clear_all_listeners()
+        EventEmitter._instance = None
+    
+    def test_psychics_turban_event_integration(self):
+        """Test that Psychic's Turban responds to consumable events."""
+        from items.accessories.psychics_turban import PsychicsTurban
+        
+        turban = PsychicsTurban(0, 0)
+        
+        # Verify event subscription
+        self.assertIn(EventType.PLAYER_CONSUME_ITEM, turban.get_subscribed_events())
+        
+        # Simulate equipment registration
+        self.emitter.subscribe(EventType.PLAYER_CONSUME_ITEM, turban.on_event)
+        
+        # Initial attack bonus should be based on player's existing consumable count
+        initial_bonus = turban.get_attack_bonus(self.player)
+        expected_initial = self.player.consumable_count  # Should equal player's count
+        
+        # Create consume event context
+        from items.consumables.health_potion import HealthPotion
+        potion = HealthPotion(0, 0)
+        context = ConsumeContext(
+            player=self.player,
+            item_type="HealthPotion",
+            item=potion
+        )
+        
+        # Emit consume event
+        self.emitter.emit(EventType.PLAYER_CONSUME_ITEM, context)
+        
+        # Check that turban's internal counter increased
+        self.assertEqual(turban.consumable_counter, 1)
+        
+        # Check that attack bonus increased
+        new_bonus = turban.get_attack_bonus(self.player)
+        self.assertEqual(new_bonus, initial_bonus + 1)
+    
+    def test_skin_suit_event_integration(self):
+        """Test that Skin Suit responds to monster death events."""
+        from items.armor.skin_suit import SkinSuit
+        
+        skin_suit = SkinSuit(0, 0)
+        
+        # Verify event subscription
+        self.assertIn(EventType.MONSTER_DEATH, skin_suit.get_subscribed_events())
+        
+        # Simulate equipment registration
+        self.emitter.subscribe(EventType.MONSTER_DEATH, skin_suit.on_event)
+        
+        # Initial defense bonus should be based on player's existing body count
+        initial_bonus = skin_suit.get_defense_bonus(self.player)
+        expected_initial = int(self.player.body_count / 4)  # Should equal player's count / 4
+        
+        # Create multiple death events to test the "every 4" mechanic
+        from monsters.goblin import Goblin
+        for i in range(4):
+            goblin = Goblin(10, 10)
+            context = DeathContext(
+                player=self.player,
+                monster=goblin,
+                experience_gained=10
+            )
+            
+            # Emit death event
+            self.emitter.emit(EventType.MONSTER_DEATH, context)
+        
+        # Check that skin suit's internal counter increased
+        self.assertEqual(skin_suit.death_counter, 4)
+        
+        # Check that defense bonus increased by 1 (4 deaths / 4 = 1)
+        new_bonus = skin_suit.get_defense_bonus(self.player)
+        self.assertEqual(new_bonus, initial_bonus + 1)
+        
+        # Test partial progress (5th kill shouldn't add another defense)
+        goblin = Goblin(10, 10)
+        context = DeathContext(
+            player=self.player,
+            monster=goblin,
+            experience_gained=10
+        )
+        self.emitter.emit(EventType.MONSTER_DEATH, context)
+        
+        # Still should only be +1 defense (5 kills / 4 = 1.25 -> 1)
+        final_bonus = skin_suit.get_defense_bonus(self.player)
+        self.assertEqual(final_bonus, initial_bonus + 1)
+    
+    def test_psychics_turban_maintains_historical_count(self):
+        """Test that Psychic's Turban still counts consumables used before equipping."""
+        from items.accessories.psychics_turban import PsychicsTurban
+        
+        # Simulate player having used consumables before equipping turban
+        self.player.consumable_count = 3
+        
+        turban = PsychicsTurban(0, 0)
+        
+        # Attack bonus should include historical consumables
+        bonus = turban.get_attack_bonus(self.player)
+        self.assertEqual(bonus, 3)  # Historical count
+        
+        # Now simulate using consumables while equipped
+        self.emitter.subscribe(EventType.PLAYER_CONSUME_ITEM, turban.on_event)
+        
+        from items.consumables.health_potion import HealthPotion
+        potion = HealthPotion(0, 0)
+        context = ConsumeContext(
+            player=self.player,
+            item_type="HealthPotion",
+            item=potion
+        )
+        
+        self.emitter.emit(EventType.PLAYER_CONSUME_ITEM, context)
+        
+        # Should now include both historical and new consumables
+        new_bonus = turban.get_attack_bonus(self.player)
+        self.assertEqual(new_bonus, 4)  # 3 historical + 1 new
+    
+    def test_skin_suit_maintains_historical_count(self):
+        """Test that Skin Suit still counts kills made before equipping."""
+        from items.armor.skin_suit import SkinSuit
+        
+        # Simulate player having killed monsters before equipping skin suit
+        self.player.body_count = 6  # Should give +1 defense initially
+        
+        skin_suit = SkinSuit(0, 0)
+        
+        # Defense bonus should include historical kills
+        bonus = skin_suit.get_defense_bonus(self.player)
+        self.assertEqual(bonus, 1)  # 6 / 4 = 1.5 -> 1
+        
+        # Now simulate killing while equipped
+        self.emitter.subscribe(EventType.MONSTER_DEATH, skin_suit.on_event)
+        
+        # Kill 2 more monsters (total would be 8)
+        for i in range(2):
+            from monsters.goblin import Goblin
+            goblin = Goblin(10, 10)
+            context = DeathContext(
+                player=self.player,
+                monster=goblin,
+                experience_gained=10
+            )
+            self.emitter.emit(EventType.MONSTER_DEATH, context)
+        
+        # Should now have +2 defense (8 total kills / 4 = 2)
+        new_bonus = skin_suit.get_defense_bonus(self.player)
+        self.assertEqual(new_bonus, 2)
 
 
 if __name__ == '__main__':

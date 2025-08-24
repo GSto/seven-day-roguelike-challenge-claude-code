@@ -2,6 +2,8 @@
 PsychicsTurban - +1 ATK for every consumable used.
 """
 from .hat import Hat
+from event_type import EventType
+from event_context import ConsumeContext
 
 
 class PsychicsTurban(Hat):
@@ -10,6 +12,18 @@ class PsychicsTurban(Hat):
     def __init__(self, x, y):
         super().__init__(x, y, "Psychic's Turban", 
                         description="+1 ATK for each consumable used")
+        # Internal counter for consumables used while equipped
+        self.consumable_counter = 0
+        # Subscribe to consume events
+        self.event_subscriptions.add(EventType.PLAYER_CONSUME_ITEM)
+    
+    def on_event(self, event_type, context):
+        """Handle consumable use events."""
+        if event_type == EventType.PLAYER_CONSUME_ITEM and isinstance(context, ConsumeContext):
+            # Increment internal counter when consumables are used
+            self.consumable_counter += 1
     
     def get_attack_bonus(self, player):
-        return super().get_attack_bonus(player) + player.consumable_count
+        # Use both the player's historical consumable count (for items used before equipping)
+        # and the internal counter (for items used while equipped)
+        return super().get_attack_bonus(player) + player.consumable_count + self.consumable_counter
