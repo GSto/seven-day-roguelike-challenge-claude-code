@@ -28,6 +28,11 @@ from .clair_obscur import ClairObscur
 from .feu_glace import FeuGlace
 from .big_stick import BigStick
 
+# Event-driven weapons
+from .defender import Defender
+from .holy_avenger import HolyAvenger
+from .backhand_blade import BackhandBlade
+
 __all__ = [
     'Weapon',
     'WoodenStick',
@@ -53,5 +58,10 @@ __all__ = [
     'AcidDagger',
     'ClairObscur',
     'FeuGlace',
-    'BigStick'
+    'BigStick',
+    
+    # Event-driven weapons
+    'Defender',
+    'HolyAvenger',
+    'BackhandBlade'
 ]

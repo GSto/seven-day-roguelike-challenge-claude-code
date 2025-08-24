@@ -51,6 +51,13 @@ from .mall_ninja import MallNinja
 from .righteous_fury import RighteousFury
 from .song_of_ice_and_fire import SongOfIceAndFire
 
+# Event-driven accessories
+from .healing_dodge import HealingDodge
+from .vampires_pendant import VampiresPendant
+from .wardens_tome import WardensTome
+from .turtles_blessing import TurtlesBlessing
+from .protective_level import ProtectiveLevel
+
 __all__ = [
     # Base classes
     'Accessory',
@@ -100,4 +107,11 @@ __all__ = [
     'MallNinja',
     'RighteousFury',
     'SongOfIceAndFire',
+    
+    # Event-driven accessories
+    'HealingDodge',
+    'VampiresPendant',
+    'WardensTome',
+    'TurtlesBlessing',
+    'ProtectiveLevel',
 ]
