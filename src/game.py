@@ -1066,8 +1066,8 @@ class Game:
         # Update FOV after equipment change (some items affect FOV)
         self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
         
-        # Only return to playing if not in inventory mode
-        if self.game_state != 'INVENTORY':
+        # Only return to playing if not in inventory mode and not in victory state
+        if self.game_state not in ['INVENTORY', 'VICTORY']:
             self.game_state = 'PLAYING'  # Return to game after equipping
     
     def handle_manual_level_up(self):
