@@ -16,9 +16,9 @@ class Devil(Monster):
             name="Ancient Devil",
             char='D',
             color=COLOR_RED,
-            hp=666,      
+            hp=120,      
             attack=30,   
-            defense=12,   
+            defense=5,   
             xp_value=666, # Massive XP reward
             evade=0.06,  
             crit=0.06,  
