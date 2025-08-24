@@ -162,18 +162,48 @@ class Player(Entity):
     
     def get_total_attack(self):
         """Get total attack power including equipment and multipliers."""
-        total = self.attack + self.get_attack_bonus()
-        return max(1, int(total * self.get_total_attack_multiplier())) # attack cannot fall below 1
+        # Calculate base attack with all bonuses except cleanup
+        attack = self._get_total_attack_without_cleanup()
+        defense = self._get_total_defense_without_cleanup()
+        
+        # Apply cleanup effects (like Anaglyph) after all other calculations
+        for accessory in self.equipped_accessories():
+            if hasattr(accessory, 'is_cleanup') and accessory.is_cleanup:
+                if hasattr(accessory, 'apply_cleanup_effect'):
+                    attack, defense = accessory.apply_cleanup_effect(self, attack, defense)
+        
+        return attack
     
     def get_total_defense(self):
         """Get total defense including equipment and multipliers."""
+        # Calculate base defense with all bonuses except cleanup
+        attack = self._get_total_attack_without_cleanup()
+        defense = self._get_total_defense_without_cleanup()
+        
+        # Apply cleanup effects (like Anaglyph) after all other calculations
+        for accessory in self.equipped_accessories():
+            if hasattr(accessory, 'is_cleanup') and accessory.is_cleanup:
+                if hasattr(accessory, 'apply_cleanup_effect'):
+                    attack, defense = accessory.apply_cleanup_effect(self, attack, defense)
+        
+        return defense
+    
+    def _get_total_attack_without_cleanup(self):
+        """Get total attack without cleanup effects (internal use)."""
+        total = self.attack + self.get_attack_bonus()
+        return max(1, int(total * self.get_total_attack_multiplier()))
+    
+    def _get_total_defense_without_cleanup(self):
+        """Get total defense without cleanup effects (internal use)."""
         total = self.defense
         if self.weapon:
             total += self.weapon.get_defense_bonus(self)
         if self.armor:
             total += self.armor.get_defense_bonus(self)
         for accessory in self.equipped_accessories():
-            total += accessory.get_defense_bonus(self)
+            # Don't include cleanup accessories' defense bonus here
+            if not (hasattr(accessory, 'is_cleanup') and accessory.is_cleanup):
+                total += accessory.get_defense_bonus(self)
         return int(total * self.get_total_defense_multiplier())
     
     def get_total_fov(self):
