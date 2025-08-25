@@ -18,8 +18,8 @@ class Player(Entity):
         player_stats = Stats(
             max_hp=50,
             hp=50,
-            attack=6,
-            defense=2,
+            attack=4,
+            defense=1,
             evade=0.05,
             crit=0.05,
             crit_multiplier=2.0,

@@ -13,6 +13,7 @@ from constants import (
 )
 from monsters import create_monster_for_level
 from items.factory import create_random_item_for_level
+from items.pool import item_pool
 from items.weapons.demon_slayer import DemonSlayer
 from .room import Room
 
@@ -30,6 +31,9 @@ class Level:
         self.tiles = np.full((MAP_WIDTH, MAP_HEIGHT), TILE_WALL, dtype=int)
         self.explored = np.full((MAP_WIDTH, MAP_HEIGHT), False, dtype=bool)
         self.fov = np.full((MAP_WIDTH, MAP_HEIGHT), False, dtype=bool)
+        
+        # Notify item pool about new floor for uniqueness tracking
+        item_pool.start_new_floor(level_number)
         
         # Generate the level
         self.rooms = []

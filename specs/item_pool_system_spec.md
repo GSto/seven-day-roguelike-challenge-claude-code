@@ -119,6 +119,9 @@ def start_new_floor(self, level: int):
 - **3.5 - 5.0**: Late game items (levels 6-9)
 - **5.0+**: End game items (levels 9-10)
 
+### Rarity Weights
+Create 3 new constants and use these for rarites, from most to least common: RARITY_COMMON, RARITY_UNCOMMON, RARITY_RARE. use these when creating all item specifications. 
+
 ### Example Item Specifications
 
 ```python
