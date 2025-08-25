@@ -137,6 +137,7 @@ Complete catalog of all monsters in the game
 
 ## Statistics
 
+### General Statistics
 **Total Monsters:** 9
 **Average HP:** 114.2
 **Average Attack:** 11.4
@@ -146,3 +147,30 @@ Complete catalog of all monsters in the game
 **Weakest Monster:** Zombie (12 HP)
 **Strongest Monster:** Ancient Devil (666 HP)
 **Most Valuable:** Ancient Devil (666 XP)
+
+### Attack Types
+**Monsters with Special Attacks:** 5
+- **DARK:** 1 (Ancient Devil)
+- **FIRE:** 1 (Ancient Devil)
+- **HOLY:** 1 (Angel)
+- **MYSTIC:** 1 (Phantom)
+- **SLASH:** 1 (Goblin)
+- **STRIKE:** 1 (Troll)
+
+### Resistances
+**Monsters with Resistances:** 4
+- **FIRE:** 2 (Goblin, Orc)
+- **ICE:** 2 (Phantom, Zombie)
+- **SLASH:** 1 (Phantom)
+- **STRIKE:** 1 (Phantom)
+
+### Weaknesses
+**Monsters with Weaknesses:** 8
+- **HOLY:** 4 (Goblin, Phantom, Skeleton, Zombie)
+- **FIRE:** 2 (Troll, Zombie)
+- **ICE:** 2 (Goblin, Horror)
+- **DARK:** 2 (Angel, Phantom)
+- **MYSTIC:** 2 (Angel, Horror)
+- **SLASH:** 1 (Troll)
+- **STRIKE:** 1 (Orc)
+- **DEMONSLAYER:** 1 (Ancient Devil)
