@@ -3,6 +3,11 @@ Equipment item class for the roguelike game.
 """
 
 from .item import Item
+from typing import Set, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from event_type import EventType
+    from event_context import EventContext
 
 
 class Equipment(Item):
@@ -42,6 +47,9 @@ class Equipment(Item):
         self.attack_traits = attack_traits or []
         self.weaknesses = weaknesses or []
         self.resistances = resistances or []
+        
+        # Event system
+        self.event_subscriptions: Set['EventType'] = set()  # Events this equipment listens to
     
     def get_attack_bonus(self, player):
           return self.attack_bonus
@@ -115,3 +123,11 @@ class Equipment(Item):
         """Check if player can equip this item."""
         # Check if player has enough XP to equip this item
         return player.xp >= self.xp_cost
+    
+    def on_event(self, event_type: 'EventType', context: 'EventContext') -> None:
+        """Handle an event. Override in subclasses to implement specific behavior."""
+        pass
+    
+    def get_subscribed_events(self) -> Set['EventType']:
+        """Get the events this equipment wants to listen to. Override in subclasses."""
+        return self.event_subscriptions.copy()

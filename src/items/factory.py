@@ -20,7 +20,9 @@ from .weapons import (
     Dagger, Sword, Shield, Katana, Axe, MorningStar, ClericsStaff, Gauntlets,
     MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick,
     Longsword, WarHammer, WarScythe, TowerShield, ClairObscur, FeuGlace,
-    RiversOfBlood, DemonSlayer
+    RiversOfBlood, DemonSlayer,
+    # Event-driven weapons
+    Defender, HolyAvenger, BackhandBlade
 )
 from .armor import (
     LeatherArmor, SafetyVest, Cloak, SpikedArmor, GamblersVest, MinimalSuit,
@@ -33,7 +35,9 @@ from .accessories import (
     BrutalityAmulet, AssassinsMask, GravePact, SturdyRock, PunishTheWeak,
     StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, SavingThrow, Anaglyph,
     MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
-    AceOfDiamonds, AceOfSpades, Joker
+    AceOfDiamonds, AceOfSpades, Joker,
+    # Event-driven accessories
+    HealingDodge, VampiresPendant, WardensTome, TurtlesBlessing, ProtectiveLevel
 )
 from enchantments.utils import (
     get_random_enchantment, get_random_armor_enchantment, should_spawn_with_enchantment
@@ -62,9 +66,9 @@ LATE_GAME_CONSUMABLES =  BASE_CONSUMABLES
 END_GAME_CONSUMABLES = [Elixir] + BASE_CONSUMABLES
 # Weapon item pools
 EARLY_GAME_WEAPONS = [Dagger, Sword, Shield, Katana]
-MID_GAME_WEAPONS = [Sword, Shield, Axe, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick]
-LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, Rapier, ClairObscur, FeuGlace]
-END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe, ClairObscur, FeuGlace]
+MID_GAME_WEAPONS = [Sword, Shield, Axe, MorningStar, ClericsStaff, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick, Defender]
+LATE_GAME_WEAPONS = [Longsword, MorningStar, WarHammer, WarScythe, TowerShield, Gauntlets, MateriaStaff, Uchigatana, Pickaxe, Rapier, ClairObscur, FeuGlace, BackhandBlade]
+END_GAME_WEAPONS = [WarHammer, RiversOfBlood, WarScythe, ClairObscur, FeuGlace, HolyAvenger]
 
 # Armor item pools
 DEFAULT_ARMOR = [SpikedArmor, GamblersVest, MinimalSuit]
@@ -74,6 +78,15 @@ LATE_GAME_ARMOR = [ChainMail, PlateArmor, NightCloak, ShadowCloak, CoatedPlate, 
 END_GAME_ARMOR = [PlateArmor, DragonScale, ShadowCloak, UtilityBelt]
 
 CARDS = [AceOfHearts, AceOfClubs, AceOfDiamonds, AceOfSpades, Joker]
+# Event-driven accessories (reactive gear)
+EVENT_DRIVEN_ACCESSORIES = [
+    HealingDodge,
+    VampiresPendant,
+    WardensTome,
+    TurtlesBlessing,
+    ProtectiveLevel
+]
+
 # Actually think I am going to put most accessories here, except for some that are specifcally not for early or late game
 DEFAULT_ACCESSORIES = [
     BaronsCrown,
@@ -96,11 +109,11 @@ DEFAULT_ACCESSORIES = [
     MallNinja,
     RighteousFury,
     SongOfIceAndFire
-    ]
+    ] + EVENT_DRIVEN_ACCESSORIES
 
 BASE_ACCESSORIES = DEFAULT_ACCESSORIES + CARDS
 # Accessory item pools
-EARLY_GAME_ACCESSORIES = []  # No accessories in early game
+EARLY_GAME_ACCESSORIES = DEFAULT_ACCESSORIES  # No accessories in early game
 MID_GAME_ACCESSORIES = [PowerRing, ProtectionRing] + DEFAULT_ACCESSORIES  # Single item list is fine
 LATE_GAME_ACCESSORIES = [GreaterPowerRing, ProtectionRing] + DEFAULT_ACCESSORIES
 END_GAME_ACCESSORIES = [GreaterPowerRing, GreaterProtectionRing] + DEFAULT_ACCESSORIES

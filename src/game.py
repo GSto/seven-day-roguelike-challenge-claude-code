@@ -12,6 +12,9 @@ from player import Player
 from level.level import Level
 from ui import UI
 from traits import Trait
+from event_emitter import EventEmitter
+from event_type import EventType
+from event_context import ConsumeContext, AttackContext, DeathContext, FloorContext
 
 
 class Game:
@@ -177,6 +180,7 @@ class Game:
                 if 0 <= slot_index < len(self.player.accessories):
                     # Unequip the old accessory and put it back in inventory
                     old_accessory = self.player.accessories[slot_index]
+                    self.unregister_equipment_events(old_accessory)
                     self.player.add_item(old_accessory)
                     self.ui.add_message(f"You unequipped {old_accessory.name}.")
                     
@@ -184,6 +188,9 @@ class Game:
                     self.player.accessories[slot_index] = self.pending_accessory_replacement
                     self.player.remove_item(self.pending_accessory_replacement)
                     self.player.xp -= self.pending_accessory_replacement.xp_cost
+                    
+                    # Register events for new accessory
+                    self.register_equipment_events(self.pending_accessory_replacement)
                     
                     if self.pending_accessory_replacement.xp_cost > 0:
                         self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name} for {self.pending_accessory_replacement.xp_cost} XP.")
@@ -394,11 +401,35 @@ class Game:
                 self.ui.add_message(f"You attack {monster.name} blindly and miss!")
             else:
                 self.ui.add_message(f"You try to attack {monster.name} and miss!")
+            
+            # Emit miss event
+            event_emitter = EventEmitter()
+            context = AttackContext(
+                player=self.player,
+                attacker=self.player,
+                defender=monster,
+                damage=0,
+                is_critical=False,
+                is_miss=True
+            )
+            event_emitter.emit(EventType.MISS, context)
             return
         
         # Check for evade
         if random.random() < monster.evade:
             self.ui.add_message(f"You try to attack {monster.name} and miss!")
+            
+            # Emit miss event
+            event_emitter = EventEmitter()
+            context = AttackContext(
+                player=self.player,
+                attacker=self.player,
+                defender=monster,
+                damage=0,
+                is_critical=False,
+                is_miss=True
+            )
+            event_emitter.emit(EventType.MISS, context)
             return
         
         # Calculate base damage (with frightened modifier)
@@ -459,6 +490,33 @@ class Game:
         
         self.ui.add_message(message)
         
+        # Emit player attack event
+        event_emitter = EventEmitter()
+        trait_interaction = None
+        if weakness_exploited and not resistance_applied:
+            trait_interaction = "weakness"
+        elif resistance_applied and not weakness_exploited:
+            trait_interaction = "resistance"
+        
+        context = AttackContext(
+            player=self.player,
+            attacker=self.player,
+            defender=monster,
+            damage=actual_damage,
+            is_critical=is_crit,
+            is_miss=False,
+            trait_interaction=trait_interaction
+        )
+        event_emitter.emit(EventType.PLAYER_ATTACK_MONSTER, context)
+        
+        # Emit trait-specific events
+        if is_crit:
+            event_emitter.emit(EventType.CRITICAL_HIT, context)
+        if weakness_exploited and not resistance_applied:
+            event_emitter.emit(EventType.WEAKNESS_HIT, context)
+        elif resistance_applied and not weakness_exploited:
+            event_emitter.emit(EventType.RESISTANCE_HIT, context)
+        
         # Check if monster died
         if not monster.is_alive():
             death_message = f"The {monster.name} dies!"
@@ -469,6 +527,14 @@ class Game:
             leveled_up = self.player.gain_xp(monster.xp_value)
             xp_message = f"You gain {monster.xp_value} XP!"
             self.ui.add_message(xp_message, COLOR_GREEN)
+            
+            # Emit monster death event
+            death_context = DeathContext(
+                player=self.player,
+                monster=monster,
+                experience_gained=monster.xp_value
+            )
+            event_emitter.emit(EventType.MONSTER_DEATH, death_context)
             
             # Show level up message if player leveled up
             if leveled_up:
@@ -498,6 +564,18 @@ class Game:
         if random.random() < self.player.get_total_evade():
             self.ui.add_message(f"The {monster.name} tries to attack you and misses!")
             self.player.dodge_count += 1
+            
+            # Emit successful dodge event
+            event_emitter = EventEmitter()
+            context = AttackContext(
+                player=self.player,
+                attacker=monster,
+                defender=self.player,
+                damage=0,
+                is_critical=False,
+                is_miss=True
+            )
+            event_emitter.emit(EventType.SUCCESSFUL_DODGE, context)
             return
         
         # Calculate base damage
@@ -535,6 +613,18 @@ class Game:
                 actual_damage = 0
                 self.player.dodge_count += 1
                 self.ui.add_message("You dodged the attack!")
+                
+                # Emit successful dodge event
+                event_emitter = EventEmitter()
+                dodge_context = AttackContext(
+                    player=self.player,
+                    attacker=monster,
+                    defender=self.player,
+                    damage=0,
+                    is_critical=False,
+                    is_miss=True
+                )
+                event_emitter.emit(EventType.SUCCESSFUL_DODGE, dodge_context)
             else:
                 # Apply damage with traits
                 actual_damage = self.player.take_damage_with_traits(damage, monster_traits)
@@ -556,6 +646,33 @@ class Game:
             message = f"The {monster.name} attacks you for {actual_damage}!"
         
         self.ui.add_message(message)
+        
+        # Emit monster attack event
+        event_emitter = EventEmitter()
+        trait_interaction = None
+        if weakness_exploited and not resistance_applied:
+            trait_interaction = "weakness"
+        elif resistance_applied and not weakness_exploited:
+            trait_interaction = "resistance"
+        
+        attack_context = AttackContext(
+            player=self.player,
+            attacker=monster,
+            defender=self.player,
+            damage=actual_damage,
+            is_critical=is_crit,
+            is_miss=False,
+            trait_interaction=trait_interaction
+        )
+        event_emitter.emit(EventType.MONSTER_ATTACK_PLAYER, attack_context)
+        
+        # Emit trait-specific events
+        if is_crit:
+            event_emitter.emit(EventType.CRITICAL_HIT, attack_context)
+        if weakness_exploited and not resistance_applied:
+            event_emitter.emit(EventType.WEAKNESS_HIT, attack_context)
+        elif resistance_applied and not weakness_exploited:
+            event_emitter.emit(EventType.RESISTANCE_HIT, attack_context)
         
         # Check if player died
         if not self.player.is_alive():
@@ -645,9 +762,20 @@ class Game:
     
     def descend_level(self):
         """Move to the next level down."""
+        previous_floor = self.current_level
         self.current_level += 1
         self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
         self.level = Level(level_number=self.current_level)
+        
+        # Emit floor change event
+        event_emitter = EventEmitter()
+        context = FloorContext(
+            player=self.player,
+            floor_number=self.current_level,
+            previous_floor=previous_floor
+        )
+        event_emitter.emit(EventType.FLOOR_CHANGE, context)
+        
         # Place player at stairs up position
         stairs_up_x, stairs_up_y = self.level.get_stairs_up_position()
         self.player.x = stairs_up_x
@@ -656,6 +784,28 @@ class Game:
         self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
         # Set flag to prevent immediate transition back
         self.just_changed_level = True
+    
+    def register_equipment_events(self, equipment):
+        """Register equipment with the event system."""
+        if not hasattr(equipment, 'on_event'):
+            return
+        
+        event_emitter = EventEmitter()
+        subscribed_events = equipment.get_subscribed_events()
+        
+        for event_type in subscribed_events:
+            event_emitter.subscribe(event_type, equipment.on_event)
+    
+    def unregister_equipment_events(self, equipment):
+        """Unregister equipment from the event system."""
+        if not hasattr(equipment, 'on_event'):
+            return
+        
+        event_emitter = EventEmitter()
+        subscribed_events = equipment.get_subscribed_events()
+        
+        for event_type in subscribed_events:
+            event_emitter.unsubscribe(event_type, equipment.on_event)
     
     def ascend_level(self):
         """Move to the previous level up."""
@@ -742,6 +892,16 @@ class Game:
                         self.game_state = 'BOON_CHOICE'
                     elif success:
                         self.player.consumable_count += 1
+                        
+                        # Emit consume event before removing item
+                        event_emitter = EventEmitter()
+                        context = ConsumeContext(
+                            player=self.player,
+                            item_type=type(item).__name__,
+                            item=item
+                        )
+                        event_emitter.emit(EventType.PLAYER_CONSUME_ITEM, context)
+                        
                         self.player.remove_item(item)
                         self.ui.add_message(message)
                         # Reset inventory pointer to first slot after consumable use
@@ -754,6 +914,15 @@ class Game:
                 else:
                     # Legacy boolean format
                     if result:
+                        # Emit consume event before removing item
+                        event_emitter = EventEmitter()
+                        context = ConsumeContext(
+                            player=self.player,
+                            item_type=type(item).__name__,
+                            item=item
+                        )
+                        event_emitter.emit(EventType.PLAYER_CONSUME_ITEM, context)
+                        
                         self.player.remove_item(item)
                         self.ui.add_message(f"You used a {item.name}.")
                         # Reset inventory pointer to first slot after consumable use
@@ -897,6 +1066,9 @@ class Game:
             self.ui.add_message("No item equipped in this slot.")
             return
         
+        # Unregister events first
+        self.unregister_equipment_events(item)
+        
         # Unequip the item
         if self.selected_equipment_index == 0:  # Weapon
             self.player.weapon = None
@@ -926,6 +1098,7 @@ class Game:
         if slot_occupied:
             # Slot is occupied - UNEQUIP the accessory
             accessory_to_unequip = self.player.accessories[slot_index]
+            self.unregister_equipment_events(accessory_to_unequip)
             self.player.accessories[slot_index] = None
             self.player.add_item(accessory_to_unequip)
             self.ui.add_message(f"You unequipped {accessory_to_unequip.name} from slot {slot_index + 1}.")
@@ -961,6 +1134,9 @@ class Game:
             self.player.accessories[slot_index] = selected_item
             self.player.remove_item(selected_item)
             self.player.xp -= selected_item.xp_cost
+            
+            # Register events for new accessory
+            self.register_equipment_events(selected_item)
             
             if selected_item.xp_cost > 0:
                 self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1} for {selected_item.xp_cost} XP.")
@@ -1008,6 +1184,8 @@ class Game:
                 if not self.player.add_item(old_weapon):
                     self.ui.add_message(f"Cannot equip {item.name}. Inventory is full.")
                     return
+                # Unregister events for old weapon
+                self.unregister_equipment_events(old_weapon)
                 self.player.weapon = None
                 self.ui.add_message(f"You unequipped {old_weapon.name}.")
             
@@ -1015,6 +1193,9 @@ class Game:
             self.player.weapon = item
             self.player.remove_item(item)
             self.player.xp -= item.xp_cost
+            
+            # Register events for new weapon
+            self.register_equipment_events(item)
             if item.xp_cost > 0:
                 self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
             else:
@@ -1028,6 +1209,8 @@ class Game:
                 if not self.player.add_item(old_armor):
                     self.ui.add_message(f"Cannot equip {item.name}. Inventory is full.")
                     return
+                # Unregister events for old armor
+                self.unregister_equipment_events(old_armor)
                 self.player.armor = None
                 self.ui.add_message(f"You unequipped {old_armor.name}.")
             
@@ -1035,6 +1218,9 @@ class Game:
             self.player.armor = item
             self.player.remove_item(item)
             self.player.xp -= item.xp_cost
+            
+            # Register events for new armor
+            self.register_equipment_events(item)
             if item.xp_cost > 0:
                 self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
             else:
@@ -1050,6 +1236,10 @@ class Game:
                         break
                 self.player.remove_item(item)
                 self.player.xp -= item.xp_cost
+                
+                # Register events for new accessory
+                self.register_equipment_events(item)
+                
                 if item.xp_cost > 0:
                     self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
                 else:
