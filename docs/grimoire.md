@@ -114,7 +114,7 @@ Permanently adds Ice resistance
 ## WEAPONS
 --------------------------------------------------
 
-Acid Dagger (+6 att)
+Acid Dagger (+3 att)
 Mid game weapon. 6 dmg. Apply 4 burn and 4 poison on every hit. Slash, Fire, Poison damage.
 [Attack: SLASH, Attack: FIRE, Attack: POISON]
 
