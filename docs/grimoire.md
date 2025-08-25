@@ -124,7 +124,7 @@ An axe
 
 Backhand Blade (+3 att, +5% evade)
 Counter-attacks on successful dodges
-[Attack: DARK]
+[Attack: DARK, Attack: SLASH]
 
 Big Stick (+5 att)
 Mid-game weapons. strike. 50% chance to apply stun. 50% chance to apply immobilized.
@@ -159,7 +159,7 @@ Enhances natural strength
 
 Holy Avenger (+8 att)
 10% chance to counter-attack when hit
-[Attack: HOLY]
+[Attack: HOLY, Attack: STRIKE]
 
 Katana (+4 att, +15% crit)
 A light, fast blade
@@ -393,3 +393,54 @@ Heals 5% max health when a monster dies
 
 Warden's Tome
 Permanently gain +1 DEF when leveling up
+
+
+---
+
+## STATISTICS
+
+### Item Counts
+**Total Items:** 116
+- **Consumables:** 35
+- **Weapons:** 27
+- **Armor:** 18
+- **Accessories:** 36
+
+### Consumable Breakdown
+- **Catalysts (Permanent):** 11
+- **Boons (Enchantments):** 11
+- **Potions/Elixirs:** 3
+- **Food Items:** 5
+
+### Weapon Attack Traits
+- **SLASH:** 12 weapons
+- **STRIKE:** 10 weapons
+- **MYSTIC:** 4 weapons
+  - Clair Obscur, Cleric's Staff, Feu-Glace, Materia Staff
+- **HOLY:** 3 weapons
+  - Clair Obscur, Cleric's Staff, Holy Avenger
+- **FIRE:** 2 weapons
+  - Acid Dagger, Feu-Glace
+- **POISON:** 2 weapons
+  - Acid Dagger, Snake's Fang
+- **DARK:** 2 weapons
+  - Backhand Blade, Clair Obscur
+- **DEMONSLAYER:** 1 weapons
+  - Demon Slayer
+- **ICE:** 1 weapons
+  - Feu-Glace
+
+### Armor Resistances
+- **HOLY:** 1 armors
+  - Anti-Angel Technology
+
+### Accessory Traits
+- **HOLY (Attack):** 1 accessories
+  - God's Eye
+- **DARK (Resist):** 1 accessories
+  - Rosary
+
+### Notable Items
+**Highest Attack Weapon:** Demon Slayer (+15 attack)
+**Highest Defense Armor:** Dragon Scale Armor (+5 defense)
+**Most Powerful Accessory:** God's Eye

@@ -386,6 +386,162 @@ def generate_grimoire():
         output.append(format_accessory(item))
         output.append("")
     
+    # Generate statistics section
+    output.append("")
+    output.append("---")
+    output.append("")
+    output.append("## STATISTICS")
+    output.append("")
+    
+    # Item counts
+    output.append("### Item Counts")
+    output.append(f"**Total Items:** {len(consumables) + len(weapons) + len(armor) + len(accessories)}")
+    output.append(f"- **Consumables:** {len(consumables)}")
+    output.append(f"- **Weapons:** {len(weapons)}")
+    output.append(f"- **Armor:** {len(armor)}")
+    output.append(f"- **Accessories:** {len(accessories)}")
+    output.append("")
+    
+    # Analyze consumable types
+    catalysts = [c for c in consumables if 'catalyst' in c['name'].lower()]
+    boons = [c for c in consumables if 'boon' in c['name'].lower()]
+    potions = [c for c in consumables if 'potion' in c['name'].lower() or 'elixir' in c['name'].lower()]
+    foods = [c for c in consumables if any(food in c['name'].lower() for food in ['beef', 'chicken', 'carrot', 'salmon', 'mushroom'])]
+    
+    output.append("### Consumable Breakdown")
+    output.append(f"- **Catalysts (Permanent):** {len(catalysts)}")
+    output.append(f"- **Boons (Enchantments):** {len(boons)}")
+    output.append(f"- **Potions/Elixirs:** {len(potions)}")
+    output.append(f"- **Food Items:** {len(foods)}")
+    output.append("")
+    
+    # Analyze weapon traits
+    weapon_traits = {}
+    for weapon in weapons:
+        if hasattr(weapon['instance'], 'attack_traits') and weapon['instance'].attack_traits:
+            for trait in weapon['instance'].attack_traits:
+                trait_name = trait.name
+                if trait_name not in weapon_traits:
+                    weapon_traits[trait_name] = []
+                weapon_traits[trait_name].append(weapon['name'])
+    
+    output.append("### Weapon Attack Traits")
+    if weapon_traits:
+        # Sort by frequency
+        sorted_traits = sorted(weapon_traits.items(), key=lambda x: len(x[1]), reverse=True)
+        for trait_name, weapon_names in sorted_traits:
+            output.append(f"- **{trait_name}:** {len(weapon_names)} weapons")
+            if len(weapon_names) <= 5:  # Show weapon names if not too many
+                output.append(f"  - {', '.join(weapon_names)}")
+    else:
+        output.append("No weapon traits found")
+    output.append("")
+    
+    # Analyze armor traits
+    armor_resistances = {}
+    armor_weaknesses = {}
+    
+    for armor_item in armor:
+        if hasattr(armor_item['instance'], 'resistances') and armor_item['instance'].resistances:
+            for res in armor_item['instance'].resistances:
+                res_name = res.name
+                if res_name not in armor_resistances:
+                    armor_resistances[res_name] = []
+                armor_resistances[res_name].append(armor_item['name'])
+        
+        if hasattr(armor_item['instance'], 'weaknesses') and armor_item['instance'].weaknesses:
+            for weak in armor_item['instance'].weaknesses:
+                weak_name = weak.name
+                if weak_name not in armor_weaknesses:
+                    armor_weaknesses[weak_name] = []
+                armor_weaknesses[weak_name].append(armor_item['name'])
+    
+    output.append("### Armor Resistances")
+    if armor_resistances:
+        sorted_res = sorted(armor_resistances.items(), key=lambda x: len(x[1]), reverse=True)
+        for res_name, armor_names in sorted_res:
+            output.append(f"- **{res_name}:** {len(armor_names)} armors")
+            if len(armor_names) <= 3:
+                output.append(f"  - {', '.join(armor_names)}")
+    else:
+        output.append("No armor resistances found")
+    output.append("")
+    
+    if armor_weaknesses:
+        output.append("### Armor Weaknesses")
+        sorted_weak = sorted(armor_weaknesses.items(), key=lambda x: len(x[1]), reverse=True)
+        for weak_name, armor_names in sorted_weak:
+            output.append(f"- **{weak_name}:** {len(armor_names)} armors")
+            if len(armor_names) <= 3:
+                output.append(f"  - {', '.join(armor_names)}")
+        output.append("")
+    
+    # Analyze accessory traits
+    accessory_traits = {}
+    accessory_resistances = {}
+    
+    for acc in accessories:
+        if hasattr(acc['instance'], 'attack_traits') and acc['instance'].attack_traits:
+            for trait in acc['instance'].attack_traits:
+                trait_name = trait.name
+                if trait_name not in accessory_traits:
+                    accessory_traits[trait_name] = []
+                accessory_traits[trait_name].append(acc['name'])
+        
+        if hasattr(acc['instance'], 'resistances') and acc['instance'].resistances:
+            for res in acc['instance'].resistances:
+                res_name = res.name
+                if res_name not in accessory_resistances:
+                    accessory_resistances[res_name] = []
+                accessory_resistances[res_name].append(acc['name'])
+    
+    if accessory_traits or accessory_resistances:
+        output.append("### Accessory Traits")
+        if accessory_traits:
+            sorted_traits = sorted(accessory_traits.items(), key=lambda x: len(x[1]), reverse=True)
+            for trait_name, acc_names in sorted_traits:
+                output.append(f"- **{trait_name} (Attack):** {len(acc_names)} accessories")
+                if len(acc_names) <= 3:
+                    output.append(f"  - {', '.join(acc_names)}")
+        
+        if accessory_resistances:
+            sorted_res = sorted(accessory_resistances.items(), key=lambda x: len(x[1]), reverse=True)
+            for res_name, acc_names in sorted_res:
+                output.append(f"- **{res_name} (Resist):** {len(acc_names)} accessories")
+                if len(acc_names) <= 3:
+                    output.append(f"  - {', '.join(acc_names)}")
+        output.append("")
+    
+    # Highest stat items
+    output.append("### Notable Items")
+    
+    # Highest attack weapon
+    if weapons:
+        highest_attack = max(weapons, key=lambda w: w['instance'].attack_bonus if hasattr(w['instance'], 'attack_bonus') else 0)
+        output.append(f"**Highest Attack Weapon:** {highest_attack['name']} (+{highest_attack['instance'].attack_bonus} attack)")
+    
+    # Highest defense armor
+    if armor:
+        highest_defense = max(armor, key=lambda a: a['instance'].defense_bonus if hasattr(a['instance'], 'defense_bonus') else 0)
+        output.append(f"**Highest Defense Armor:** {highest_defense['name']} (+{highest_defense['instance'].defense_bonus} defense)")
+    
+    # Most valuable accessory (by total stat bonuses)
+    if accessories:
+        def acc_value(acc):
+            inst = acc['instance']
+            value = 0
+            if hasattr(inst, 'attack_bonus'): value += inst.attack_bonus
+            if hasattr(inst, 'defense_bonus'): value += inst.defense_bonus
+            if hasattr(inst, 'fov_bonus'): value += inst.fov_bonus
+            if hasattr(inst, 'health_aspect_bonus'): value += inst.health_aspect_bonus * 10
+            if hasattr(inst, 'evade_bonus'): value += inst.evade_bonus * 100
+            if hasattr(inst, 'crit_bonus'): value += inst.crit_bonus * 100
+            if hasattr(inst, 'crit_multiplier_bonus'): value += inst.crit_multiplier_bonus * 10
+            return value
+        
+        best_acc = max(accessories, key=acc_value)
+        output.append(f"**Most Powerful Accessory:** {best_acc['name']}")
+    
     # Write to file
     docs_path = Path(__file__).parent / 'docs'
     docs_path.mkdir(exist_ok=True)
@@ -395,6 +551,7 @@ def generate_grimoire():
         f.write('\n'.join(output))
     
     print(f"Grimoire generated successfully at: {grimoire_path}")
+    print(f"Total items: {len(consumables) + len(weapons) + len(armor) + len(accessories)}")
     return grimoire_path
 
 
