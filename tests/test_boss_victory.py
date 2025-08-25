@@ -71,13 +71,13 @@ def test_devil_boss_combat_strength():
 
 def test_monster_creation_level_10():
     """Test that create_monster_for_level returns Devil for level 10."""
-    monster_class = create_monster_for_level(10)
+    monster = create_monster_for_level(10)
     
     # Level 10 should always return Devil
-    assert monster_class == Devil
+    assert isinstance(monster, Devil)
     
-    # Create instance and verify it's a boss
-    devil = monster_class(5, 5)
+    # Verify it's a boss
+    devil = monster
     assert isinstance(devil, Devil)
     assert hasattr(devil, 'is_final_boss')
     assert devil.is_final_boss == True
@@ -99,7 +99,7 @@ def test_boss_victory_condition_concept():
     """Test the victory condition logic concepts."""
     # Test boss identification
     devil = Devil(10, 10)
-    non_boss = create_monster_for_level(5)(10, 10)  # Create a non-boss monster
+    non_boss = create_monster_for_level(5)  # Create a non-boss monster
     
     # Devil should be identified as final boss
     assert hasattr(devil, 'is_final_boss') and devil.is_final_boss

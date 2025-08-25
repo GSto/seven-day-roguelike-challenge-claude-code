@@ -16,8 +16,8 @@ def test_level_9_no_devils():
     total_tests = 100
     
     for _ in range(total_tests):
-        monster_class = create_monster_for_level(9)
-        if monster_class == Devil:
+        monster = create_monster_for_level(9)
+        if isinstance(monster, Devil):
             devil_count += 1
     
     # Level 9 should NEVER spawn devils
@@ -32,8 +32,8 @@ def test_level_10_only_devils():
     total_tests = 100
     
     for _ in range(total_tests):
-        monster_class = create_monster_for_level(10)
-        if monster_class == Devil:
+        monster = create_monster_for_level(10)
+        if isinstance(monster, Devil):
             devil_count += 1
     
     # Level 10 should ALWAYS spawn devils
@@ -50,8 +50,8 @@ def test_level_distribution():
         total_tests = 100
         
         for _ in range(total_tests):
-            monster_class = create_monster_for_level(level)
-            monster_name = monster_class.__name__
+            monster = create_monster_for_level(level)
+            monster_name = type(monster).__name__
             monster_counts[monster_name] = monster_counts.get(monster_name, 0) + 1
         
         print(f"Level {level}: {monster_counts}")
@@ -85,8 +85,8 @@ def test_specific_level_checks():
     # Test level 8 - should be Goblins, Trolls, and Horrors only
     level_8_monsters = set()
     for _ in range(50):
-        monster_class = create_monster_for_level(8)
-        level_8_monsters.add(monster_class.__name__)
+        monster = create_monster_for_level(8)
+        level_8_monsters.add(type(monster).__name__)
     
     assert 'Devil' not in level_8_monsters
     assert any(monster in level_8_monsters for monster in ['Goblin', 'Troll', 'Horror'])
@@ -95,8 +95,8 @@ def test_specific_level_checks():
     # Test level 9 - should be Goblins, Trolls, and Horrors only
     level_9_monsters = set()
     for _ in range(50):
-        monster_class = create_monster_for_level(9)
-        level_9_monsters.add(monster_class.__name__)
+        monster = create_monster_for_level(9)
+        level_9_monsters.add(type(monster).__name__)
     
     assert 'Devil' not in level_9_monsters
     assert any(monster in level_9_monsters for monster in ['Goblin', 'Troll', 'Horror'])
@@ -105,8 +105,8 @@ def test_specific_level_checks():
     # Test level 10 - should be Devils only
     level_10_monsters = set()
     for _ in range(50):
-        monster_class = create_monster_for_level(10)
-        level_10_monsters.add(monster_class.__name__)
+        monster = create_monster_for_level(10)
+        level_10_monsters.add(type(monster).__name__)
     
     assert level_10_monsters == {'Devil'}
     print("✓ Level 10 spawns only devils")

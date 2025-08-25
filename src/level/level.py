@@ -168,8 +168,7 @@ class Level:
                 # Don't place monsters on stairs
                 if not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)):
                     # Create appropriate monster for this level
-                    monster_class = create_monster_for_level(self.level_number)
-                    monster = monster_class(x, y)
+                    monster = create_monster_for_level(self.level_number, x, y)
                     self.monsters.append(monster)
                     monsters_placed += 1
     
