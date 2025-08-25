@@ -147,37 +147,37 @@ class ItemPool:
             # Basic rings
             ItemSpec(PowerRing, 'accessory', 2.0, 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(ProtectionRing, 'accessory', 2.0, 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GreaterPowerRing, 'accessory', 4.0, 6, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GreaterProtectionRing, 'accessory', 4.0, 6, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GreaterPowerRing, 'accessory', 4.0, 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GreaterProtectionRing, 'accessory', 4.0, 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             
             # Special accessories (available from mid-game)
-            ItemSpec(BaronsCrown, 'accessory', 2.5, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(JewelersCap, 'accessory', 2.5, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(Rosary, 'accessory', 2.3, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(HeadLamp, 'accessory', 2.0, 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(ShadowRing, 'accessory', 2.8, 4, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(RingOfPrecision, 'accessory', 2.6, 3, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(BrutalityAmulet, 'accessory', 3.0, 4, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(AssassinsMask, 'accessory', 3.2, 5, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GravePact, 'accessory', 3.5, 5, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(SturdyRock, 'accessory', 2.2, 3, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(PunishTheWeak, 'accessory', 2.8, 4, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(BaronsCrown, 'accessory', 2.5, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(JewelersCap, 'accessory', 2.5, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(Rosary, 'accessory', 2.3, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(HeadLamp, 'accessory', 2.0, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(ShadowRing, 'accessory', 2.8, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(RingOfPrecision, 'accessory', 2.6, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(BrutalityAmulet, 'accessory', 3.0, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(AssassinsMask, 'accessory', 3.2, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GravePact, 'accessory', 3.5, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(SturdyRock, 'accessory', 2.2, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(PunishTheWeak, 'accessory', 2.8, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(StrikeBonus, 'accessory', 2.4, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(SlashBonus, 'accessory', 2.4, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(ElementalMayhem, 'accessory', 3.8, 6, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GodsEye, 'accessory', 5.0, 8, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['legendary']),
-            ItemSpec(SavingThrow, 'accessory', 3.0, 4, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(Anaglyph, 'accessory', 3.3, 5, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(MallNinja, 'accessory', 2.6, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(RighteousFury, 'accessory', 3.4, 5, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(SongOfIceAndFire, 'accessory', 3.6, 5, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(ElementalMayhem, 'accessory', 3.8, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GodsEye, 'accessory', 5.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['legendary']),
+            ItemSpec(SavingThrow, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(Anaglyph, 'accessory', 3.3, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(MallNinja, 'accessory', 2.6, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(RighteousFury, 'accessory', 3.4, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(SongOfIceAndFire, 'accessory', 3.6, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             
             # Cards (mid to late game)
-            ItemSpec(AceOfHearts, 'accessory', 3.0, 4, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(AceOfClubs, 'accessory', 3.0, 4, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(AceOfDiamonds, 'accessory', 3.0, 4, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(AceOfSpades, 'accessory', 3.0, 4, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(Joker, 'accessory', 4.0, 6, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfHearts, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfClubs, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfDiamonds, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfSpades, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(Joker, 'accessory', 4.0, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True, tags=['card']),
         ]
         
         # CONSUMABLES (no uniqueness constraints)
@@ -192,7 +192,7 @@ class ItemPool:
             ItemSpec(Carrot, 'consumable', 1.0, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             
             # Status consumables
-            ItemSpec(Antidote, 'consumable', 1.2, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Antidote, 'consumable', 1.2, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
             ItemSpec(ShellPotion, 'consumable', 1.5, 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             ItemSpec(MezzoForte, 'consumable', 1.5, 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             
@@ -227,7 +227,7 @@ class ItemPool:
             ItemSpec(MayhemsBoon, 'consumable', 3.0, 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['boon']),
             
             # End game consumable
-            ItemSpec(Elixir, 'consumable', 5.0, 9, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Elixir, 'consumable', 5.0, 8, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
         ]
     
     def start_new_floor(self, level: int):
