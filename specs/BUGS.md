@@ -1,7 +1,1 @@
-- [FIXED] when you select a boon, there is nothing visible in the inventory UI indicating that you can pick a weapon. The Log is not visible.
-- [FIXED] when you use a consumable in the first inventory slot, inventory pointer should default back to first inventory slot
-- [FIXED] pressing 'enter' on an equipped item or accessory should remove it entirely
-- [FIXED] enchanment modifiers on weapons and armor should be uppercase ('flaming Dagger' -> 'Flaming Dagger')
-- [FIXED] There should be a line of space in the bottom UI (between the line that has Weapon: Armor: and the game log)
-- [FIXED] Anaglyph accessory does not display correctly in the UI. if your start Atk was 8 and Def was 12, it should display as ATK: 10, DEF: 10. This should also be the values used to calculate attack and defense.
-- [FIXED] Remove Map, Compass, and Bomb consumables
+- Equipement with multiple bonuses should show all of them in description and inventory list

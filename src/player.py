@@ -7,6 +7,9 @@ from traits import Trait
 from status_effects import StatusEffects
 from entity import Entity
 from stats import Stats, StatType
+from event_emitter import EventEmitter
+from event_type import EventType
+from event_context import HealContext, ConsumeContext, LevelUpContext
 
 
 class Player(Entity):
@@ -95,9 +98,16 @@ class Player(Entity):
     
     def heal(self, amount):
         """Heal the player."""
+        old_hp = self.hp
         if(self.hp < self.max_hp):
             self.heal_count += 1
         self.hp = min(self.max_hp, self.hp + amount)
+        
+        actual_heal = self.hp - old_hp
+        if actual_heal > 0:
+            event_emitter = EventEmitter()
+            context = HealContext(player=self, amount_healed=actual_heal)
+            event_emitter.emit(EventType.PLAYER_HEAL, context)
     
     def gain_xp(self, amount):
         """Gain experience points with multiplier."""
@@ -119,6 +129,7 @@ class Player(Entity):
     def level_up(self):
         """Level up the player."""
         self.xp -= self.xp_to_next
+        old_level = self.level
         self.level += 1
         self.xp_to_next = int(self.xp_to_next * 1.4)
         
@@ -128,10 +139,20 @@ class Player(Entity):
         hp_gained = self.max_hp - old_max_hp
         self.hp = min(self.hp + hp_gained, self.max_hp)  # heal for HP gained without going over max
         
+        stat_increases = {}
         if self.level % 3 == 0:
           self.defense += 1
+          stat_increases['defense'] = 1
         else:
           self.attack += 1
+          stat_increases['attack'] = 1
+        
+        stat_increases['max_hp'] = hp_gained
+        
+        # Emit level up event
+        event_emitter = EventEmitter()
+        context = LevelUpContext(player=self, new_level=self.level, stat_increases=stat_increases)
+        event_emitter.emit(EventType.LEVEL_UP, context)
         
         # Return level up info for UI message
         return True

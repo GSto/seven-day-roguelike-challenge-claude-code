@@ -6,7 +6,7 @@ from .base import Armor
 
 
 class CoatedPlate(Armor):
-    """Mid-game+ armor. +4 DEF. Immune to poison, burn, stun."""
+    """+4 DEF. Immune to poison, burn, stun."""
     
     def __init__(self, x, y):
         super().__init__(x, y, "Coated Plate", '[', 4, 
