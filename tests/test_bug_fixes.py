@@ -60,20 +60,20 @@ def test_spiked_armor_stats():
 
 def test_devil_spawning_levels():
     """Test that devils only spawn on level 10, not level 9."""
-    # Test level 9 - should NOT spawn dragons
+    # Test level 9 - should NOT spawn devils
     level_9_monsters = set()
     for _ in range(100):  # Test many spawns
-        monster_class = create_monster_for_level(9)
-        level_9_monsters.add(monster_class.__name__)
+        monster = create_monster_for_level(9)
+        level_9_monsters.add(type(monster).__name__)
     
     assert 'Devil' not in level_9_monsters, f"Devils found on level 9: {level_9_monsters}"
     print(f"Level 9 monsters: {level_9_monsters}")
     
-    # Test level 10 - should ONLY spawn dragons
+    # Test level 10 - should ONLY spawn devils
     level_10_monsters = set()
     for _ in range(50):  # Test many spawns
-        monster_class = create_monster_for_level(10)
-        level_10_monsters.add(monster_class.__name__)
+        monster = create_monster_for_level(10)
+        level_10_monsters.add(type(monster).__name__)
     
     assert level_10_monsters == {'Devil'}, f"Expected only Devils on level 10, got: {level_10_monsters}"
     print(f"Level 10 monsters: {level_10_monsters}")
@@ -86,8 +86,8 @@ def test_level_progression_monsters():
     for level in range(1, 11):
         monsters = set()
         for _ in range(20):
-            monster_class = create_monster_for_level(level)
-            monsters.add(monster_class.__name__)
+            monster = create_monster_for_level(level)
+            monsters.add(type(monster).__name__)
         
         print(f"Level {level}: {sorted(monsters)}")
         

@@ -81,6 +81,15 @@ This project plan breaks down the development of a complete roguelike game into 
 - ✅ Equipment UI display (shows equipped items in inventory screen)
 - ✅ Item usage mechanics (consumable potions heal player when used)
 
+### 4.4 Advanced Item Pool System ✅ COMPLETED
+- ✅ ItemSpec dataclass for item specifications with difficulty ratings and spawn rules
+- ✅ ItemPool class with smooth difficulty curves and uniqueness constraints
+- ✅ Uniqueness tracking: weapons/armor unique per floor, accessories unique per game
+- ✅ Weight-based spawning with difficulty matching and level transition smoothing
+- ✅ Level-appropriate item distribution with enchantment chance scaling
+- ✅ Boss-tier items (DemonSlayer) with high spawn weight on level 10
+- ✅ Comprehensive test coverage for all uniqueness constraints and difficulty scaling
+
 ## Phase 5: User Interface (Day 5) ✅ COMPLETED
 
 ### 5.1 Game UI ✅ COMPLETED

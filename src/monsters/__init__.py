@@ -12,7 +12,7 @@ from .troll import Troll
 from .horror import Horror
 from .angel import Angel
 from .devil import Devil
-from .factory import create_monster_for_level
+from .pool import create_monster_for_level
 
 __all__ = [
     'Monster',
