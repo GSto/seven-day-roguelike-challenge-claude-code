@@ -16,7 +16,7 @@ class Orc(Monster):
             name="Orc",
             char='O',
             color=COLOR_RED,
-            hp=25,
+            hp=45,
             attack=9,
             defense=2,
             xp_value=20,

@@ -1,5 +1,5 @@
 """
-Item pool system for managing item spawning with difficulty curves and uniqueness constraints.
+Item pool system for managing item spawning with rarity-based drop rates and uniqueness constraints.
 """
 
 import random
@@ -13,13 +13,11 @@ RARITY_COMMON = 1.0
 RARITY_UNCOMMON = 0.6
 RARITY_RARE = 0.3
 
-
 @dataclass
 class ItemSpec:
-    """Specification for an item type including difficulty and spawn rules."""
+    """Specification for an item type including spawn rules."""
     item_class: Type           # The item class to instantiate
     item_type: str             # 'weapon', 'armor', 'accessory', 'consumable'
-    difficulty_rating: float   # Relative difficulty/power (1.0 = baseline)
     min_level: int            # Earliest level this item can appear
     max_level: Optional[int]  # Latest level (None = no limit)
     rarity: float            # Base spawn weight (higher = more common)
@@ -29,7 +27,7 @@ class ItemSpec:
 
 
 class ItemPool:
-    """Manages item spawning with smooth difficulty curves and uniqueness tracking."""
+    """Manages item spawning with rarity-based drop rates and uniqueness tracking."""
     
     def __init__(self):
         self.weapon_specs: List[ItemSpec] = []
@@ -84,150 +82,150 @@ class ItemPool:
         # WEAPONS
         self.weapon_specs = [
             # Early game weapons (levels 1-4)
-            ItemSpec(Dagger, 'weapon', 1.0, 1, 4, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Sword, 'weapon', 1.5, 1, 5, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Shield, 'weapon', 1.3, 1, 6, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Katana, 'weapon', 1.8, 1, 5, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Dagger, 'weapon', 1, 4, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Sword, 'weapon', 1, 5, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Shield, 'weapon', 1, 6, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Katana, 'weapon', 1, 5, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             
             # Mid game weapons (levels 3-7)
-            ItemSpec(Axe, 'weapon', 2.5, 3, 7, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(MorningStar, 'weapon', 2.8, 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(ClericsStaff, 'weapon', 2.0, 2, 7, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Gauntlets, 'weapon', 2.3, 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(MateriaStaff, 'weapon', 2.5, 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Uchigatana, 'weapon', 3.0, 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Pickaxe, 'weapon', 2.2, 2, 7, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(SnakesFang, 'weapon', 2.4, 3, 7, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Rapier, 'weapon', 2.6, 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(AcidDagger, 'weapon', 2.3, 3, 7, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(BigStick, 'weapon', 2.0, 2, 6, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Axe, 'weapon', 3, 7, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(MorningStar, 'weapon', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(ClericsStaff, 'weapon', 2, 7, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Gauntlets, 'weapon', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(MateriaStaff, 'weapon', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Uchigatana, 'weapon', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Pickaxe, 'weapon', 2, 7, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(SnakesFang, 'weapon', 3, 7, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Rapier, 'weapon', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(AcidDagger, 'weapon', 3, 7, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(BigStick, 'weapon', 2, 6, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
             
             # Late game weapons (levels 6-9)
-            ItemSpec(Longsword, 'weapon', 3.5, 6, 9, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(WarHammer, 'weapon', 4.0, 7, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(WarScythe, 'weapon', 4.2, 7, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(TowerShield, 'weapon', 3.8, 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(ClairObscur, 'weapon', 4.5, 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(FeuGlace, 'weapon', 4.5, 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Longsword, 'weapon', 6, 9, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(WarHammer, 'weapon', 7, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(WarScythe, 'weapon', 7, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(TowerShield, 'weapon', 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(ClairObscur, 'weapon', 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(FeuGlace, 'weapon', 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             
             # End game weapons (levels 9-10)
-            ItemSpec(RiversOfBlood, 'weapon', 5.0, 9, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(DemonSlayer, 'weapon', 10.0, 10, 10, RARITY_COMMON, unique_per_floor=True, unique_per_game=False, tags=['boss_weapon']),
+            ItemSpec(RiversOfBlood, 'weapon', 9, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(DemonSlayer, 'weapon', 10, 10, RARITY_COMMON, unique_per_floor=True, unique_per_game=False, tags=['boss_weapon']),
         ]
         
         # ARMOR
         self.armor_specs = [
             # Early game armor (levels 1-4)
-            ItemSpec(LeatherArmor, 'armor', 1.0, 1, 4, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(SafetyVest, 'armor', 1.2, 1, 5, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(Cloak, 'armor', 1.1, 1, 5, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(LeatherArmor, 'armor', 1, 4, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(SafetyVest, 'armor', 1, 5, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Cloak, 'armor', 1, 5, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
             
             # Default armor (all levels)
-            ItemSpec(SpikedArmor, 'armor', 2.0, 1, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(GamblersVest, 'armor', 1.8, 1, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(MinimalSuit, 'armor', 1.5, 1, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(SpikedArmor, 'armor', 1, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(GamblersVest, 'armor', 1, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(MinimalSuit, 'armor', 1, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             
             # Mid game armor (levels 3-7)
-            ItemSpec(ChainMail, 'armor', 2.5, 3, 7, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(NightCloak, 'armor', 2.3, 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(CoatedPlate, 'armor', 2.8, 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(AntiAngelTechnology, 'armor', 3.0, 4, 8, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(SpikedCuirass, 'armor', 2.6, 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(UtilityBelt, 'armor', 2.4, 3, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(SOSArmor, 'armor', 2.7, 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(ChainMail, 'armor', 3, 7, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(NightCloak, 'armor', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(CoatedPlate, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(AntiAngelTechnology, 'armor', 4, 8, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(SpikedCuirass, 'armor', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(UtilityBelt, 'armor', 3, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(SOSArmor, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             
             # Late game armor (levels 6-10)
-            ItemSpec(PlateArmor, 'armor', 4.0, 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(ShadowCloak, 'armor', 3.8, 6, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(DragonScale, 'armor', 5.0, 9, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(PlateArmor, 'armor', 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(ShadowCloak, 'armor', 6, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(DragonScale, 'armor', 9, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
         ]
         
         # ACCESSORIES (unique per game)
         self.accessory_specs = [
             # Basic rings
-            ItemSpec(PowerRing, 'accessory', 2.0, 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(ProtectionRing, 'accessory', 2.0, 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GreaterPowerRing, 'accessory', 4.0, 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GreaterProtectionRing, 'accessory', 4.0, 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(PowerRing, 'accessory', 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(ProtectionRing, 'accessory', 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GreaterPowerRing, 'accessory', 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GreaterProtectionRing, 'accessory', 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             
             # Special accessories (available from mid-game)
-            ItemSpec(BaronsCrown, 'accessory', 2.5, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(JewelersCap, 'accessory', 2.5, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(Rosary, 'accessory', 2.3, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(HeadLamp, 'accessory', 2.0, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(ShadowRing, 'accessory', 2.8, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(RingOfPrecision, 'accessory', 2.6, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(BrutalityAmulet, 'accessory', 3.0, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(AssassinsMask, 'accessory', 3.2, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GravePact, 'accessory', 3.5, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(SturdyRock, 'accessory', 2.2, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(PunishTheWeak, 'accessory', 2.8, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(StrikeBonus, 'accessory', 2.4, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(SlashBonus, 'accessory', 2.4, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(ElementalMayhem, 'accessory', 3.8, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(GodsEye, 'accessory', 5.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['legendary']),
-            ItemSpec(SavingThrow, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(Anaglyph, 'accessory', 3.3, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(MallNinja, 'accessory', 2.6, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(RighteousFury, 'accessory', 3.4, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(SongOfIceAndFire, 'accessory', 3.6, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(BaronsCrown, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(JewelersCap, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(Rosary, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(HeadLamp, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(ShadowRing, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(RingOfPrecision, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(BrutalityAmulet, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(AssassinsMask, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GravePact, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(SturdyRock, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(PunishTheWeak, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(StrikeBonus, 'accessory', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(SlashBonus, 'accessory', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(ElementalMayhem, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(GodsEye, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['legendary']),
+            ItemSpec(SavingThrow, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(Anaglyph, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(MallNinja, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(RighteousFury, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(SongOfIceAndFire, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             
             # Cards (mid to late game)
-            ItemSpec(AceOfHearts, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(AceOfClubs, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(AceOfDiamonds, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(AceOfSpades, 'accessory', 3.0, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
-            ItemSpec(Joker, 'accessory', 4.0, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfHearts, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfClubs, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfDiamonds, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfSpades, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(Joker, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True, tags=['card']),
         ]
         
         # CONSUMABLES (no uniqueness constraints)
         self.consumable_specs = [
             # Basic consumables (all levels)
-            ItemSpec(HealthPotion, 'consumable', 1.0, 1, None, RARITY_COMMON * 1.5, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(Beef, 'consumable', 1.0, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(Chicken, 'consumable', 1.0, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(SalmonOfKnowledge, 'consumable', 1.5, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(D6, 'consumable', 1.2, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(MagicMushroom, 'consumable', 1.3, 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(Carrot, 'consumable', 1.0, 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(HealthPotion, 'consumable', 1, None, RARITY_COMMON * 1.5, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Beef, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Chicken, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(SalmonOfKnowledge, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(D6, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(MagicMushroom, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Carrot, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             
             # Status consumables
-            ItemSpec(Antidote, 'consumable', 1.2, 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(ShellPotion, 'consumable', 1.5, 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(MezzoForte, 'consumable', 1.5, 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Antidote, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(ShellPotion, 'consumable', 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(MezzoForte, 'consumable', 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             
             # Special consumables
-            ItemSpec(SwordsToPlowshares, 'consumable', 2.0, 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(Transmutation, 'consumable', 2.0, 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(SwordsToPlowshares, 'consumable', 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Transmutation, 'consumable', 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             
             # Catalysts (mid-game+)
-            ItemSpec(PowerCatalyst, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(DefenseCatalyst, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(JewelerCatalyst, 'consumable', 2.5, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(ReapersCatalyst, 'consumable', 2.5, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(ShadowsCatalyst, 'consumable', 2.5, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(BaronCatalyst, 'consumable', 2.5, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(WardenCatalyst, 'consumable', 2.5, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(FireResistanceCatalyst, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(IceResistanceCatalyst, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(HolyResistanceCatalyst, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(DarkResistanceCatalyst, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(PowerCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(DefenseCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(JewelerCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(ReapersCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(ShadowsCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(BaronCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(WardenCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(FireResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(IceResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(HolyResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(DarkResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
             
             # Boons (mid-game+)
-            ItemSpec(BaronsBoon, 'consumable', 2.5, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(JewelersBoon, 'consumable', 2.5, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(MinersBoon, 'consumable', 2.5, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(ClericsBoon, 'consumable', 2.5, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(JokersBoon, 'consumable', 3.0, 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(ReapersBoon, 'consumable', 2.5, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(FireBoon, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(IceBoon, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(HolyBoon, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(DarkBoon, 'consumable', 2.0, 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(MayhemsBoon, 'consumable', 3.0, 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(BaronsBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(JewelersBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(MinersBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(ClericsBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(JokersBoon, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(ReapersBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(FireBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(IceBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(HolyBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(DarkBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(MayhemsBoon, 'consumable', 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['boon']),
             
             # End game consumable
-            ItemSpec(Elixir, 'consumable', 5.0, 8, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Elixir, 'consumable', 8, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
         ]
     
     def start_new_floor(self, level: int):
@@ -258,12 +256,11 @@ class ItemPool:
         # No uniqueness constraint (consumables)
         return True
     
-    def calculate_spawn_weight(self, item_spec: ItemSpec, level: int, 
-                             target_difficulty: float) -> float:
+    def calculate_spawn_weight(self, item_spec: ItemSpec, level: int) -> float:
         """
         Calculate spawn weight considering:
         - Base rarity
-        - Difficulty matching (prefer items near target difficulty)
+        - Level range constraints
         - Level transition smoothing (phase in/out gradually)
         - Uniqueness availability
         """
@@ -281,13 +278,8 @@ class ItemPool:
         if level == 10 and 'boss_weapon' in item_spec.tags:
             return 100.0  # Extremely high weight for DemonSlayer on level 10
         
-        # Base weight from rarity
+        # Base weight from rarity only
         weight = item_spec.rarity
-        
-        # Difficulty matching - prefer items near target difficulty
-        difficulty_diff = abs(item_spec.difficulty_rating - target_difficulty)
-        difficulty_factor = math.exp(-difficulty_diff * 0.5)  # Gaussian-like curve
-        weight *= difficulty_factor
         
         # Level transition smoothing
         # Phase in: gradually increase weight as we get further from min_level
@@ -304,17 +296,6 @@ class ItemPool:
         
         return weight
     
-    def get_target_difficulty_for_level(self, level: int) -> float:
-        """Get the target difficulty rating for a given level."""
-        # Smooth difficulty curve from 1.0 to 5.0+ over 10 levels
-        if level <= 2:
-            return 1.0 + (level - 1) * 0.5  # 1.0 - 1.5
-        elif level <= 5:
-            return 1.5 + (level - 2) * 0.5  # 2.0 - 3.0
-        elif level <= 8:
-            return 3.0 + (level - 5) * 0.5  # 3.5 - 4.5
-        else:
-            return 4.5 + (level - 8) * 1.0  # 5.5 - 6.5
     
     def get_item_type_weights(self, level: int) -> Dict[str, float]:
         """
@@ -322,7 +303,7 @@ class ItemPool:
         """
         if level <= 2:
             # Early game: mostly consumables, some weapons/armor, no accessories
-            return {'consumable': 0.6, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.0}
+            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
         elif level <= 5:
             # Mid game: balanced with some accessories
             return {'consumable': 0.5, 'weapon': 0.2, 'armor': 0.15, 'accessory': 0.15}
@@ -333,13 +314,12 @@ class ItemPool:
             # End game: focus on powerful equipment
             return {'consumable': 0.3, 'weapon': 0.25, 'armor': 0.25, 'accessory': 0.2}
     
-    def _get_weighted_pool(self, specs: List[ItemSpec], level: int, 
-                          target_difficulty: float) -> List[Tuple[ItemSpec, float]]:
+    def _get_weighted_pool(self, specs: List[ItemSpec], level: int) -> List[Tuple[ItemSpec, float]]:
         """Get a list of (ItemSpec, weight) tuples for weighted random selection."""
         # Don't cache pools since uniqueness state changes during gameplay
         weighted_pool = []
         for spec in specs:
-            weight = self.calculate_spawn_weight(spec, level, target_difficulty)
+            weight = self.calculate_spawn_weight(spec, level)
             if weight > 0:
                 weighted_pool.append((spec, weight))
         
@@ -380,8 +360,6 @@ class ItemPool:
         Returns:
             An item instance appropriate for the level
         """
-        target_difficulty = self.get_target_difficulty_for_level(level)
-        
         # If no specific type requested, choose based on level weights
         if item_type is None:
             type_weights = self.get_item_type_weights(level)
@@ -407,7 +385,7 @@ class ItemPool:
             item_type = 'consumable'
         
         # Get weighted pool and select item
-        weighted_pool = self._get_weighted_pool(specs, level, target_difficulty)
+        weighted_pool = self._get_weighted_pool(specs, level)
         selected_spec = self._select_item_from_pool(weighted_pool)
         
         # If no item could be selected and not forcing type, try other types
@@ -426,7 +404,7 @@ class ItemPool:
                 else:
                     specs = self.consumable_specs
                 
-                weighted_pool = self._get_weighted_pool(specs, level, target_difficulty)
+                weighted_pool = self._get_weighted_pool(specs, level)
                 selected_spec = self._select_item_from_pool(weighted_pool)
                 
                 if selected_spec is not None:

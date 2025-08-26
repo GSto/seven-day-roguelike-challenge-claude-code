@@ -15,6 +15,7 @@ from .troll import Troll
 from .horror import Horror
 from .angel import Angel
 from .devil import Devil
+from .naga import Naga
 
 
 @dataclass
@@ -40,13 +41,14 @@ class MonsterPool:
             
             # Mid-early monsters (levels 2-6) 
             MonsterSpec(Orc, 1.8, 3, 7, 0.7),
-            MonsterSpec(Phantom, 2.0, 4, 8, 0.6),
-            MonsterSpec(Goblin, 2.2, 4, 9, 0.8),
+            MonsterSpec(Phantom, 2.0, 3, 8, 0.6),
+            MonsterSpec(Goblin, 2.2, 2, 9, 0.8),
+            MonsterSpec(Naga, 3.0, 4, None, 0.5),
             
             # Mid-late monsters (levels 5-9)
             MonsterSpec(Troll, 3.0, 5, None, 0.5),
-            MonsterSpec(Angel, 3.5, 7, None, 0.4),
-            MonsterSpec(Horror, 4.0, 7, None, 0.3),
+            MonsterSpec(Angel, 3.5, 6, None, 0.4),
+            MonsterSpec(Horror, 4.0, 6, None, 0.3),
             
             # Boss monster (level 10 only)
             MonsterSpec(Devil, 10.0, 10, 10, 1.0, boss_only=False),

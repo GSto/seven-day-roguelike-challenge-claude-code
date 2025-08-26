@@ -2,15 +2,20 @@ from enum import Enum, auto
 
 
 class Trait(Enum):
+    # elemental types
     FIRE = auto()
     ICE = auto()
     HOLY = auto()
     DARK = auto()
     POISON = auto()
+    # physical 
     STRIKE = auto()
     SLASH = auto()
-    DEMONSLAYER = auto()
+    THWACK = auto()
+
+    # specialty types
     MYSTIC = auto()
+    DEMONSLAYER = auto()
 
     def __str__(self):
         return self.name.lower()
@@ -19,6 +24,10 @@ class Trait(Enum):
     def is_elemental(self):
         """Return True if this trait is elemental (fire, ice, holy, dark, poison)."""
         return self in {Trait.FIRE, Trait.ICE, Trait.HOLY, Trait.DARK, Trait.POISON}
+    
+    @property
+    def is_physical(self):
+        return self in {Trait.SLASH, Trait.STRIKE, Trait.THWACK}
     
     @property
     def opposing_element(self):

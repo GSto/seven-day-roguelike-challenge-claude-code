@@ -10,4 +10,4 @@ class Gauntlets(Weapon):
     """Gloves that enhance your natural strength."""
 
     def __init__(self, x, y):
-        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=2, attack_traits=[Trait.STRIKE])
+        super().__init__(x, y, "Gauntlets", ')', 0, "Enhances natural strength", attack_multiplier_bonus=2, attack_traits=[Trait.THWACK])
