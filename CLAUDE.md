@@ -69,6 +69,7 @@ Dependencies are managed in `pyproject.toml`. The main dependencies are:
 - Use type hinting. 
 - Use classes on files. 
 - Use pure functions whenever possible. 
+- Place all imports at the top of the file
 
 ### Testing Requirements
 **MANDATORY: Always write and run unit tests when implementing features or fixing bugs.**

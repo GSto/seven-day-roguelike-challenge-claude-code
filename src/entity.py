@@ -124,6 +124,9 @@ class Entity:
         """Check if the entity is alive."""
         return self.stats.get_stat(StatType.HP) > 0
     
+    def has_low_hp(self) -> bool:
+        return self.hp < min(self.max_hp * 0.3, 30)
+    
     def move(self, dx: int, dy: int) -> None:
         """Move the entity by dx, dy."""
         self.x += dx

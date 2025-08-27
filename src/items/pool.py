@@ -76,7 +76,8 @@ class ItemPool:
             BrutalityAmulet, AssassinsMask, GravePact, SturdyRock, PunishTheWeak,
             StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, SavingThrow, Anaglyph,
             MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
-            AceOfDiamonds, AceOfSpades, Joker
+            AceOfDiamonds, AceOfSpades, Joker, HealingDodge, ProtectiveLevel,
+            PsychicsTurban, TurtleShell, TurtlesBlessing, VampiresPendant, WardensTome
         )
         
         # WEAPONS
@@ -143,8 +144,8 @@ class ItemPool:
         # ACCESSORIES (unique per game)
         self.accessory_specs = [
             # Basic rings
-            ItemSpec(PowerRing, 'accessory', 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(ProtectionRing, 'accessory', 3, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(PowerRing, 'accessory', 1, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(ProtectionRing, 'accessory', 1, 7, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(GreaterPowerRing, 'accessory', 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             ItemSpec(GreaterProtectionRing, 'accessory', 4, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             
@@ -176,12 +177,21 @@ class ItemPool:
             ItemSpec(AceOfDiamonds, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
             ItemSpec(AceOfSpades, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
             ItemSpec(Joker, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            
+            # Additional accessories
+            ItemSpec(HealingDodge, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(ProtectiveLevel, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(PsychicsTurban, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(TurtleShell, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(TurtlesBlessing, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(VampiresPendant, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(WardensTome, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
         ]
         
         # CONSUMABLES (no uniqueness constraints)
         self.consumable_specs = [
             # Basic consumables (all levels)
-            ItemSpec(HealthPotion, 'consumable', 1, None, RARITY_COMMON * 1.5, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(HealthPotion, 'consumable', 1, None, RARITY_COMMON * 2.5, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Beef, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Chicken, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             ItemSpec(SalmonOfKnowledge, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),

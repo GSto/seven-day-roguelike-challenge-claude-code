@@ -59,7 +59,7 @@ class EnchantmentType(Enum):
             EnchantmentType.SHADOW: "shadow",
             EnchantmentType.FIRE: "fireproof",
             EnchantmentType.ICE: "snuggly",
-            EnchantmentType.HOLY: "hexed",
-            EnchantmentType.DARK: "haloed"
+            EnchantmentType.HOLY: "blessed",
+            EnchantmentType.DARK: "hexed"
         }
         return labels.get(self, self.value.lower())
