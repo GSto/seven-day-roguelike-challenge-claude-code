@@ -135,7 +135,7 @@ class Player(Entity):
         
         # Increase stats
         old_max_hp = self.max_hp
-        self.max_hp  = int(self.max_hp * 1.2)
+        self.max_hp  = int(max(self.max_hp,50) * 1.2) # Max de-buffs items that lower max HP
         hp_gained = self.max_hp - old_max_hp
         self.hp = min(self.hp + hp_gained, self.max_hp)  # heal for HP gained without going over max
         

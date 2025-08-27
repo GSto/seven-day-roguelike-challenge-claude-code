@@ -17,7 +17,7 @@ class Zombie(Monster):
             char='Z',
             color=COLOR_WHITE,
             hp=12,
-            attack=5,
+            attack=3,
             defense=0,
             xp_value=10,
             evade=0, #Zombies slow

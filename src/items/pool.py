@@ -131,7 +131,7 @@ class ItemPool:
             ItemSpec(CoatedPlate, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(AntiAngelTechnology, 'armor', 4, 8, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SpikedCuirass, 'armor', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(UtilityBelt, 'armor', 3, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(UtilityBelt, 'armor', 3, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SOSArmor, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             
             # Late game armor (levels 6-10)
@@ -191,38 +191,38 @@ class ItemPool:
             
             # Status consumables
             ItemSpec(Antidote, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(ShellPotion, 'consumable', 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(MezzoForte, 'consumable', 2, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(ShellPotion, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(MezzoForte, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             
             # Special consumables
             ItemSpec(SwordsToPlowshares, 'consumable', 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Transmutation, 'consumable', 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             
             # Catalysts (mid-game+)
-            ItemSpec(PowerCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(DefenseCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(JewelerCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(ReapersCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(ShadowsCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(BaronCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(WardenCatalyst, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(FireResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(IceResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(HolyResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(DarkResistanceCatalyst, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(PowerCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(DefenseCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(JewelerCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(ReapersCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(ShadowsCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(BaronCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(WardenCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
+            ItemSpec(FireResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(IceResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(HolyResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
+            ItemSpec(DarkResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
             
-            # Boons (mid-game+)
-            ItemSpec(BaronsBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(JewelersBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(MinersBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(ClericsBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(JokersBoon, 'consumable', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(ReapersBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
-            ItemSpec(FireBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(IceBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(HolyBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(DarkBoon, 'consumable', 2, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
-            ItemSpec(MayhemsBoon, 'consumable', 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            # Boons 
+            ItemSpec(BaronsBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(JewelersBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(MinersBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(ClericsBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(JokersBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(ReapersBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
+            ItemSpec(FireBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(IceBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(HolyBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(DarkBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon', 'elemental']),
+            ItemSpec(MayhemsBoon, 'consumable', 2, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['boon']),
             
             # End game consumable
             ItemSpec(Elixir, 'consumable', 8, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
@@ -302,17 +302,13 @@ class ItemPool:
         Return weights for item type selection based on level.
         """
         if level <= 2:
-            # Early game: mostly consumables, some weapons/armor, no accessories
-            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
+            return {'consumable': 0.25, 'weapon': 0.30, 'armor': 0.25, 'accessory': 0.20}
         elif level <= 5:
-            # Mid game: balanced with some accessories
-            return {'consumable': 0.5, 'weapon': 0.2, 'armor': 0.15, 'accessory': 0.15}
+            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
         elif level <= 8:
-            # Late game: slightly fewer consumables, more equipment
-            return {'consumable': 0.4, 'weapon': 0.2, 'armor': 0.2, 'accessory': 0.2}
+            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
         else:
-            # End game: focus on powerful equipment
-            return {'consumable': 0.3, 'weapon': 0.25, 'armor': 0.25, 'accessory': 0.2}
+            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
     
     def _get_weighted_pool(self, specs: List[ItemSpec], level: int) -> List[Tuple[ItemSpec, float]]:
         """Get a list of (ItemSpec, weight) tuples for weighted random selection."""

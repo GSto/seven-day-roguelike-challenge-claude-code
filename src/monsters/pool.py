@@ -42,7 +42,7 @@ class MonsterPool:
             # Mid-early monsters (levels 2-6) 
             MonsterSpec(Orc, 1.8, 3, 7, 0.7),
             MonsterSpec(Phantom, 2.0, 3, 8, 0.6),
-            MonsterSpec(Goblin, 2.2, 2, 9, 0.8),
+            MonsterSpec(Goblin, 2.2, 4, 9, 0.8),
             MonsterSpec(Naga, 3.0, 4, None, 0.5),
             
             # Mid-late monsters (levels 5-9)
