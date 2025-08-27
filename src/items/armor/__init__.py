@@ -21,6 +21,9 @@ from .anti_angel_technology import AntiAngelTechnology
 from .spiked_cuirass import SpikedCuirass
 from .utility_belt import UtilityBelt
 from .sos_armor import SOSArmor
+from .stone_armor import StoneArmor
+from .anti_devil_technology import AntiDevilTechnology
+from .turtle_shell import TurtleShell
 
 __all__ = [
     'Armor',
@@ -41,5 +44,8 @@ __all__ = [
     'AntiAngelTechnology',
     'SpikedCuirass',
     'UtilityBelt',
-    'SOSArmor'
+    'SOSArmor',
+    'TurtleShell',
+    'AntiDevilTechnology',
+    'StoneArmor'
 ]

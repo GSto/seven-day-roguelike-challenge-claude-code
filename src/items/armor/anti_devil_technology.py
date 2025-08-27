@@ -1,5 +1,5 @@
 """
-Anti-Angel Technology armor for the roguelike game.
+Anti-Devil Technology armor for the roguelike game.
 """
 
 from .base import Armor

@@ -11,7 +11,7 @@ Antidote
 Removes all negative status effects
 
 Baron's Boon
-Applies Shiny enchantment to equipped weapon (+25% damage) or armor (+25% defense)
+Applies Shiny enchantment to weapon (1.25x ATK) or armor (1.25x DEF)
 
 Baron's Catalyst
 Permanently increases attack multiplier by 10%
@@ -30,7 +30,7 @@ Roll for one of 6 random effects:
  +1 Attack, +1 Defense, +10 max HP, +1 FOV, or -20 max HP
 
 Dark Boon
-Applies Dark enchantment to equipped weapon (Dark attacks) or armor (Dark resistance)
+Applies Dark enchantment to equipped weapon or armor
 
 Defender's Catalyst
 Permanently increases defense by 1
@@ -42,19 +42,19 @@ Elixir
 Restores all health
 
 Fire Boon
-Applies Fire enchantment to equipped weapon (Fire attacks) or armor (Fire resistance)
+Applies Fire enchantment to equipped weapon or armor
 
 Health Potion
 Restores health when consumed
 
 Holy Boon
-Applies Holy enchantment to equipped weapon (Holy attacks) or armor (Holy resistance)
+Applies Holy enchantment to equipped weapon or armor
 
 Ice Boon
-Applies Ice enchantment to equipped weapon (Ice attacks) or armor (Ice resistance)
+Applies Ice enchantment to equipped weapon or armor
 
 Jeweler's Boon
-Applies Gilded enchantment to equipped weapon (+5% XP)
+Applies Gilded enchantment to equipped weapon or armor (1.05x XP)
 
 Jeweler's Catalyst
 Permanently increases XP multiplier by 5%
@@ -226,6 +226,10 @@ A simple wooden stick
 --------------------------------------------------
 
 Anti-Angel Technology (+4 def)
+Mid-game armor. +4 DEF. Dark resistance, cannot be frightened
+[Resist: DARK]
+
+Anti-Angel Technology (+4 def)
 Mid-game armor. +4 DEF. Holy resistance, immune to blindness
 [Resist: HOLY]
 
@@ -271,8 +275,14 @@ Menacing armor covered in spikes
 Spiked Cuirass (+4 def, +2 att)
 Mid-game+ armor. +4 DEF, +2 ATK
 
+Stone Armor (+3 def)
+Mid-game armor. +3 DEF. Immunity to stun, immobilized, and off-guard
+
 Traveler's Garb
 More evade the lighter you are
+
+Turtle Shell (+6 def, +-3 att)
++6 DEF, -3 ATK. Gain a shield when level up or changing floors
 
 Utility Belt (+3 def, +3 FOV, +0.1 health aspect, 1.1x XP)
 Mid-game+ armor. +3 DEF, +10% healing, +10% XP, +3 FOV
@@ -379,15 +389,6 @@ If on floor 5 or lower, +6 ATK for Ice or fire damage
 Strike Expertise
 +6 ATK on strike attacks
 
-Sturdy Rock (+1 def)
-+1 DEF. Immunity to stun, immobilized, and off-guard
-
-Turtle Shell
-+6 DEF, -6 ATK
-
-Turtle's Blessing
-Gain 1 shield when changing floors
-
 Vampire's Pendant
 Heals 5% max health when a monster dies
 
@@ -403,8 +404,8 @@ Permanently gain +1 DEF when leveling up
 **Total Items:** 116
 - **Consumables:** 35
 - **Weapons:** 27
-- **Armor:** 18
-- **Accessories:** 36
+- **Armor:** 21
+- **Accessories:** 33
 
 ### Consumable Breakdown
 - **Catalysts (Permanent):** 11
@@ -433,6 +434,8 @@ Permanently gain +1 DEF when leveling up
   - Feu-Glace
 
 ### Armor Resistances
+- **DARK:** 1 armors
+  - Anti-Angel Technology
 - **HOLY:** 1 armors
   - Anti-Angel Technology
 
@@ -444,5 +447,5 @@ Permanently gain +1 DEF when leveling up
 
 ### Notable Items
 **Highest Attack Weapon:** Demon Slayer (+15 attack)
-**Highest Defense Armor:** Dragon Scale Armor (+5 defense)
+**Highest Defense Armor:** Turtle Shell (+6 defense)
 **Most Powerful Accessory:** God's Eye

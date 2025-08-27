@@ -3,9 +3,39 @@ Item pool system for managing item spawning with rarity-based drop rates and uni
 """
 
 import random
-import math
 from dataclasses import dataclass, field
 from typing import Type, List, Dict, Set, Optional, Tuple
+        # Import all item classes
+from .consumables import (
+    HealthPotion, Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot,
+    Antidote, ShellPotion, MezzoForte, Elixir,
+    SwordsToPlowshares, Transmutation,
+    PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, 
+    ShadowsCatalyst, BaronCatalyst, WardenCatalyst, FireResistanceCatalyst,
+    IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst,
+    BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon,
+    FireBoon, IceBoon, HolyBoon, DarkBoon, MayhemsBoon
+)
+from .weapons import (
+    Dagger, Sword, Shield, Katana, Axe, MorningStar, ClericsStaff, Gauntlets,
+    MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick,
+    Longsword, WarHammer, WarScythe, TowerShield, ClairObscur, FeuGlace,
+    RiversOfBlood, DemonSlayer
+)
+from .armor import (
+    LeatherArmor, SafetyVest, Cloak, SpikedArmor, GamblersVest, MinimalSuit,
+    ChainMail, NightCloak, CoatedPlate, AntiAngelTechnology, SpikedCuirass,
+    UtilityBelt, SOSArmor, PlateArmor, ShadowCloak, DragonScale, StoneArmor, TurtleShell, AntiDevilTechnology
+)
+from .accessories import (
+    PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing,
+    BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision,
+    BrutalityAmulet, AssassinsMask, GravePact, PunishTheWeak,
+    StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, SavingThrow, Anaglyph,
+    MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
+    AceOfDiamonds, AceOfSpades, Joker, HealingDodge, ProtectiveLevel,
+    PsychicsTurban, VampiresPendant, WardensTome
+)
 
 
 # Rarity weight constants
@@ -48,37 +78,6 @@ class ItemPool:
     
     def _initialize_item_specs(self):
         """Initialize all item specifications with difficulty ratings and spawn rules."""
-        # Import all item classes
-        from .consumables import (
-            HealthPotion, Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot,
-            Antidote, ShellPotion, MezzoForte, Elixir,
-            SwordsToPlowshares, Transmutation,
-            PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, 
-            ShadowsCatalyst, BaronCatalyst, WardenCatalyst, FireResistanceCatalyst,
-            IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst,
-            BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon,
-            FireBoon, IceBoon, HolyBoon, DarkBoon, MayhemsBoon
-        )
-        from .weapons import (
-            Dagger, Sword, Shield, Katana, Axe, MorningStar, ClericsStaff, Gauntlets,
-            MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick,
-            Longsword, WarHammer, WarScythe, TowerShield, ClairObscur, FeuGlace,
-            RiversOfBlood, DemonSlayer
-        )
-        from .armor import (
-            LeatherArmor, SafetyVest, Cloak, SpikedArmor, GamblersVest, MinimalSuit,
-            ChainMail, NightCloak, CoatedPlate, AntiAngelTechnology, SpikedCuirass,
-            UtilityBelt, SOSArmor, PlateArmor, ShadowCloak, DragonScale
-        )
-        from .accessories import (
-            PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing,
-            BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision,
-            BrutalityAmulet, AssassinsMask, GravePact, SturdyRock, PunishTheWeak,
-            StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, SavingThrow, Anaglyph,
-            MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
-            AceOfDiamonds, AceOfSpades, Joker, HealingDodge, ProtectiveLevel,
-            PsychicsTurban, TurtleShell, TurtlesBlessing, VampiresPendant, WardensTome
-        )
         
         # WEAPONS
         self.weapon_specs = [
@@ -128,9 +127,12 @@ class ItemPool:
             
             # Mid game armor (levels 3-7)
             ItemSpec(ChainMail, 'armor', 3, 7, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(NightCloak, 'armor', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(CoatedPlate, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(AntiAngelTechnology, 'armor', 4, 8, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(NightCloak, 'armor', 3, 8, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(CoatedPlate, 'armor', 4, 8, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(AntiAngelTechnology, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(AntiDevilTechnology, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(TurtleShell, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(StoneArmor, 'armor', 4, 8, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SpikedCuirass, 'armor', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(UtilityBelt, 'armor', 3, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SOSArmor, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
@@ -159,7 +161,6 @@ class ItemPool:
             ItemSpec(BrutalityAmulet, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(AssassinsMask, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(GravePact, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(SturdyRock, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(PunishTheWeak, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(StrikeBonus, 'accessory', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(SlashBonus, 'accessory', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
@@ -182,8 +183,6 @@ class ItemPool:
             ItemSpec(HealingDodge, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(ProtectiveLevel, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(PsychicsTurban, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(TurtleShell, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
-            ItemSpec(TurtlesBlessing, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(VampiresPendant, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             ItemSpec(WardensTome, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
         ]
