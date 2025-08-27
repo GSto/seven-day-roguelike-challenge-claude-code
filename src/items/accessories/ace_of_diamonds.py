@@ -10,7 +10,7 @@ class AceOfDiamonds(Card):
         super().__init__(x,y, "Ace of Diamonds", description="2x XP if low health")
 
     def get_xp_multiplier_bonus(self, player):
-        if(player.has_low_health):
+        if(player.has_low_hp()):
             return 2
         else:
-            return 0
+            return 1

@@ -1,1 +1,2 @@
 - Equipement with multiple bonuses should show all of them in description and inventory list
+- Should not be able to apply boons to weapons that already have a bonus, or it should have a special effect

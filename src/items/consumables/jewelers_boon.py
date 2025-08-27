@@ -16,7 +16,7 @@ class JewelersBoon(Boon):
             name="Jeweler's Boon",
             char='*',
             color=COLOR_WHITE,
-            description="Applies Gilded enchantment to equipped weapon (+5% XP)",
+            description="Applies Gilded enchantment to equipped weapon or armor (1.05x XP)",
             effect_value=1,
             enchantment_type=EnchantmentType.GILDED
         )

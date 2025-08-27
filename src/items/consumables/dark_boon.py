@@ -16,7 +16,7 @@ class DarkBoon(Boon):
             name="Dark Boon",
             char='*',
             color=COLOR_SALMON,
-            description="Applies Dark enchantment to equipped weapon (Dark attacks) or armor (Dark resistance)",
+            description="Applies Dark enchantment to equipped weapon or armor",
             effect_value=1,
             enchantment_type=EnchantmentType.DARK
         )

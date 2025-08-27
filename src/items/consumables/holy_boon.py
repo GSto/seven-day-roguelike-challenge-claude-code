@@ -16,7 +16,7 @@ class HolyBoon(Boon):
             name="Holy Boon",
             char='*',
             color=COLOR_YELLOW,
-            description="Applies Holy enchantment to equipped weapon (Holy attacks) or armor (Holy resistance)",
+            description="Applies Holy enchantment to equipped weapon or armor",
             effect_value=1,
             enchantment_type=EnchantmentType.HOLY
         )

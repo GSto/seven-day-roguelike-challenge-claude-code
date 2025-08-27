@@ -16,7 +16,7 @@ class IceBoon(Boon):
             name="Ice Boon",
             char='*',
             color=COLOR_CYAN,
-            description="Applies Ice enchantment to equipped weapon (Ice attacks) or armor (Ice resistance)",
+            description="Applies Ice enchantment to equipped weapon or armor",
             effect_value=1,
             enchantment_type=EnchantmentType.ICE
         )

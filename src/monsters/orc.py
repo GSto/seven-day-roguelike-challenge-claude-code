@@ -17,7 +17,7 @@ class Orc(Monster):
             char='O',
             color=COLOR_RED,
             hp=45,
-            attack=9,
+            attack=7,
             defense=2,
             xp_value=20,
             weaknesses=[Trait.STRIKE],

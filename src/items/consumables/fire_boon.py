@@ -16,7 +16,7 @@ class FireBoon(Boon):
             name="Fire Boon",
             char='*',
             color=COLOR_RED,
-            description="Applies Fire enchantment to equipped weapon (Fire attacks) or armor (Fire resistance)",
+            description="Applies Fire enchantment to equipped weapon or armor",
             effect_value=1,
             enchantment_type=EnchantmentType.FIRE
         )

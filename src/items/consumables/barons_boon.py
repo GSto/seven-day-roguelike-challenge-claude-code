@@ -16,7 +16,7 @@ class BaronsBoon(Boon):
             name="Baron's Boon",
             char='*',
             color=COLOR_YELLOW,
-            description="Applies Shiny enchantment to equipped weapon (+25% damage) or armor (+25% defense)",
+            description="Applies Shiny enchantment to weapon (1.25x ATK) or armor (1.25x DEF)",
             effect_value=1,
             enchantment_type=EnchantmentType.SHINY
         )

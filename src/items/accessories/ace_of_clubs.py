@@ -9,7 +9,7 @@ class AceOfClubs(Card):
           super().__init__(x, y, "Ace of Clubs", description="+5 Def if low HP")
 
         def get_defense_bonus(self, player):
-          if(player.has_low_hp):
+          if(player.has_low_hp()):
               return 5
           else:
               return 0

@@ -155,7 +155,7 @@ Late game weapon. 10 dmg. Deals fire, ice, and mystic damage
 
 Gauntlets (2.0x attack)
 Enhances natural strength
-[Attack: STRIKE]
+[Attack: THWACK]
 
 Holy Avenger (+8 att)
 10% chance to counter-attack when hit
@@ -189,9 +189,9 @@ Rivers of Blood (+11 att, +20% crit, +0.2x crit damage)
 A samurai warrior's blade
 [Attack: SLASH]
 
-Shield (+1 att, 1.2x defense)
+Shield (+1 att, +1 def, 1.2x defense)
 A shield.
-[Attack: STRIKE]
+[Attack: THWACK]
 
 Snake's Fang (+4 att)
 Deals slash & poison damage. Applies additional poison on hit
@@ -203,7 +203,7 @@ A well-balanced sword
 
 Tower Shield (+1 att, +4 def, 1.5x defense)
 A large powerful shield
-[Attack: STRIKE]
+[Attack: THWACK]
 
 Uchigatana (+7 att, +15% crit)
 A samurai warrior's blade
@@ -232,7 +232,7 @@ Mid-game armor. +4 DEF. Holy resistance, immune to blindness
 Chain Mail (+2 def)
 Flexible chain mail armor
 
-Cloak (+1 def, +5% evade)
+Cloak (+1 def, +10% evade)
 Shadow black, hard to see
 
 Coated Plate (+4 def)
@@ -247,7 +247,7 @@ Double or 0.5x on defense
 Leather Armor (+1 def)
 Basic leather protection. Free to equip
 
-Night Cloak (+1 def, +10% evade)
+Night Cloak (+1 def, +20% evade)
 Vanta black, harder to see
 
 Plate Armor (+3 def)
@@ -285,10 +285,10 @@ A plain white T-shirt
 --------------------------------------------------
 
 Ace of Clubs
-+5 Def if 20% HP or less
++5 Def if low HP
 
-Ace of Hearts
-2x XP if 20% HP or less
+Ace of Diamonds
+2x XP if low health
 
 Ace of Hearts
 2x attack if at full health
@@ -414,11 +414,13 @@ Permanently gain +1 DEF when leveling up
 
 ### Weapon Attack Traits
 - **SLASH:** 12 weapons
-- **STRIKE:** 10 weapons
+- **STRIKE:** 7 weapons
 - **MYSTIC:** 4 weapons
   - Clair Obscur, Cleric's Staff, Feu-Glace, Materia Staff
 - **HOLY:** 3 weapons
   - Clair Obscur, Cleric's Staff, Holy Avenger
+- **THWACK:** 3 weapons
+  - Gauntlets, Shield, Tower Shield
 - **FIRE:** 2 weapons
   - Acid Dagger, Feu-Glace
 - **POISON:** 2 weapons
