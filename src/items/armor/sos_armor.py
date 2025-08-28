@@ -15,6 +15,6 @@ class SOSArmor(Armor):
     def get_defense_bonus(self, player):
         """Get defense bonus with conditional extra defense at low HP."""
         base_defense = super().get_defense_bonus(player)
-        if player.hp <= (player.max_hp * 0.2):  # 20% or less HP
+        if player.has_low_hp():
             return base_defense + 6
         return base_defense

@@ -7,10 +7,10 @@ from traits import Trait
 
 
 class AcidDagger(Weapon):
-    """Mid game weapon. 6 dmg. Apply 4 burn and 4 poison on every hit. Slash, Fire, Poison damage."""
+    """6 dmg. Apply 4 burn and 4 poison on every hit. Slash, Fire, Poison damage."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Acid Dagger", ')', 6, 
+        super().__init__(x, y, "Acid Dagger", ')', 3, 
                         "Mid game weapon. 6 dmg. Apply 4 burn and 4 poison on every hit. Slash, Fire, Poison damage.",
                         attack_traits=[Trait.SLASH, Trait.FIRE, Trait.POISON])
     

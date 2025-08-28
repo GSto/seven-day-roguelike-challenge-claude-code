@@ -24,7 +24,7 @@ def get_all_monster_classes():
     
     # Find all Python files in the monsters directory
     for file_path in monsters_path.glob('*.py'):
-        if file_path.name.startswith('__') or file_path.name == 'base.py' or file_path.name == 'factory.py':
+        if file_path.name.startswith('__') or file_path.name == 'base.py' or file_path.name == 'factory.py' or file_path.name == 'pool.py':
             continue
             
         # Build the module path
@@ -216,6 +216,75 @@ def generate_beastiary():
         output.append(f"**Weakest Monster:** {weakest['name']} ({weakest['instance'].stats.max_hp} HP)")
         output.append(f"**Strongest Monster:** {strongest['name']} ({strongest['instance'].stats.max_hp} HP)")
         output.append(f"**Most Valuable:** {most_valuable['name']} ({most_valuable['instance'].xp_value} XP)")
+        
+        # Trait Statistics
+        output.append("")
+        output.append("### Trait Summary")
+        output.append("")
+        
+        # Collect all traits
+        all_attack_traits = {}
+        all_resistances = {}
+        all_weaknesses = {}
+        
+        for monster in monsters:
+            instance = monster['instance']
+            
+            # Count attack traits
+            for trait in instance.attack_traits:
+                trait_name = trait.name
+                all_attack_traits[trait_name] = all_attack_traits.get(trait_name, 0) + 1
+            
+            # Count resistances
+            for trait in instance.resistances:
+                trait_name = trait.name
+                all_resistances[trait_name] = all_resistances.get(trait_name, 0) + 1
+            
+            # Count weaknesses
+            for trait in instance.weaknesses:
+                trait_name = trait.name
+                all_weaknesses[trait_name] = all_weaknesses.get(trait_name, 0) + 1
+        
+        # Sort and display attack traits
+        if all_attack_traits:
+            output.append("**Attack Traits:**")
+            sorted_attacks = sorted(all_attack_traits.items(), key=lambda x: (-x[1], x[0]))
+            for trait, count in sorted_attacks:
+                output.append(f"  - {trait}: {count} monster{'s' if count != 1 else ''}")
+        else:
+            output.append("**Attack Traits:** None")
+        
+        output.append("")
+        
+        # Sort and display resistances
+        if all_resistances:
+            output.append("**Resistances:**")
+            sorted_resists = sorted(all_resistances.items(), key=lambda x: (-x[1], x[0]))
+            for trait, count in sorted_resists:
+                output.append(f"  - {trait}: {count} monster{'s' if count != 1 else ''}")
+        else:
+            output.append("**Resistances:** None")
+        
+        output.append("")
+        
+        # Sort and display weaknesses
+        if all_weaknesses:
+            output.append("**Weaknesses:**")
+            sorted_weaknesses = sorted(all_weaknesses.items(), key=lambda x: (-x[1], x[0]))
+            for trait, count in sorted_weaknesses:
+                output.append(f"  - {trait}: {count} monster{'s' if count != 1 else ''}")
+        else:
+            output.append("**Weaknesses:** None")
+        
+        # Summary counts
+        output.append("")
+        output.append("**Trait Totals:**")
+        output.append(f"  - Unique attack traits: {len(all_attack_traits)}")
+        output.append(f"  - Unique resistances: {len(all_resistances)}")
+        output.append(f"  - Unique weaknesses: {len(all_weaknesses)}")
+        output.append(f"  - Monsters with attack traits: {sum(1 for m in monsters if m['instance'].attack_traits)}/{len(monsters)}")
+        output.append(f"  - Monsters with resistances: {sum(1 for m in monsters if m['instance'].resistances)}/{len(monsters)}")
+        output.append(f"  - Monsters with weaknesses: {sum(1 for m in monsters if m['instance'].weaknesses)}/{len(monsters)}")
     
     # Write to file
     docs_path = Path(__file__).parent / 'docs'

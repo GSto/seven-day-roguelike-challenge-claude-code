@@ -9,6 +9,7 @@ Complete catalog of all monsters in the game
 - [Angel](#angel)
 - [Goblin](#goblin)
 - [Horror](#horror)
+- [Naga](#naga)
 - [Orc](#orc)
 - [Phantom](#phantom)
 - [Skeleton](#skeleton)
@@ -71,6 +72,18 @@ Complete catalog of all monsters in the game
 
 ---
 
+### Naga
+*Poisonous Snake Person*
+
+**HP:** 80 | **Attack:** 9 | **Defense:** 3 | **XP Value:** 65
+**Evade:** 8% | **Crit Multiplier:** 1.5x
+
+**Attacks:** POISON
+
+**Appearance:** `N` (in game)
+
+---
+
 ### Orc
 *Medium strength orc warrior.*
 
@@ -112,7 +125,7 @@ Complete catalog of all monsters in the game
 ### Troll
 *Strong troll with high defense.*
 
-**HP:** 60 | **Attack:** 8 | **Defense:** 7 | **XP Value:** 45
+**HP:** 70 | **Attack:** 8 | **Defense:** 7 | **XP Value:** 45
 **Evade:** 2%
 
 **Attacks:** STRIKE
@@ -137,40 +150,47 @@ Complete catalog of all monsters in the game
 
 ## Statistics
 
-### General Statistics
-**Total Monsters:** 9
-**Average HP:** 114.2
-**Average Attack:** 11.4
+**Total Monsters:** 10
+**Average HP:** 111.8
+**Average Attack:** 11.2
 **Average Defense:** 3.0
-**Average XP Value:** 103.4
+**Average XP Value:** 99.6
 
 **Weakest Monster:** Zombie (12 HP)
 **Strongest Monster:** Ancient Devil (666 HP)
 **Most Valuable:** Ancient Devil (666 XP)
 
-### Attack Types
-**Monsters with Special Attacks:** 5
-- **DARK:** 1 (Ancient Devil)
-- **FIRE:** 1 (Ancient Devil)
-- **HOLY:** 1 (Angel)
-- **MYSTIC:** 1 (Phantom)
-- **SLASH:** 1 (Goblin)
-- **STRIKE:** 1 (Troll)
+### Trait Summary
 
-### Resistances
-**Monsters with Resistances:** 4
-- **FIRE:** 2 (Goblin, Orc)
-- **ICE:** 2 (Phantom, Zombie)
-- **SLASH:** 1 (Phantom)
-- **STRIKE:** 1 (Phantom)
+**Attack Traits:**
+  - DARK: 1 monster
+  - FIRE: 1 monster
+  - HOLY: 1 monster
+  - MYSTIC: 1 monster
+  - POISON: 1 monster
+  - SLASH: 1 monster
+  - STRIKE: 1 monster
 
-### Weaknesses
-**Monsters with Weaknesses:** 8
-- **HOLY:** 4 (Goblin, Phantom, Skeleton, Zombie)
-- **FIRE:** 2 (Troll, Zombie)
-- **ICE:** 2 (Goblin, Horror)
-- **DARK:** 2 (Angel, Phantom)
-- **MYSTIC:** 2 (Angel, Horror)
-- **SLASH:** 1 (Troll)
-- **STRIKE:** 1 (Orc)
-- **DEMONSLAYER:** 1 (Ancient Devil)
+**Resistances:**
+  - FIRE: 2 monsters
+  - ICE: 2 monsters
+  - SLASH: 1 monster
+  - STRIKE: 1 monster
+
+**Weaknesses:**
+  - HOLY: 4 monsters
+  - DARK: 2 monsters
+  - FIRE: 2 monsters
+  - ICE: 2 monsters
+  - MYSTIC: 2 monsters
+  - DEMONSLAYER: 1 monster
+  - SLASH: 1 monster
+  - STRIKE: 1 monster
+
+**Trait Totals:**
+  - Unique attack traits: 7
+  - Unique resistances: 4
+  - Unique weaknesses: 8
+  - Monsters with attack traits: 6/10
+  - Monsters with resistances: 4/10
+  - Monsters with weaknesses: 9/10

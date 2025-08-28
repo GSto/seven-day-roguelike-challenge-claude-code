@@ -39,7 +39,7 @@ class UI:
         # Only render UI elements if we have space
         if ui_y < SCREEN_HEIGHT:
             # Player stats
-            hp_color = COLOR_GREEN if player.hp > player.max_hp * 0.3 else COLOR_RED
+            hp_color = COLOR_RED if player.has_low_hp() else COLOR_GREEN
             hp_text = f"HP:  {player.hp}/{player.max_hp}"
             console.print(0, ui_y, hp_text, fg=hp_color)
             

@@ -13,4 +13,4 @@ class MinimalSuit(Armor):
 
     def get_evade_bonus(self, player):
         inventory_space = player.inventory_size - len(player.inventory)
-        return super().get_evade_bonus(player) + (inventory_space / 100)
+        return super().get_evade_bonus(player) + (inventory_space / 50)

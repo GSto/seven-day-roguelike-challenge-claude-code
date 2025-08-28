@@ -16,7 +16,7 @@ class ShadowsCatalyst(Catalyst):
             char='*',
             color=COLOR_BLUE,
             description="Permanently increases evade chance by 5%",
-            effect_value=0.05
+            effect_value=0.08
         )
     
     def _apply_catalyst_effect(self, player, hp_cost):

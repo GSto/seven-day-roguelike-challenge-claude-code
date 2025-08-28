@@ -16,7 +16,7 @@ class Goblin(Monster):
             name="Goblin",
             char='G',
             color=COLOR_GREEN,
-            hp=35,
+            hp=55,
             attack=9,
             defense=1,
             xp_value=25,

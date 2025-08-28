@@ -17,7 +17,7 @@ class Skeleton(Monster):
             char='S',
             color=COLOR_WHITE,
             hp=15,
-            attack=4,
+            attack=2,
             defense=0,
             xp_value=10,
             evade=0.15,  # Higher evade - skeletons are nimble

@@ -31,7 +31,6 @@ from .psychics_turban import PsychicsTurban
 from .grave_pact import GravePact
 from .strike_bonus import StrikeBonus
 from .slash_bonus import SlashBonus
-from .turtle_shell import TurtleShell
 
 # Card accessories
 from .ace_of_spades import AceOfSpades
@@ -41,7 +40,6 @@ from .ace_of_hearts import AceOfHearts
 from .joker import Joker
 
 # Specialty accessories
-from .sturdy_rock import SturdyRock
 from .punish_the_weak import PunishTheWeak
 from .elemental_mayhem import ElementalMayhem
 from .gods_eye import GodsEye
@@ -55,7 +53,6 @@ from .song_of_ice_and_fire import SongOfIceAndFire
 from .healing_dodge import HealingDodge
 from .vampires_pendant import VampiresPendant
 from .wardens_tome import WardensTome
-from .turtles_blessing import TurtlesBlessing
 from .protective_level import ProtectiveLevel
 
 __all__ = [
@@ -88,7 +85,6 @@ __all__ = [
     'GravePact',
     'StrikeBonus',
     'SlashBonus',
-    'TurtleShell',
     
     # Card accessories
     'AceOfSpades',
@@ -98,7 +94,6 @@ __all__ = [
     'Joker',
     
     # Specialty accessories
-    'SturdyRock',
     'PunishTheWeak',
     'ElementalMayhem',
     'GodsEye',
@@ -112,6 +107,5 @@ __all__ = [
     'HealingDodge',
     'VampiresPendant',
     'WardensTome',
-    'TurtlesBlessing',
     'ProtectiveLevel',
 ]

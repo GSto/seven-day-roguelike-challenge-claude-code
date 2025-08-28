@@ -3,13 +3,14 @@ Player character implementation.
 """
 
 from constants import COLOR_WHITE
-from traits import Trait
-from status_effects import StatusEffects
 from entity import Entity
 from stats import Stats, StatType
 from event_emitter import EventEmitter
 from event_type import EventType
 from event_context import HealContext, ConsumeContext, LevelUpContext
+from items.weapons import WoodenStick
+from items.armor import WhiteTShirt
+from items.consumables import HealthPotion
 
 
 class Player(Entity):
@@ -21,8 +22,8 @@ class Player(Entity):
         player_stats = Stats(
             max_hp=50,
             hp=50,
-            attack=6,
-            defense=2,
+            attack=4,
+            defense=1,
             evade=0.05,
             crit=0.05,
             crit_multiplier=2.0,
@@ -48,15 +49,13 @@ class Player(Entity):
         self.fov = 10  # Field of view radius
         
         # Equipment slots - start with basic equipment
-        from items.weapons import WoodenStick
-        from items.armor import WhiteTShirt
         self.weapon = WoodenStick(0, 0)  # Starting weapon
         self.armor = WhiteTShirt(0, 0)   # Starting armor
         self.accessories = [None, None, None]  # List of equipped accessories
         self.accessory_slots = 3  # Number of accessory slots available
         
         # Inventory
-        self.inventory = []
+        self.inventory = [HealthPotion(0, 0)]
         self.inventory_size = 20
 
         # counts (used for item scaling)
@@ -135,7 +134,7 @@ class Player(Entity):
         
         # Increase stats
         old_max_hp = self.max_hp
-        self.max_hp  = int(self.max_hp * 1.2)
+        self.max_hp  = int(max(self.max_hp,50) * 1.2) # Max de-buffs items that lower max HP
         hp_gained = self.max_hp - old_max_hp
         self.hp = min(self.hp + hp_gained, self.max_hp)  # heal for HP gained without going over max
         

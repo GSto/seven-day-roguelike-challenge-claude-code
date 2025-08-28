@@ -13,6 +13,7 @@ from constants import (
 )
 from monsters import create_monster_for_level
 from items.factory import create_random_item_for_level
+from items.pool import item_pool
 from items.weapons.demon_slayer import DemonSlayer
 from .room import Room
 
@@ -30,6 +31,9 @@ class Level:
         self.tiles = np.full((MAP_WIDTH, MAP_HEIGHT), TILE_WALL, dtype=int)
         self.explored = np.full((MAP_WIDTH, MAP_HEIGHT), False, dtype=bool)
         self.fov = np.full((MAP_WIDTH, MAP_HEIGHT), False, dtype=bool)
+        
+        # Notify item pool about new floor for uniqueness tracking
+        item_pool.start_new_floor(level_number)
         
         # Generate the level
         self.rooms = []
@@ -168,8 +172,7 @@ class Level:
                 # Don't place monsters on stairs
                 if not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)):
                     # Create appropriate monster for this level
-                    monster_class = create_monster_for_level(self.level_number)
-                    monster = monster_class(x, y)
+                    monster = create_monster_for_level(self.level_number, x, y)
                     self.monsters.append(monster)
                     monsters_placed += 1
     
@@ -199,11 +202,11 @@ class Level:
         
         # Number of items based on level
         if self.level_number <= 2:
-            item_count = random.randint(3, 6)
+            item_count = random.randint(5, 8)
         elif self.level_number <= 5:
-            item_count = random.randint(4, 8)
-        elif self.level_number <= 8:
-            item_count = random.randint(4, 8)
+            item_count = random.randint(7, 10)
+        elif self.level_number <= 9:
+            item_count = random.randint(7, 10)
         else:  # Level 9-10
             item_count = random.randint(1, 3)  # Fewer items on boss levels, but higher quality
         

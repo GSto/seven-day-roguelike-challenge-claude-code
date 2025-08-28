@@ -7,10 +7,10 @@ from .card import Card
 class AceOfDiamonds(Card):
     
     def __init__(self, x, y):
-        super().__init__(x,y, "Ace of Hearts", description="2x XP if 20% HP or less")
+        super().__init__(x,y, "Ace of Diamonds", description="2x XP if low health")
 
     def get_xp_multiplier_bonus(self, player):
-        if(player.hp <= (player.max_hp / 5)):
+        if(player.has_low_hp()):
             return 2
         else:
-            return 0
+            return 1
