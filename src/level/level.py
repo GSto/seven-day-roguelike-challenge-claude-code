@@ -208,11 +208,11 @@ class Level:
         
         # Number of items based on level
         if self.level_number <= 2:
-            item_count = random.randint(5, 8)
+            item_count = random.randint(5, 7)
         elif self.level_number <= 5:
-            item_count = random.randint(7, 10)
+            item_count = random.randint(4, 7)
         elif self.level_number <= 9:
-            item_count = random.randint(7, 10)
+            item_count = random.randint(4, 7)
         else:  # Level 9-10
             item_count = random.randint(1, 3)  # Fewer items on boss levels, but higher quality
         
