@@ -50,7 +50,7 @@ class UI:
             
             # Show shields if player has any
             if player.status_effects.shields > 0:
-                shields_text = f"SLD: {player.status_effects.shields}"
+                shields_text = f"S: {player.status_effects.shields}"
                 shield_x = len(hp_text) + 3  # 3 character padding
                 console.print(shield_x, ui_y, shields_text, fg=COLOR_CYAN)
             console.print(20, ui_y, f"LVL: {player.level}", fg=COLOR_WHITE)

@@ -11,3 +11,4 @@ class Dagger(Weapon):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Dagger", ')', 3, "A sharp dagger. free to equip", crit_multiplier_bonus=0.5, attack_traits=[Trait.SLASH])
+        self.market_value = 12
