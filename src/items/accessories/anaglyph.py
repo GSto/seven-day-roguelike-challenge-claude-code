@@ -14,5 +14,5 @@ class Anaglyph(Accessory):
     
     def apply_cleanup_effect(self, player, current_attack, current_defense):
         """Apply the stat balancing effect during cleanup phase."""
-        balanced_value = (current_attack + current_defense) // 2
+        balanced_value = (current_attack + current_defense) // 4
         return balanced_value, balanced_value  # new_attack, new_defense
