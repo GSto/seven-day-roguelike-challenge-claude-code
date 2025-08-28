@@ -38,8 +38,13 @@ class UI:
         
         # Only render UI elements if we have space
         if ui_y < SCREEN_HEIGHT:
-            # Player stats
-            hp_color = COLOR_RED if player.has_low_hp() else COLOR_GREEN
+            # Player stats with colored HP based on health status
+            if player.has_high_hp():
+                hp_color = COLOR_GREEN
+            elif player.has_low_hp():
+                hp_color = COLOR_RED
+            else:
+                hp_color = COLOR_WHITE
             hp_text = f"HP:  {player.hp}/{player.max_hp}"
             console.print(0, ui_y, hp_text, fg=hp_color)
             
