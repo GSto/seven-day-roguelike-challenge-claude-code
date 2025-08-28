@@ -155,3 +155,9 @@ class Weapon(Equipment):
         else:
             enchantment_names = [e.name.capitalize() for e in self.enchantments]
             self.name = f"{' '.join(enchantment_names)} {self.base_name}"
+    
+    def get_market_value(self):
+        """Get the current market value including enchantment bonuses (+10 per enchantment)."""
+        base_value = super().get_market_value()
+        enchantment_bonus = len(self.enchantments) * 10
+        return base_value + enchantment_bonus

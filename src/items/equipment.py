@@ -136,3 +136,7 @@ class Equipment(Item):
     def get_default_market_value(self):
         """Get the default market value for equipment."""
         return 25
+    
+    def get_market_value(self):
+        """Get the current market value including enchantment bonuses."""
+        return self.market_value
