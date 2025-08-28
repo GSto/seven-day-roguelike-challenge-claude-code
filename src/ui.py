@@ -24,7 +24,7 @@ class UI:
         if len(self.message_log) > self.max_messages:
             self.message_log.pop(0)
     
-    def render(self, console, player, current_level, level=None):
+    def render(self, console, player, current_level_display, level=None):
         """Render the UI elements."""
         # UI panel starts below the map
         ui_y = MAP_HEIGHT
@@ -50,7 +50,11 @@ class UI:
                 console.print(shield_x, ui_y, shields_text, fg=COLOR_CYAN)
             console.print(20, ui_y, f"LVL: {player.level}", fg=COLOR_WHITE)
             console.print(35, ui_y, f"XP: {player.xp}", fg=COLOR_WHITE)
-            console.print(50, ui_y, f"Floor: {current_level}", fg=COLOR_WHITE)
+            console.print(50, ui_y, current_level_display, fg=COLOR_WHITE)
+            
+            # Show safe zone indicator for bases
+            if level and hasattr(level, 'is_safe_zone') and level.is_safe_zone():
+                console.print(62, ui_y, "[SAFE]", fg=COLOR_GREEN)
             
             # Add "Next Lvl:" under dungeon level with level up indicator
             level_up_color = COLOR_YELLOW if player.can_level_up() else COLOR_WHITE

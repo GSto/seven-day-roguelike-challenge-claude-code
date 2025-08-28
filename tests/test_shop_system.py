@@ -14,6 +14,7 @@ from items.consumables.health_potion import HealthPotion
 from items.weapons.sword import Sword
 from items.armor.leather_armor import LeatherArmor
 from level.level import Level
+from level.base import Base
 
 
 class TestShopSystem(unittest.TestCase):
@@ -177,17 +178,18 @@ class TestShopSystem(unittest.TestCase):
         self.assertEqual(self.shop_manager.ui_mode, 'buy')
     
     def test_shop_placement_in_level(self):
-        """Test that shops are placed correctly in levels."""
-        # Test floor 1-9 should have shops
-        for floor in range(1, 10):
+        """Test that shops are placed correctly in the new Base system."""
+        # Test that regular floors (1-10) should NOT have shops
+        for floor in range(1, 11):
             level = Level(level_number=floor)
-            self.assertIsNotNone(level.shop, f"Floor {floor} should have a shop")
-            self.assertIsNotNone(level.shop.x, "Shop should have x coordinate")
-            self.assertIsNotNone(level.shop.y, "Shop should have y coordinate")
+            self.assertIsNone(level.shop, f"Floor {floor} should not have a shop")
         
-        # Test floor 10 should NOT have a shop
-        level10 = Level(level_number=10)
-        self.assertIsNone(level10.shop, "Floor 10 should not have a shop")
+        # Test that bases (1-9) should have shops
+        for base_num in range(1, 10):
+            base = Base(base_number=base_num)
+            self.assertIsNotNone(base.shop, f"Base {base_num} should have a shop")
+            self.assertIsNotNone(base.shop.x, "Shop should have x coordinate")
+            self.assertIsNotNone(base.shop.y, "Shop should have y coordinate")
     
     def test_shop_symbol_rendering(self):
         """Test that shop has correct symbol and color."""

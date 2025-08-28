@@ -10,6 +10,8 @@ from items.factory import create_random_item_for_level
 import random
 from player import Player
 from level.level import Level
+from level.base import Base
+from level_manager import LevelManager
 from ui import UI
 from traits import Trait
 from event_emitter import EventEmitter
@@ -26,9 +28,9 @@ class Game:
         # Set up the console
         self.console = tcod.console.Console(SCREEN_WIDTH, SCREEN_HEIGHT, order="F")
         
-        # Initialize game state
-        self.current_level = 1
-        self.level = Level(level_number=self.current_level)
+        # Initialize level manager and game state
+        self.level_manager = LevelManager()
+        self.level = self.level_manager.get_current_area()
         
         # Place player at stairs up position (or first room if no stairs)
         if hasattr(self.level, 'stairs_up_pos') and self.level.stairs_up_pos:
@@ -315,6 +317,10 @@ class Game:
         # Check if there's a monster at the target position
         monster = self.level.get_monster_at(new_x, new_y)
         if monster and monster.is_alive():
+            # Check if combat is allowed in this area
+            if not self.level_manager.can_attack():
+                self.ui.add_message("You cannot attack in a safe zone!")
+                return
             # Attack the monster instead of moving
             self.player_attack_monster(monster)
             self.player_acted_this_frame = True  # Player took an action
@@ -781,28 +787,35 @@ class Game:
     
     def descend_level(self):
         """Move to the next level down."""
-        previous_floor = self.current_level
-        self.current_level += 1
-        self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
-        self.level = Level(level_number=self.current_level)
+        result = self.level_manager.transition_down(self.player)
         
-        # Emit floor change event
-        event_emitter = EventEmitter()
-        context = FloorContext(
-            player=self.player,
-            floor_number=self.current_level,
-            previous_floor=previous_floor
-        )
-        event_emitter.emit(EventType.FLOOR_CHANGE, context)
-        
-        # Place player at stairs up position
-        stairs_up_x, stairs_up_y = self.level.get_stairs_up_position()
-        self.player.x = stairs_up_x
-        self.player.y = stairs_up_y
-        # Update FOV for new level
-        self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
-        # Set flag to prevent immediate transition back
-        self.just_changed_level = True
+        if isinstance(result, tuple) and result[0]:  # Success with message
+            success, message = result
+            self.level = self.level_manager.get_current_area()
+            self.current_level = self.level_manager.get_current_floor_number()
+            self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
+            
+            # Add transition message
+            if message:
+                self.ui.add_message(message)
+            
+            # Update FOV for new area
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+            # Set flag to prevent immediate transition back
+            self.just_changed_level = True
+        elif result is True:  # Old format compatibility
+            self.level = self.level_manager.get_current_area()
+            self.current_level = self.level_manager.get_current_floor_number()
+            self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
+            
+            # Update FOV for new area
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+            # Set flag to prevent immediate transition back
+            self.just_changed_level = True
+        else:
+            # Floor 10 completed - should trigger victory
+            if self.current_level >= 10:
+                self.game_state = 'VICTORY'
     
     def register_equipment_events(self, equipment):
         """Register equipment with the event system."""
@@ -842,15 +855,16 @@ class Game:
     
     def start_new_game(self):
         """Start a new game from the main menu."""
-        # Initialize game state
-        self.current_level = 1
+        # Initialize level manager and game state
+        self.level_manager = LevelManager()
+        self.level = self.level_manager.get_current_area()
+        self.current_level = self.level_manager.get_current_floor_number()
         self.highest_floor_reached = 1
-        self.level = Level(level_number=self.current_level)
         
         # Place player at stairs up position (or first room if no stairs)
         if hasattr(self.level, 'stairs_up_pos') and self.level.stairs_up_pos:
             start_x, start_y = self.level.stairs_up_pos
-        elif len(self.level.rooms) > 0:
+        elif hasattr(self.level, 'rooms') and len(self.level.rooms) > 0:
             start_x, start_y = self.level.rooms[0].center()
         else:
             start_x, start_y = 10, 10
@@ -1490,7 +1504,7 @@ class Game:
             self.level.render(self.console)
             self.player.render(self.console, self.level.fov)
             self.shop_manager.render(self.console)
-            self.ui.render(self.console, self.player, self.current_level, self.level)
+            self.ui.render(self.console, self.player, self.level_manager.get_display_name(), self.level)
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
@@ -1513,4 +1527,4 @@ class Game:
             self.player.render(self.console, self.level.fov)
             
             # Render the UI
-            self.ui.render(self.console, self.player, self.current_level, self.level)
+            self.ui.render(self.console, self.player, self.level_manager.get_display_name(), self.level)
