@@ -9,7 +9,7 @@ class Anaglyph(Accessory):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Anaglyph", '=',
-                        description="Balances stats. ATK = (ATK+DEF)/2, DEF = (DEF+ATK)/2",
+                        description="Balances ATK and DEF",
                         is_cleanup=True)
     
     def apply_cleanup_effect(self, player, current_attack, current_defense):

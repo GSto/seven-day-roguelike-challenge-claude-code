@@ -10,8 +10,8 @@ class AntiAngelTechnology(Armor):
     """Mid-game armor. +4 DEF. Holy resistance, immune to blindness."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Anti-Angel Technology", '[', 4, 
-                        description="Mid-game armor. +4 DEF. Holy resistance, immune to blindness",
+        super().__init__(x, y, "Anti-Angel Armor", '[', 4, 
+                        description="+4 DEF. Holy resistance, immune to blindness",
                         resistances=[Trait.HOLY])
     
     def blocks_status_effect(self, effect_name):

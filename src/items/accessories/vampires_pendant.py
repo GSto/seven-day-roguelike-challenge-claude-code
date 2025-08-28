@@ -6,6 +6,7 @@ from .accessory import Accessory
 from constants import COLOR_RED
 from event_type import EventType
 from event_context import DeathContext
+from traits import Trait
 
 class VampiresPendant(Accessory):
     """An accessory that heals the player when monsters die."""
@@ -16,7 +17,8 @@ class VampiresPendant(Accessory):
             name="Vampire's Pendant",
             char="♦",
             description="Heals 5% max health when a monster dies",
-            xp_cost=15
+            xp_cost=5,
+            attack_traits=[Trait.DARK]
         )
         self.color = COLOR_RED
         # Subscribe to monster death events
