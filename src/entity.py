@@ -106,14 +106,17 @@ class Entity:
         if attack_traits is None:
             attack_traits = []
         
-        # Check for trait interactions
+        # Check for trait interactions - only apply ONE weakness or resistance
         final_damage = damage
+        has_applied_modifier = False
         
         for trait in attack_traits:
-            if trait in self.resistances:
+            if not has_applied_modifier and trait in self.resistances:
                 final_damage = int(final_damage * 0.5)  # 50% damage if resistant
-            elif trait in self.weaknesses:
-                final_damage = int(final_damage * 2.0)  # 200% damage if weak
+                has_applied_modifier = True
+            elif not has_applied_modifier and trait in self.weaknesses:
+                final_damage = int(final_damage * 1.5)  # 150% damage if weak (nerfed from 200%)
+                has_applied_modifier = True
         
         # Apply normal damage calculation
         actual_damage = max(1, final_damage - self.stats.get_stat(StatType.DEFENSE))
