@@ -21,8 +21,6 @@ class MezzoForte(Consumable):
     
     def use(self, player):
         """Grant many shields but reduce HP to 1"""
-        if player.hp <= 1:
-            return (False, "You're too weak to use this!")
         
         player.status_effects.apply_status('shields', self.effect_value, player)
         player.hp = 1

@@ -43,13 +43,13 @@ class Level:
         self.shop = None  # Shop for this level (if any)
         self.generate_level()
         
-        # Place monsters and items after level generation
-        self.place_monsters()
-        self.place_items()
-        
-        # Place shop on floors 1-9 (not on boss level 10)
+        # Place shop first on floors 1-9 (not on boss level 10)
         if 1 <= level_number <= 9:
             self.place_shop()
+        
+        # Place monsters and items after shop placement
+        self.place_monsters()
+        self.place_items()
         
         # Set up FOV map - note tcod uses (width, height) order
         self.fov_map = tcod.map.Map(MAP_WIDTH, MAP_HEIGHT)
@@ -175,8 +175,8 @@ class Level:
             
             # Check if position is valid (walkable and not occupied)
             if self.is_walkable(x, y) and not self.is_position_occupied(x, y):
-                # Don't place monsters on stairs
-                if not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)):
+                # Don't place monsters on stairs or shops
+                if not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y) or self.is_shop_at(x, y)):
                     # Create appropriate monster for this level
                     monster = create_monster_for_level(self.level_number, x, y)
                     self.monsters.append(monster)
@@ -233,11 +233,12 @@ class Level:
             x = random.randint(room.x1 + 1, room.x2 - 1)
             y = random.randint(room.y1 + 1, room.y2 - 1)
             
-            # Check if position is valid (walkable, not occupied, not on stairs)
+            # Check if position is valid (walkable, not occupied, not on stairs or shops)
             if (self.is_walkable(x, y) and 
                 not self.is_position_occupied(x, y) and
                 not self.is_item_at(x, y) and
-                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y))):
+                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)) and
+                not self.is_shop_at(x, y)):
                 
                 # Create appropriate item for this level
                 item = create_random_item_for_level(self.level_number, x, y)
@@ -262,11 +263,12 @@ class Level:
             x = random.randint(room.x1 + 1, room.x2 - 1)
             y = random.randint(room.y1 + 1, room.y2 - 1)
             
-            # Check if position is valid (walkable, not occupied, not on stairs)
+            # Check if position is valid (walkable, not occupied, not on stairs or shops)
             if (self.is_walkable(x, y) and 
                 not self.is_position_occupied(x, y) and
                 not self.is_item_at(x, y) and
-                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y))):
+                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)) and
+                not self.is_shop_at(x, y)):
                 
                 # Create the DemonSlayer weapon
                 demon_slayer = DemonSlayer(x, y)
