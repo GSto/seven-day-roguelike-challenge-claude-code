@@ -16,6 +16,11 @@ class Item:
         self.char = char
         self.color = color
         self.description = description
+        self.market_value = self.get_default_market_value()
+    
+    def get_default_market_value(self):
+        """Get the default market value for this item type."""
+        return 10
     
     def render(self, console, fov):
         """Render the item on the console."""

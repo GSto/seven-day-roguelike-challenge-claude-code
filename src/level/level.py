@@ -15,6 +15,7 @@ from monsters import create_monster_for_level
 from items.factory import create_random_item_for_level
 from items.pool import item_pool
 from items.weapons.demon_slayer import DemonSlayer
+from shop import Shop
 from .room import Room
 
 
@@ -39,11 +40,16 @@ class Level:
         self.rooms = []
         self.monsters = []
         self.items = []
+        self.shop = None  # Shop for this level (if any)
         self.generate_level()
         
         # Place monsters and items after level generation
         self.place_monsters()
         self.place_items()
+        
+        # Place shop on floors 1-9 (not on boss level 10)
+        if 1 <= level_number <= 9:
+            self.place_shop()
         
         # Set up FOV map - note tcod uses (width, height) order
         self.fov_map = tcod.map.Map(MAP_WIDTH, MAP_HEIGHT)
@@ -267,6 +273,28 @@ class Level:
                 self.items.append(demon_slayer)
                 break
     
+    def place_shop(self):
+        """Place a shop in one of the rooms (not in first or last room)."""
+        if len(self.rooms) < 3:
+            return  # Need at least 3 rooms to place shop
+        
+        # Choose a room that's not the first (player spawn) or last (stairs down)
+        shop_room = random.choice(self.rooms[1:-1])
+        
+        # Place shop at room center
+        shop_x, shop_y = shop_room.center()
+        
+        # Create the shop
+        self.shop = Shop(self.level_number)
+        self.shop.x = shop_x
+        self.shop.y = shop_y
+    
+    def is_shop_at(self, x, y):
+        """Check if there's a shop at the given position."""
+        if self.shop:
+            return self.shop.x == x and self.shop.y == y
+        return False
+    
     def is_item_at(self, x, y):
         """Check if there's an item at the given position."""
         for item in self.items:
@@ -372,6 +400,10 @@ class Level:
                             console.print(x, y, '>', fg=COLOR_DARK_GROUND)
                         elif self.tiles[x, y] == TILE_STAIRS_UP:
                             console.print(x, y, '<', fg=COLOR_DARK_GROUND)
+        
+        # Render shop symbol if present
+        if self.shop:
+            self.shop.render(console, self.fov)
         
         # Render items on top of terrain (but below monsters)
         for item in self.items:

@@ -120,10 +120,22 @@ This project plan breaks down the development of a complete roguelike game into 
 ### 6.2 Boss Implementation ✅ COMPLETED
 - ✅ Design final boss monster (Ancient Devil with 150 HP, 25 attack, 8 defense)
 - ✅ Special boss abilities and mechanics (enhanced stats, final boss flag)
+
+### 6.3 Shop System ✅ COMPLETED
+- ✅ Add market_value property to all items (consumables: 10, equipment: 25)
+- ✅ Generate shops on floors 1-9 with $ symbol
+- ✅ Implement shop inventory generation (guaranteed health potion + level-appropriate items)
+- ✅ Create shop UI with buy/sell modes
+- ✅ XP-based economy (buy at market value, sell at 50%)
+- ✅ Shop interaction and integration into main game loop
+- ✅ No duplicate items within shops
+- ✅ Comprehensive unit tests for shop functionality
+
+### 6.4 Boss Arena Design ✅ COMPLETED
 - ✅ Boss arena/level design (Level 10 spawns only the boss)
 - ✅ Victory condition implementation (boss defeat triggers victory screen)
 
-### 6.3 Game Balance
+### 6.5 Game Balance
 - Playtesting and difficulty adjustment
 - Combat balance tuning
 - Item effectiveness balancing

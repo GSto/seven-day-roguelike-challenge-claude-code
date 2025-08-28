@@ -43,6 +43,9 @@ class Equipment(Item):
         # Cleanup step - if True, effects are calculated after all other equipment
         self.is_cleanup = is_cleanup
         
+        # Set proper market value for equipment
+        self.market_value = self.get_default_market_value()
+        
         # Traits system
         self.attack_traits = attack_traits or []
         self.weaknesses = weaknesses or []
@@ -131,3 +134,7 @@ class Equipment(Item):
     def get_subscribed_events(self) -> Set['EventType']:
         """Get the events this equipment wants to listen to. Override in subclasses."""
         return self.event_subscriptions.copy()
+    
+    def get_default_market_value(self):
+        """Get the default market value for equipment."""
+        return 25

@@ -15,6 +15,7 @@ from traits import Trait
 from event_emitter import EventEmitter
 from event_type import EventType
 from event_context import ConsumeContext, AttackContext, DeathContext, FloorContext
+from shop_manager import ShopManager
 
 
 class Game:
@@ -39,6 +40,7 @@ class Game:
         
         self.player = Player(x=start_x, y=start_y)
         self.ui = UI()
+        self.shop_manager = ShopManager()  # Initialize shop manager
         
         # Initialize FOV for starting position
         self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
@@ -47,7 +49,7 @@ class Game:
         self.running = True
         self.player_turn = True
         self.just_changed_level = False  # Prevent immediate level transitions
-        self.game_state = 'MENU'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU', 'HELP'
+        self.game_state = 'MENU'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU', 'HELP', 'SHOP'
         self.highest_floor_reached = 1
         self.player_acted_this_frame = False  # Track if player took an action this frame
         
@@ -126,6 +128,18 @@ class Game:
                 self.game_state = 'MENU'
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
                 self.running = False
+        elif self.game_state == 'SHOP':
+            # Handle shop input
+            action = self.shop_manager.handle_input(key)
+            if action == "exit_shop":
+                self.game_state = 'PLAYING'
+                self.ui.add_message("You leave the shop.")
+            elif action and action.startswith("buy:"):
+                message = action.split(":", 1)[1]
+                self.ui.add_message(message)
+            elif action and action.startswith("sell:"):
+                message = action.split(":", 1)[1]
+                self.ui.add_message(message)
         elif self.game_state == 'INVENTORY':
             # Handle inventory screen input
             if key == tcod.event.KeySym.ESCAPE:
@@ -312,6 +326,11 @@ class Game:
             # Update FOV immediately after movement
             self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
             self.player_acted_this_frame = True  # Player took an action
+            
+            # Check if player moved onto a shop
+            if self.level.is_shop_at(new_x, new_y):
+                self.open_shop()
+                return
             
             # Add occasional movement messages to help clear old combat messages
             # This helps push out persistent XP/combat messages from the log
@@ -868,6 +887,13 @@ class Game:
         else:
             # Don't add a message for empty pickup attempts - this was causing message spam
             pass
+    
+    def open_shop(self):
+        """Open the shop interface when player enters a shop."""
+        if self.level.shop:
+            self.shop_manager.open_shop(self.level.shop, self.player)
+            self.game_state = 'SHOP'
+            self.ui.add_message("Welcome to the shop! Press TAB to switch between buying and selling.")
     
     def use_inventory_item(self, item_index):
         """Use or equip an item from inventory by index."""
@@ -1459,6 +1485,12 @@ class Game:
         elif self.game_state == 'VICTORY':
             # Render victory screen
             self.render_victory_screen()
+        elif self.game_state == 'SHOP':
+            # Render shop interface
+            self.level.render(self.console)
+            self.player.render(self.console, self.level.fov)
+            self.shop_manager.render(self.console)
+            self.ui.render(self.console, self.player, self.current_level, self.level)
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index, 

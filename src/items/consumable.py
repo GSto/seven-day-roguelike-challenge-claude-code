@@ -27,6 +27,9 @@ class Consumable(Item):
         # Charges system - if None, item is destroyed after use
         self.charges = charges
         self.max_charges = charges if charges is not None else None
+        
+        # Set proper market value for consumables
+        self.market_value = self.get_default_market_value()
     
     def use(self, player, **kwargs):
         """Use the consumable item. Returns (success, message, should_destroy)."""
