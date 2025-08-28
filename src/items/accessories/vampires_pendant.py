@@ -17,7 +17,7 @@ class VampiresPendant(Accessory):
             name="Vampire's Pendant",
             char="♦",
             description="Heals 5% max health when a monster dies",
-            xp_cost=5,
+            
             attack_traits=[Trait.DARK]
         )
         self.color = COLOR_RED

@@ -20,7 +20,6 @@ class BackhandBlade(Weapon):
             attack_bonus=3,
             evade_bonus=0.05,  # +5% evade
             attack_traits=[Trait.DARK, Trait.SLASH],
-            xp_cost=25
         )
         self.color = COLOR_BLACK
         # Subscribe to successful dodge events

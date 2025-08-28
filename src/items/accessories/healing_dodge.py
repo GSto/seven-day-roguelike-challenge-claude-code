@@ -16,7 +16,6 @@ class HealingDodge(Accessory):
             name="Healing Dodge",
             char="♦",
             description="Heals 5% max health when successfully dodging attacks",
-            xp_cost=10
         )
         self.color = COLOR_GREEN
         # Subscribe to dodge events

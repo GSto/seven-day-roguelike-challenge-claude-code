@@ -11,7 +11,7 @@ class Necklace(Accessory):
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5, description="A magical necklace", is_cleanup=False):
+                  description="A magical necklace", is_cleanup=False):
         super().__init__(x, y, name, 'v', attack_bonus, defense_bonus, description, fov_bonus, health_aspect_bonus,
                          attack_multiplier_bonus, defense_multiplier_bonus, xp_multiplier_bonus,
-                         evade_bonus, crit_bonus, crit_multiplier_bonus, attack_traits, weaknesses, resistances, xp_cost, is_cleanup)
+                         evade_bonus, crit_bonus, crit_multiplier_bonus, attack_traits, weaknesses, resistances,  is_cleanup)

@@ -203,15 +203,11 @@ class Game:
                     # Equip the new accessory in that slot
                     self.player.accessories[slot_index] = self.pending_accessory_replacement
                     self.player.remove_item(self.pending_accessory_replacement)
-                    self.player.xp -= self.pending_accessory_replacement.xp_cost
                     
                     # Register events for new accessory
                     self.register_equipment_events(self.pending_accessory_replacement)
                     
-                    if self.pending_accessory_replacement.xp_cost > 0:
-                        self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name} for {self.pending_accessory_replacement.xp_cost} XP.")
-                    else:
-                        self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name}.")
+                    self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name}.")
                     
                     # Clear replacement state and return to inventory
                     self.pending_accessory_replacement = None
@@ -1164,24 +1160,16 @@ class Game:
                 self.ui.add_message("Selected item is not an accessory.")
                 return
             
-            # Check if player can afford the XP cost
-            if not selected_item.can_equip(self.player):
-                self.ui.add_message(f"Cannot equip {selected_item.name}. Need {selected_item.xp_cost} XP (you have {self.player.xp}).")
-                return
             
             # Equip accessory to the specific slot
             # Note: accessories list should always have 3 slots initialized with None
             self.player.accessories[slot_index] = selected_item
             self.player.remove_item(selected_item)
-            self.player.xp -= selected_item.xp_cost
             
             # Register events for new accessory
             self.register_equipment_events(selected_item)
             
-            if selected_item.xp_cost > 0:
-                self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1} for {selected_item.xp_cost} XP.")
-            else:
-                self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1}.")
+            self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1}.")
             
             # Update FOV after equipment change
             self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
@@ -1209,10 +1197,6 @@ class Game:
     
     def equip_item(self, item):
         """Equip an item and handle slot management."""
-        # Check if player can afford the XP cost
-        if not item.can_equip(self.player):
-            self.ui.add_message(f"Cannot equip {item.name}. Need {item.xp_cost} XP (you have {self.player.xp}).")
-            return
         
         slot = item.equipment_slot
         
@@ -1232,14 +1216,10 @@ class Game:
             # Equip new weapon
             self.player.weapon = item
             self.player.remove_item(item)
-            self.player.xp -= item.xp_cost
             
             # Register events for new weapon
             self.register_equipment_events(item)
-            if item.xp_cost > 0:
-                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
-            else:
-                self.ui.add_message(f"You equipped {item.name}.")
+            self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "armor":
             # Check if we need to unequip current armor and if there's space
@@ -1257,14 +1237,10 @@ class Game:
             # Equip new armor
             self.player.armor = item
             self.player.remove_item(item)
-            self.player.xp -= item.xp_cost
             
             # Register events for new armor
             self.register_equipment_events(item)
-            if item.xp_cost > 0:
-                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
-            else:
-                self.ui.add_message(f"You equipped {item.name}.")
+            self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "accessory":
             # Check if there's an available accessory slot
@@ -1275,15 +1251,11 @@ class Game:
                         self.player.accessories[i] = item
                         break
                 self.player.remove_item(item)
-                self.player.xp -= item.xp_cost
                 
                 # Register events for new accessory
                 self.register_equipment_events(item)
                 
-                if item.xp_cost > 0:
-                    self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
-                else:
-                    self.ui.add_message(f"You equipped {item.name}.")
+                self.ui.add_message(f"You equipped {item.name}.")
             else:
                 # All slots are full - ask which one to replace
                 self.ui.add_message("All accessory slots are full. Which accessory would you like to replace?")

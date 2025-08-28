@@ -19,7 +19,7 @@ class Equipment(Item):
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5, is_cleanup=False):
+                 is_cleanup=False):
         super().__init__(x, y, name, char, color, description)
         self.attack_bonus = attack_bonus
         self.defense_bonus = defense_bonus
@@ -37,8 +37,6 @@ class Equipment(Item):
         self.crit_bonus = crit_bonus  # Bonus to critical hit chance
         self.crit_multiplier_bonus = crit_multiplier_bonus  # Bonus to critical hit multiplier
         
-        # XP cost to equip this item
-        self.xp_cost = xp_cost
         
         # Cleanup step - if True, effects are calculated after all other equipment
         self.is_cleanup = is_cleanup
@@ -124,8 +122,8 @@ class Equipment(Item):
     
     def can_equip(self, player):
         """Check if player can equip this item."""
-        # Check if player has enough XP to equip this item
-        return player.xp >= self.xp_cost
+        # Equipment can always be equipped freely
+        return True
     
     def on_event(self, event_type: 'EventType', context: 'EventContext') -> None:
         """Handle an event. Override in subclasses to implement specific behavior."""

@@ -57,8 +57,8 @@ class TestEquipmentSwapBug(unittest.TestCase):
         # Give player enough XP
         self.game.player.xp = 100
         
-        # Don't fill inventory completely - leave one space
-        for i in range(self.game.player.inventory_size - 2):
+        # Don't fill inventory completely - leave one space (account for starting Health Potion)
+        for i in range(self.game.player.inventory_size - 3):
             potion = HealthPotion(0, 0)
             potion.name = f"Potion {i}"
             self.game.player.inventory.append(potion)

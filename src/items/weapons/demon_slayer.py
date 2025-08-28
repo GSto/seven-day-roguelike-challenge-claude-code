@@ -11,4 +11,4 @@ class DemonSlayer(Weapon):
 
     def __init__(self, x, y):
         super().__init__(x, y, "Demon Slayer", ')', 15, "A legendary blade forged to slay demons", 
-                         attack_traits=[Trait.DEMONSLAYER, Trait.SLASH], xp_cost=100)
+                         attack_traits=[Trait.DEMONSLAYER, Trait.SLASH])

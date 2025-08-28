@@ -9,4 +9,4 @@ class WhiteTShirt(Armor):
     """Basic starting armor."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "White T-Shirt", '[', 0, "A plain white T-shirt", xp_cost=0)
+        super().__init__(x, y, "White T-Shirt", '[', 0, "A plain white T-shirt")

@@ -15,8 +15,7 @@ class Armor(Equipment):
                  attack_bonus=0, fov_bonus=0, health_aspect_bonus=0.0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5):
+                 attack_traits=None, weaknesses=None, resistances=None):
         self.enchantments = []
         self.base_name = name
         super().__init__(
@@ -38,8 +37,7 @@ class Armor(Equipment):
             crit_multiplier_bonus=crit_multiplier_bonus,
             attack_traits=attack_traits,
             weaknesses=weaknesses,
-            resistances=resistances,
-            xp_cost=xp_cost
+            resistances=resistances
         )
     
     def add_enchantment(self, enchantment):

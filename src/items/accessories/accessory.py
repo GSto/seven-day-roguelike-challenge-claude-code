@@ -12,7 +12,7 @@ class Accessory(Equipment):
                  description="", fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
                  attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5, is_cleanup=False):
+                 is_cleanup=False):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -33,6 +33,5 @@ class Accessory(Equipment):
             attack_traits=attack_traits,
             weaknesses=weaknesses,
             resistances=resistances,
-            xp_cost=xp_cost,
             is_cleanup=is_cleanup
         )

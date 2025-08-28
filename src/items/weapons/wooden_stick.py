@@ -10,4 +10,4 @@ class WoodenStick(Weapon):
     """Basic starting weapon."""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Wooden Stick", ')', 1, "A simple wooden stick", xp_cost=0, attack_traits=[Trait.STRIKE])
+        super().__init__(x, y, "Wooden Stick", ')', 1, "A simple wooden stick", attack_traits=[Trait.STRIKE])
