@@ -15,7 +15,7 @@ class MagicMushroom(Consumable):
               name="Magic Mushroom",
               char='m',
               color=COLOR_RED,
-              description="Permanently increases XP multiplier by 5%",
+              description="All stats increased by 1",
               effect_value=1,
               xp_multiplier_effect=1.05
           )
