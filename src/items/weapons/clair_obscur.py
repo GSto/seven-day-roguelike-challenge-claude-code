@@ -13,3 +13,4 @@ class ClairObscur(Weapon):
         super().__init__(x, y, "Clair Obscur", ')', 10, 
                         "Late game weapon. 10 dmg. Deals light, dark, and mystic damage",
                         attack_traits=[Trait.HOLY, Trait.DARK, Trait.MYSTIC])
+        self.market_value = 140  # Late game rare weapon

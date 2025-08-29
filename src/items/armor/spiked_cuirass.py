@@ -10,5 +10,6 @@ class SpikedCuirass(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Spiked Cuirass", '[', 4, 
-                        description="Mid-game+ armor. +4 DEF, +2 ATK",
+        description="Mid-game+ armor. +4 DEF, +2 ATK",
                         attack_bonus=2)
+        self.market_value = 68  # Mid game uncommon armor

@@ -10,6 +10,7 @@ class GodsEye(Accessory):
     
     def __init__(self, x, y):
         super().__init__(x, y, "God's Eye", '=',
-                        description="FOV +20, Holy attack trait",
+        description="FOV +20, Holy attack trait",
                         fov_bonus=20,
                         attack_traits=[Trait.HOLY])
+        self.market_value = 38  # Uncommon accessory (legendary)

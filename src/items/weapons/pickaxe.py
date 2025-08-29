@@ -11,6 +11,7 @@ class Pickaxe(Weapon):
 
     def __init__(self, x, y):
         super().__init__(x, y, "Pickaxe", ')', 6, "Favorite of Miners, scales with light", attack_traits=[Trait.STRIKE])
+        self.market_value = 45  # Mid game common weapon
 
     def get_attack_multiplier_bonus(self, player):
         return max(1, (player.get_total_fov() / 10))  # return 1 so we don't accidentally scale down

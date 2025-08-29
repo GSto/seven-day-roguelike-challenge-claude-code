@@ -11,6 +11,7 @@ class GamblersVest(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Gambler's Vest", '[', 0, description="Double or 0.5x on defense")
+        self.market_value = 68  # All-level uncommon armor
 
     def get_defense_multiplier_bonus(self, player):
         base = super().get_defense_multiplier_bonus(player)

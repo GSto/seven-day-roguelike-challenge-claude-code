@@ -10,9 +10,9 @@ class Accessory(Equipment):
     
     def __init__(self, x, y, name, char, attack_bonus=0, defense_bonus=0, 
                  description="", fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
-                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0, market_value=35,
                  attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5, is_cleanup=False):
+                 is_cleanup=False):
         super().__init__(
             x=x, y=y,
             name=name,
@@ -30,9 +30,9 @@ class Accessory(Equipment):
             evade_bonus=evade_bonus,
             crit_bonus=crit_bonus,
             crit_multiplier_bonus=crit_multiplier_bonus,
+            market_value=35,
             attack_traits=attack_traits,
             weaknesses=weaknesses,
             resistances=resistances,
-            xp_cost=xp_cost,
             is_cleanup=is_cleanup
         )

@@ -13,9 +13,8 @@ class Weapon(Equipment):
     
     def __init__(self, x, y, name, char=')', attack_bonus=0, description="", 
                  fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
-                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5):
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0, market_value=25,
+                 attack_traits=None, weaknesses=None, resistances=None):
         self.enchantments = []
         self.base_name = name
         
@@ -35,10 +34,10 @@ class Weapon(Equipment):
             evade_bonus=evade_bonus,
             crit_bonus=crit_bonus,
             crit_multiplier_bonus=crit_multiplier_bonus,
+            market_value=market_value,
             attack_traits=attack_traits,
             weaknesses=weaknesses,
-            resistances=resistances,
-            xp_cost=xp_cost
+            resistances=resistances
         )
     
     def add_enchantment(self, enchantment):
@@ -157,3 +156,9 @@ class Weapon(Equipment):
         else:
             enchantment_names = [e.name.capitalize() for e in self.enchantments]
             self.name = f"{' '.join(enchantment_names)} {self.base_name}"
+    
+    def get_market_value(self):
+        """Get the current market value including enchantment bonuses (+10 per enchantment)."""
+        base_value = super().get_market_value()
+        enchantment_bonus = len(self.enchantments) * 10
+        return base_value + enchantment_bonus

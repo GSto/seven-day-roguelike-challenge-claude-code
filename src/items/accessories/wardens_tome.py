@@ -16,8 +16,8 @@ class WardensTome(Accessory):
             name="Warden's Tome",
             char="♦",
             description="Permanently gain +1 DEF when leveling up",
-            xp_cost=25
         )
+        self.market_value = 38  # Uncommon accessory
         self.color = COLOR_BLUE
         # Subscribe to level up events
         self.event_subscriptions.add(EventType.LEVEL_UP)

@@ -10,7 +10,8 @@ class GravePact(Hat):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Grave Pact", 
-                        description="+6 ATK for cold and dark attack")
+        description="+6 ATK for cold and dark attack")
+        self.market_value = 38  # Uncommon accessory
     
     def get_attack_bonus(self, player):
         pt = player.get_total_attack_traits()

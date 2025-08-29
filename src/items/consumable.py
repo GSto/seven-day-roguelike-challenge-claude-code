@@ -10,8 +10,8 @@ class Consumable(Item):
     
     def __init__(self, x, y, name, char, color, description="", effect_value=0,
                  attack_multiplier_effect=0.0, defense_multiplier_effect=0.0, xp_multiplier_effect=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None, charges=None):
-        super().__init__(x, y, name, char, color, description)
+                 attack_traits=None, weaknesses=None, resistances=None, charges=None, market_value=10):
+        super().__init__(x, y, name, char, color, description, market_value)
         self.effect_value = effect_value
         
         # Multiplier effects (additive to current multipliers)

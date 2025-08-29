@@ -17,7 +17,6 @@ class Defender(Weapon):
             char=")",
             description="Trades ATK for DEF when monsters die (min 1 ATK)",
             attack_bonus=7,
-            xp_cost=20
         )
         self.color = COLOR_BLUE
         # Subscribe to monster death events

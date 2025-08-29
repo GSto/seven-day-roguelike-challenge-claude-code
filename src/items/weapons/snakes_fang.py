@@ -12,6 +12,7 @@ class SnakesFang(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "Snake's Fang", ')', 4, "Deals slash & poison damage. Applies additional poison on hit", 
                          attack_traits=[Trait.SLASH, Trait.POISON])
+        self.market_value = 68  # Mid game uncommon weapon
     
     def on_hit(self, player, target):
         """Apply additional poison when hitting a target."""

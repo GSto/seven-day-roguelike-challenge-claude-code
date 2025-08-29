@@ -24,7 +24,7 @@ class UI:
         if len(self.message_log) > self.max_messages:
             self.message_log.pop(0)
     
-    def render(self, console, player, current_level, level=None):
+    def render(self, console, player, current_level_display, level=None):
         """Render the UI elements."""
         # UI panel starts below the map
         ui_y = MAP_HEIGHT
@@ -38,19 +38,28 @@ class UI:
         
         # Only render UI elements if we have space
         if ui_y < SCREEN_HEIGHT:
-            # Player stats
-            hp_color = COLOR_RED if player.has_low_hp() else COLOR_GREEN
+            # Player stats with colored HP based on health status
+            if player.has_high_hp():
+                hp_color = COLOR_GREEN
+            elif player.has_low_hp():
+                hp_color = COLOR_RED
+            else:
+                hp_color = COLOR_WHITE
             hp_text = f"HP:  {player.hp}/{player.max_hp}"
             console.print(0, ui_y, hp_text, fg=hp_color)
             
             # Show shields if player has any
             if player.status_effects.shields > 0:
-                shields_text = f"SLD: {player.status_effects.shields}"
+                shields_text = f"S: {player.status_effects.shields}"
                 shield_x = len(hp_text) + 3  # 3 character padding
                 console.print(shield_x, ui_y, shields_text, fg=COLOR_CYAN)
             console.print(20, ui_y, f"LVL: {player.level}", fg=COLOR_WHITE)
             console.print(35, ui_y, f"XP: {player.xp}", fg=COLOR_WHITE)
-            console.print(50, ui_y, f"Floor: {current_level}", fg=COLOR_WHITE)
+            console.print(50, ui_y, current_level_display, fg=COLOR_WHITE)
+            
+            # Show safe zone indicator for bases
+            if level and hasattr(level, 'is_safe_zone') and level.is_safe_zone():
+                console.print(62, ui_y, "[SAFE]", fg=COLOR_GREEN)
             
             # Add "Next Lvl:" under dungeon level with level up indicator
             level_up_color = COLOR_YELLOW if player.can_level_up() else COLOR_WHITE

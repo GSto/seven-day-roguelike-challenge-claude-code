@@ -10,7 +10,8 @@ class StrikeBonus(Hat):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Strike Expertise", 
-                        description="+6 ATK on strike attacks")
+        description="+6 ATK on strike attacks")
+        self.market_value = 38  # Uncommon accessory
     
     def get_attack_bonus(self, player):
         pt = player.get_total_attack_traits()

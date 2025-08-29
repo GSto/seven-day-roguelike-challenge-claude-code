@@ -11,6 +11,7 @@ class ClericsStaff(Weapon):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Cleric's Staff", ')', 4, "A holy staff that enhances healing", health_aspect_bonus=0.2, attack_traits=[Trait.HOLY, Trait.MYSTIC])
+        self.market_value = 68  # Mid game uncommon weapon
     
     def get_enchantment_bonus(self, enchantment, bonus_type, player):
         """Override to give special bonuses for BLESSED and HOLY enchantments."""

@@ -10,10 +10,10 @@ class Catalyst(Consumable):
     
     def __init__(self, x, y, name, char, color, description="", effect_value=0,
                  attack_multiplier_effect=0.0, defense_multiplier_effect=0.0, xp_multiplier_effect=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None):
+                 attack_traits=None, weaknesses=None, resistances=None, market_value=35):
         super().__init__(x, y, name, char, color, description, effect_value,
                          attack_multiplier_effect, defense_multiplier_effect, xp_multiplier_effect,
-                         attack_traits, weaknesses, resistances)
+                         attack_traits, weaknesses, resistances, market_value)
     
     def get_catalyst_hp_cost(self, player):
         """Calculate HP cost based on player's catalyst tax."""

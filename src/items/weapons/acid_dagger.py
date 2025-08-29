@@ -13,6 +13,7 @@ class AcidDagger(Weapon):
         super().__init__(x, y, "Acid Dagger", ')', 3, 
                         "Mid game weapon. 6 dmg. Apply 4 burn and 4 poison on every hit. Slash, Fire, Poison damage.",
                         attack_traits=[Trait.SLASH, Trait.FIRE, Trait.POISON])
+        self.market_value = 68  # Mid game uncommon weapon
     
     def on_hit(self, attacker, target):
         """Apply burn and poison when hitting a target."""

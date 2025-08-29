@@ -39,9 +39,13 @@ class Level:
         self.rooms = []
         self.monsters = []
         self.items = []
+        self.shop = None  # Shop for this level (if any)
         self.generate_level()
         
-        # Place monsters and items after level generation
+        # Shops no longer spawn on regular floors (moved to bases)
+        self.shop = None
+        
+        # Place monsters and items
         self.place_monsters()
         self.place_items()
         
@@ -169,8 +173,8 @@ class Level:
             
             # Check if position is valid (walkable and not occupied)
             if self.is_walkable(x, y) and not self.is_position_occupied(x, y):
-                # Don't place monsters on stairs
-                if not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)):
+                # Don't place monsters on stairs or shops
+                if not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y) or self.is_shop_at(x, y)):
                     # Create appropriate monster for this level
                     monster = create_monster_for_level(self.level_number, x, y)
                     self.monsters.append(monster)
@@ -202,11 +206,11 @@ class Level:
         
         # Number of items based on level
         if self.level_number <= 2:
-            item_count = random.randint(5, 8)
+            item_count = random.randint(5, 7)
         elif self.level_number <= 5:
-            item_count = random.randint(7, 10)
+            item_count = random.randint(4, 7)
         elif self.level_number <= 9:
-            item_count = random.randint(7, 10)
+            item_count = random.randint(4, 7)
         else:  # Level 9-10
             item_count = random.randint(1, 3)  # Fewer items on boss levels, but higher quality
         
@@ -227,11 +231,12 @@ class Level:
             x = random.randint(room.x1 + 1, room.x2 - 1)
             y = random.randint(room.y1 + 1, room.y2 - 1)
             
-            # Check if position is valid (walkable, not occupied, not on stairs)
+            # Check if position is valid (walkable, not occupied, not on stairs or shops)
             if (self.is_walkable(x, y) and 
                 not self.is_position_occupied(x, y) and
                 not self.is_item_at(x, y) and
-                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y))):
+                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)) and
+                not self.is_shop_at(x, y)):
                 
                 # Create appropriate item for this level
                 item = create_random_item_for_level(self.level_number, x, y)
@@ -256,16 +261,22 @@ class Level:
             x = random.randint(room.x1 + 1, room.x2 - 1)
             y = random.randint(room.y1 + 1, room.y2 - 1)
             
-            # Check if position is valid (walkable, not occupied, not on stairs)
+            # Check if position is valid (walkable, not occupied, not on stairs or shops)
             if (self.is_walkable(x, y) and 
                 not self.is_position_occupied(x, y) and
                 not self.is_item_at(x, y) and
-                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y))):
+                not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)) and
+                not self.is_shop_at(x, y)):
                 
                 # Create the DemonSlayer weapon
                 demon_slayer = DemonSlayer(x, y)
                 self.items.append(demon_slayer)
                 break
+    
+    def is_shop_at(self, x, y):
+        """Check if there's a shop at the given position."""
+        # Shops no longer exist on regular floors
+        return False
     
     def is_item_at(self, x, y):
         """Check if there's an item at the given position."""
@@ -372,6 +383,8 @@ class Level:
                             console.print(x, y, '>', fg=COLOR_DARK_GROUND)
                         elif self.tiles[x, y] == TILE_STAIRS_UP:
                             console.print(x, y, '<', fg=COLOR_DARK_GROUND)
+        
+        # Shops no longer render on regular floors (moved to bases)
         
         # Render items on top of terrain (but below monsters)
         for item in self.items:

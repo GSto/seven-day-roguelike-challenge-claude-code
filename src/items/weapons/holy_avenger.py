@@ -20,7 +20,6 @@ class HolyAvenger(Weapon):
             description="10% chance to counter-attack when hit",
             attack_bonus=8,
             attack_traits=[Trait.HOLY, Trait.STRIKE],
-            xp_cost=30
         )
         self.color = COLOR_WHITE
         # Subscribe to monster attack events

@@ -13,3 +13,4 @@ class FeuGlace(Weapon):
         super().__init__(x, y, "Feu-Glace", ')', 10, 
                         "Late game weapon. 10 dmg. Deals fire, ice, and mystic damage",
                         attack_traits=[Trait.FIRE, Trait.ICE, Trait.MYSTIC])
+        self.market_value = 140  # Late game rare weapon

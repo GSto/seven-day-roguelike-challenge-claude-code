@@ -10,3 +10,4 @@ class Cloak(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Cloak", '[', 1, description="Shadow black, hard to see", evade_bonus=0.10)
+        self.market_value = 25  # Early game common armor

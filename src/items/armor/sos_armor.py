@@ -10,7 +10,8 @@ class SOSArmor(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "SOS Armor", '[', 2, 
-                        description="+2 DEF. +6 DEF if HP is 20% or less of max HP")
+        description="+2 DEF. +6 DEF if HP is 20% or less of max HP")
+        self.market_value = 68  # Mid game uncommon armor
     
     def get_defense_bonus(self, player):
         """Get defense bonus with conditional extra defense at low HP."""

@@ -9,7 +9,8 @@ from traits import Trait
 class StoneArmor(Armor):
     def __init__(self, x, y):
         super().__init__(x, y, "Stone Armor", '[', 3, 
-                        description="Mid-game armor. +3 DEF. Immunity to stun, immobilized, and off-guard")
+        description="Mid-game armor. +3 DEF. Immunity to stun, immobilized, and off-guard")
+        self.market_value = 45  # Mid game common armor
     
     def blocks_status_effect(self, effect_name):
         """Check if this armor blocks a specific status effect."""

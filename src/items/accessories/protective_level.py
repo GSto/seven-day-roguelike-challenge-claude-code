@@ -16,8 +16,8 @@ class ProtectiveLevel(Accessory):
             name="Protective Level",
             char="♦",
             description="Gain 1 shield when leveling up",
-            xp_cost=20
         )
+        self.market_value = 38  # Uncommon accessory
         self.color = COLOR_CYAN
         # Subscribe to level up events
         self.event_subscriptions.add(EventType.LEVEL_UP)

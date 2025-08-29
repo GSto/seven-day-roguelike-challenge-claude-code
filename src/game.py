@@ -10,11 +10,14 @@ from items.factory import create_random_item_for_level
 import random
 from player import Player
 from level.level import Level
+from level.base import Base
+from level_manager import LevelManager
 from ui import UI
 from traits import Trait
 from event_emitter import EventEmitter
 from event_type import EventType
 from event_context import ConsumeContext, AttackContext, DeathContext, FloorContext
+from shop_manager import ShopManager
 
 
 class Game:
@@ -25,9 +28,9 @@ class Game:
         # Set up the console
         self.console = tcod.console.Console(SCREEN_WIDTH, SCREEN_HEIGHT, order="F")
         
-        # Initialize game state
-        self.current_level = 1
-        self.level = Level(level_number=self.current_level)
+        # Initialize level manager and game state
+        self.level_manager = LevelManager()
+        self.level = self.level_manager.get_current_area()
         
         # Place player at stairs up position (or first room if no stairs)
         if hasattr(self.level, 'stairs_up_pos') and self.level.stairs_up_pos:
@@ -39,6 +42,7 @@ class Game:
         
         self.player = Player(x=start_x, y=start_y)
         self.ui = UI()
+        self.shop_manager = ShopManager()  # Initialize shop manager
         
         # Initialize FOV for starting position
         self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
@@ -47,7 +51,7 @@ class Game:
         self.running = True
         self.player_turn = True
         self.just_changed_level = False  # Prevent immediate level transitions
-        self.game_state = 'MENU'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU', 'HELP'
+        self.game_state = 'MENU'  # 'PLAYING', 'DEAD', 'INVENTORY', 'VICTORY', 'MENU', 'HELP', 'SHOP'
         self.highest_floor_reached = 1
         self.player_acted_this_frame = False  # Track if player took an action this frame
         
@@ -126,6 +130,18 @@ class Game:
                 self.game_state = 'MENU'
             elif key == tcod.event.KeySym.ESCAPE or key == ord('q'):
                 self.running = False
+        elif self.game_state == 'SHOP':
+            # Handle shop input
+            action = self.shop_manager.handle_input(key)
+            if action == "exit_shop":
+                self.game_state = 'PLAYING'
+                self.ui.add_message("You leave the shop.")
+            elif action and action.startswith("buy:"):
+                message = action.split(":", 1)[1]
+                self.ui.add_message(message)
+            elif action and action.startswith("sell:"):
+                message = action.split(":", 1)[1]
+                self.ui.add_message(message)
         elif self.game_state == 'INVENTORY':
             # Handle inventory screen input
             if key == tcod.event.KeySym.ESCAPE:
@@ -187,15 +203,11 @@ class Game:
                     # Equip the new accessory in that slot
                     self.player.accessories[slot_index] = self.pending_accessory_replacement
                     self.player.remove_item(self.pending_accessory_replacement)
-                    self.player.xp -= self.pending_accessory_replacement.xp_cost
                     
                     # Register events for new accessory
                     self.register_equipment_events(self.pending_accessory_replacement)
                     
-                    if self.pending_accessory_replacement.xp_cost > 0:
-                        self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name} for {self.pending_accessory_replacement.xp_cost} XP.")
-                    else:
-                        self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name}.")
+                    self.ui.add_message(f"You equipped {self.pending_accessory_replacement.name}.")
                     
                     # Clear replacement state and return to inventory
                     self.pending_accessory_replacement = None
@@ -301,6 +313,10 @@ class Game:
         # Check if there's a monster at the target position
         monster = self.level.get_monster_at(new_x, new_y)
         if monster and monster.is_alive():
+            # Check if combat is allowed in this area
+            if not self.level_manager.can_attack():
+                self.ui.add_message("You cannot attack in a safe zone!")
+                return
             # Attack the monster instead of moving
             self.player_attack_monster(monster)
             self.player_acted_this_frame = True  # Player took an action
@@ -312,6 +328,11 @@ class Game:
             # Update FOV immediately after movement
             self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
             self.player_acted_this_frame = True  # Player took an action
+            
+            # Check if player moved onto a shop
+            if self.level.is_shop_at(new_x, new_y):
+                self.open_shop()
+                return
             
             # Add occasional movement messages to help clear old combat messages
             # This helps push out persistent XP/combat messages from the log
@@ -762,28 +783,35 @@ class Game:
     
     def descend_level(self):
         """Move to the next level down."""
-        previous_floor = self.current_level
-        self.current_level += 1
-        self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
-        self.level = Level(level_number=self.current_level)
+        result = self.level_manager.transition_down(self.player)
         
-        # Emit floor change event
-        event_emitter = EventEmitter()
-        context = FloorContext(
-            player=self.player,
-            floor_number=self.current_level,
-            previous_floor=previous_floor
-        )
-        event_emitter.emit(EventType.FLOOR_CHANGE, context)
-        
-        # Place player at stairs up position
-        stairs_up_x, stairs_up_y = self.level.get_stairs_up_position()
-        self.player.x = stairs_up_x
-        self.player.y = stairs_up_y
-        # Update FOV for new level
-        self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
-        # Set flag to prevent immediate transition back
-        self.just_changed_level = True
+        if isinstance(result, tuple) and result[0]:  # Success with message
+            success, message = result
+            self.level = self.level_manager.get_current_area()
+            self.current_level = self.level_manager.get_current_floor_number()
+            self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
+            
+            # Add transition message
+            if message:
+                self.ui.add_message(message)
+            
+            # Update FOV for new area
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+            # Set flag to prevent immediate transition back
+            self.just_changed_level = True
+        elif result is True:  # Old format compatibility
+            self.level = self.level_manager.get_current_area()
+            self.current_level = self.level_manager.get_current_floor_number()
+            self.highest_floor_reached = max(self.highest_floor_reached, self.current_level)
+            
+            # Update FOV for new area
+            self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
+            # Set flag to prevent immediate transition back
+            self.just_changed_level = True
+        else:
+            # Floor 10 completed - should trigger victory
+            if self.current_level >= 10:
+                self.game_state = 'VICTORY'
     
     def register_equipment_events(self, equipment):
         """Register equipment with the event system."""
@@ -823,15 +851,16 @@ class Game:
     
     def start_new_game(self):
         """Start a new game from the main menu."""
-        # Initialize game state
-        self.current_level = 1
+        # Initialize level manager and game state
+        self.level_manager = LevelManager()
+        self.level = self.level_manager.get_current_area()
+        self.current_level = self.level_manager.get_current_floor_number()
         self.highest_floor_reached = 1
-        self.level = Level(level_number=self.current_level)
         
         # Place player at stairs up position (or first room if no stairs)
         if hasattr(self.level, 'stairs_up_pos') and self.level.stairs_up_pos:
             start_x, start_y = self.level.stairs_up_pos
-        elif len(self.level.rooms) > 0:
+        elif hasattr(self.level, 'rooms') and len(self.level.rooms) > 0:
             start_x, start_y = self.level.rooms[0].center()
         else:
             start_x, start_y = 10, 10
@@ -868,6 +897,13 @@ class Game:
         else:
             # Don't add a message for empty pickup attempts - this was causing message spam
             pass
+    
+    def open_shop(self):
+        """Open the shop interface when player enters a shop."""
+        if self.level.shop:
+            self.shop_manager.open_shop(self.level.shop, self.player)
+            self.game_state = 'SHOP'
+            self.ui.add_message("Welcome to the shop! Press TAB to switch between buying and selling.")
     
     def use_inventory_item(self, item_index):
         """Use or equip an item from inventory by index."""
@@ -1124,24 +1160,16 @@ class Game:
                 self.ui.add_message("Selected item is not an accessory.")
                 return
             
-            # Check if player can afford the XP cost
-            if not selected_item.can_equip(self.player):
-                self.ui.add_message(f"Cannot equip {selected_item.name}. Need {selected_item.xp_cost} XP (you have {self.player.xp}).")
-                return
             
             # Equip accessory to the specific slot
             # Note: accessories list should always have 3 slots initialized with None
             self.player.accessories[slot_index] = selected_item
             self.player.remove_item(selected_item)
-            self.player.xp -= selected_item.xp_cost
             
             # Register events for new accessory
             self.register_equipment_events(selected_item)
             
-            if selected_item.xp_cost > 0:
-                self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1} for {selected_item.xp_cost} XP.")
-            else:
-                self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1}.")
+            self.ui.add_message(f"You equipped {selected_item.name} to slot {slot_index + 1}.")
             
             # Update FOV after equipment change
             self.level.update_fov(self.player.x, self.player.y, self.player.get_total_fov())
@@ -1169,10 +1197,6 @@ class Game:
     
     def equip_item(self, item):
         """Equip an item and handle slot management."""
-        # Check if player can afford the XP cost
-        if not item.can_equip(self.player):
-            self.ui.add_message(f"Cannot equip {item.name}. Need {item.xp_cost} XP (you have {self.player.xp}).")
-            return
         
         slot = item.equipment_slot
         
@@ -1192,14 +1216,10 @@ class Game:
             # Equip new weapon
             self.player.weapon = item
             self.player.remove_item(item)
-            self.player.xp -= item.xp_cost
             
             # Register events for new weapon
             self.register_equipment_events(item)
-            if item.xp_cost > 0:
-                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
-            else:
-                self.ui.add_message(f"You equipped {item.name}.")
+            self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "armor":
             # Check if we need to unequip current armor and if there's space
@@ -1217,14 +1237,10 @@ class Game:
             # Equip new armor
             self.player.armor = item
             self.player.remove_item(item)
-            self.player.xp -= item.xp_cost
             
             # Register events for new armor
             self.register_equipment_events(item)
-            if item.xp_cost > 0:
-                self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
-            else:
-                self.ui.add_message(f"You equipped {item.name}.")
+            self.ui.add_message(f"You equipped {item.name}.")
             
         elif slot == "accessory":
             # Check if there's an available accessory slot
@@ -1235,15 +1251,11 @@ class Game:
                         self.player.accessories[i] = item
                         break
                 self.player.remove_item(item)
-                self.player.xp -= item.xp_cost
                 
                 # Register events for new accessory
                 self.register_equipment_events(item)
                 
-                if item.xp_cost > 0:
-                    self.ui.add_message(f"You equipped {item.name} for {item.xp_cost} XP.")
-                else:
-                    self.ui.add_message(f"You equipped {item.name}.")
+                self.ui.add_message(f"You equipped {item.name}.")
             else:
                 # All slots are full - ask which one to replace
                 self.ui.add_message("All accessory slots are full. Which accessory would you like to replace?")
@@ -1459,6 +1471,12 @@ class Game:
         elif self.game_state == 'VICTORY':
             # Render victory screen
             self.render_victory_screen()
+        elif self.game_state == 'SHOP':
+            # Render shop interface
+            self.level.render(self.console)
+            self.player.render(self.console, self.level.fov)
+            self.shop_manager.render(self.console)
+            self.ui.render(self.console, self.player, self.level_manager.get_display_name(), self.level)
         elif self.game_state == 'INVENTORY':
             # Render inventory screen
             self.ui.render_inventory(self.console, self.player, self.selected_item_index, 
@@ -1481,4 +1499,4 @@ class Game:
             self.player.render(self.console, self.level.fov)
             
             # Render the UI
-            self.ui.render(self.console, self.player, self.current_level, self.level)
+            self.ui.render(self.console, self.player, self.level_manager.get_display_name(), self.level)

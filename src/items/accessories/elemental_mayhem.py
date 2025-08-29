@@ -9,7 +9,8 @@ class ElementalMayhem(Accessory):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Elemental Mayhem", '=',
-                        description="Grants a +3 attack bonus for every unique elemental trait among attack traits and resistance traits")
+        description="Grants a +3 attack bonus for every unique elemental trait among attack traits and resistance traits")
+        self.market_value = 50  # Rare accessory
     
     def get_attack_bonus(self, player):
         """Get attack bonus based on unique elemental traits."""

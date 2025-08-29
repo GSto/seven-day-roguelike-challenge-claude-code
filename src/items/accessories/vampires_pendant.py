@@ -17,9 +17,10 @@ class VampiresPendant(Accessory):
             name="Vampire's Pendant",
             char="♦",
             description="Heals 5% max health when a monster dies",
-            xp_cost=5,
+            
             attack_traits=[Trait.DARK]
         )
+        self.market_value = 50  # Rare accessory
         self.color = COLOR_RED
         # Subscribe to monster death events
         self.event_subscriptions.add(EventType.MONSTER_DEATH)

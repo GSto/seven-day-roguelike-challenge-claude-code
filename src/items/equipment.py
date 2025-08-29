@@ -18,9 +18,9 @@ class Equipment(Item):
                  fov_bonus=0, health_aspect_bonus=0.0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None,
-                 xp_cost=5, is_cleanup=False):
-        super().__init__(x, y, name, char, color, description)
+                 attack_traits=None, weaknesses=None, resistances=None, market_value=10,
+                 is_cleanup=False):
+        super().__init__(x, y, name, char, color, description, market_value)
         self.attack_bonus = attack_bonus
         self.defense_bonus = defense_bonus
         self.equipment_slot = equipment_slot  # "weapon", "armor", "accessory"
@@ -37,11 +37,12 @@ class Equipment(Item):
         self.crit_bonus = crit_bonus  # Bonus to critical hit chance
         self.crit_multiplier_bonus = crit_multiplier_bonus  # Bonus to critical hit multiplier
         
-        # XP cost to equip this item
-        self.xp_cost = xp_cost
         
         # Cleanup step - if True, effects are calculated after all other equipment
         self.is_cleanup = is_cleanup
+        
+        # Set proper market value for equipment
+        self.market_value = market_value
         
         # Traits system
         self.attack_traits = attack_traits or []
@@ -121,8 +122,8 @@ class Equipment(Item):
     
     def can_equip(self, player):
         """Check if player can equip this item."""
-        # Check if player has enough XP to equip this item
-        return player.xp >= self.xp_cost
+        # Equipment can always be equipped freely
+        return True
     
     def on_event(self, event_type: 'EventType', context: 'EventContext') -> None:
         """Handle an event. Override in subclasses to implement specific behavior."""
@@ -131,3 +132,7 @@ class Equipment(Item):
     def get_subscribed_events(self) -> Set['EventType']:
         """Get the events this equipment wants to listen to. Override in subclasses."""
         return self.event_subscriptions.copy()
+    
+    def get_default_market_value(self):
+        """Get the default market value for equipment."""
+        return 25

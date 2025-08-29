@@ -10,7 +10,8 @@ class RighteousFury(Accessory):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Righteous Fury", '=',
-                        description="Holy attacks also apply 4 burn damage")
+        description="Holy attacks also apply 4 burn damage")
+        self.market_value = 38  # Uncommon accessory
     
     def on_hit(self, player, target):
         """Apply burn damage when making holy attacks."""

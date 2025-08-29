@@ -9,8 +9,9 @@ class Anaglyph(Accessory):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Anaglyph", '=',
-                        description="Balances ATK and DEF",
+        description="Balances ATK and DEF",
                         is_cleanup=True)
+        self.market_value = 50  # Rare accessory
     
     def apply_cleanup_effect(self, player, current_attack, current_defense):
         """Apply the stat balancing effect during cleanup phase."""
