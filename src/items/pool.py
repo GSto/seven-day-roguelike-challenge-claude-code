@@ -20,7 +20,7 @@ from .weapons import (
     Dagger, Sword, Shield, Katana, Axe, MorningStar, ClericsStaff, Gauntlets,
     MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick,
     Longsword, WarHammer, WarScythe, TowerShield, ClairObscur, FeuGlace,
-    RiversOfBlood, DemonSlayer
+    RiversOfBlood, DemonSlayer, BackhandBlade, HolyAvenger
 )
 from .armor import (
     LeatherArmor, SafetyVest, Cloak, SpikedArmor, GamblersVest, MinimalSuit,
@@ -102,9 +102,11 @@ class ItemPool:
             
             # Late game weapons (levels 6-9)
             ItemSpec(Longsword, 'weapon', 6, 9, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(TowerShield, 'weapon', 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(WarHammer, 'weapon', 7, None, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(WarScythe, 'weapon', 7, None, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(TowerShield, 'weapon', 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(HolyAvenger, 'weapon', 7, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(BackhandBlade, 'weapon', 7, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(ClairObscur, 'weapon', 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(FeuGlace, 'weapon', 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(RiversOfBlood, 'weapon', 7, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),

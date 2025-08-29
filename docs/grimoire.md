@@ -63,7 +63,7 @@ Joker's Boon
 Applies a random enchantment to equipped weapon or armor
 
 Magic Mushroom
-Permanently increases XP multiplier by 5%
+All stats increased by 1
 
 Mayhem's Boon
 Grants a random elemental enchantment bonus
@@ -225,13 +225,13 @@ A simple wooden stick
 ## ARMOR
 --------------------------------------------------
 
-Anti-Angel Technology (+4 def)
-Mid-game armor. +4 DEF. Dark resistance, cannot be frightened
-[Resist: DARK]
-
-Anti-Angel Technology (+4 def)
-Mid-game armor. +4 DEF. Holy resistance, immune to blindness
+Anti-Angel Armor (+4 def)
++4 DEF. Holy resistance, immune to blindness
 [Resist: HOLY]
+
+Anti-Devil Armor (+4 def)
++4 DEF. Dark resistance, cannot be frightened
+[Resist: DARK]
 
 Chain Mail (+2 def)
 Flexible chain mail armor
@@ -301,7 +301,7 @@ Ace of Diamonds
 2x XP if low health
 
 Ace of Hearts
-2x attack if at full health
+2x attack if high health
 
 Ace of Spades (2.0x attack, 0.1x defense)
 Are you a gambling man? doubles attack, decimates defense
@@ -310,7 +310,7 @@ Amulet of Brutality (+0.5x crit damage)
 An amulet that amplifies your fury
 
 Anaglyph
-Balances stats. ATK = (ATK+DEF)/2, DEF = (DEF+ATK)/2
+Balances ATK and DEF
 
 Assassin's Mask (+8% evade, +8% crit)
 A mask that shrouds you in shadow and sharpens your focus
@@ -391,6 +391,7 @@ Strike Expertise
 
 Vampire's Pendant
 Heals 5% max health when a monster dies
+[Attack: DARK]
 
 Warden's Tome
 Permanently gain +1 DEF when leveling up
@@ -434,14 +435,16 @@ Permanently gain +1 DEF when leveling up
   - Feu-Glace
 
 ### Armor Resistances
-- **DARK:** 1 armors
-  - Anti-Angel Technology
 - **HOLY:** 1 armors
-  - Anti-Angel Technology
+  - Anti-Angel Armor
+- **DARK:** 1 armors
+  - Anti-Devil Armor
 
 ### Accessory Traits
 - **HOLY (Attack):** 1 accessories
   - God's Eye
+- **DARK (Attack):** 1 accessories
+  - Vampire's Pendant
 - **DARK (Resist):** 1 accessories
   - Rosary
 

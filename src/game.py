@@ -758,6 +758,13 @@ class Game:
         # Process player status effects at turn start
         if self.player.is_alive() and self.game_state == 'PLAYING':
             player_skips_turn = self.process_status_effects_turn_start(self.player)
+            
+            # Check if player died from status effects
+            if not self.player.is_alive():
+                self.ui.add_message("You have died!")
+                self.game_state = 'DEAD'
+                return
+            
             if player_skips_turn:
                 # Player loses their turn, but monsters still get to act
                 self.process_monster_turns()
@@ -940,6 +947,13 @@ class Game:
                         
                         self.player.remove_item(item)
                         self.ui.add_message(message)
+                        
+                        # Check if player died from catalyst HP cost
+                        if not self.player.is_alive():
+                            self.ui.add_message("You have died!")
+                            self.game_state = 'DEAD'
+                            return
+                        
                         # Reset inventory pointer to first slot after consumable use
                         if len(self.player.inventory) > 0:
                             self.selected_item_index = len(self.player.inventory) - 1  # Newest item (first slot)

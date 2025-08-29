@@ -16,7 +16,8 @@ class SalmonOfKnowledge(Consumable):
             char='!',
             color=COLOR_SALMON,
             description="Gain insight",
-            effect_value=50 
+            effect_value=50,
+            market_value=55
         )
     
     def use(self, player):

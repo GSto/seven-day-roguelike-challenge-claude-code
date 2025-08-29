@@ -34,7 +34,7 @@ class Catalyst(Consumable):
             return (False, f"You need at least {hp_cost + 1} HP to use this catalyst!")
         
         # Apply HP cost and increase tax
-        player.hp -= hp_cost
+        player.hp = max(0, player.hp - hp_cost)  # Ensure HP doesn't go negative
         player.catalyst_tax += 0.05  # Increase tax by 5%
         
         # Call subclass implementation

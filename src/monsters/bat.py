@@ -10,7 +10,7 @@ class Bat(Monster):
         super().__init__(
             x=x, y=y,
             name="Bat",
-            char='Bat',
+            char='B',
             color=COLOR_GRAY,
             hp=6,
             attack=2,

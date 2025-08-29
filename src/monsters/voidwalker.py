@@ -9,8 +9,8 @@ class Voidwalker(Monster):
     def __init__(self, x, y):
         super().__init__(
             x=x, y=y,
-            name="Umbral",
-            char='U',
+            name="Voidwalker",
+            char='V',
             color=COLOR_GRAY,
             hp=210,
             attack=13,

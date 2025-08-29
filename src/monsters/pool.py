@@ -56,7 +56,7 @@ class MonsterPool:
             MonsterSpec(Horror, 4.0, 6, None, 0.4),
             
             # late-game monsnters (levels 8-9)
-            MonsterSpec(Voidwalker, 5.0, 8, None, 0.3)
+            MonsterSpec(Voidwalker, 5.0, 8, None, 0.3),
 
             
             # Boss monster (level 10 only)

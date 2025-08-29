@@ -27,4 +27,4 @@ class PsychicsTurban(Hat):
     def get_attack_bonus(self, player):
         # Use both the player's historical consumable count (for items used before equipping)
         # and the internal counter (for items used while equipped)
-        return super().get_attack_bonus(player) + player.consumable_count + self.consumable_counter
+        return super().get_attack_bonus(player) + self.consumable_counter
