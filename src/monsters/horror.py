@@ -16,10 +16,10 @@ class Horror(Monster):
             name="Horror",
             char='H',
             color=COLOR_CRIMSON,
-            hp=100,
+            hp=200,
             attack=16,
             defense=3,
-            xp_value=65,
+            xp_value=67,
             evade=0.08,  # Slightly higher evade
             crit=0.05,  # Nerfed crit abilities - Horrors are dangerous enough in current state
             crit_multiplier=1.5,

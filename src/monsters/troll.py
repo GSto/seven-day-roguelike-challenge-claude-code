@@ -16,7 +16,7 @@ class Troll(Monster):
             name="Troll",
             char='T',
             color=COLOR_YELLOW,
-            hp=70,
+            hp=140,
             attack=8,
             defense=7,
             xp_value=45,

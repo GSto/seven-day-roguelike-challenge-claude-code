@@ -6,16 +6,19 @@ from dataclasses import dataclass
 from typing import List, Type, Dict, Optional
 import random
 
-from .skeleton import Skeleton
-from .zombie import Zombie
+from .angel import Angel
+from .bat import Bat
+from .devil import Devil
+from .horror import Horror
+from .goblin import Goblin
+from .naga import Naga
 from .orc import Orc
 from .phantom import Phantom
-from .goblin import Goblin
+from .skeleton import Skeleton
 from .troll import Troll
-from .horror import Horror
-from .angel import Angel
-from .devil import Devil
-from .naga import Naga
+from .umbral import Umbral
+from .voidwalker import Voidwalker
+from .zombie import Zombie
 
 
 @dataclass
@@ -36,7 +39,8 @@ class MonsterPool:
         """Initialize the monster pool with all available monsters."""
         self.monsters: List[MonsterSpec] = [
             # Early game monsters (levels 1-3)
-            MonsterSpec(Skeleton, 1.0, 1, 4, 1.0),
+            MonsterSpec(Bat, 1.0, 1, 4, 1.0),
+            MonsterSpec(Skeleton, 1.0, 1, 3, 1.0),
             MonsterSpec(Zombie, 1.2, 1, 5, 0.8),
             
             # Mid-early monsters (levels 2-6) 
@@ -45,10 +49,15 @@ class MonsterPool:
             MonsterSpec(Goblin, 2.2, 4, 9, 0.8),
             MonsterSpec(Naga, 3.0, 4, None, 0.5),
             
-            # Mid-late monsters (levels 5-9)
+            # Mid-late monsters (levels 5-7)
+            MonsterSpec(Umbral, 3.0, 5, None, 0.5),
             MonsterSpec(Troll, 3.0, 5, None, 0.5),
             MonsterSpec(Angel, 3.5, 6, None, 0.4),
-            MonsterSpec(Horror, 4.0, 6, None, 0.3),
+            MonsterSpec(Horror, 4.0, 6, None, 0.4),
+            
+            # late-game monsnters (levels 8-9)
+            MonsterSpec(Voidwalker, 5.0, 8, None, 0.3)
+
             
             # Boss monster (level 10 only)
             MonsterSpec(Devil, 10.0, 10, 10, 1.0, boss_only=False),

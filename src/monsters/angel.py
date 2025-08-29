@@ -3,7 +3,7 @@ Angel monster - angelic creature with flight abilities.
 """
 
 from .base import Monster
-from constants import COLOR_YELLOW
+from constants import COLOR_WHITE
 from traits import Trait
 
 
@@ -15,8 +15,8 @@ class Angel(Monster):
             x=x, y=y,
             name="Angel",
             char='A',
-            color=COLOR_YELLOW,
-            hp=100,
+            color=COLOR_WHITE,
+            hp=200,
             attack=13,
             defense=2,
             xp_value=65,
