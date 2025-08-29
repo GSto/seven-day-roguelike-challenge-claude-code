@@ -9,4 +9,5 @@ class AssassinsMask(Hat):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Assassin's Mask", evade_bonus=0.08, crit_bonus=0.08, 
-                        description="A mask that shrouds you in shadow and sharpens your focus")
+        description="A mask that shrouds you in shadow and sharpens your focus")
+        self.market_value = 25  # Common accessory

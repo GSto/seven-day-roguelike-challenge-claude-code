@@ -10,3 +10,4 @@ class LeatherArmor(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Leather Armor", '[', 1, description="Basic leather protection. Free to equip")
+        self.market_value = 25  # Early game common armor

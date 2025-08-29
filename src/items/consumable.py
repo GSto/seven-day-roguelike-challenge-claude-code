@@ -10,8 +10,8 @@ class Consumable(Item):
     
     def __init__(self, x, y, name, char, color, description="", effect_value=0,
                  attack_multiplier_effect=0.0, defense_multiplier_effect=0.0, xp_multiplier_effect=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None, charges=None):
-        super().__init__(x, y, name, char, color, description)
+                 attack_traits=None, weaknesses=None, resistances=None, charges=None, market_value=10):
+        super().__init__(x, y, name, char, color, description, market_value)
         self.effect_value = effect_value
         
         # Multiplier effects (additive to current multipliers)
@@ -27,9 +27,6 @@ class Consumable(Item):
         # Charges system - if None, item is destroyed after use
         self.charges = charges
         self.max_charges = charges if charges is not None else None
-        
-        # Set proper market value for consumables
-        self.market_value = self.get_default_market_value()
     
     def use(self, player, **kwargs):
         """Use the consumable item. Returns (success, message, should_destroy)."""

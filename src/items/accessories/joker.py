@@ -8,6 +8,7 @@ from .card import Card
 class Joker(Card):
         def __init__(self, x, y):
           super().__init__(x, y, "Joker", description="Double or nothing on Everything")
+          self.market_value = 50  # Rare accessory (card)
 
         def get_attack_multiplier_bonus(self, player):
             rand = random.random()

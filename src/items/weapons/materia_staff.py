@@ -11,6 +11,7 @@ class MateriaStaff(Weapon):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Materia Staff", ')', 2, "A staff that gets better with enchantments", attack_traits=[Trait.MYSTIC])
+        self.market_value = 68  # Mid game uncommon weapon
         self.no_initial_enchantments = True
 
     def get_attack_bonus(self, player):

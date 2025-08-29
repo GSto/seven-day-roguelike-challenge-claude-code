@@ -12,6 +12,7 @@ class Rapier(Weapon):
     def __init__(self, x, y):
         super().__init__(x, y, "Rapier", ')', 6, "Mid-game weapon that applies off-guard on attack", 
                          attack_traits=[Trait.SLASH])
+        self.market_value = 68  # Mid game uncommon weapon
     
     def on_hit(self, attacker, target):
         """Apply off-guard status when hitting a target."""

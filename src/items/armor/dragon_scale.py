@@ -10,3 +10,4 @@ class DragonScale(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Dragon Scale Armor", '[', 5, description="Legendary dragon scale armor")
+        self.market_value = 140  # Late game rare armor

@@ -10,7 +10,8 @@ class SongOfIceAndFire(Accessory):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Song of Ice and Fire", '=',
-                        description="If on floor 5 or lower, +6 ATK for Ice or fire damage")
+        description="If on floor 5 or lower, +6 ATK for Ice or fire damage")
+        self.market_value = 25  # Common accessory
     
     def get_attack_bonus(self, player):
         """Get attack bonus based on floor and elemental traits."""

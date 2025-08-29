@@ -14,6 +14,7 @@ class BigStick(Weapon):
         super().__init__(x, y, "Big Stick", ')', 5, 
                         "Mid-game weapons. strike. 50% chance to apply stun. 50% chance to apply immobilized.",
                         attack_traits=[Trait.STRIKE])
+        self.market_value = 45  # Mid game common weapon
     
     def on_hit(self, attacker, target):
         """Apply random status effects when hitting a target."""

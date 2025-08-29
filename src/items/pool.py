@@ -101,15 +101,15 @@ class ItemPool:
             ItemSpec(BigStick, 'weapon', 2, 6, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
             
             # Late game weapons (levels 6-9)
-            ItemSpec(Longsword, 'weapon', 6, 9, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(WarHammer, 'weapon', 7, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
-            ItemSpec(WarScythe, 'weapon', 7, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(Longsword, 'weapon', 6, 9, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(WarHammer, 'weapon', 7, None, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(WarScythe, 'weapon', 7, None, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(TowerShield, 'weapon', 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(ClairObscur, 'weapon', 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(FeuGlace, 'weapon', 8, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(RiversOfBlood, 'weapon', 7, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             
             # End game weapons (levels 9-10)
-            ItemSpec(RiversOfBlood, 'weapon', 9, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(DemonSlayer, 'weapon', 10, 10, RARITY_COMMON, unique_per_floor=True, unique_per_game=False, tags=['boss_weapon']),
         ]
         

@@ -61,7 +61,7 @@ class Shop:
                 self.inventory.append(item)
         
         # Pad inventory to ensure consistent size (max 15 items)
-        while len(self.inventory) < 15:
+        while len(self.inventory) < 10:
             self.inventory.append(None)  # Empty slots
     
     def _create_shop_item(self, item_type: str):
@@ -145,7 +145,7 @@ class Shop:
             return False, "You don't have that item."
         
         # Calculate sell price (50% of market value, rounded down)
-        sell_price = item.market_value // 2
+        sell_price = int(item.market_value // 3)
         
         # Process transaction
         player.inventory.remove(item)

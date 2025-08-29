@@ -11,8 +11,9 @@ class AntiAngelTechnology(Armor):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Anti-Angel Armor", '[', 4, 
-                        description="+4 DEF. Holy resistance, immune to blindness",
+        description="+4 DEF. Holy resistance, immune to blindness",
                         resistances=[Trait.HOLY])
+        self.market_value = 68  # Mid game uncommon armor
     
     def blocks_status_effect(self, effect_name):
         """Check if this armor blocks a specific status effect."""

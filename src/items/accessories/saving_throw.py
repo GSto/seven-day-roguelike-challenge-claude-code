@@ -9,7 +9,8 @@ class SavingThrow(Accessory):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Saving Throw", '=',
-                        description="If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1")
+        description="If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1")
+        self.market_value = 38  # Uncommon accessory
     
     def prevents_death(self, player, starting_hp):
         """Check if this accessory prevents death."""

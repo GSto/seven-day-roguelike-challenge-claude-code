@@ -13,7 +13,7 @@ class Weapon(Equipment):
     
     def __init__(self, x, y, name, char=')', attack_bonus=0, description="", 
                  fov_bonus=0, health_aspect_bonus=0.0, attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
-                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
+                 evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0, market_value=25,
                  attack_traits=None, weaknesses=None, resistances=None):
         self.enchantments = []
         self.base_name = name
@@ -34,6 +34,7 @@ class Weapon(Equipment):
             evade_bonus=evade_bonus,
             crit_bonus=crit_bonus,
             crit_multiplier_bonus=crit_multiplier_bonus,
+            market_value=market_value,
             attack_traits=attack_traits,
             weaknesses=weaknesses,
             resistances=resistances

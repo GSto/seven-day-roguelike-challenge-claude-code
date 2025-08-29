@@ -18,9 +18,9 @@ class Equipment(Item):
                  fov_bonus=0, health_aspect_bonus=0.0,
                  attack_multiplier_bonus=1.0, defense_multiplier_bonus=1.0, xp_multiplier_bonus=1.0,
                  evade_bonus=0.0, crit_bonus=0.0, crit_multiplier_bonus=0.0,
-                 attack_traits=None, weaknesses=None, resistances=None,
+                 attack_traits=None, weaknesses=None, resistances=None, market_value=10,
                  is_cleanup=False):
-        super().__init__(x, y, name, char, color, description)
+        super().__init__(x, y, name, char, color, description, market_value)
         self.attack_bonus = attack_bonus
         self.defense_bonus = defense_bonus
         self.equipment_slot = equipment_slot  # "weapon", "armor", "accessory"
@@ -42,7 +42,7 @@ class Equipment(Item):
         self.is_cleanup = is_cleanup
         
         # Set proper market value for equipment
-        self.market_value = self.get_default_market_value()
+        self.market_value = market_value
         
         # Traits system
         self.attack_traits = attack_traits or []
@@ -136,7 +136,3 @@ class Equipment(Item):
     def get_default_market_value(self):
         """Get the default market value for equipment."""
         return 25
-    
-    def get_market_value(self):
-        """Get the current market value including enchantment bonuses."""
-        return self.market_value

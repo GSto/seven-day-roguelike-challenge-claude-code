@@ -11,7 +11,8 @@ class PsychicsTurban(Hat):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Psychic's Turban", 
-                        description="+1 ATK for each consumable used")
+        description="+1 ATK for each consumable used")
+        self.market_value = 38  # Uncommon accessory
         # Internal counter for consumables used while equipped
         self.consumable_counter = 0
         # Subscribe to consume events

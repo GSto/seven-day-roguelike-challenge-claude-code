@@ -20,6 +20,7 @@ class VampiresPendant(Accessory):
             
             attack_traits=[Trait.DARK]
         )
+        self.market_value = 50  # Rare accessory
         self.color = COLOR_RED
         # Subscribe to monster death events
         self.event_subscriptions.add(EventType.MONSTER_DEATH)
