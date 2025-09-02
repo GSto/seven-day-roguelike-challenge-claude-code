@@ -15,7 +15,7 @@ class Bat(Monster):
             hp=6,
             attack=2,
             defense=0,
-            xp_value=5,
+            xp_value=11,
             evade=0.4,
             attack_traits=[Trait.DARK]
         )
