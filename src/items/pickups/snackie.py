@@ -30,9 +30,9 @@ class Snackie(Pickup):
         if player.stats.hp >= player.stats.max_hp:
             return False, "You're already at full health!"
         
-        # Calculate actual healing amount
+        # Use player's heal method to avoid duplicating functionality
         old_hp = player.stats.hp
-        player.stats.hp = min(player.stats.hp + self.heal_amount, player.stats.max_hp)
+        player.heal(self.heal_amount)
         healed = player.stats.hp - old_hp
         
         return True, f"The Snackie heals you for {healed} HP!"
