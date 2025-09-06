@@ -30,15 +30,15 @@ class TestBlackBelt(unittest.TestCase):
         belt = BlackBelt(5, 5)
         self.assertEqual(belt.name, "Black Belt")
         self.assertEqual(belt.char, "=")
-        self.assertEqual(belt.description, "Gains +1% CRT bonus per dodge, +1% EVD bonus per critical hit")
+        self.assertEqual(belt.description, "Gains +1% EVD bonus per critical hit")
         self.assertEqual(belt.market_value, 25)  # Common rarity
-        self.assertEqual(belt.dodge_count, 0)
+        # No dodge_count anymore
         self.assertEqual(belt.crit_count, 0)
-        self.assertIn(EventType.SUCCESSFUL_DODGE, belt.event_subscriptions)
+        # No longer subscribes to SUCCESSFUL_DODGE
         self.assertIn(EventType.CRITICAL_HIT, belt.event_subscriptions)
     
-    def test_dodge_increases_crit_bonus(self):
-        """Test that successful dodge increases crit bonus."""
+    def test_dodge_no_longer_increases_crit_bonus(self):
+        """Test that dodge events no longer affect crit bonus."""
         belt = BlackBelt(0, 0)
         player = Player(5, 5)
         
@@ -53,19 +53,11 @@ class TestBlackBelt(unittest.TestCase):
         # Initial crit bonus should be 0
         self.assertEqual(belt.get_crit_bonus(player), 0.0)
         
-        # Trigger dodge event
+        # Trigger dodge event - should not affect crit bonus anymore
         belt.on_event(EventType.SUCCESSFUL_DODGE, context)
         
-        # Crit bonus should increase by 1%
-        self.assertEqual(belt.get_crit_bonus(player), 0.01)
-        self.assertEqual(belt.dodge_count, 1)
-        
-        # Trigger another dodge
-        belt.on_event(EventType.SUCCESSFUL_DODGE, context)
-        
-        # Crit bonus should increase to 2%
-        self.assertEqual(belt.get_crit_bonus(player), 0.02)
-        self.assertEqual(belt.dodge_count, 2)
+        # Crit bonus should remain 0 (no longer affected by dodges)
+        self.assertEqual(belt.get_crit_bonus(player), 0.0)
     
     def test_crit_increases_evade_bonus(self):
         """Test that critical hit increases evade bonus."""
@@ -114,8 +106,7 @@ class TestBlackBelt(unittest.TestCase):
         # Trigger dodge event
         belt.on_event(EventType.SUCCESSFUL_DODGE, context)
         
-        # Dodge count should not increase
-        self.assertEqual(belt.dodge_count, 0)
+        # No dodge_count anymore - dodge events are ignored
         self.assertEqual(belt.get_crit_bonus(player), 0.0)
     
     def test_crit_only_counts_when_player_is_attacker(self):
@@ -139,8 +130,8 @@ class TestBlackBelt(unittest.TestCase):
         self.assertEqual(belt.crit_count, 0)
         self.assertEqual(belt.get_evade_bonus(player), 0.0)
     
-    def test_combined_bonuses(self):
-        """Test that both dodge and crit bonuses accumulate independently."""
+    def test_only_crit_bonuses_accumulate(self):
+        """Test that only crit bonuses accumulate (dodge no longer affects belt)."""
         belt = BlackBelt(0, 0)
         player = Player(5, 5)
         
@@ -168,10 +159,9 @@ class TestBlackBelt(unittest.TestCase):
         belt.on_event(EventType.CRITICAL_HIT, crit_context)
         belt.on_event(EventType.CRITICAL_HIT, crit_context)  # 2 crits
         
-        # Check that both bonuses accumulated independently
-        self.assertEqual(belt.dodge_count, 3)
+        # Check that only crit bonuses accumulated (no dodge bonuses anymore)
         self.assertEqual(belt.crit_count, 2)
-        self.assertEqual(belt.get_crit_bonus(player), 0.03)  # 3% from dodges
+        self.assertEqual(belt.get_crit_bonus(player), 0.0)  # No crit bonus from dodges anymore
         self.assertEqual(belt.get_evade_bonus(player), 0.02)  # 2% from crits
     
     def test_non_attack_context_ignored(self):
@@ -184,7 +174,6 @@ class TestBlackBelt(unittest.TestCase):
         belt.on_event(EventType.CRITICAL_HIT, "not_an_attack_context")
         
         # Counts should remain zero
-        self.assertEqual(belt.dodge_count, 0)
         self.assertEqual(belt.crit_count, 0)
         self.assertEqual(belt.get_crit_bonus(player), 0.0)
         self.assertEqual(belt.get_evade_bonus(player), 0.0)

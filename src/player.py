@@ -296,7 +296,7 @@ class Player(Entity):
         for accessory in self.equipped_accessories():
             if hasattr(accessory, 'get_evade_bonus'):
                 total += accessory.get_evade_bonus(self)
-        return min(0.75, total)  # Cap at 75% evade
+        return min(0.99, total)
     
     def get_total_crit(self):
         """Get total crit chance including equipment bonuses."""
@@ -308,7 +308,7 @@ class Player(Entity):
         for accessory in self.equipped_accessories():
             if hasattr(accessory, 'get_crit_bonus'):
                 total += accessory.get_crit_bonus(self)
-        return min(0.75, total)  # Cap at 75% crit
+        return min(0.99, total)
     
     def get_total_crit_multiplier(self):
         """Get total crit multiplier including equipment bonuses."""

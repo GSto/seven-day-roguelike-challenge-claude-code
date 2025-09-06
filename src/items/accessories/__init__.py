@@ -59,6 +59,7 @@ from .wardens_tome import WardensTome
 from .protective_level import ProtectiveLevel
 from .black_belt import BlackBelt
 from .brutality_expertise import BrutalityExpertise
+from .dodge_master_ring import DodgeMasterRing
 
 __all__ = [
     # Base classes
@@ -118,4 +119,5 @@ __all__ = [
     'ProtectiveLevel',
     'BlackBelt',
     'BrutalityExpertise',
+    'DodgeMasterRing',
 ]
