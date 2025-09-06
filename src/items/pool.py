@@ -65,6 +65,7 @@ class ItemPool:
         self.armor_specs: List[ItemSpec] = []
         self.accessory_specs: List[ItemSpec] = []
         self.consumable_specs: List[ItemSpec] = []
+        self.pickup_specs: List[ItemSpec] = []  # Separate category for pickups
         
         # Tracking for uniqueness constraints
         self.floor_spawned_weapons: Dict[int, Set[Type]] = {}  # Per-floor tracking
@@ -190,11 +191,13 @@ class ItemPool:
             ItemSpec(WardensTome, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
         ]
         
+        # PICKUPS (instant effect items)
+        self.pickup_specs = [
+            ItemSpec(Snackie, 'pickup', 1, None, RARITY_COMMON * 2.0, unique_per_floor=False, unique_per_game=False),
+        ]
+        
         # CONSUMABLES (no uniqueness constraints)
         self.consumable_specs = [
-            # Pickups (instant effect items)
-            ItemSpec(Snackie, 'consumable', 1, None, RARITY_COMMON * 1.5, unique_per_floor=False, unique_per_game=False, tags=['pickup']),
-            
             # Basic consumables (all levels)
             ItemSpec(HealthPotion, 'consumable', 1, None, RARITY_COMMON * 2.5, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Beef, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
@@ -315,15 +318,20 @@ class ItemPool:
     def get_item_type_weights(self, level: int) -> Dict[str, float]:
         """
         Return weights for item type selection based on level.
+        Pickups are 5-10% of the pool at all levels.
         """
         if level <= 2:
-            return {'consumable': 0.25, 'weapon': 0.30, 'armor': 0.25, 'accessory': 0.20}
+            # Early game: more pickups (10%) for survivability
+            return {'pickup': 0.10, 'consumable': 0.20, 'weapon': 0.28, 'armor': 0.23, 'accessory': 0.19}
         elif level <= 5:
-            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
+            # Mid game: standard pickup rate (7%)
+            return {'pickup': 0.07, 'consumable': 0.31, 'weapon': 0.24, 'armor': 0.14, 'accessory': 0.24}
         elif level <= 8:
-            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
+            # Late game: slightly fewer pickups (6%)
+            return {'pickup': 0.06, 'consumable': 0.32, 'weapon': 0.24, 'armor': 0.14, 'accessory': 0.24}
         else:
-            return {'consumable': 0.35, 'weapon': 0.25, 'armor': 0.15, 'accessory': 0.25}
+            # End game: minimum pickups (5%)
+            return {'pickup': 0.05, 'consumable': 0.33, 'weapon': 0.24, 'armor': 0.14, 'accessory': 0.24}
     
     def _get_weighted_pool(self, specs: List[ItemSpec], level: int) -> List[Tuple[ItemSpec, float]]:
         """Get a list of (ItemSpec, weight) tuples for weighted random selection."""
@@ -387,6 +395,8 @@ class ItemPool:
             specs = self.accessory_specs
         elif item_type == 'consumable':
             specs = self.consumable_specs
+        elif item_type == 'pickup':
+            specs = self.pickup_specs
         else:
             # Invalid type
             if force_type:
@@ -402,7 +412,7 @@ class ItemPool:
         # If no item could be selected and not forcing type, try other types
         if selected_spec is None and not force_type:
             # Try other item types
-            all_types = ['consumable', 'weapon', 'armor', 'accessory']
+            all_types = ['consumable', 'pickup', 'weapon', 'armor', 'accessory']
             all_types.remove(item_type)  # Remove the type we already tried
             
             for fallback_type in all_types:
@@ -412,6 +422,8 @@ class ItemPool:
                     specs = self.armor_specs
                 elif fallback_type == 'accessory':
                     specs = self.accessory_specs
+                elif fallback_type == 'pickup':
+                    specs = self.pickup_specs
                 else:
                     specs = self.consumable_specs
                 
