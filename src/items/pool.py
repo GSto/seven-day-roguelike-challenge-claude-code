@@ -7,12 +7,11 @@ from dataclasses import dataclass, field
 from typing import Type, List, Dict, Set, Optional, Tuple
         # Import all item classes
 from .consumables import (
-    HealthPotion, Beef, Chicken, SalmonOfKnowledge, D6, MagicMushroom, Carrot,
+    HealthPotion, Beef, Chicken, D6, MagicMushroom, Carrot,
     Antidote, ShellPotion, MezzoForte, Elixir,
     SwordsToPlowshares, Transmutation,
     PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, 
-    ShadowsCatalyst, BaronCatalyst, WardenCatalyst, FireResistanceCatalyst,
-    IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst,
+    ShadowsCatalyst, BaronCatalyst, WardenCatalyst,
     BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon,
     FireBoon, IceBoon, HolyBoon, DarkBoon, MayhemsBoon
 )
@@ -210,7 +209,6 @@ class ItemPool:
             ItemSpec(HealthPotion, 'consumable', 1, None, RARITY_COMMON * 2.5, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Beef, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Chicken, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
-            ItemSpec(SalmonOfKnowledge, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             ItemSpec(D6, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
             ItemSpec(MagicMushroom, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Carrot, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
@@ -232,10 +230,6 @@ class ItemPool:
             ItemSpec(ShadowsCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
             ItemSpec(BaronCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
             ItemSpec(WardenCatalyst, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False, tags=['catalyst']),
-            ItemSpec(FireResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(IceResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(HolyResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
-            ItemSpec(DarkResistanceCatalyst, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False, tags=['catalyst', 'elemental']),
             
             # Boons 
             ItemSpec(BaronsBoon, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False, tags=['boon']),
