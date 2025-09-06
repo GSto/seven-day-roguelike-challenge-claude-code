@@ -16,7 +16,7 @@ from .consumables import (
     BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon,
     FireBoon, IceBoon, HolyBoon, DarkBoon, MayhemsBoon
 )
-from .pickups import Snackie
+from .pickups import Snackie, Nickel, Penny, ShellToken
 from .weapons import (
     Dagger, Sword, Shield, Katana, Axe, MorningStar, ClericsStaff, Gauntlets,
     MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick,
@@ -193,7 +193,15 @@ class ItemPool:
         
         # PICKUPS (instant effect items)
         self.pickup_specs = [
+            # Healing pickup
             ItemSpec(Snackie, 'pickup', 1, None, RARITY_COMMON * 2.0, unique_per_floor=False, unique_per_game=False),
+            
+            # XP pickups
+            ItemSpec(Penny, 'pickup', 1, None, RARITY_COMMON * 1.5, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(Nickel, 'pickup', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
+            
+            # Defense pickup
+            ItemSpec(ShellToken, 'pickup', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
         ]
         
         # CONSUMABLES (no uniqueness constraints)

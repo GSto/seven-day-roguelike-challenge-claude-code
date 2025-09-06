@@ -60,9 +60,10 @@ def test_pickup_generation():
     # Try to generate a pickup specifically
     item = item_pool.create_item_for_level(1, 5, 5, item_type='pickup')
     
-    # Should get a Snackie (only pickup type currently)
+    # Should get some pickup type
     assert item is not None
-    assert isinstance(item, Snackie)
+    from items.pickups import Pickup
+    assert isinstance(item, Pickup)
     assert item.x == 5
     assert item.y == 5
 
@@ -78,7 +79,8 @@ def test_pickup_spawn_probability():
     
     for i in range(total_items):
         item = item_pool.create_item_for_level(1, 0, 0)
-        if isinstance(item, Snackie):
+        from items.pickups import Pickup
+        if isinstance(item, Pickup):
             pickup_count += 1
     
     # At level 1, pickups should be ~10% of items
