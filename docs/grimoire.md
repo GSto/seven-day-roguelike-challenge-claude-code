@@ -303,9 +303,6 @@ A mask that shrouds you in shadow and sharpens your focus
 Baron's Crown (1.2x attack)
 Crown of a Jester King
 
-Black Belt
-Gains +1% Critical chance per dodge, +1% EVD per critical hit
-
 Blade Expertise
 +6 ATK on slash attacks
 
@@ -397,7 +394,7 @@ A penny worth 1 XP
 Effect: Instantly grants 1 XP
 
 Shell Token
-A shell token that permanently increases Defense by 1
+A shell token that grants 1 protective shield
 Effect: Special pickup effect
 
 Snackie
@@ -410,11 +407,11 @@ Effect: Instantly heals 5 HP
 ## STATISTICS
 
 ### Item Counts
-**Total Items:** 116
+**Total Items:** 115
 - **Consumables:** 30
 - **Weapons:** 27
 - **Armor:** 21
-- **Accessories:** 34
+- **Accessories:** 33
 - **Pickups:** 4
 
 ### Consumable Breakdown
