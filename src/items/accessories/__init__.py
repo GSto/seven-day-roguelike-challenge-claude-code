@@ -47,7 +47,6 @@ from .joker import Joker
 from .punish_the_weak import PunishTheWeak
 from .elemental_mayhem import ElementalMayhem
 from .gods_eye import GodsEye
-from .saving_throw import SavingThrow
 from .anaglyph import Anaglyph
 from .mall_ninja import MallNinja
 from .righteous_fury import RighteousFury
@@ -107,7 +106,6 @@ __all__ = [
     'PunishTheWeak',
     'ElementalMayhem',
     'GodsEye',
-    'SavingThrow',
     'Anaglyph',
     'MallNinja',
     'RighteousFury',

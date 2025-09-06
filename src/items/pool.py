@@ -25,13 +25,14 @@ from .weapons import (
 from .armor import (
     LeatherArmor, SafetyVest, Cloak, SpikedArmor, GamblersVest, MinimalSuit,
     ChainMail, NightCloak, CoatedPlate, AntiAngelTechnology, SpikedCuirass,
-    UtilityBelt, SOSArmor, PlateArmor, ShadowCloak, DragonScale, StoneArmor, TurtleShell, AntiDevilTechnology
+    UtilityBelt, SOSArmor, PlateArmor, ShadowCloak, DragonScale, StoneArmor, TurtleShell, AntiDevilTechnology,
+    SavingThrow
 )
 from .accessories import (
     PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing,
     BaronsCrown, JewelersCap, Rosary, HeadLamp, ShadowRing, RingOfPrecision,
     BrutalityAmulet, AssassinsMask, GravePact, PunishTheWeak,
-    StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, SavingThrow, Anaglyph,
+    StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, Anaglyph,
     MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
     AceOfDiamonds, AceOfSpades, AceOfWands, AceOfCups, AceOfSwords, AceOfCoins, Joker, HealingDodge, ProtectiveLevel,
     PsychicsTurban, VampiresPendant, WardensTome, BlackBelt, BrutalityExpertise
@@ -136,6 +137,7 @@ class ItemPool:
             ItemSpec(AntiDevilTechnology, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(TurtleShell, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(StoneArmor, 'armor', 4, 8, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(SavingThrow, 'armor', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(SpikedCuirass, 'armor', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(UtilityBelt, 'armor', 3, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SOSArmor, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
@@ -171,7 +173,6 @@ class ItemPool:
             ItemSpec(SlashBonus, 'accessory', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(ElementalMayhem, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             ItemSpec(GodsEye, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['legendary']),
-            ItemSpec(SavingThrow, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(Anaglyph, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             ItemSpec(MallNinja, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(RighteousFury, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
