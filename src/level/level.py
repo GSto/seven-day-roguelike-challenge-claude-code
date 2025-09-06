@@ -200,6 +200,8 @@ class Level:
     
     def place_items(self):
         """Place items randomly throughout the level."""
+        from items.pool import item_pool
+        
         # Special case: Level 10 always has exactly one DemonSlayer weapon
         if self.level_number == 10:
             self._place_demon_slayer()
@@ -215,6 +217,7 @@ class Level:
             item_count = random.randint(1, 3)  # Fewer items on boss levels, but higher quality
         
         items_placed = 0
+        pickup_placed = False  # Track if we've placed a pickup
         attempts = 0
         max_attempts = 100
         
@@ -238,10 +241,21 @@ class Level:
                 not (self.is_stairs_down(x, y) or self.is_stairs_up(x, y)) and
                 not self.is_shop_at(x, y)):
                 
-                # Create appropriate item for this level
-                item = create_random_item_for_level(self.level_number, x, y)
-                self.items.append(item)
-                items_placed += 1
+                # If this is the last item slot and we haven't placed a pickup, force one
+                if items_placed == item_count - 1 and not pickup_placed:
+                    item = item_pool.create_item_for_level(self.level_number, x, y, item_type='pickup')
+                    pickup_placed = True
+                else:
+                    # Create appropriate item for this level
+                    item = create_random_item_for_level(self.level_number, x, y)
+                    # Check if we placed a pickup
+                    from items.pickups import Pickup
+                    if isinstance(item, Pickup):
+                        pickup_placed = True
+                
+                if item:  # Only append if item creation succeeded
+                    self.items.append(item)
+                    items_placed += 1
     
     def _place_demon_slayer(self):
         """Place exactly one DemonSlayer weapon on level 10."""
