@@ -282,6 +282,12 @@ A plain white T-shirt
 Ace of Clubs
 +5 Def if low HP
 
+Ace of Coins (1.2x XP)
+Provides +20% XP multiplier bonus
+
+Ace of Cups
+Heals 5 HP whenever the player consumes an item
+
 Ace of Diamonds
 2x XP if low health
 
@@ -290,6 +296,13 @@ Ace of Hearts
 
 Ace of Spades (2.0x attack, 0.1x defense)
 Are you a gambling man? doubles attack, decimates defense
+
+Ace of Swords (+5 FOV)
++5 FOV, resistant to mystic damage, immune to blindness
+[Resist: MYSTIC]
+
+Ace of Wands
+Grants +10 XP whenever the player heals
 
 Amulet of Brutality (+0.5x crit damage)
 An amulet that amplifies your fury
@@ -303,8 +316,14 @@ A mask that shrouds you in shadow and sharpens your focus
 Baron's Crown (1.2x attack)
 Crown of a Jester King
 
+Black Belt
+Gains +1% CRT bonus per dodge, +1% EVD bonus per critical hit
+
 Blade Expertise
 +6 ATK on slash attacks
+
+Brutality Expertise
+A bloodstained belt that grows stronger with each critical strike. +5% critical multiplier per critical hit.
 
 Elemental Mayhem
 Grants a +3 attack bonus for every unique elemental trait among attack traits and resistance traits
@@ -407,11 +426,11 @@ Effect: Instantly heals 5 HP
 ## STATISTICS
 
 ### Item Counts
-**Total Items:** 115
+**Total Items:** 121
 - **Consumables:** 30
 - **Weapons:** 27
 - **Armor:** 21
-- **Accessories:** 33
+- **Accessories:** 39
 - **Pickups:** 4
 
 ### Consumable Breakdown
@@ -451,6 +470,8 @@ Effect: Instantly heals 5 HP
   - God's Eye
 - **DARK (Attack):** 1 accessories
   - Vampire's Pendant
+- **MYSTIC (Resist):** 1 accessories
+  - Ace of Swords
 - **DARK (Resist):** 1 accessories
   - Rosary
 

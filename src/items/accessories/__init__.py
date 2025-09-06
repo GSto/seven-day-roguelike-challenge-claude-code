@@ -37,6 +37,10 @@ from .ace_of_spades import AceOfSpades
 from .ace_of_diamonds import AceOfDiamonds
 from .ace_of_clubs import AceOfClubs
 from .ace_of_hearts import AceOfHearts
+from .ace_of_wands import AceOfWands
+from .ace_of_cups import AceOfCups
+from .ace_of_swords import AceOfSwords
+from .ace_of_coins import AceOfCoins
 from .joker import Joker
 
 # Specialty accessories
@@ -54,6 +58,8 @@ from .healing_dodge import HealingDodge
 from .vampires_pendant import VampiresPendant
 from .wardens_tome import WardensTome
 from .protective_level import ProtectiveLevel
+from .black_belt import BlackBelt
+from .brutality_expertise import BrutalityExpertise
 
 __all__ = [
     # Base classes
@@ -91,6 +97,10 @@ __all__ = [
     'AceOfDiamonds',
     'AceOfClubs',
     'AceOfHearts',
+    'AceOfWands',
+    'AceOfCups',
+    'AceOfSwords',
+    'AceOfCoins',
     'Joker',
     
     # Specialty accessories
@@ -108,4 +118,6 @@ __all__ = [
     'VampiresPendant',
     'WardensTome',
     'ProtectiveLevel',
+    'BlackBelt',
+    'BrutalityExpertise',
 ]

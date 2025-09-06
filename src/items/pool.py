@@ -33,8 +33,8 @@ from .accessories import (
     BrutalityAmulet, AssassinsMask, GravePact, PunishTheWeak,
     StrikeBonus, SlashBonus, ElementalMayhem, GodsEye, SavingThrow, Anaglyph,
     MallNinja, RighteousFury, SongOfIceAndFire, AceOfHearts, AceOfClubs,
-    AceOfDiamonds, AceOfSpades, Joker, HealingDodge, ProtectiveLevel,
-    PsychicsTurban, VampiresPendant, WardensTome
+    AceOfDiamonds, AceOfSpades, AceOfWands, AceOfCups, AceOfSwords, AceOfCoins, Joker, HealingDodge, ProtectiveLevel,
+    PsychicsTurban, VampiresPendant, WardensTome, BlackBelt, BrutalityExpertise
 )
 
 
@@ -163,6 +163,8 @@ class ItemPool:
             ItemSpec(RingOfPrecision, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(BrutalityAmulet, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(AssassinsMask, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(BlackBelt, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(BrutalityExpertise, 'accessory', 3, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True),
             ItemSpec(GravePact, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(PunishTheWeak, 'accessory', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=True),
             ItemSpec(StrikeBonus, 'accessory', 3, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
@@ -180,6 +182,10 @@ class ItemPool:
             ItemSpec(AceOfClubs, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
             ItemSpec(AceOfDiamonds, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
             ItemSpec(AceOfSpades, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfWands, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfCups, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfSwords, 'accessory', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True, tags=['card']),
+            ItemSpec(AceOfCoins, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True, tags=['card']),
             ItemSpec(Joker, 'accessory', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=True, tags=['card']),
             
             # Additional accessories
