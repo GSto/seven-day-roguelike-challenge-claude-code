@@ -16,6 +16,7 @@ from .consumables import (
     BaronsBoon, JewelersBoon, MinersBoon, ClericsBoon, JokersBoon, ReapersBoon,
     FireBoon, IceBoon, HolyBoon, DarkBoon, MayhemsBoon
 )
+from .pickups import Snackie
 from .weapons import (
     Dagger, Sword, Shield, Katana, Axe, MorningStar, ClericsStaff, Gauntlets,
     MateriaStaff, Uchigatana, Pickaxe, SnakesFang, Rapier, AcidDagger, BigStick,
@@ -191,6 +192,9 @@ class ItemPool:
         
         # CONSUMABLES (no uniqueness constraints)
         self.consumable_specs = [
+            # Pickups (instant effect items)
+            ItemSpec(Snackie, 'consumable', 1, None, RARITY_COMMON * 1.5, unique_per_floor=False, unique_per_game=False, tags=['pickup']),
+            
             # Basic consumables (all levels)
             ItemSpec(HealthPotion, 'consumable', 1, None, RARITY_COMMON * 2.5, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Beef, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
