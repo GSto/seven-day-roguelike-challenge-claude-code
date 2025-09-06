@@ -24,6 +24,7 @@ from .sos_armor import SOSArmor
 from .stone_armor import StoneArmor
 from .anti_devil_technology import AntiDevilTechnology
 from .turtle_shell import TurtleShell
+from .saving_throw import SavingThrow
 
 __all__ = [
     'Armor',
@@ -47,5 +48,6 @@ __all__ = [
     'SOSArmor',
     'TurtleShell',
     'AntiDevilTechnology',
-    'StoneArmor'
+    'StoneArmor',
+    'SavingThrow'
 ]

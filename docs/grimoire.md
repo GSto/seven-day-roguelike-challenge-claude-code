@@ -138,7 +138,7 @@ Feu-Glace (+10 att)
 Late game weapon. 10 dmg. Deals fire, ice, and mystic damage
 [Attack: FIRE, Attack: ICE, Attack: MYSTIC]
 
-Gauntlets (2.0x attack)
+Gauntlets (1.8x attack)
 Enhances natural strength
 [Attack: THWACK]
 
@@ -245,6 +245,9 @@ Heavy plate armor
 Safety Vest (+2 def, +2 FOV)
 Bright orange, easy to see
 
+Saving Throw (+2 def)
+If an attack would kill you and HP was not 1, it becomes 1 instead
+
 Shadow's Cloak (+1 def, +20% evade)
 Wearer is transcluent, harder to see
 
@@ -282,16 +285,29 @@ A plain white T-shirt
 Ace of Clubs
 +5 Def if low HP
 
+Ace of Coins (1.2x XP)
+Provides +20% XP multiplier bonus
+
+Ace of Cups
+Heals 5 HP whenever the player consumes an item
+
 Ace of Diamonds
 2x XP if low health
 
 Ace of Hearts
 2x attack if high health
 
-Ace of Spades (2.0x attack, 0.1x defense)
+Ace of Spades (1.5x attack, 0.0x defense)
 Are you a gambling man? doubles attack, decimates defense
 
-Amulet of Brutality (+0.5x crit damage)
+Ace of Swords (+5 FOV)
++5 FOV, resistant to mystic damage, immune to blindness
+[Resist: MYSTIC]
+
+Ace of Wands
+Grants +10 XP whenever the player heals
+
+Amulet of Brutality (+1.0x crit damage)
 An amulet that amplifies your fury
 
 Anaglyph
@@ -303,14 +319,23 @@ A mask that shrouds you in shadow and sharpens your focus
 Baron's Crown (1.2x attack)
 Crown of a Jester King
 
+Black Belt
+Gains +1% EVD bonus per critical hit
+
 Blade Expertise
 +6 ATK on slash attacks
+
+Brutality Expertise
+A bloodstained belt that grows stronger with each critical strike. +5% critical multiplier per critical hit.
+
+Dodge Master Ring
+Gains +1% CRT bonus for each successful dodge
 
 Elemental Mayhem
 Grants a +3 attack bonus for every unique elemental trait among attack traits and resistance traits
 
 God's Eye (+20 FOV)
-FOV +20, Holy attack trait
+FOV +15, Holy attack trait
 [Attack: HOLY]
 
 Grave Pact
@@ -341,10 +366,10 @@ Protective Level
 Gain 1 shield when leveling up
 
 Psychic's Turban
-+1 ATK for each consumable used
++0.5 ATK for each consumable used
 
 Punish the Weak (+-1 def)
--1 DEF. Deal 25% more damage to targets with negative status effects
+Deal 50% more damage to targets with negative status effects
 
 Righteous Fury
 Holy attacks also apply 4 burn damage
@@ -361,9 +386,6 @@ A magical ring
 Rosary (+1 def, +0.1 health aspect)
 A healer's necklace
 [Resist: DARK, Weak to: HOLY]
-
-Saving Throw
-If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1
 
 Shadow Ring (+10% evade)
 A ring that bends light around you
@@ -407,11 +429,11 @@ Effect: Instantly heals 5 HP
 ## STATISTICS
 
 ### Item Counts
-**Total Items:** 115
+**Total Items:** 122
 - **Consumables:** 30
 - **Weapons:** 27
-- **Armor:** 21
-- **Accessories:** 33
+- **Armor:** 22
+- **Accessories:** 39
 - **Pickups:** 4
 
 ### Consumable Breakdown
@@ -451,6 +473,8 @@ Effect: Instantly heals 5 HP
   - God's Eye
 - **DARK (Attack):** 1 accessories
   - Vampire's Pendant
+- **MYSTIC (Resist):** 1 accessories
+  - Ace of Swords
 - **DARK (Resist):** 1 accessories
   - Rosary
 

@@ -214,6 +214,13 @@ seven-day-roguelike/
 - **Purpose**: Game-wide configuration
 - **Contains**: Screen dimensions, colors, tiles, game parameters
 
+### Available Events (`src/event_type.py`)
+```python
+PLAYER_HEAL, PLAYER_CONSUME_ITEM, PLAYER_ATTACK_MONSTER, 
+MONSTER_ATTACK_PLAYER, MONSTER_DEATH, LEVEL_UP, 
+FLOOR_START, FLOOR_END, SUCCESSFUL_DODGE, CRITICAL_HIT, 
+MISS, WEAKNESS_HIT
+
 ## Data Files
 
 #### `grimoire.py`

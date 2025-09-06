@@ -37,13 +37,16 @@ from .ace_of_spades import AceOfSpades
 from .ace_of_diamonds import AceOfDiamonds
 from .ace_of_clubs import AceOfClubs
 from .ace_of_hearts import AceOfHearts
+from .ace_of_wands import AceOfWands
+from .ace_of_cups import AceOfCups
+from .ace_of_swords import AceOfSwords
+from .ace_of_coins import AceOfCoins
 from .joker import Joker
 
 # Specialty accessories
 from .punish_the_weak import PunishTheWeak
 from .elemental_mayhem import ElementalMayhem
 from .gods_eye import GodsEye
-from .saving_throw import SavingThrow
 from .anaglyph import Anaglyph
 from .mall_ninja import MallNinja
 from .righteous_fury import RighteousFury
@@ -54,6 +57,9 @@ from .healing_dodge import HealingDodge
 from .vampires_pendant import VampiresPendant
 from .wardens_tome import WardensTome
 from .protective_level import ProtectiveLevel
+from .black_belt import BlackBelt
+from .brutality_expertise import BrutalityExpertise
+from .dodge_master_ring import DodgeMasterRing
 
 __all__ = [
     # Base classes
@@ -91,13 +97,16 @@ __all__ = [
     'AceOfDiamonds',
     'AceOfClubs',
     'AceOfHearts',
+    'AceOfWands',
+    'AceOfCups',
+    'AceOfSwords',
+    'AceOfCoins',
     'Joker',
     
     # Specialty accessories
     'PunishTheWeak',
     'ElementalMayhem',
     'GodsEye',
-    'SavingThrow',
     'Anaglyph',
     'MallNinja',
     'RighteousFury',
@@ -108,4 +117,7 @@ __all__ = [
     'VampiresPendant',
     'WardensTome',
     'ProtectiveLevel',
+    'BlackBelt',
+    'BrutalityExpertise',
+    'DodgeMasterRing',
 ]

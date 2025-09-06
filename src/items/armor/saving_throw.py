@@ -1,16 +1,16 @@
 """
 SavingThrow - If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1.
 """
-from .accessory import Accessory
+from .base import Armor
 
 
-class SavingThrow(Accessory):
+class SavingThrow(Armor):
     """If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1"""
     
     def __init__(self, x, y):
-        super().__init__(x, y, "Saving Throw", '=',
-        description="If an attack would set your HP to 0 and your starting HP was not 1, your HP becomes 1")
-        self.market_value = 38  # Uncommon accessory
+        super().__init__(x, y, "Saving Throw", '[', 2,
+        description="If an attack would kill you and HP was not 1, it becomes 1 instead")
+        self.market_value = 38  # Uncommon armor
     
     def prevents_death(self, player, starting_hp):
         """Check if this accessory prevents death."""

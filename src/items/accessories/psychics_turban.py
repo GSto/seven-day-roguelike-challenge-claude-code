@@ -11,7 +11,7 @@ class PsychicsTurban(Hat):
     
     def __init__(self, x, y):
         super().__init__(x, y, "Psychic's Turban", 
-        description="+1 ATK for each consumable used")
+        description="+0.5 ATK for each consumable used")
         self.market_value = 38  # Uncommon accessory
         # Internal counter for consumables used while equipped
         self.consumable_counter = 0
@@ -27,4 +27,4 @@ class PsychicsTurban(Hat):
     def get_attack_bonus(self, player):
         # Use both the player's historical consumable count (for items used before equipping)
         # and the internal counter (for items used while equipped)
-        return super().get_attack_bonus(player) + self.consumable_counter
+        return super().get_attack_bonus(player) + (self.consumable_counter // 2)
