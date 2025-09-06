@@ -8,7 +8,6 @@ from .elixir import Elixir
 from .beef import Beef
 from .chicken import Chicken
 from .carrot import Carrot
-from .salmon_of_knowledge import SalmonOfKnowledge
 from .antidote import Antidote
 from .shell_potion import ShellPotion
 from .mezzo_forte import MezzoForte
@@ -23,10 +22,6 @@ from .warden_catalyst import WardenCatalyst
 from .jeweler_catalyst import JewelerCatalyst
 from .reapers_catalyst import ReapersCatalyst
 from .shadows_catalyst import ShadowsCatalyst
-from .fire_resistance_catalyst import FireResistanceCatalyst
-from .ice_resistance_catalyst import IceResistanceCatalyst
-from .holy_resistance_catalyst import HolyResistanceCatalyst
-from .dark_resistance_catalyst import DarkResistanceCatalyst
 
 # Boon consumables
 from .boon import Boon
@@ -54,7 +49,6 @@ __all__ = [
     'Beef',
     'Chicken',
     'Carrot',
-    'SalmonOfKnowledge',
     'Antidote',
     'ShellPotion',
     'MezzoForte',
@@ -69,10 +63,6 @@ __all__ = [
     'JewelerCatalyst',
     'ReapersCatalyst',
     'ShadowsCatalyst',
-    'FireResistanceCatalyst',
-    'IceResistanceCatalyst',
-    'HolyResistanceCatalyst',
-    'DarkResistanceCatalyst',
     
     # Boon consumables
     'Boon',

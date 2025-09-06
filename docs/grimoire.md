@@ -4,9 +4,6 @@ Complete catalog of all items in the game
 ## CONSUMABLES
 --------------------------------------------------
 
-Angel Catalyst
-Permanently adds Holy resistance
-
 Antidote
 Removes all negative status effects
 
@@ -34,9 +31,6 @@ Applies Dark enchantment to equipped weapon or armor
 
 Defender's Catalyst
 Permanently increases defense by 1
-
-Demon Catalyst
-Permanently adds Dark resistance
 
 Elixir
 Restores all health
@@ -80,12 +74,6 @@ Applies Rending enchantment to equipped weapon (+10% crit)
 Reaper's Catalyst
 Permanently increases crit chance by 5%
 
-Salamander Catalyst
-Permanently adds Fire resistance
-
-Salmon of Knowledge
-Gain insight
-
 Shadow's Catalyst
 Permanently increases evade chance by 5%
 
@@ -106,9 +94,6 @@ Permanently increases defense multiplier by 10%
 
 Warrior's Catalyst
 Permanently increases attack by 1
-
-Yeti Catalyst
-Permanently adds Ice resistance
 
 
 ## WEAPONS
@@ -397,22 +382,43 @@ Warden's Tome
 Permanently gain +1 DEF when leveling up
 
 
+## PICKUPS
+--------------------------------------------------
+
+Nickel
+A nickel worth 5 XP
+Effect: Instantly grants 5 XP
+
+Penny
+A penny worth 1 XP
+Effect: Instantly grants 1 XP
+
+Shell Token
+A shell token that grants 1 protective shield
+Effect: Special pickup effect
+
+Snackie
+A tasty snack that restores 5 HP instantly
+Effect: Instantly heals 5 HP
+
+
 ---
 
 ## STATISTICS
 
 ### Item Counts
-**Total Items:** 116
-- **Consumables:** 35
+**Total Items:** 115
+- **Consumables:** 30
 - **Weapons:** 27
 - **Armor:** 21
 - **Accessories:** 33
+- **Pickups:** 4
 
 ### Consumable Breakdown
-- **Catalysts (Permanent):** 11
+- **Catalysts (Permanent):** 7
 - **Boons (Enchantments):** 11
 - **Potions/Elixirs:** 3
-- **Food Items:** 5
+- **Food Items:** 4
 
 ### Weapon Attack Traits
 - **SLASH:** 12 weapons

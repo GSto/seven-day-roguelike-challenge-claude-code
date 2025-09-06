@@ -1,7 +1,3 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 
 ## Project Overview
 
@@ -9,22 +5,7 @@ This is a seven-day roguelike game development project following the traditional
 
 
 ## Project Structure
-
-For a detailed overview of the project structure and file organization, see [.claude/project-structure.md](.claude/project-structure.md).
-
-The project follows a strict **one-class-per-file** rule to improve maintainability and follows Python best practices. Key directories include:
-
-- `src/` - Source code with organized subdirectories for items, monsters, enchantments, and levels
-- `tests/` - Unit tests for all game functionality
-- `specs/` - Technical specifications including the comprehensive refactoring plan
-- `plans/` - Project planning and roadmap documentation
-
-All item classes are organized into type-specific subdirectories:
-- `src/items/weapons/` - Individual weapon classes
-- `src/items/armor/` - Individual armor classes
-- `src/items/accessories/` - Individual accessory classes
-- `src/items/consumables/` - Individual consumable classes (foods, catalysts, boons, misc)
-
+- @./ARCHITECTURE.md 
 
 
 ## Development Commands
@@ -58,8 +39,6 @@ If the game needs to be tested interactively:
 Dependencies are managed in `pyproject.toml`. The main dependencies are:
 - `tcod>=13.8.0` - Roguelike library for rendering, FOV, pathfinding
 - `numpy>=1.21.0` - For efficient array operations in level generation
-
-
 
 
 ## Development Guidelines

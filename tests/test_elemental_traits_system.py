@@ -4,8 +4,7 @@ import unittest
 from src.player import Player
 from traits import Trait
 from src.items.consumables import (
-    FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst,
-    FireResistanceCatalyst, IceResistanceCatalyst, HolyResistanceCatalyst, DarkResistanceCatalyst
+    FireAttackCatalyst, IceAttackCatalyst, HolyAttackCatalyst, DarkAttackCatalyst
 )
 
 
@@ -93,31 +92,6 @@ class TestElementalTraitsSystem(unittest.TestCase):
         self.assertIn(Trait.DARK, self.player.attack_traits)
         self.assertIn(Trait.HOLY, self.player.weaknesses)
     
-    def test_resistance_catalysts(self):
-        """Test resistance catalysts add resistances without weaknesses."""
-        # Test Fire Resistance
-        fire_catalyst = FireResistanceCatalyst(0, 0)
-        success, message = fire_catalyst.use(self.player)
-        self.assertTrue(success)
-        self.assertIn(Trait.FIRE, self.player.resistances)
-        
-        # Test Ice Resistance
-        ice_catalyst = IceResistanceCatalyst(0, 0)
-        success, message = ice_catalyst.use(self.player)
-        self.assertTrue(success)
-        self.assertIn(Trait.ICE, self.player.resistances)
-        
-        # Test Holy Resistance
-        holy_catalyst = HolyResistanceCatalyst(0, 0)
-        success, message = holy_catalyst.use(self.player)
-        self.assertTrue(success)
-        self.assertIn(Trait.HOLY, self.player.resistances)
-        
-        # Test Dark Resistance
-        dark_catalyst = DarkResistanceCatalyst(0, 0)
-        success, message = dark_catalyst.use(self.player)
-        self.assertTrue(success)
-        self.assertIn(Trait.DARK, self.player.resistances)
     
     def test_trait_cancellation_weakness_vs_resistance(self):
         """Test that matching weakness and resistance cancel each other out."""
@@ -167,58 +141,8 @@ class TestElementalTraitsSystem(unittest.TestCase):
         self.assertEqual(fire_attack_count, 1)
         self.assertEqual(ice_weakness_count, 1)
     
-    def test_resistance_catalyst_does_not_duplicate_traits(self):
-        """Test that using the same resistance catalyst twice doesn't duplicate traits."""
-        catalyst = FireResistanceCatalyst(0, 0)
-        
-        # Use catalyst twice
-        catalyst.use(self.player)
-        catalyst.use(self.player)
-        
-        # Should only have one fire resistance
-        fire_resistance_count = self.player.resistances.count(Trait.FIRE)
-        self.assertEqual(fire_resistance_count, 1)
     
-    def test_complex_scenario_attack_then_resistance(self):
-        """Test using attack catalyst then resistance catalyst for same element."""
-        # Use fire attack catalyst (adds fire attack + ice weakness)
-        fire_attack = FireAttackCatalyst(0, 0)
-        fire_attack.use(self.player)
-        
-        # Use fire resistance catalyst
-        fire_resist = FireResistanceCatalyst(0, 0)
-        fire_resist.use(self.player)
-        
-        # Should have fire attack, fire resistance, and ice weakness
-        self.assertIn(Trait.FIRE, self.player.attack_traits)
-        
-        # Fire resistance and weakness don't exist in this case
-        # (attack catalyst gives ice weakness, resistance catalyst gives fire resistance)
-        final_resistances = self.player.get_total_resistances()
-        final_weaknesses = self.player.get_total_weaknesses()
-        
-        self.assertIn(Trait.FIRE, final_resistances)  # Fire resistance remains
-        self.assertIn(Trait.ICE, final_weaknesses)   # Ice weakness remains
     
-    def test_opposing_elements_attack_and_resistance(self):
-        """Test using attack catalyst for one element and resistance for opposing element."""
-        # Use fire attack catalyst (adds fire attack + ice weakness)
-        fire_attack = FireAttackCatalyst(0, 0)
-        fire_attack.use(self.player)
-        
-        # Use ice resistance catalyst (should cancel ice weakness)
-        ice_resist = IceResistanceCatalyst(0, 0)
-        ice_resist.use(self.player)
-        
-        final_resistances = self.player.get_total_resistances()
-        final_weaknesses = self.player.get_total_weaknesses()
-        
-        # Fire attack should remain
-        self.assertIn(Trait.FIRE, self.player.attack_traits)
-        
-        # Ice weakness and resistance should cancel out
-        self.assertNotIn(Trait.ICE, final_resistances)
-        self.assertNotIn(Trait.ICE, final_weaknesses)
 
 
 if __name__ == '__main__':

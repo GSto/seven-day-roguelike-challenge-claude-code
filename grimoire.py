@@ -16,6 +16,7 @@ from items.consumable import Consumable
 from items.weapons.base import Weapon
 from items.armor.base import Armor
 from items.accessories.accessory import Accessory
+from items.pickups.pickup import Pickup
 
 
 def get_all_classes_from_module(module_path, base_class):
@@ -333,6 +334,35 @@ def format_accessory(item_data):
     return '\n'.join(lines)
 
 
+def format_pickup(item_data):
+    """Format a pickup item for the grimoire."""
+    instance = item_data['instance']
+    lines = []
+    
+    lines.append(f"{instance.name}")
+    
+    # Add description
+    if instance.description:
+        lines.append(instance.description)
+    
+    # Try to determine the pickup effect from common attributes
+    effects = []
+    if hasattr(instance, 'heal_amount') and instance.heal_amount > 0:
+        effects.append(f"Instantly heals {instance.heal_amount} HP")
+    
+    if hasattr(instance, 'xp_amount') and instance.xp_amount > 0:
+        effects.append(f"Instantly grants {instance.xp_amount} XP")
+    
+    # For shell tokens or other special effects, try to parse from description or class name
+    if 'token' in instance.name.lower():
+        effects.append("Special pickup effect")
+    
+    if effects:
+        lines.append(f"Effect: {'; '.join(effects)}")
+    
+    return '\n'.join(lines)
+
+
 def generate_grimoire():
     """Generate the grimoire documentation."""
     output = []
@@ -386,6 +416,17 @@ def generate_grimoire():
         output.append(format_accessory(item))
         output.append("")
     
+    # Generate pickups section
+    output.append("")
+    output.append("## PICKUPS")
+    output.append("-" * 50)
+    output.append("")
+    
+    pickups = get_all_items_of_type(src_path / 'items' / 'pickups', Pickup)
+    for item in pickups:
+        output.append(format_pickup(item))
+        output.append("")
+    
     # Generate statistics section
     output.append("")
     output.append("---")
@@ -395,11 +436,12 @@ def generate_grimoire():
     
     # Item counts
     output.append("### Item Counts")
-    output.append(f"**Total Items:** {len(consumables) + len(weapons) + len(armor) + len(accessories)}")
+    output.append(f"**Total Items:** {len(consumables) + len(weapons) + len(armor) + len(accessories) + len(pickups)}")
     output.append(f"- **Consumables:** {len(consumables)}")
     output.append(f"- **Weapons:** {len(weapons)}")
     output.append(f"- **Armor:** {len(armor)}")
     output.append(f"- **Accessories:** {len(accessories)}")
+    output.append(f"- **Pickups:** {len(pickups)}")
     output.append("")
     
     # Analyze consumable types
@@ -551,7 +593,7 @@ def generate_grimoire():
         f.write('\n'.join(output))
     
     print(f"Grimoire generated successfully at: {grimoire_path}")
-    print(f"Total items: {len(consumables) + len(weapons) + len(armor) + len(accessories)}")
+    print(f"Total items: {len(consumables) + len(weapons) + len(armor) + len(accessories) + len(pickups)}")
     return grimoire_path
 
 

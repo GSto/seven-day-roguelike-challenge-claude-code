@@ -16,6 +16,7 @@ Complete catalog of all monsters in the game
 - [Skeleton](#skeleton)
 - [Troll](#troll)
 - [Umbral](#umbral)
+- [Voidwalker](#voidwalker)
 - [Zombie](#zombie)
 
 ---
@@ -51,12 +52,12 @@ Complete catalog of all monsters in the game
 ### Bat
 *Hard to hit, ephemeral creature.*
 
-**HP:** 6 | **Attack:** 2 | **Defense:** 0 | **XP Value:** 5
+**HP:** 6 | **Attack:** 2 | **Defense:** 0 | **XP Value:** 11
 **Evade:** 40%
 
 **Attacks:** DARK
 
-**Appearance:** `Bat` (in game)
+**Appearance:** `B` (in game)
 
 ---
 
@@ -77,7 +78,7 @@ Complete catalog of all monsters in the game
 ### Horror
 *Aggressive abomination with devastating crits*
 
-**HP:** 200 | **Attack:** 16 | **Defense:** 3 | **XP Value:** 65
+**HP:** 200 | **Attack:** 16 | **Defense:** 3 | **XP Value:** 67
 **Evade:** 8% | **Crit Multiplier:** 1.5x
 
 **Weak to:** MYSTIC, ICE
@@ -162,6 +163,19 @@ Complete catalog of all monsters in the game
 
 ---
 
+### Voidwalker
+*Shadow being from nothingness*
+
+**HP:** 210 | **Attack:** 13 | **Defense:** 3 | **XP Value:** 104
+**Evade:** 12% | **Crit:** 8% | **Crit Multiplier:** 1.8x
+
+**Attacks:** FIRE, MYSTIC, POISON
+**Resists:** HOLY, DARK, MYSTIC
+
+**Appearance:** `V` (in game)
+
+---
+
 ### Zombie
 *Slow but resilient zombie.*
 
@@ -177,11 +191,11 @@ Complete catalog of all monsters in the game
 
 ## Statistics
 
-**Total Monsters:** 12
-**Average HP:** 212.0
-**Average Attack:** 9.8
+**Total Monsters:** 13
+**Average HP:** 211.8
+**Average Attack:** 10.1
 **Average Defense:** 2.8
-**Average XP Value:** 87.8
+**Average XP Value:** 89.6
 
 **Weakest Monster:** Bat (6 HP)
 **Strongest Monster:** Ancient Devil (1666 HP)
@@ -191,18 +205,19 @@ Complete catalog of all monsters in the game
 
 **Attack Traits:**
   - DARK: 3 monsters
+  - FIRE: 2 monsters
   - HOLY: 2 monsters
-  - FIRE: 1 monster
-  - MYSTIC: 1 monster
-  - POISON: 1 monster
+  - MYSTIC: 2 monsters
+  - POISON: 2 monsters
   - SLASH: 1 monster
   - STRIKE: 1 monster
 
 **Resistances:**
+  - DARK: 2 monsters
   - FIRE: 2 monsters
+  - HOLY: 2 monsters
   - ICE: 2 monsters
-  - DARK: 1 monster
-  - HOLY: 1 monster
+  - MYSTIC: 1 monster
   - SLASH: 1 monster
   - STRIKE: 1 monster
 
@@ -218,8 +233,8 @@ Complete catalog of all monsters in the game
 
 **Trait Totals:**
   - Unique attack traits: 7
-  - Unique resistances: 6
+  - Unique resistances: 7
   - Unique weaknesses: 8
-  - Monsters with attack traits: 8/12
-  - Monsters with resistances: 5/12
-  - Monsters with weaknesses: 9/12
+  - Monsters with attack traits: 9/13
+  - Monsters with resistances: 6/13
+  - Monsters with weaknesses: 9/13

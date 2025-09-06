@@ -892,15 +892,27 @@ class Game:
     
     def try_pickup_item(self):
         """Try to pick up an item at the player's current position."""
+        from items.pickups import Pickup
+        
         item = self.level.get_item_at(self.player.x, self.player.y)
         if item:
-            # Try to add item to inventory
-            if self.player.add_item(item):
-                self.level.remove_item(item)
-                self.ui.add_message(f"You picked up a {item.name}.")
-                self.player_acted_this_frame = True
+            # Check if item is a Pickup - apply instant effect
+            if isinstance(item, Pickup):
+                success, message = item.on_pickup(self.player)
+                if success:
+                    self.level.remove_item(item)
+                    self.ui.add_message(message)
+                    self.player_acted_this_frame = True
+                else:
+                    self.ui.add_message(message)
             else:
-                self.ui.add_message("Your inventory is full!")
+                # Regular item - try to add to inventory
+                if self.player.add_item(item):
+                    self.level.remove_item(item)
+                    self.ui.add_message(f"You picked up a {item.name}.")
+                    self.player_acted_this_frame = True
+                else:
+                    self.ui.add_message("Your inventory is full!")
         else:
             # Don't add a message for empty pickup attempts - this was causing message spam
             pass
