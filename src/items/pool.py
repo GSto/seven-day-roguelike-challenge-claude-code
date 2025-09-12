@@ -8,7 +8,7 @@ from typing import Type, List, Dict, Set, Optional, Tuple
         # Import all item classes
 from .consumables import (
     HealthPotion, Beef, Chicken, D6, MagicMushroom, Carrot,
-    Antidote, ShellPotion, MezzoForte, Elixir,
+    Antidote, ShellPotion, MezzoForte, Elixir, GhostPepper,
     SwordsToPlowshares, Transmutation,
     PowerCatalyst, DefenseCatalyst, JewelerCatalyst, ReapersCatalyst, 
     ShadowsCatalyst, BaronCatalyst, WardenCatalyst,
@@ -26,7 +26,7 @@ from .armor import (
     LeatherArmor, SafetyVest, Cloak, SpikedArmor, GamblersVest, MinimalSuit,
     ChainMail, NightCloak, CoatedPlate, AntiAngelTechnology, SpikedCuirass,
     UtilityBelt, SOSArmor, PlateArmor, ShadowCloak, DragonScale, StoneArmor, TurtleShell, AntiDevilTechnology,
-    SavingThrow
+    SavingThrow, CursedArmor, AshenCloak
 )
 from .accessories import (
     PowerRing, ProtectionRing, GreaterPowerRing, GreaterProtectionRing,
@@ -138,12 +138,14 @@ class ItemPool:
             ItemSpec(TurtleShell, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(StoneArmor, 'armor', 4, 8, RARITY_COMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SavingThrow, 'armor', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=True),
+            ItemSpec(CursedArmor, 'armor', 5, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SpikedCuirass, 'armor', 3, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             ItemSpec(UtilityBelt, 'armor', 3, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(SOSArmor, 'armor', 4, 8, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
             
             # Late game armor (levels 6-10)
             ItemSpec(PlateArmor, 'armor', 6, None, RARITY_UNCOMMON, unique_per_floor=True, unique_per_game=False),
+            ItemSpec(AshenCloak, 'armor', 5, 8, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(ShadowCloak, 'armor', 6, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
             ItemSpec(DragonScale, 'armor', 9, None, RARITY_RARE, unique_per_floor=True, unique_per_game=False),
         ]
@@ -219,6 +221,7 @@ class ItemPool:
             ItemSpec(Chicken, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             ItemSpec(D6, 'consumable', 1, None, RARITY_UNCOMMON, unique_per_floor=False, unique_per_game=False),
             ItemSpec(MagicMushroom, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
+            ItemSpec(GhostPepper, 'consumable', 1, None, RARITY_RARE, unique_per_floor=False, unique_per_game=False),
             ItemSpec(Carrot, 'consumable', 1, None, RARITY_COMMON, unique_per_floor=False, unique_per_game=False),
             
             # Status consumables
