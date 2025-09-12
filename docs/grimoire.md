@@ -38,6 +38,9 @@ Restores all health
 Fire Boon
 Applies Fire enchantment to equipped weapon or armor
 
+Ghost Pepper
+An extremely spicy pepper that burns the tongue. +7 Max HP but applies 3 burn damage.
+
 Health Potion
 Restores health when consumed
 
@@ -218,6 +221,10 @@ Anti-Devil Armor (+4 def)
 +4 DEF. Dark resistance, cannot be frightened
 [Resist: DARK]
 
+Ashen Cloak (+16% evade)
+A cloak woven from enchanted ash. +16% EVD and resistance to Fire, Ice, and Poison damage.
+[Resist: FIRE, Resist: ICE, Resist: POISON]
+
 Chain Mail (+2 def)
 Flexible chain mail armor
 
@@ -226,6 +233,10 @@ Shadow black, hard to see
 
 Coated Plate (+4 def)
 Mid-game+ armor. +4 DEF. Immune to poison, burn, stun
+
+Cursed Armor (+9 def)
+Powerful armor bearing an ancient curse. +9 DEF but weakness to Fire, Ice, Holy, and Dark damage.
+[Weak to: FIRE, Weak to: ICE, Weak to: HOLY, Weak to: DARK]
 
 Dragon Scale Armor (+5 def)
 Legendary dragon scale armor
@@ -429,10 +440,10 @@ Effect: Instantly heals 5 HP
 ## STATISTICS
 
 ### Item Counts
-**Total Items:** 122
-- **Consumables:** 30
+**Total Items:** 125
+- **Consumables:** 31
 - **Weapons:** 27
-- **Armor:** 22
+- **Armor:** 24
 - **Accessories:** 39
 - **Pickups:** 4
 
@@ -467,6 +478,22 @@ Effect: Instantly heals 5 HP
   - Anti-Angel Armor
 - **DARK:** 1 armors
   - Anti-Devil Armor
+- **FIRE:** 1 armors
+  - Ashen Cloak
+- **ICE:** 1 armors
+  - Ashen Cloak
+- **POISON:** 1 armors
+  - Ashen Cloak
+
+### Armor Weaknesses
+- **FIRE:** 1 armors
+  - Cursed Armor
+- **ICE:** 1 armors
+  - Cursed Armor
+- **HOLY:** 1 armors
+  - Cursed Armor
+- **DARK:** 1 armors
+  - Cursed Armor
 
 ### Accessory Traits
 - **HOLY (Attack):** 1 accessories
@@ -480,5 +507,5 @@ Effect: Instantly heals 5 HP
 
 ### Notable Items
 **Highest Attack Weapon:** Demon Slayer (+15 attack)
-**Highest Defense Armor:** Turtle Shell (+6 defense)
+**Highest Defense Armor:** Cursed Armor (+9 defense)
 **Most Powerful Accessory:** God's Eye

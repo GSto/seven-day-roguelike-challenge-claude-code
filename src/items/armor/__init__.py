@@ -25,6 +25,8 @@ from .stone_armor import StoneArmor
 from .anti_devil_technology import AntiDevilTechnology
 from .turtle_shell import TurtleShell
 from .saving_throw import SavingThrow
+from .cursed_armor import CursedArmor
+from .ashen_cloak import AshenCloak
 
 __all__ = [
     'Armor',
@@ -49,5 +51,7 @@ __all__ = [
     'TurtleShell',
     'AntiDevilTechnology',
     'StoneArmor',
-    'SavingThrow'
+    'SavingThrow',
+    'CursedArmor',
+    'AshenCloak'
 ]

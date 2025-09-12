@@ -12,6 +12,7 @@ from .antidote import Antidote
 from .shell_potion import ShellPotion
 from .mezzo_forte import MezzoForte
 from .magic_mushroom import MagicMushroom
+from .ghost_pepper import GhostPepper
 
 # Catalyst consumables
 from .catalyst import Catalyst
@@ -53,6 +54,7 @@ __all__ = [
     'ShellPotion',
     'MezzoForte',
     'MagicMushroom',
+    'GhostPepper',
     
     # Catalyst consumables
     'Catalyst',
